@@ -24,7 +24,7 @@ namespace KillerNotes.Shell
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
             string groupName = g.Path;
             string original = g.NameColor;
-            var dlg = new ColorPickerDialog(this, initial);
+            var dlg = new ColorPickerDialog(GroupDialogOwner, initial);
             // Live preview: recolor the group header + its notes' connector line as the color
             // changes in the picker (PreviewGroupColor). The RefreshList below then rebuilds
             // with the stored color (cancel) or the newly saved one (OK).
@@ -37,6 +37,7 @@ namespace KillerNotes.Shell
                 NoteStore.SetGroupColor(groupName,
                     $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}");
                 PushUndo(() => RestoreGroupColor(groupName, original));
+                GroupsChanged?.Invoke();
             }
             RefreshList(preserveScroll: true);   // in-place edit - hold position
         }
@@ -46,6 +47,7 @@ namespace KillerNotes.Shell
         {
             NoteStore.SetGroupColor(path, hex);
             RefreshList(preserveScroll: true);
+            GroupsChanged?.Invoke();
         }
 
         /// <summary>Recolors the open group's header and its notes' spine in place while the
@@ -74,6 +76,7 @@ namespace KillerNotes.Shell
             NoteStore.SetGroupColor(path, "");
             PushUndo(() => RestoreGroupColor(path, original));
             RefreshList(preserveScroll: true);   // in-place edit - hold position
+            GroupsChanged?.Invoke();
         }
 
     }

@@ -138,7 +138,7 @@ namespace KillerNotes.Shell
 
         private void NewGroupForNotes(List<Note> notes)
         {
-            var dlg = new InputDialog(Loc("Str_Dlg_NewGroupHead"), "", Loc("Str_Btn_Create")) { Owner = this };
+            var dlg = new InputDialog(Loc("Str_Dlg_NewGroupHead"), "", Loc("Str_Btn_Create")) { Owner = GroupDialogOwner };
             dlg.ShowDialog();
             string name = dlg.Value.Trim();
             if (!dlg.Confirmed || name.Length == 0) return;

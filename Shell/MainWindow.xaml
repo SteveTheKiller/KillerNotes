@@ -978,7 +978,7 @@
                                 </MenuItem>
                                 <!-- Parent: a submenu of every group this one may move under, built on
                                      open (GroupCard.cs). Same move path as the sidebar drag. -->
-                                <MenuItem x:Name="GroupParentMenu" HorizontalContentAlignment="Stretch">
+                                <MenuItem x:Name="GroupParentMenu" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{DynamicResource Str_Card_Parent}">
                                     <MenuItem.Header>
                                         <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Parent}"/>
@@ -1235,7 +1235,7 @@
                                 </MenuItem>
                                 <!-- Tags and Group keep their submenus (Tags.cs, Groups.Menu.cs); only the
                                      header changed, from a bare label to the label plus the current value. -->
-                                <MenuItem x:Name="TagsMenu" InputGestureText="Alt+K" HorizontalContentAlignment="Stretch">
+                                <MenuItem x:Name="TagsMenu" InputGestureText="Alt+K" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{DynamicResource Str_Ctx_Tags}">
                                     <MenuItem.Header>
                                         <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Tags}"/>
@@ -1255,7 +1255,7 @@
                                         </DockPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem x:Name="GroupMenu" InputGestureText="Alt+G" HorizontalContentAlignment="Stretch">
+                                <MenuItem x:Name="GroupMenu" InputGestureText="Alt+G" HorizontalContentAlignment="Stretch" AutomationProperties.Name="{DynamicResource Str_Ctx_Group}">
                                     <MenuItem.Header>
                                         <DockPanel Margin="-16,0,0,0">
                                             <TextBlock Style="{StaticResource CardLabel}" Text="{DynamicResource Str_Card_Group}"/>

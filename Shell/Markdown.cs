@@ -98,7 +98,7 @@ namespace KillerNotes.Shell
 
         private void ConvertFormat_Click(object sender, RoutedEventArgs e)
         {
-            if (SidebarSelection().FirstOrDefault() is not Note note) return;
+            if (SingleCardNote() is not Note note) return;
             if (NoteStore.IsReadOnly)
             {
                 StatusText.Text = string.Format(Loc("Str_St_ReadOnly"), NoteStore.ReadOnlyOwner);
@@ -134,7 +134,7 @@ namespace KillerNotes.Shell
             var confirm = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_ToMarkdownHead"), note.Title),
                 body,
-                Loc("Str_Btn_Convert")) { Owner = this };
+                Loc("Str_Btn_Convert")) { Owner = GroupDialogOwner };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -159,7 +159,7 @@ namespace KillerNotes.Shell
             var confirm = new ConfirmDialog(
                 string.Format(Loc("Str_Dlg_ToRichHead"), note.Title),
                 Loc("Str_Dlg_ToRichBody"),
-                Loc("Str_Btn_Convert")) { Owner = this };
+                Loc("Str_Btn_Convert")) { Owner = GroupDialogOwner };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
 
@@ -193,7 +193,11 @@ namespace KillerNotes.Shell
                 var row = _notes.FirstOrDefault(n => n.Id == id)
                           ?? _sidebarItems.OfType<Note>().FirstOrDefault(n => n.Id == id);
                 if (row != null) FinishConvert(row, beforeFormat);
-                else RefreshList(preserveScroll: true);
+                else
+                {
+                    RefreshList(preserveScroll: true);
+                    GroupsChanged?.Invoke();
+                }
             });
         }
 
@@ -216,6 +220,7 @@ namespace KillerNotes.Shell
             StatusText.Text = Loc(format == Note.FormatMarkdown
                 ? "Str_St_ConvertedToMarkdown"
                 : "Str_St_ConvertedToRich");
+            GroupsChanged?.Invoke();
         }
     }
 }

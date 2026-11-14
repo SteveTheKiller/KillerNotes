@@ -104,7 +104,8 @@ namespace KillerNotes.Shell
                 "title" => Loc(_sortAsc ? "Str_St_SortAZ" : "Str_St_SortZA"),
                 _ => Loc("Str_TT_SortCustom"),
             };
-            SortBtn.ToolTip = name;
+            string shortcut = _sortField == "created" ? "Alt+4" : _sortField == "title" ? "Alt+5" : "Alt+6";
+            SortBtn.ToolTip = name + " (" + shortcut + ")";
             AutomationProperties.SetName(SortBtn, name);
         }
 

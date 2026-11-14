@@ -121,6 +121,7 @@ namespace KillerNotes.Controls
 
         // Typing again clears the last attempt's error.
         private void PwBox_PasswordChanged(object sender, RoutedEventArgs e) => ShowError(null);
+        private void PwPlain_TextChanged(object sender, TextChangedEventArgs e) => ShowError(null);
 
         private void OtherDb_Click(object sender, RoutedEventArgs e)
         {

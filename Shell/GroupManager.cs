@@ -21,10 +21,12 @@ namespace KillerNotes.Shell
     public partial class MainWindow : IGroupManagerHost
     {
         private GroupManagerWindow? _groupManager;
+        private Window? _managerCardOwner;
 
         /// <summary>Owner for the rename, delete and new-group dialogs: the manager while it is
         /// the window asking, so they open over it instead of over the main window.</summary>
-        private Window GroupDialogOwner => _groupManager is { IsActive: true } m ? m : this;
+        private Window GroupDialogOwner => _managerCardOwner is { IsVisible: true } owner ? owner
+            : _groupManager is { IsActive: true } m ? m : this;
 
         /// <summary>Opens the manager, or brings it forward, with the given group selected.</summary>
         private void OpenGroupManager(string? selectPath = null)
@@ -34,7 +36,9 @@ namespace KillerNotes.Shell
             {
                 _groupManager = new GroupManagerWindow(this);
                 if (_groupManager.WindowStartupLocation != WindowStartupLocation.Manual) CenterOnThisWindow(_groupManager);
-                _groupManager.Closed += (_, _) => _groupManager = null;
+                void MainClosed(object? sender, EventArgs args) => CloseGroupManager();
+                Closed += MainClosed;
+                _groupManager.Closed += (_, _) => { Closed -= MainClosed; _groupManager = null; };
                 _groupManager.Show();
             }
             else
@@ -60,7 +64,7 @@ namespace KillerNotes.Shell
 
         /// <summary>A database switch or lock takes the manager down with it: its rows belong to
         /// the notepad that was open.</summary>
-        private void CloseGroupManager() => _groupManager?.Close();
+        private void CloseGroupManager() => _groupManager?.CloseForStoreChange();
 
         // ---- IGroupManagerHost ----
 
@@ -146,6 +150,8 @@ namespace KillerNotes.Shell
             }
             notes = [.. notes.Where(n => !n.IsDeleted)];
             if (notes.Count == 0) return;
+            TagManager.Refresh();
+            TagManager.ApplyChips(notes);
             _managerCardNotes = notes;   // NoteCard.cs SidebarSelection
             _noteContextTarget = true;
             OpenCardOver(NoteCard, target, atMouse, () => _managerCardNotes = null);
@@ -156,6 +162,7 @@ namespace KillerNotes.Shell
         /// goes back to the sidebar's own placement and the manager reloads to show the change.</summary>
         private void OpenCardOver(ContextMenu card, UIElement target, bool atMouse, Action? onDone)
         {
+            _managerCardOwner = Window.GetWindow(target);
             card.PlacementTarget = target;
             card.Placement = atMouse ? PlacementMode.MousePoint : PlacementMode.Bottom;
             void Closed(object sender, RoutedEventArgs e)
@@ -166,6 +173,7 @@ namespace KillerNotes.Shell
                     card.ClearValue(ContextMenu.PlacementTargetProperty);
                     card.ClearValue(ContextMenu.PlacementProperty);
                     onDone?.Invoke();
+                    _managerCardOwner = null;
                     GroupsChanged?.Invoke();
                 }), DispatcherPriority.Background);
             }

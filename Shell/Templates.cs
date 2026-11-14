@@ -39,6 +39,9 @@ namespace KillerNotes.Shell
         // sessions keep theirs in memory: they must never write real settings (OpenNote rule).
 
         private static readonly Dictionary<string, string> DemoScopedSettings = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, long> GroupSettingRevisions = new(StringComparer.OrdinalIgnoreCase);
+
+        private static long GroupSettingRevision(string name) => GroupSettingRevisions.TryGetValue(name, out long revision) ? revision : 0;
 
         static MainWindow() => NoteStore.Rekeyed += RebindGroupSettings;
 
@@ -82,6 +85,7 @@ namespace KillerNotes.Shell
         private static void SetDbScopedSetting(string name, string? value)
         {
             WriteScopedSetting(name, value == null ? null : $"{DbSettingScope}|{value}");
+            GroupSettingRevisions[name] = GroupSettingRevision(name) + 1;
         }
 
         private static void WriteScopedSetting(string name, string? raw)

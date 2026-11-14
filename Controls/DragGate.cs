@@ -36,7 +36,8 @@ namespace KillerNotes.Controls
         /// Taking it disarms, so one press starts at most one drag.</summary>
         public T? TryTake(Point now, bool pressed, double factor = 1)
         {
-            if (_item == null || !pressed) return null;
+            if (!pressed) { Release(); return null; }
+            if (_item == null) return null;
             if (Math.Abs(now.X - _start.X) < SystemParameters.MinimumHorizontalDragDistance * factor &&
                 Math.Abs(now.Y - _start.Y) < SystemParameters.MinimumVerticalDragDistance * factor) return null;
             var item = _item;

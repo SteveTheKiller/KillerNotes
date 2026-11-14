@@ -153,6 +153,7 @@ namespace KillerNotes.Shell
             // Sidebar collapse tooltip is set from code (Sidebar.cs).
             ApplySidebarState();
             UpdateNewNoteLabel();   // re-pick the "New note" wording for the new language
+            UpdateSortButtons();
             if (NoteCard.IsOpen) FillNoteCard(_cardNotes);
             if (GroupCard.IsOpen && _ctxGroup != null) FillGroupCard(_ctxGroup);
 

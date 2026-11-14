@@ -181,6 +181,7 @@ namespace KillerNotes.Shell
                 RootGrid.BeginAnimation(UIElement.OpacityProperty, fade);
                 return;
             }
+            CloseGroupManager();
             NoteStore.Close();
             base.OnClosing(e);
         }

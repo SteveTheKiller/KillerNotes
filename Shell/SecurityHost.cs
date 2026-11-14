@@ -102,6 +102,10 @@ namespace KillerNotes.Shell
 
         // ---- Handlers (wired in MainWindow.xaml) ----
 
-        private void ManageDatabases_Click(object sender, RoutedEventArgs e) => _security.ShowDatabases();
+        private void ManageDatabases_Click(object sender, RoutedEventArgs e)
+        {
+            CloseGroupManager();
+            _security.ShowDatabases();
+        }
     }
 }

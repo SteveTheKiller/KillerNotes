@@ -33,7 +33,13 @@ namespace KillerNotes.Shell
         /// card open, otherwise the sidebar selection.</summary>
         private List<Note> SidebarSelection() => _managerCardNotes ?? [.. NotesList.SelectedItems.OfType<Note>()];
 
-        private Note? SidebarSelectedNote() => _managerCardNotes != null ? _managerCardNotes.FirstOrDefault() : NotesList.SelectedItem as Note;
+        private Note? SidebarSelectedNote() => SingleLiveNote(SidebarSelection());
+
+        internal static Note? SingleLiveNote(IEnumerable<Note> selected)
+        {
+            var live = selected.Where(n => !n.IsDeleted).Take(2).ToArray();
+            return live.Length == 1 ? live[0] : null;
+        }
 
         /// <summary>Wires the swatch row once; called from the constructor.</summary>
         private void InitNoteCard()
@@ -75,6 +81,7 @@ namespace KillerNotes.Shell
 
             // Quick buttons: Pin names what it will do; the rest only make sense for one note.
             CardPinBtn.Tag = Loc(allPinned ? "Str_Card_Unpin" : "Str_Card_Pin");
+            DescribeSurface(CardPinBtn, allPinned ? "Str_Card_Unpin" : "Str_Card_Pin", "Alt+P");
             CardShareBtn.Visibility = CardExportBtn.Visibility = CardHistoryBtn.Visibility =
                 CardDuplicateBtn.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
 
@@ -163,7 +170,9 @@ namespace KillerNotes.Shell
                 foreach (var (id, was) in snap) NoteStore.SetTitleColor(id, was);
                 RefreshList(preserveScroll: true);
                 if (_notes.FirstOrDefault(x => x.Id == _currentId) is Note open) ApplyTitleColor(open);
+                GroupsChanged?.Invoke();
             });
+            GroupsChanged?.Invoke();
         }
 
         /// <summary>The picker box: one note keeps its live preview (TitleColorPick_Click);
@@ -175,7 +184,7 @@ namespace KillerNotes.Shell
             var initial = SharedValue(notes.Select(n => n.TitleColor)) is { Length: > 0 } hex && TryBrush(hex) is SolidColorBrush sb
                 ? sb.Color
                 : ((TryFindResource("TextBrush") as SolidColorBrush)?.Color).GetValueOrDefault();
-            var dlg = new ColorPickerDialog(this, initial);
+            var dlg = new ColorPickerDialog(GroupDialogOwner, initial);
             dlg.ShowDialog();
             if (dlg.Confirmed) ApplyTitleColorToNotes(notes, KillerFamily.Controls.SwatchRow.Hex(dlg.SelectedColor));
         }
@@ -184,9 +193,8 @@ namespace KillerNotes.Shell
 
         private Note? SingleCardNote()
         {
-            var notes = SidebarSelection().Where(n => !n.IsDeleted).ToList();
-            if (notes.Count == 1) return notes[0];
-            return notes.Count == 0 ? _notes.FirstOrDefault(n => n.Id == _currentId) : null;
+            var notes = SidebarSelection();
+            return notes.Count == 0 ? _notes.FirstOrDefault(n => n.Id == _currentId && !n.IsDeleted) : SingleLiveNote(notes);
         }
 
         /// <summary>An exact copy beside the original, opened. Ctrl+Z removes the copy.</summary>
@@ -197,8 +205,9 @@ namespace KillerNotes.Shell
             string title = string.Format(Loc("Str_Card_CopyTitle"), DisplayTitle(n));
             long id = CreateFromTemplate(sourceId, title, n.Notebook.Length > 0 ? n.Notebook : null, open: true, expand: false);
             if (id < 0) return;
+            var original = NoteStore.CaptureRow(id)!;
             FlashStatus(Loc("Str_St_Duplicated"));
-            PushUndo(() => RemoveCreatedNote(id, sourceId));
+            PushUndo(() => RemoveCreatedNote(id, sourceId, original));
         }
 
         /// <summary>Copies the note into the templates group, making that group first when the
@@ -209,30 +218,48 @@ namespace KillerNotes.Shell
             string? group = TemplatesGroupPath();   // Templates.cs
             bool madeGroup = group == null;
             if (group == null) group = Loc("Str_Card_TemplatesGroupName");
+            bool createdGroup = !NoteStore.ListGroups().Any(g => string.Equals(g.Name, group, StringComparison.OrdinalIgnoreCase));
             long id = CreateFromTemplate(n.Id, n.Title, group, open: false, expand: false);
             if (id < 0) return;
+            var original = NoteStore.CaptureRow(id)!;
             if (madeGroup) SetDbScopedSetting(TemplatesGroupSetting, group);
             RefreshList(preserveScroll: true);
             FlashStatus(string.Format(Loc("Str_St_SavedAsTemplate"), group.Replace(NoteStore.GroupSep, " / ")));
             PushUndo(() =>
             {
+                if (!RemoveCreatedNote(id, -1, original)) return;
                 if (madeGroup) SetDbScopedSetting(TemplatesGroupSetting, null);
-                RemoveCreatedNote(id, -1);
+                if (createdGroup &&
+                    !NoteStore.List().Concat(NoteStore.ListTrash()).Any(n => string.Equals(n.Notebook, group, StringComparison.OrdinalIgnoreCase)) &&
+                    !NoteStore.ListGroups().Any(g => g.Name.StartsWith(group + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase)))
+                    NoteStore.DeleteGroup(group);
+                RefreshList(preserveScroll: true);
+                GroupsChanged?.Invoke();
             });
         }
 
-        /// <summary>Undo for a note this card made: gone for good (it never existed before the
-        /// click), and the editor goes back to the source when it was showing the copy.</summary>
-        private void RemoveCreatedNote(long id, long reopen)
+        /// <summary>Removes an untouched copy or trashes an edited copy after saving its editor.
+        /// The editor leaves the copy before removal so it cannot save to a missing note.</summary>
+        private bool RemoveCreatedNote(long id, long reopen, NoteStore.NoteRow original)
         {
             bool wasOpen = _currentId == id;
-            NoteStore.DeleteForever(id);
+            if (wasOpen)
+            {
+                if (!SaveCurrentNote(refreshList: false)) throw new ActionUndoRefusedException();
+                _saveTimer.Stop();
+                CloseCurrentNote();
+                ShowEditor(false);
+            }
+            NoteStore.RemoveCreatedCopy(id, original);
             RefreshList(preserveScroll: true);
             if (wasOpen && reopen >= 0 && _notes.Any(x => x.Id == reopen))
             {
                 OpenNote(reopen);
                 SelectNoteInList(reopen);   // WikiLinkNav.cs
             }
+            else if (wasOpen) OpenStartupNote();
+            GroupsChanged?.Invoke();
+            return true;
         }
     }
 }

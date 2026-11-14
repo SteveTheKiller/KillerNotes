@@ -42,7 +42,7 @@ namespace KillerNotes.Tests
             gate.Press("Note A", A);
             Assert.Null(gate.TryTake(new Point(11, 11), pressed: true));
             Assert.Null(gate.TryTake(B, pressed: false));
-            Assert.Equal("Note A", gate.TryTake(B, pressed: true));   // still armed after both
+            Assert.Null(gate.TryTake(B, pressed: true));   // observing the release disarms it
         }
 
         [Fact]

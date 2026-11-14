@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
@@ -14,6 +15,8 @@ namespace KillerNotes.Shell
     // from one database can never be replayed against another.
     public partial class MainWindow
     {
+        private sealed class ActionUndoRefusedException : Exception { }
+
         private readonly List<Action> _actionUndo = [];
         private const int ActionUndoLimit = 100;
 
@@ -37,8 +40,15 @@ namespace KillerNotes.Shell
             if (_actionUndo.Count == 0) return false;
             int last = _actionUndo.Count - 1;
             var revert = _actionUndo[last];
+            try { revert(); }
+            catch (ActionUndoRefusedException) { return true; }
+            catch (GroupUndoUnavailableException) { return true; }
+            catch (GroupUndoConflictException conflict)
+            {
+                FlashStatus(string.Format(Loc("Str_Grp_Exists"), NoteStore.GroupNameOf(conflict.Path)));
+                return true;
+            }
             _actionUndo.RemoveAt(last);
-            revert();
             FlashStatus(Loc("Str_St_Undo"));
             return true;
         }

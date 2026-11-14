@@ -136,6 +136,7 @@ namespace KillerNotes.Shell
                 File.Copy(path, Path.Combine(NoteStore.DbDir, name));
 
                 string prevFile = NoteStore.ActiveDbFile;
+                CloseGroupManager();
                 NoteStore.Close();
                 App.SetSetting("ActiveDatabase", name);
                 ForgetDbPassword();   // SecurityHost.cs - a different file, its password is not ours

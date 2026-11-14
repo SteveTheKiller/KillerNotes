@@ -148,10 +148,12 @@ namespace KillerNotes.Shell
             DescribeSurface(NewMenuBtn, "Str_TT_NewMenu", "Alt+N / Alt+T / Alt+D");
             foreach (var binding in ActionShortcuts())
             {
-                if (binding.Surface == null || FindName(binding.Surface) is not FrameworkElement surface) continue;
+                if (binding.Surface == null || binding.Surface == nameof(SortBtn) || FindName(binding.Surface) is not FrameworkElement surface) continue;
                 DescribeSurface(surface, binding.Label, binding.Gesture);
                 if (surface is MenuItem menu) menu.InputGestureText = binding.Gesture;
             }
+            DescribeSurface(SortBtn, "Str_TT_SortCustom", "Alt+4, Alt+5, Alt+6");
+            UpdateSortButtons();
         }
 
         private void DescribeExistingShortcutSurfaces()

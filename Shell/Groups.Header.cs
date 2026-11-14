@@ -186,8 +186,23 @@ namespace KillerNotes.Shell
                 return;
             }
             NoteStore.RenameGroup(g.Path, name);
-            RepointGroupSettings(g.Path, NoteStore.GroupPath(parent, name));   // Templates.cs
+            string oldPath = g.Path;
+            string newPath = NoteStore.GroupPath(parent, name);
+            RepointGroupSettings(oldPath, newPath);   // Templates.cs
+            PushUndo(() =>
+            {
+                NoteStore.EnsureGroupUndoPathsAvailable(NoteStore.ListGroupTree()
+                    .Where(group => string.Equals(group.Path, newPath, StringComparison.OrdinalIgnoreCase)
+                        || group.Path.StartsWith(newPath + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase))
+                    .Select(group => oldPath + group.Path[newPath.Length..]), excludedSourcePath: newPath);
+                NoteStore.RenameGroup(newPath, NoteStore.GroupNameOf(oldPath));
+                RepointGroupSettings(newPath, oldPath);
+                RefreshList(preserveScroll: true);
+                _groupManager?.Reload(oldPath);
+                GroupsChanged?.Invoke();
+            });
             RefreshList(preserveScroll: true);   // in-place edit - hold position
+            _groupManager?.Reload(newPath);
             GroupsChanged?.Invoke();             // GroupManager.cs
         }
 
@@ -200,8 +215,26 @@ namespace KillerNotes.Shell
                 Loc("Str_Btn_Delete")) { Owner = GroupDialogOwner };
             confirm.ShowDialog();
             if (!confirm.Confirmed) return;
-            NoteStore.DeleteGroup(g.Path);
+            var affectedRoles = new[] { TemplatesGroupSetting, DailyGroupSetting }
+                .Select(key => (Key: key, Path: DbScopedSetting(key)))
+                .Where(role => role.Path is string chosen &&
+                    (string.Equals(chosen, g.Path, StringComparison.OrdinalIgnoreCase) ||
+                     chosen.StartsWith(g.Path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+            var restore = NoteStore.DeleteGroupWithUndo(g.Path);
+            if (restore == null) return;
             RepointGroupSettings(g.Path, null);   // Templates.cs
+            var clearedRoles = affectedRoles.Select(role =>
+                (role.Key, role.Path, Revision: GroupSettingRevision(role.Key))).ToList();
+            PushUndo(() =>
+            {
+                restore();
+                foreach (var role in clearedRoles)
+                    if (GroupSettingRevision(role.Key) == role.Revision) SetDbScopedSetting(role.Key, role.Path);
+                RefreshList(preserveScroll: true);
+                _groupManager?.Reload(g.Path);
+                GroupsChanged?.Invoke();
+            });
             RefreshList(preserveScroll: true);   // in-place edit - hold position
             GroupsChanged?.Invoke();             // GroupManager.cs
         }

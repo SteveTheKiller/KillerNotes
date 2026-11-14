@@ -129,7 +129,7 @@ namespace KillerNotes.Shell
             double notches = delta / 120.0;
             double perNotch = wheelLines < 0
                 ? Math.Max(PerLine, viewport * zoom - PerLine)
-                : PerLine * Math.Max(1, wheelLines);
+                : PerLine * wheelLines;
             return notches * perNotch / zoom;
         }
 

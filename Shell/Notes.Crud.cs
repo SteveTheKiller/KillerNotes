@@ -129,7 +129,7 @@ namespace KillerNotes.Shell
             var initial = n.TitleBrush is SolidColorBrush sb ? sb.Color
                 : (TryFindResource("TextBrush") as SolidColorBrush)?.Color ?? Colors.White;
             string original = n.TitleColor;
-            var dlg = new ColorPickerDialog(this, initial);
+            var dlg = new ColorPickerDialog(GroupDialogOwner, initial);
             // Live preview: recolor the note's sidebar title as the color changes in the
             // picker (TitleColor is notifying). Restore the stored color on cancel.
             dlg.ColorChanged += c => n.TitleColor = $"#{c.R:X2}{c.G:X2}{c.B:X2}";
@@ -142,6 +142,7 @@ namespace KillerNotes.Shell
                 long id = n.Id;
                 SetNoteTitleColor(n, $"#{c.R:X2}{c.G:X2}{c.B:X2}");
                 PushUndo(() => RestoreTitleColor(id, original));
+                GroupsChanged?.Invoke();
             }
             else
             {
@@ -158,6 +159,7 @@ namespace KillerNotes.Shell
             long id = n.Id;
             SetNoteTitleColor(n, "");
             PushUndo(() => RestoreTitleColor(id, original));
+            GroupsChanged?.Invoke();
         }
 
         private void SetNoteTitleColor(Note n, string hex)
@@ -179,6 +181,7 @@ namespace KillerNotes.Shell
             RefreshList(preserveScroll: true);
             if (id == _currentId && _notes.FirstOrDefault(x => x.Id == id) is Note m)
                 ApplyTitleColor(m);
+            GroupsChanged?.Invoke();
         }
 
     }

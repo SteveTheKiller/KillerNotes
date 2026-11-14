@@ -12,7 +12,7 @@ namespace KillerNotes.Shell
     // 1.7.0 homes for what left the note menu. The note card is about one note, so:
     //   - the other ways to START a note (markdown, from template, today's) sit behind the
     //     chevron beside New note (MainWindow.xaml NewMenuBtn / NewMenu);
-    //   - whole-library import and export sit on the rail's library button (LibraryRailBtn);
+    //   - folder import sits in the New note menu; whole-notepad export uses LibraryRailBtn;
     //   - a right-click on empty sidebar opens nothing, because there is no note to be about.
     public partial class MainWindow
     {

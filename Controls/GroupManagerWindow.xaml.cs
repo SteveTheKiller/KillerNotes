@@ -85,6 +85,7 @@ namespace KillerNotes.Controls
         // The pressed row or group, disarmed by any release in the window (DragGate.cs): a fast
         // click must not leave a press armed for the next click's pointer move to drag.
         private readonly DragGate<DependencyObject> _drag = new();
+        private ListBoxItem? _deferredSelection;
         private string? _selectPath;   // the group to select after a reload (null = keep the current one)
 
         internal GroupManagerWindow(IGroupManagerHost host)
@@ -95,18 +96,28 @@ namespace KillerNotes.Controls
             UpdateChrome();
             RestoreSavedBounds();
             _host.GroupsChanged += OnGroupsChanged;
-            ThemeManager.ThemeChanged += UpdateChrome;
+            ThemeManager.ThemeChanged += OnThemeChanged;
             LocaleManager.LocaleChanged += OnLocaleChanged;
             Closed += (_, _) =>
             {
                 _host.GroupsChanged -= OnGroupsChanged;
-                ThemeManager.ThemeChanged -= UpdateChrome;
+                ThemeManager.ThemeChanged -= OnThemeChanged;
                 LocaleManager.LocaleChanged -= OnLocaleChanged;
             };
             Loaded += (_, _) => { Anim.FadeIn(RootBorder); SearchBox.Focus(); };
             DialogShortcuts.Bind(this, NewGroupBtn, "Ctrl+G", Key.G, ModifierKeys.Control, NewGroup);
             PreviewKeyDown += Window_PreviewKeyDown;
-            AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler((_, _) => _drag.Release()), handledEventsToo: true);
+            Deactivated += (_, _) => { _drag.Release(); _deferredSelection = null; };
+            AddHandler(MouseLeftButtonUpEvent, new MouseButtonEventHandler((_, _) =>
+            {
+                _drag.Release();
+                if (_deferredSelection is { } row)
+                {
+                    Table.SelectedItems.Clear();
+                    row.IsSelected = true;
+                }
+                _deferredSelection = null;
+            }), handledEventsToo: true);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -117,6 +128,12 @@ namespace KillerNotes.Controls
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
+
+        internal void CloseForStoreChange()
+        {
+            _closeFaded = true;
+            Close();
+        }
 
         /// <summary>The halo and resize grab, per theme. The card's shadow is the pane shadow
         /// (16px blur, 5px down), and WPF draws an effect out to its full blur radius, so the
@@ -139,6 +156,7 @@ namespace KillerNotes.Controls
         }
 
         private void OnGroupsChanged() => Dispatcher.BeginInvoke(new Action(() => Reload()));
+        private void OnThemeChanged() { UpdateChrome(); Reload(); }
         private void OnLocaleChanged() => Reload();
 
         // ---- Loading ----
@@ -155,6 +173,14 @@ namespace KillerNotes.Controls
 
             _notes = [.. _host.Notes()];
             var groups = _host.Groups();
+            if (selectPath != null && SelectedNode() is { Kind: GroupNode.NodeKind.Group } previous
+                && !groups.Any(g => string.Equals(g.Path, previous.Path, StringComparison.OrdinalIgnoreCase)))
+            {
+                open = new HashSet<string>(open.Select(path =>
+                    string.Equals(path, previous.Path, StringComparison.OrdinalIgnoreCase)
+                        || path.StartsWith(previous.Path + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase)
+                        ? selectPath + path[previous.Path.Length..] : path), StringComparer.OrdinalIgnoreCase);
+            }
             string filter = SearchBox.Text.Trim();
 
             var counts = _notes.GroupBy(n => n.Notebook, StringComparer.OrdinalIgnoreCase)
@@ -338,7 +364,9 @@ namespace KillerNotes.Controls
             if (IsMenuKey(e) && SelectedNode() is { Kind: GroupNode.NodeKind.Group } menuNode
                 && e.OriginalSource is TreeViewItem { DataContext: GroupNode } menuRow)
             {
-                _host.ShowGroupCard(menuNode.Path, menuNode.Count, menuRow, atMouse: false);
+                menuRow.ApplyTemplate();
+                var header = menuRow.Template.FindName("PART_Header", menuRow) as UIElement ?? menuRow;
+                _host.ShowGroupCard(menuNode.Path, menuNode.Count, header, atMouse: false);
                 e.Handled = true;
                 return;
             }
@@ -411,12 +439,19 @@ namespace KillerNotes.Controls
 
         // ---- Drag and drop ----
 
-        private void Table_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) =>
-            _drag.Press(ItemUnder<ListBoxItem>(e.OriginalSource), e.GetPosition(this));
+        private void Table_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var row = ItemUnder<ListBoxItem>(e.OriginalSource);
+            _deferredSelection = row is { IsSelected: true } && Table.SelectedItems.Count > 1
+                && Keyboard.Modifiers == ModifierKeys.None ? row : null;
+            if (_deferredSelection != null) e.Handled = true;
+            _drag.Press(row, e.GetPosition(this));
+        }
 
         private void Table_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (_host.ReadOnly || _drag.TryTake(e.GetPosition(this), e.LeftButton == MouseButtonState.Pressed) is not ListBoxItem) return;
+            _deferredSelection = null;
             var ids = Table.SelectedItems.OfType<NoteRowItem>().Select(r => r.Id).ToList();
             if (ids.Count == 0) return;
             DragDrop.DoDragDrop(Table, new DataObject(NotesFormat, ids), DragDropEffects.Move);

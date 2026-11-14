@@ -59,6 +59,7 @@ namespace KillerNotes.Shell
             bool building = false;
             try
             {
+                CloseGroupManager();
                 NoteStore.Close();
                 App.SetSetting("ActiveDatabase", SampleNotebookFile);
                 ForgetDbPassword();   // SecurityHost.cs - a different file, its password is not ours
