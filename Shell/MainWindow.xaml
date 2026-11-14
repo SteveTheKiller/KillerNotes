@@ -677,8 +677,8 @@
                             VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0"
                             Click="SidebarToggle_Click" ToolTip="{DynamicResource Str_TT_CollapseSidebar}"/>
                     <StackPanel x:Name="RailStack" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,6">
-                        <!-- The group manager window (1.7.0, GroupManager.cs / Alt+Shift+O). E8B7 = folder. -->
-                        <Button x:Name="OrganizeRailBtn" Style="{StaticResource RailButton}" Content="&#xE8B7;"
+                        <!-- The group manager window (GroupManager.cs / Alt+Shift+O). -->
+                        <Button x:Name="OrganizeRailBtn" Style="{StaticResource RailButton}" Content="&#xE902;"
                                 Margin="0,0,0,10" Click="OrganizeRail_Click"/>
                         <!-- Whole-notepad export (1.7.0, NewMenu.cs). EDE1 = export. -->
                         <Button x:Name="LibraryRailBtn" Style="{StaticResource RailButton}" Content="&#xEDE1;"
@@ -969,7 +969,7 @@
                                                         Tag="{DynamicResource Str_Card_CollapseAll}" Click="GroupCardCollapseAll_Click"/>
                                                 <Button x:Name="GroupCardGraphBtn" Style="{StaticResource CardQuickButton}" Content="&#xE9D9;"
                                                         Tag="{DynamicResource Str_Card_Graph}" Click="GroupCardGraph_Click"/>
-                                                <Button x:Name="GroupCardManagerBtn" Style="{StaticResource CardQuickButton}" Content="&#xE8B7;"
+                                                <Button x:Name="GroupCardManagerBtn" Style="{StaticResource CardQuickButton}" Content="&#xE902;"
                                                         Tag="{DynamicResource Str_Card_Organize}" Click="GroupCardManager_Click"/>
                                             </UniformGrid>
                                         </Border>

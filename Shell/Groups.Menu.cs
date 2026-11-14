@@ -71,7 +71,7 @@ namespace KillerNotes.Shell
             var manage = new MenuItem
             {
                 Header = BuildMenuRow(null, null, Loc("Str_Ctx_ManageGroups"), "Alt+Shift+O"),
-                Icon = "\uE8B7",
+                Icon = "\uE902",
                 Padding = new Thickness(6, 6, 14, 6),
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
             };
