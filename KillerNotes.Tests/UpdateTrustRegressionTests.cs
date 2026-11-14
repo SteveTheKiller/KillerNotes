@@ -122,6 +122,7 @@ namespace KillerNotes.Tests
             // The app has already closed when the helper starts. A download that fails its check must
             // still find the installed copy's identity recorded, or recovery refuses to reopen it.
             string path = Path.Combine(Path.Combine(Path.GetTempPath(), "KillerNotes.Tests"), "capture-order-" + Guid.NewGuid().ToString("N") + ".exe");
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             UpdateImagePublication.RememberVerified(path, new string('A', 64), new string('B', 40));
             try
             {
