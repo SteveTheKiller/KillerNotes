@@ -162,22 +162,32 @@ namespace KillerFamily.Controls
             if (keyboard)
             {
                 menu.PlacementRectangle = keyboardPosition;
-                menu.Opened += (_, _) => menu.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                bool dismissed = false;
+                void Opened(object sender, RoutedEventArgs args)
                 {
-                    if (!menu.IsOpen) return;
-                    var first = menu.Items.OfType<MenuItem>()
-                        .SelectMany(item => Elements(item.Header as DependencyObject))
-                        .OfType<Control>().FirstOrDefault(control => control.IsEnabled && control.IsVisible && control.Focusable);
-                    if (first != null) first.Focus();
-                    else menu.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
-                }));
-                menu.Closed += (_, _) =>
+                    menu.Opened -= Opened;
+                    menu.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                    {
+                        if (dismissed || !menu.IsOpen) return;
+                        var first = menu.Items.OfType<MenuItem>()
+                            .SelectMany(item => Elements(item.Header as DependencyObject))
+                            .OfType<Control>().FirstOrDefault(control => control.IsEnabled && control.IsVisible && control.Focusable);
+                        if (first != null) first.Focus();
+                        else menu.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                    }));
+                }
+                void Closed(object sender, RoutedEventArgs args)
                 {
+                    dismissed = true;
+                    menu.Opened -= Opened;
+                    menu.Closed -= Closed;
                     // A card action may already have opened a dialog. Restore focus only when
                     // it is still in the dismissed card, or no element has taken it.
                     if (Keyboard.FocusedElement is not DependencyObject focused ||
                         ReferenceEquals(focused, menu) || menu.IsAncestorOf(focused)) target.Focus();
-                };
+                }
+                menu.Opened += Opened;
+                menu.Closed += Closed;
             }
             menu.IsOpen = true;
         }
