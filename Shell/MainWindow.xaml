@@ -680,14 +680,13 @@
                         <!-- The group manager window (1.7.0, GroupManager.cs / Alt+Shift+O). E8B7 = folder. -->
                         <Button x:Name="OrganizeRailBtn" Style="{StaticResource RailButton}" Content="&#xE8B7;"
                                 Margin="0,0,0,10" Click="OrganizeRail_Click"/>
-                        <!-- Whole-library import and export (1.7.0, NewMenu.cs). They left the note menu
-                             because they act on every note, not the one you right-clicked. E8F1 = library. -->
-                        <Button x:Name="LibraryRailBtn" Style="{StaticResource RailButton}" Content="&#xE8F1;"
+                        <!-- Whole-notepad export (1.7.0, NewMenu.cs). EDE1 = export. -->
+                        <Button x:Name="LibraryRailBtn" Style="{StaticResource RailButton}" Content="&#xEDE1;"
                                 AutomationProperties.Name="{DynamicResource Str_TT_Library}"
                                 Margin="0,0,0,10" Click="LibraryRail_Click">
                             <Button.ContextMenu>
                                 <ContextMenu x:Name="LibraryMenu">
-                                    <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xE838;" Click="ExportVault_Click"
+                                    <MenuItem InputGestureText="Alt+E" Header="{DynamicResource Str_Ctx_ExportVault}" Icon="&#xEDE1;" Click="ExportVault_Click"
                                               ToolTip="{DynamicResource Str_TT_ExportVault}"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
