@@ -10,18 +10,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 
-- Undoing a duplicate or template creation cannot delete a newer note, including after a password change.
-- Failed template copies leave no partial note or group, and unreadable source content reports an error instead of creating an empty copy.
+- Undoing a duplicate or template creation cannot delete a newer note, including after a password change. Later Templates and Daily group choices survive template Undo.
+- Template copies preserve sketch-label search and leave no partial note or group after failure. Unreadable source content reports an error instead of creating an empty copy.
 - Markdown exports preserve user-created and modified files in their media folder.
 - Recording edits wait for transcription, and completed transcripts stay with their original recording.
 - Read-only notepads reject tag changes without altering displayed tags or reporting a save.
 - Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.
 - Switching notes and refreshing the sidebar avoid rereading or rewriting large pictures. Existing notepads receive a one-time layout update and remain compatible with older versions.
 - Imported groups appear in every picker immediately, and nested groups stay under their parents regardless of alphabetical order.
-- The group manager's custom color picker changes the intended note. Open managers and color menus refresh after a language change.
+- Multi-note Delete confirms and deletes the whole selection in both the sidebar and Group manager.
+- The group manager's custom color picker changes the intended note. Open managers refresh after note edits and language changes, and note rows expose their titles to accessibility tools.
 - Fast clicks no longer start unintended note or group drags.
 - Mouse-wheel scrolling follows Windows' line and page settings.
-- Keyboard context menus follow the current editor selection and focused folder. Sketchpad and dictation cards support keyboard opening and focus return.
+- Keyboard context menus follow the current editor selection and focused folder. Group cards open on the first keyboard request. Sketchpad and dictation cards support keyboard opening and focus return.
 - Rendered notes use localized Copy and Select all commands with properly spaced shortcuts.
 - Dialog close glyphs stay centered at different display scales.
 - Group manager panes use the theme's pane background and grain instead of the window gradient.
@@ -42,6 +43,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Preview uses a compact family dropdown that fits translated labels and blends with its surface, with a code icon for Source; F4 cycles through Source, Rendered, and Split.
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button and distinct Group manager and export icons. Empty sidebar space no longer opens a menu.
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
+- Buttons use flat styling without shadows.
 - Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
 - README, landing screenshots, help, technical documentation, and all translations cover the current Markdown tools, menus, and group workflows. The landing shortcut list matches the in-app overlay.
 - The copyright at the right end of the footer ends 8 px before the corner grip, the same gap in every Killer app.

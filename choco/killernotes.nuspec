@@ -20,11 +20,12 @@
     <description>Notes that keep up. A searchable, organized replacement for the 80-tab Notepad workflow: rich notes with inline images and tables, instant full-text search, and optional password protection for the whole database.
 
 - Rich text, lists, tables, rules, inline images, spell check, word wrap, line numbers, title colors, font controls and a color picker with a desktop eyedropper
+- Markdown uses the same toolbar and context cards to insert source syntax for formatting, headings, lists, links, pipe tables and rules
 - Instant search across titles, text and tags, with filters, quoted phrases and saved searches; Ctrl+F searches the open note without changing it
 - Nested, colorable groups, tag filters, flexible sorting and adjustable sidebar density; Ctrl+Z undoes sidebar moves, reorders and deletes
 - Note and group cards for color, tags and filing, with duplicate (Alt+Shift+U), save as template (Alt+Shift+T), new note in group (Alt+Shift+H) and collapse all groups (Alt+Shift+Z)
-- Organize (Alt+Shift+O): a searchable group tree and sortable note list, drag-and-drop filing, and the same cards and undo as the sidebar
-- The New note dropdown holds Markdown notes, templates, today's note, notes in a chosen group and folder import; the library rail button holds whole-notepad Markdown export
+- Group manager (Alt+Shift+O): a searchable group tree and sortable note list, drag-and-drop filing, and the same cards and undo as the sidebar
+- The New note card holds Markdown notes, templates, today's note, notes in a chosen group and folder import; the library rail button exports the whole notepad as Markdown directly (Alt+E)
 - Syntax highlighting detected paragraph by paragraph, so one note mixes prose with PowerShell, JSON, SQL, C#, Python and ten more without picking a language
 - Hyperlinks: Ctrl+K links the selection, typed URLs auto-link, links survive pasting from browsers and Word, and only web and mail addresses ever open
 - Wikilinks between notes, with incoming and outgoing links, links to notes that do not exist yet, a graph and a heading outline
@@ -33,13 +34,13 @@
 - SketchPad (F7): pen, shapes, fill, text labels and eraser on single keys; print the drawing inline and double-click it later to keep editing
 - Killculator (F9): a themed calculator under the notes list that prints the result or the whole running equation into the note
 - Custom fonts for header, sidebar and note text independently, from any installed font or a dropped .ttf/.otf
-- Autosave, saved cursor and scroll positions, and Markdown or sanitized HTML preview beside the note or on its own
+- Autosave, saved cursor and scroll positions, and a compact preview dropdown for Source, Rendered and Split views (F4), with Markdown and sanitized HTML preview
 - Storage: one SQLite database in a configurable location, portable next to the exe if you like, with create, rename, switch and relocate in the Manage databases dialog
 - Version history (Alt+H), a 30-day trash, note templates (Alt+T), daily notes (Alt+D), headings with an outline, checkbox lines and pinned notes
 - Scheduled backups with retention, immediate backup (Alt+B), failure warnings and a restore check that reads the copy without touching your notes
 - Lock now (Ctrl+Shift+U) closes a password-protected notepad without quitting, and it locks itself when Windows locks or sleeps, or after an idle time you choose
 - Quick note: a small capture box from the tray icon, the taskbar jump list or Win+Alt+N
-- Import a folder of notes from a KillerNotes export, an Obsidian vault or another Markdown export, with a preview first; KillerNotes also appears under Open with for .md and .txt
+- Import a folder of notes from a KillerNotes export, an Obsidian vault or another Markdown export, with a preview first; KillerNotes also appears under Open with for .md, .markdown, .txt, .rtf, .log, .html and .htm files
 - Password protection: optional SQLCipher AES-256 encryption of the whole database, set, changed or removed at any time, with no recovery for a lost password
 - Share notes or databases with optional passwords; export notes as Markdown, text, rich text or HTML, with pictures, sketches and recordings
 - Command line for search, editing, sharing, export, templates, groups, tags, recovery and backups
