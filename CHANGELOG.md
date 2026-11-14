@@ -41,6 +41,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
 - Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
 - Help, technical documentation, and translated landing pages cover the new menus and group workflows. The landing shortcut list matches the in-app overlay.
+- The copyright at the right end of the footer ends 8 px before the corner grip, the same gap in every Killer app.
 
 ### Added
 
