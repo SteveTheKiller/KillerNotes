@@ -38,7 +38,8 @@ namespace KillerNotes.Tests
             }
             finally
             {
-                manager.CloseForStoreChange();
+                manager.Opacity = 0;
+                manager.Close();
                 ThemeManager.Apply(previous);
             }
         });
