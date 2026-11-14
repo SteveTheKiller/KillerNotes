@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
             if (args.Length == 0) throw new ArgumentException("A command is required");
             string command = args[0].ToLowerInvariant();
             var values = args.Skip(1).ToList();
+            if (KillerNotes.Cli.Program.IsReadCommand(command)) return NoteStore.ReadMcpCommand(args);
             if (TryExecuteMcpAction(command, values, out string actionJson)) return actionJson;
             if (NoteStore.IsReadOnly && command != "export") throw new InvalidOperationException("The database is read-only");
             if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);

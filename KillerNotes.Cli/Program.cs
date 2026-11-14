@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Runtime.InteropServices;
 using System.IO.Pipes;
 using System.Diagnostics;
 using System.Text;
@@ -104,17 +105,21 @@ namespace KillerNotes.Cli
         private const int MaximumContentLimit = 50000;
         private const string SummarySelect = "SELECT id, title, notebook, tags, substr(plain, 1, 240), created, modified, format, pinned FROM notes";
 
-        public static int Main(string[] args)
+        public static int Main(string[] args) => Run(args);
+
+        internal static int Run(string[] args, string? pipeName = null)
         {
             args = StripJsonSwitch(args);
             if (args.Length >= 1 && args[0] == "--help") { PrintHelp(); return 0; }
             try
             {
                 var values = args.ToList();
-                string database = TakeDatabase(values) ?? NoteStore.DbPath;
+                string? explicitDatabase = TakeDatabase(values);
                 if (values.Count == 0) return UsageError();
                 string command = values[0].ToLowerInvariant();
-                if (IsWriteCommand(command)) return ForwardWrite(args);
+                if (IsWriteCommand(command)) return ForwardWrite(args, pipeName);
+                if (IsReadCommand(command) && explicitDatabase == null) return ForwardWrite(args, pipeName);
+                string database = explicitDatabase ?? NoteStore.DbPath;
                 values.RemoveAt(0);
                 switch (command)
                 {
@@ -172,6 +177,7 @@ namespace KillerNotes.Cli
         {
             Console.WriteLine("Output is JSON by default; an optional trailing --json is accepted.");
             Console.WriteLine("KillerNotes CLI commands:");
+            Console.WriteLine("Active-vault reads use the open, unlocked app (app-pipe-v1).");
             Console.WriteLine("Usage: killernotes <command> [options]");
             Console.WriteLine("  search <query> [--limit 1..50] [--database absolute.db]");
             Console.WriteLine("  list [--group name] [--tag name] [--limit 1..50] [--database absolute.db]");
@@ -260,12 +266,15 @@ namespace KillerNotes.Cli
             return buffer;
         }
 
-        private static int ForwardWrite(string[] args)
+        private static int ForwardWrite(string[] args, string? pipeName)
         {
             try
             {
+                string name = pipeName ?? $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}";
+                if (!WaitNamedPipe(@"\\.\pipe\" + name, 1) && Marshal.GetLastWin32Error() == 2)
+                    throw new TimeoutException("KillerNotes is not running");
                 args = InlineContentFile(args);
-                using var pipe = new NamedPipeClientStream(".", $"KillerNotes-MCP-{Process.GetCurrentProcess().SessionId}", PipeDirection.InOut, PipeOptions.Asynchronous);
+                using var pipe = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous);
                 pipe.Connect(3000);
                 byte[] request = Serialize(new McpRequest { Arguments = args });
                 // Escaping can grow the text past what the app reads, so a request the app would drop is refused here.
@@ -274,9 +283,14 @@ namespace KillerNotes.Cli
                 writer.Write(request.Length); writer.Write(request); writer.Flush();
                 return ReadAnswer(pipe, DeadlineFor(args));
             }
-            catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using write commands"); return 1; }
+            catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using active-vault commands"); return 1; }
             catch (IOException ex) { Console.Error.WriteLine("KillerNotes bridge failed: " + ex.Message); return 1; }
         }
+
+        [DllImport("kernel32.dll", EntryPoint = "WaitNamedPipeW", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool WaitNamedPipe(string name, uint timeout);
 
         /// <summary>Reads KillerNotes' answer once the request has been written.</summary>
         internal static int ReadAnswer(Stream pipe, TimeSpan deadline)
@@ -344,12 +358,46 @@ namespace KillerNotes.Cli
             return 2;
         }
 
-        public static List<NoteSummary> Search(string database, string query, int limit)
+        internal static bool IsReadCommand(string command) => command is "search" or "list" or "get" or "groups" or "tags" or "backlinks" or "links" or "history" or "stats";
+
+        internal static string ReadActive(string[] args, SqliteConnection connection)
+        {
+            var values = args.Skip(1).ToList();
+            switch (args[0].ToLowerInvariant())
+            {
+                case "search":
+                    int searchLimit = TakeLimit(values, 1); RequireCount(values, 1);
+                    return SerializeJson(Search("", values[0], searchLimit, connection));
+                case "list":
+                    string? group = TakeStringOption(values, "--group"), tag = TakeStringOption(values, "--tag");
+                    int listLimit = TakeLimit(values); RequireCount(values, 0);
+                    return SerializeJson(List("", group, tag, listLimit, connection));
+                case "get":
+                    int max = TakeIntOption(values, "--max-chars", DefaultContentLimit, 1, MaximumContentLimit, 1);
+                    RequireCount(values, 1); return SerializeJson(Get("", ParsePositiveId(values[0]), max, connection));
+                case "groups": RequireCount(values, 0); return SerializeJson(Groups("", connection));
+                case "tags": RequireCount(values, 0); return SerializeJson(Tags("", connection));
+                case "backlinks":
+                    int backLimit = TakeLimit(values, 1); RequireCount(values, 1);
+                    return SerializeJson(Backlinks("", ParsePositiveId(values[0]), backLimit, connection));
+                case "links":
+                    int linkLimit = TakeLimit(values, 1); RequireCount(values, 1);
+                    return SerializeJson(Links("", ParsePositiveId(values[0]), linkLimit, connection));
+                case "history":
+                    int historyLimit = TakeLimit(values, 1); RequireCount(values, 1);
+                    return SerializeJson(History("", ParsePositiveId(values[0]), historyLimit, connection));
+                case "stats": RequireCount(values, 0); return SerializeJson(Stats("", connection));
+                default: throw new ArgumentException("Unknown read command");
+            }
+        }
+
+        public static List<NoteSummary> Search(string database, string query, int limit, SqliteConnection? liveConnection = null)
         {
             if (string.IsNullOrWhiteSpace(query) || query.Length > 200) throw new ArgumentException("Invalid search query");
             var parsed = KillerNotes.Services.SearchQuery.Parse(query);
             if (parsed.IsEmpty) throw new ArgumentException("Invalid search query");
-            using var connection = OpenReadOnly(database);
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!;
             // The app's matching rule and filters (Services/SearchQuery.cs), not LIKE, whose
             // case-insensitivity covers ASCII only: the CLI finds what the sidebar finds.
             connection.CreateFunction("kn_fold", (string? text) => KillerNotes.Services.TextFold.Fold(text), isDeterministic: true);
@@ -365,9 +413,10 @@ namespace KillerNotes.Cli
             return ReadSummaries(command);
         }
 
-        public static List<NoteSummary> List(string database, string? group, string? tag, int limit)
+        public static List<NoteSummary> List(string database, string? group, string? tag, int limit, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database);
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!;
             using var command = connection.CreateCommand();
             var clauses = new List<string> { "deleted = ''" };
             if (!string.IsNullOrWhiteSpace(group)) { clauses.Add("notebook = $group COLLATE NOCASE"); command.Parameters.AddWithValue("$group", group!.Trim()); }
@@ -381,9 +430,10 @@ namespace KillerNotes.Cli
             return ReadSummaries(command);
         }
 
-        public static NoteContent Get(string database, long id, int maximumCharacters)
+        public static NoteContent Get(string database, long id, int maximumCharacters, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database);
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!;
             using var command = connection.CreateCommand();
             command.CommandText = "SELECT id, title, notebook, tags, created, modified, format, pinned, plain FROM notes WHERE id = $id AND deleted = ''";
             command.Parameters.AddWithValue("$id", id);
@@ -402,39 +452,44 @@ namespace KillerNotes.Cli
         // A cut that lands between the two halves of a surrogate pair steps back, so the text never ends on half a character.
         private static int CutBefore(string text, int cap) => char.IsHighSurrogate(text[cap - 1]) ? cap - 1 : cap;
 
-        public static List<NamedItem> Groups(string database)
+        public static List<NamedItem> Groups(string database, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!; using var command = connection.CreateCommand();
             command.CommandText = "SELECT g.name, g.color, count(n.id) FROM groups g LEFT JOIN notes n ON n.notebook = g.name COLLATE NOCASE AND n.deleted = '' GROUP BY g.name, g.color ORDER BY g.sort_order, g.name COLLATE NOCASE";
             return ReadNamedItems(command);
         }
 
-        public static List<NamedItem> Tags(string database)
+        public static List<NamedItem> Tags(string database, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!; using var command = connection.CreateCommand();
             command.CommandText = "SELECT t.name, t.color, count(n.id) FROM tags t LEFT JOIN notes n ON n.deleted = '' AND (',' || replace(n.tags, ', ', ',') || ',') LIKE '%,' || replace(replace(replace(t.name, '\\', '\\\\'), '%', '\\%'), '_', '\\_') || ',%' ESCAPE '\\' COLLATE NOCASE GROUP BY t.name, t.color ORDER BY t.name COLLATE NOCASE";
             return ReadNamedItems(command);
         }
 
-        public static List<NoteLink> Backlinks(string database, long id, int limit)
+        public static List<NoteLink> Backlinks(string database, long id, int limit, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!; using var command = connection.CreateCommand();
             command.CommandText = "SELECT n.id, n.title FROM notes target JOIN note_links l ON l.target = target.title COLLATE KNFOLD JOIN notes n ON n.id = l.src AND n.deleted = '' WHERE target.id = $id AND target.deleted = '' ORDER BY n.modified DESC LIMIT $limit";
             command.Parameters.AddWithValue("$id", id); command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadLinks(command, true);
         }
 
-        public static List<NoteLink> Links(string database, long id, int limit)
+        public static List<NoteLink> Links(string database, long id, int limit, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!; using var command = connection.CreateCommand();
             command.CommandText = "SELECT COALESCE(dst.id, -1), l.target FROM note_links l JOIN notes src ON src.id = l.src AND src.deleted = '' LEFT JOIN notes dst ON dst.title = l.target COLLATE KNFOLD AND dst.deleted = '' WHERE l.src = $id ORDER BY l.target COLLATE NOCASE LIMIT $limit";
             command.Parameters.AddWithValue("$id", id); command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             return ReadLinks(command, null);
         }
 
-        public static List<NoteVersion> History(string database, long id, int limit)
+        public static List<NoteVersion> History(string database, long id, int limit, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database); using var command = connection.CreateCommand();
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!; using var command = connection.CreateCommand();
             command.CommandText = "SELECT h.id, h.saved, h.title, h.format, length(h.content) FROM note_history h JOIN notes n ON n.id = h.note_id AND n.deleted = '' WHERE h.note_id = $id ORDER BY h.saved DESC, h.id DESC LIMIT $limit";
             command.Parameters.AddWithValue("$id", id); command.Parameters.AddWithValue("$limit", ValidateLimit(limit));
             var result = new List<NoteVersion>(); using var rows = command.ExecuteReader();
@@ -442,9 +497,10 @@ namespace KillerNotes.Cli
             return result;
         }
 
-        public static VaultStats Stats(string database)
+        public static VaultStats Stats(string database, SqliteConnection? liveConnection = null)
         {
-            using var connection = OpenReadOnly(database);
+            using var ownedConnection = liveConnection == null ? OpenReadOnly(database) : null;
+            var connection = liveConnection ?? ownedConnection!;
             return new VaultStats
             {
                 Notes = Scalar(connection, "SELECT count(*) FROM notes WHERE deleted = ''"), Groups = Scalar(connection, "SELECT count(*) FROM groups"),

@@ -31,7 +31,7 @@ namespace KillerNotes.Shell
             if (command is not ("share" or "export-all" or "import-folder" or "detect-markdown" or "convert" or "templates" or "create-from-template" or "today" or "trash-list" or "trash" or "restore" or "pin" or "unpin" or "version-get" or "version-restore")) return false;
             if (NoteStore.IsReadOnly && command is not ("share" or "export-all" or "templates" or "trash-list" or "version-get" or "detect-markdown"))
                 throw new InvalidOperationException("The database is read-only");
-            if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
+            if (command is not ("templates" or "trash-list" or "version-get") && !SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
             var result = new McpActionResult();
             switch (command)
             {
@@ -167,7 +167,7 @@ namespace KillerNotes.Shell
             {
                 if (!TakeFlag(values, "--confirm")) throw new ArgumentException("This command requires --confirm");
             }
-            if (!SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
+            if (command != "tag-definitions" && !SaveCurrentNote(refreshList: false)) throw new IOException(StatusText.Text);
             var result = new McpActionResult();
             bool refresh = false;
             switch (command)
