@@ -223,13 +223,15 @@ namespace KillerNotes.Shell
             if (id < 0) return;
             var original = NoteStore.CaptureRow(id)!;
             if (madeGroup) SetDbScopedSetting(TemplatesGroupSetting, group);
+            long roleRevision = GroupSettingRevision(TemplatesGroupSetting);
             RefreshList(preserveScroll: true);
             FlashStatus(string.Format(Loc("Str_St_SavedAsTemplate"), group.Replace(NoteStore.GroupSep, " / ")));
             PushUndo(() =>
             {
                 if (!RemoveCreatedNote(id, -1, original)) return;
-                if (madeGroup) SetDbScopedSetting(TemplatesGroupSetting, null);
-                if (createdGroup &&
+                if (madeGroup && GroupSettingRevision(TemplatesGroupSetting) == roleRevision)
+                    SetDbScopedSetting(TemplatesGroupSetting, null);
+                if (createdGroup && !IsTemplatesGroup(group) && !IsDailyGroup(group) &&
                     !NoteStore.List().Concat(NoteStore.ListTrash()).Any(n => string.Equals(n.Notebook, group, StringComparison.OrdinalIgnoreCase)) &&
                     !NoteStore.ListGroups().Any(g => g.Name.StartsWith(group + NoteStore.GroupSep, StringComparison.OrdinalIgnoreCase)))
                     NoteStore.DeleteGroup(group);
