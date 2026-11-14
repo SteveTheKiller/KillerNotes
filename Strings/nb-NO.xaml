@@ -491,7 +491,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_Rename">Gi det åpne notatet nytt navn</sys:String>
     <sys:String x:Key="Str_KS_Search">Søk i alle notater</sys:String>
     <sys:String x:Key="Str_KS_Find">Finn i dette notatet</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Slå Markdown/HTML-forhåndsvisning av eller på</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Veksle mellom Markdown/HTML-forhåndsvisninger (Kilde, Gjengitt, Delt)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Vis / skjul formateringslinjen</sys:String>
     <sys:String x:Key="Str_KS_Export">Eksporter det åpne notatet (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Skjul / vis sidepanelet</sys:String>
@@ -739,7 +739,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Merker</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Administrer merker...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Administrer grupper...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gruppebehandling</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Klikk for å filtrere etter dette merket</sys:String>
     <sys:String x:Key="Str_Tags_Title">Administrer merker</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Velg en farge for det nye merket</sys:String>
@@ -889,7 +889,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tabeller blir til vanlige tekstlinjer</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Bilder og skisser fjernes</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Tekst- og uthevingsfarger fjernes</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Dette notatet er Markdown - det inneholder bare tekst, så bilder, tabeller, skisser og opptak kan ikke legges til</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown-notater lagrer tekstkilde. Innebygde bilder, tabeller med rik tekst, skisser og opptak kan ikke legges til.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Konvertert til Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Konvertert til rik tekst</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Velg hvor Markdown-mappen skal skrives</sys:String>
@@ -1293,7 +1293,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Gi nytt navn</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Skjul</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Ordne</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Gruppebehandling</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Vis fil</sys:String>
     <sys:String x:Key="Str_Card_Parent">Overordnet</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Øverste nivå</sys:String>
@@ -1306,12 +1306,12 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nytt notat i denne gruppen</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nytt notat i gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Skjul alle grupper</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Ordne grupper</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Gruppebehandling</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Flere måter å starte et notat på</sys:String>
-    <sys:String x:Key="Str_TT_Library">Importer og eksporter hele notatboken</sys:String>
+    <sys:String x:Key="Str_TT_Library">Eksporter alle notater som Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Notatet er duplisert. Ctrl+Z fjerner kopien.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Lagret som mal i {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Grupper</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gruppebehandling</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Ikke skrevet ennå</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 lenke</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} lenker</sys:String>
@@ -1335,7 +1335,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Fri</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spiral</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Bølge</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Grupper</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Gruppebehandling</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Ny gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Søk i grupper og notater</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Grupper</sys:String>

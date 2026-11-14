@@ -141,9 +141,6 @@
 
 <section class="tech-sec" id="architecture">
 <h2 data-i18n="t_arch_h">Architecture</h2>
-<p data-i18n="s170_cards">Right-click a note for its card: pin, share, export, history, color, tags and group. Duplicate (<code>Alt+Shift+U</code>) makes a copy; Save as template (<code>Alt+Shift+T</code>) copies it into the templates group. Select several notes to change their pin, color, tags or group together.</p>
-<p data-i18n="s170_groups">Organize on the sidebar rail (<code>Alt+Shift+O</code>) opens a searchable group tree and sortable note list. Drag notes into groups or groups into parents; right-click for the same cards as the sidebar. The group card offers rename, color, parent, template and daily roles. <code>Alt+Shift+H</code> creates a note in the selected group; <code>Alt+Shift+Z</code> collapses all groups. <code>Ctrl+Z</code> undoes organization changes.</p>
-<p data-i18n="s170_new">The arrow beside New note opens Markdown notes, templates, today's note, a note in a chosen group, and folder import (<code>Alt+Shift+I</code>). Whole-notepad Markdown export is on the sidebar's library button.</p>
 <p data-i18n="t_arch_p1">Requires .NET Framework 4.8 (x64). The app's other dependencies are packaged in one executable. C# / WPF, SQLite FTS5, SQLCipher AES-256.</p>
 <p data-i18n="t_arch_p2">The editor is a WPF RichTextBox working on a real FlowDocument, which is what makes inline images and true tables first-class citizens rather than attachments. Everything else - search, storage, encryption, sharing - lives underneath it in a SQLite database.</p>
 </section>
@@ -171,7 +168,7 @@
 <li data-i18n="t_store_l3"><b>A plain-text shadow copy</b> - extracted on every save and fed to the search index, so search never has to parse rich content.</li>
 </ul>
 <p data-i18n="t_store_p2">A fourth column, <code>format</code>, says which of two content types the row is: rich text or markdown. Rich text is the default and every note written before 1.3.0 is one. A markdown note stores its source instead - what you typed, line for line - but still inside a XamlPackage container rather than as raw UTF-8 bytes. That wrapper is deliberate: every release before 1.3.0 reads any blob as a XamlPackage, so raw bytes in a shared <code>.kndb</code> or <code>.knote</code> would throw during startup on the receiving machine, before its window was usable. Wrapped, the same note opens in an older build as ordinary rich text showing its markdown source. The cost is a fixed floor of roughly 1.6 KB per markdown note; past that size the package deflates and comes out smaller than the raw source.</p>
-<p data-i18n="t_store_p3">The editor control is the same RichTextBox for both types, with a markdown note loaded as one zero-margin paragraph per line. Everything built on the FlowDocument - find, replace, dictation, caret and scroll persistence, word wrap - therefore works on both without forking. What differs is what a markdown note will accept: images, tables, sketches and embedded recordings are refused at the four insertion points with a status-bar line, because the plain-text projection cannot carry them and they would vanish at the next save. Character formatting is deliberately <em>not</em> blocked - bold loses its weight on save but keeps every character, and refusing the keystroke would surprise more than the formatting quietly not sticking.</p>
+<p data-i18n="t_store_p3">Rich-text and Markdown notes use the same WPF RichTextBox, so find, replace, dictation transcripts, caret and scroll persistence, and word wrap share the editor. Markdown commands write source markers instead of character formatting or FlowDocument objects. Tables use pipe syntax and links use <code>[text](url)</code>. Pasted content is reduced to plain text; embedded images, rich-text tables, sketches and recordings are blocked before insertion.</p>
 <p data-i18n="t_store_p4">Sketches and dictation recordings sit in side tables keyed to the note rather than inside its XamlPackage. Audio is far larger than the note that references it, and inlining it would make every load and save of that note carry it; the note keeps only a small marker. Both are encrypted with the rest of the database when a password is set.</p>
 
 <figure class="diagram" id="flowDiagram">
@@ -408,10 +405,11 @@
 <p data-i18n="t_fmt_p5">It is deliberately one-way and on demand rather than a live sync of a watched folder. Sync means conflict resolution, file-watcher races, and partial writes from other editors, and it would leave a permanent plaintext copy of an encrypted database on disk - which contradicts the reason the database is encrypted at all. Export is explicit, so the user chooses the moment the plaintext exists.</p>
 <h3 data-i18n="t_fmt_h4" id="convert">Converting between formats</h3>
 <p data-i18n="hp_md_1">Choose New markdown note in the New note dropdown (<code>Alt+N</code>). The Rich text / Markdown control on a note's right-click card converts one note at a time (<code>Alt+F</code>), with a warning before lossy conversion.</p>
-<p data-i18n="t_fmt_p6">The notes context menu converts one note at a time in either direction. Rich to markdown is lossy, so the confirmation names what will not survive before anything is rewritten; markdown to rich loses nothing. Headings are not reverse-engineered from font size on the way out - a large bold paragraph might be a heading or might be a large bold paragraph, and guessing wrong rewrites the user's document. Hyperlinks arriving from markdown are held to the same three schemes the editor allows anywhere else, since a markdown file is untrusted input once it can arrive by import or from a vault folder.</p>
+<p data-i18n="hp_md_2">Markdown notes store plain-text source. The format bar and editor card insert Markdown for bold, italic, strike, inline code, headings, lists, checkboxes, links, pipe tables and horizontal rules. Rich-text-only controls are hidden. Dictation can insert its transcript; embedded images, rich-text tables, sketches and recordings cannot be inserted into a Markdown note.</p>
+<p data-i18n="t_fmt_p6">Converting rich text to Markdown can drop formatting or embedded media. Headings follow the editor's bold-and-size convention and export as <code>#</code> markers. Converted links pass the same allowed-address checks as other links.</p>
 <p data-i18n="t_fmt_p7">Either direction is a single app-level undo entry that restores the <em>original bytes</em> rather than converting back. A round trip through the other format is lossy, so re-converting would hand back something subtly different from what was there.</p>
 <h3 data-i18n="t_fmt_h5" id="preview">Preview</h3>
-<p data-i18n="site_preview_current"><code>F4</code> cycles Source, Rendered and Split for Markdown and HTML. The eye button lists the same views. The About card controls automatic detection. The native WPF preview follows the theme and grain; scripts never run.</p>
+<p data-i18n="site_preview_current"><code>F4</code> cycles Source, Rendered and Split for Markdown and HTML. The preview dropdown selects the same views. The About card controls automatic detection. The native WPF preview follows the theme and grain; scripts never run.</p>
 </section>
 
 <section class="tech-sec" id="audio">
@@ -532,8 +530,8 @@
 <div id="dlbInner" role="region" aria-labelledby="dlbCaption" tabindex="0"></div>
 </div>
 </dialog>
-<script src="kn-i18n.js?v=21"></script>
-<script src="kn-i18n-170.js?v=1"></script>
+<script src="kn-i18n.js?v=23"></script>
+<script src="kn-i18n-170.js?v=3"></script>
 <script src="kn.js?v=10"></script>
 <script>
 (function(){

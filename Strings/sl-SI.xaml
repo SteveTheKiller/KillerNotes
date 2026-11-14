@@ -412,7 +412,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_KS_Rename">Preimenuj odprti zapisek</sys:String>
     <sys:String x:Key="Str_KS_Search">Išči po vseh zapiskih</sys:String>
     <sys:String x:Key="Str_KS_Find">Poišči v tem zapisku</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Preklopi predogled Markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Preklapljaj predoglede Markdown/HTML (Vir, Izrisano, Razdeljeno)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Prikaži / skrij vrstico za oblikovanje</sys:String>
     <sys:String x:Key="Str_KS_Export">Izvozi odprti zapisek (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Strni / razširi stransko vrstico</sys:String>
@@ -634,7 +634,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Kliknite, da temu vzorcu določite trenutno barvo</sys:String>
     <sys:String x:Key="Str_Ctx_Tags">Oznake</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Upravljaj oznake...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Upravljaj skupine...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Upravitelj skupin</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknite za filtriranje po tej oznaki</sys:String>
     <sys:String x:Key="Str_Tags_Title">Upravljaj oznake</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Izberite barvo nove oznake</sys:String>
@@ -772,7 +772,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tabele postanejo navadne vrstice besedila</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Slike in skice se odstranijo</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Barve besedila in označevanja se odstranijo</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Ta zapisek je v obliki Markdown in vsebuje samo besedilo, zato slik, tabel, skic in posnetkov ni mogoče dodati</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Zapiski Markdown hranijo besedilni vir. Vdelanih slik, tabel obogatenega besedila, skic in posnetkov ni mogoče dodati.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Pretvorjeno v Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Pretvorjeno v obogateno besedilo</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Izberite mesto za mapo Markdown</sys:String>
@@ -1155,7 +1155,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Preimenuj</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Strni</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Uredi</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Upravitelj skupin</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Pokaži datoteko</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadrejena</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Najvišja raven</sys:String>
@@ -1168,12 +1168,12 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nov zapisek v tej skupini</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nova opomba v skupini</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Strni vse skupine</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Uredi skupine</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Upravitelj skupin</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Več načinov za začetek zapiska</sys:String>
-    <sys:String x:Key="Str_TT_Library">Uvozi in izvozi celoten beležnik</sys:String>
+    <sys:String x:Key="Str_TT_Library">Izvozi vse zapiske kot Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Zapisek je podvojen. Ctrl+Z odstrani kopijo.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Shranjeno kot predloga v {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Skupine</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Upravitelj skupin</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Še ni napisan</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 povezava</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">Povezave: {0}</sys:String>
@@ -1197,7 +1197,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Prosto</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirala</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Val</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Skupine</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Upravitelj skupin</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Nova skupina</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Išči skupine in zapiske</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Skupine</sys:String>

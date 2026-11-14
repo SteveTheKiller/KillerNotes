@@ -244,7 +244,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Tastenkürzel (diese Liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Offene Notiz umbenennen</sys:String>
     <sys:String x:Key="Str_KS_Search">Alle Notizen durchsuchen</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Markdown-/HTML-Vorschau umschalten</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML-Vorschau durchschalten (Quelltext, Vorschau, Geteilt)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Formatleiste ein-/ausblenden</sys:String>
     <sys:String x:Key="Str_KS_Export">Offene Notiz exportieren (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Seitenleiste ein-/ausklappen</sys:String>
@@ -551,7 +551,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Schlagworte</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Tags verwalten...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Gruppen verwalten...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gruppenverwaltung</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Klicken, um nach diesem Tag zu filtern</sys:String>
     <sys:String x:Key="Str_Tags_Title">Tags verwalten</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Farbe für den neuen Tag wählen</sys:String>
@@ -815,7 +815,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tabellen werden zu einfachen Textzeilen</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Bilder und Skizzen gehen verloren</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Text- und Markierungsfarben gehen verloren</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Diese Notiz ist Markdown - sie enthält nur Text, daher können Bilder, Tabellen, Skizzen und Aufnahmen nicht eingefügt werden</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown-Notizen speichern Textquellen. Eingebettete Bilder, Rich-Text-Tabellen, Skizzen und Aufnahmen können nicht hinzugefügt werden.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">In Markdown umgewandelt</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">In Rich-Text umgewandelt</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Wählen Sie, wohin der Markdown-Ordner geschrieben wird</sys:String>
@@ -1248,7 +1248,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Umbenennen</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Zuklappen</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graph</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Ordnen</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Gruppenverwaltung</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Datei zeigen</sys:String>
     <sys:String x:Key="Str_Card_Parent">Übergeordnet</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Oberste Ebene</sys:String>
@@ -1261,12 +1261,12 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Neue Notiz in dieser Gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Neue Notiz in Gruppe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Alle Gruppen zuklappen</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Gruppen verwalten</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Gruppenverwaltung</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Weitere Möglichkeiten, eine Notiz zu beginnen</sys:String>
-    <sys:String x:Key="Str_TT_Library">Das gesamte Notizbuch importieren und exportieren</sys:String>
+    <sys:String x:Key="Str_TT_Library">Alle Notizen als Markdown exportieren</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Notiz dupliziert. Mit Ctrl+Z wird die Kopie entfernt.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Als Vorlage in {0} gespeichert.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gruppen</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gruppenverwaltung</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Noch nicht geschrieben</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 Verknüpfung</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} Verknüpfungen</sys:String>
@@ -1290,7 +1290,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Frei</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirale</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Welle</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Gruppen</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Gruppenverwaltung</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Neue Gruppe</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Gruppen und Notizen durchsuchen</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Gruppen</sys:String>

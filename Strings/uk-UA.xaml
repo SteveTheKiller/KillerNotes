@@ -493,7 +493,7 @@
     <sys:String x:Key="Str_KS_Rename">Перейменувати відкриту нотатку</sys:String>
     <sys:String x:Key="Str_KS_Search">Пошук у всіх нотатках</sys:String>
     <sys:String x:Key="Str_KS_Find">Знайти в цій нотатці</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Показати або сховати перегляд Markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Перемкнути перегляд Markdown/HTML (Код, Перегляд, Поруч)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Показати / сховати панель форматування</sys:String>
     <sys:String x:Key="Str_KS_Export">Експортувати відкриту нотатку (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Згорнути / розгорнути бічну панель</sys:String>
@@ -741,7 +741,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Теги</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Керування тегами...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Керування групами...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Менеджер груп</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Клацніть, щоб фільтрувати за цим тегом</sys:String>
     <sys:String x:Key="Str_Tags_Title">Керування тегами</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Виберіть колір нового тегу</sys:String>
@@ -891,7 +891,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">Таблиці стануть звичайними рядками тексту</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Зображення й ескізи буде прибрано</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Кольори тексту й виділення буде прибрано</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Це нотатка Markdown - вона містить лише текст, тому зображення, таблиці, ескізи й записи додати не можна</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Нотатки Markdown зберігають текстове джерело. Не можна додати вбудовані зображення, таблиці форматованого тексту, ескізи та записи.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Перетворено на Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Перетворено на форматований текст</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Виберіть, куди записати папку Markdown</sys:String>
@@ -1295,7 +1295,7 @@
     <sys:String x:Key="Str_Card_Rename">Перейменувати</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Згорнути</sys:String>
     <sys:String x:Key="Str_Card_Graph">Граф</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Упорядкувати</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Менеджер груп</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Показати файл</sys:String>
     <sys:String x:Key="Str_Card_Parent">Батьківська</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Верхній рівень</sys:String>
@@ -1308,12 +1308,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Нова нотатка в цій групі</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Нова нотатка в групі</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Згорнути всі групи</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Упорядкувати групи</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Менеджер груп</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Інші способи почати нотатку</sys:String>
-    <sys:String x:Key="Str_TT_Library">Імпорт та експорт усього блокнота</sys:String>
+    <sys:String x:Key="Str_TT_Library">Експортувати всі нотатки як Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Нотатку продубльовано. Ctrl+Z видалить копію.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Збережено як шаблон у групі {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Групи</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Менеджер груп</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Ще не написано</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 посилання</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">Посилань: {0}</sys:String>
@@ -1337,7 +1337,7 @@
     <sys:String x:Key="Str_GraphCard_Free">Вільно</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Спіраль</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Хвиля</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Групи</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Менеджер груп</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Нова група</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Пошук груп і нотаток</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Групи</sys:String>

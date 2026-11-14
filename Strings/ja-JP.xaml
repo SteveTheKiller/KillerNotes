@@ -243,7 +243,7 @@
     <sys:String x:Key="Str_KS_ThisList">キーボード ショートカット (この一覧)</sys:String>
     <sys:String x:Key="Str_KS_Rename">開いているノートの名前を変更</sys:String>
     <sys:String x:Key="Str_KS_Search">すべてのノートを検索</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Markdown/HTML プレビューの切り替え</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTMLプレビューを順に切り替え (ソース, プレビュー, 分割)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">書式バーの表示 / 非表示</sys:String>
     <sys:String x:Key="Str_KS_Export">開いているノートをエクスポート (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">サイドバーの折りたたみ / 展開</sys:String>
@@ -550,7 +550,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">タグ</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">タグの管理...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">グループの管理...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">グループマネージャー</sys:String>
     <sys:String x:Key="Str_TT_TagChip">クリックしてこのタグで絞り込み</sys:String>
     <sys:String x:Key="Str_Tags_Title">タグの管理</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">新しいタグの色を選択</sys:String>
@@ -813,7 +813,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">表はプレーンなテキスト行になります</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">画像とスケッチは失われます</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">文字色とハイライト色は失われます</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">このノートはマークダウンです - テキストのみを保持するため、画像、表、スケッチ、録音は追加できません</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown ノートはテキストのソースを保存します。埋め込み画像、リッチテキストの表、スケッチ、録音は追加できません。</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">マークダウンに変換しました</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">リッチ テキストに変換しました</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">マークダウン フォルダーの書き出し先を選択してください</sys:String>
@@ -1246,7 +1246,7 @@
     <sys:String x:Key="Str_Card_Rename">名前変更</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">折りたたむ</sys:String>
     <sys:String x:Key="Str_Card_Graph">グラフ</sys:String>
-    <sys:String x:Key="Str_Card_Organize">整理</sys:String>
+    <sys:String x:Key="Str_Card_Organize">グループマネージャー</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">場所を表示</sys:String>
     <sys:String x:Key="Str_Card_Parent">親</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">最上位</sys:String>
@@ -1259,12 +1259,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">このグループに新しいノート</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">グループに新しいノート</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">すべてのグループを折りたたむ</sys:String>
-    <sys:String x:Key="Str_KS_Organize">グループを整理</sys:String>
+    <sys:String x:Key="Str_KS_Organize">グループマネージャー</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">ノートを始めるその他の方法</sys:String>
-    <sys:String x:Key="Str_TT_Library">ノートブック全体をインポートまたはエクスポートします</sys:String>
+    <sys:String x:Key="Str_TT_Library">すべてのノートを Markdown としてエクスポート</sys:String>
     <sys:String x:Key="Str_St_Duplicated">ノートを複製しました。Ctrl+Z でコピーを削除できます。</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">{0} にテンプレートとして保存しました。</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - グループ</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - グループマネージャー</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">未作成</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">リンク 1 件</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">リンク {0} 件</sys:String>
@@ -1288,7 +1288,7 @@
     <sys:String x:Key="Str_GraphCard_Free">自然</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">渦巻き</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">波</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">グループ</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">グループマネージャー</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">新しいグループ</sys:String>
     <sys:String x:Key="Str_Mgr_Search">グループとノートを検索</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">グループ</sys:String>

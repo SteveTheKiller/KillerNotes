@@ -243,7 +243,7 @@
     <sys:String x:Key="Str_KS_ThisList">কীবোর্ড শর্টকাট (এই তালিকা)</sys:String>
     <sys:String x:Key="Str_KS_Rename">খোলা নোটের নাম বদলান</sys:String>
     <sys:String x:Key="Str_KS_Search">সব নোটে খুঁজুন</sys:String>
-    <sys:String x:Key="Str_KS_Preview">মার্কডাউন/HTML প্রিভিউ টগল করুন</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML পূর্বরূপ পর্যায়ক্রমে বদলান (সোর্স, রেন্ডার করা, পাশাপাশি)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">ফরম্যাট বার দেখান / লুকান</sys:String>
     <sys:String x:Key="Str_KS_Export">খোলা নোট এক্সপোর্ট করুন (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">সাইডবার সংকুচিত / প্রসারিত করুন</sys:String>
@@ -552,7 +552,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">ট্যাগ</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">ট্যাগ পরিচালনা...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">গ্রুপ পরিচালনা...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">গ্রুপ ম্যানেজার</sys:String>
     <sys:String x:Key="Str_TT_TagChip">এই ট্যাগ দিয়ে ফিল্টার করতে ক্লিক করুন</sys:String>
     <sys:String x:Key="Str_Tags_Title">ট্যাগ পরিচালনা</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">নতুন ট্যাগের জন্য একটি রং বাছুন</sys:String>
@@ -815,7 +815,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">টেবিলগুলি সাধারণ টেক্সটের লাইনে পরিণত হবে</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">ছবি ও স্কেচ বাদ পড়বে</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">টেক্সট ও হাইলাইটের রং বাদ পড়বে</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">এই নোটটি মার্কডাউন - এতে শুধু টেক্সট থাকে, তাই ছবি, টেবিল, স্কেচ ও রেকর্ডিং যোগ করা যায় না</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">মার্কডাউন নোট লেখার সোর্স সংরক্ষণ করে। এমবেড করা ছবি, সমৃদ্ধ লেখার টেবিল, স্কেচ ও রেকর্ডিং যোগ করা যায় না।</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">মার্কডাউনে রূপান্তর করা হয়েছে</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">রিচ টেক্সটে রূপান্তর করা হয়েছে</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">মার্কডাউন ফোল্ডারটি কোথায় লেখা হবে তা বেছে নিন</sys:String>
@@ -1248,7 +1248,7 @@
     <sys:String x:Key="Str_Card_Rename">নাম বদল</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">গুটান</sys:String>
     <sys:String x:Key="Str_Card_Graph">গ্রাফ</sys:String>
-    <sys:String x:Key="Str_Card_Organize">সাজান</sys:String>
+    <sys:String x:Key="Str_Card_Organize">গ্রুপ ম্যানেজার</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">ফাইল দেখান</sys:String>
     <sys:String x:Key="Str_Card_Parent">প্যারেন্ট</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">শীর্ষ স্তর</sys:String>
@@ -1261,12 +1261,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">এই গ্রুপে নতুন নোট</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">গ্রুপে নতুন নোট</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">সব গ্রুপ গুটিয়ে নিন</sys:String>
-    <sys:String x:Key="Str_KS_Organize">গ্রুপ সাজান</sys:String>
+    <sys:String x:Key="Str_KS_Organize">গ্রুপ ম্যানেজার</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">নোট শুরু করার আরও উপায়</sys:String>
-    <sys:String x:Key="Str_TT_Library">পুরো নোটবুক ইম্পোর্ট ও এক্সপোর্ট করুন</sys:String>
+    <sys:String x:Key="Str_TT_Library">সব নোট মার্কডাউন হিসেবে এক্সপোর্ট করুন</sys:String>
     <sys:String x:Key="Str_St_Duplicated">নোট ডুপ্লিকেট করা হয়েছে। Ctrl+Z কপিটি সরিয়ে দেবে।</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">{0}-এ টেমপ্লেট হিসেবে সংরক্ষিত হয়েছে।</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - গ্রুপ</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - গ্রুপ ম্যানেজার</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">এখনও লেখা হয়নি</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1টি লিংক</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0}টি লিংক</sys:String>
@@ -1290,7 +1290,7 @@
     <sys:String x:Key="Str_GraphCard_Free">মুক্ত</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">সর্পিল</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">ঢেউ</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">গ্রুপ</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">গ্রুপ ম্যানেজার</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">নতুন গ্রুপ</sys:String>
     <sys:String x:Key="Str_Mgr_Search">গ্রুপ ও নোট খুঁজুন</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">গ্রুপ</sys:String>

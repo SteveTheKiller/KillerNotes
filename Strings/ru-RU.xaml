@@ -466,7 +466,7 @@
     <sys:String x:Key="Str_KS_Rename">Переименовать открытую заметку</sys:String>
     <sys:String x:Key="Str_KS_Search">Поиск по всем заметкам</sys:String>
     <sys:String x:Key="Str_KS_Find">Найти в этой заметке</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Переключить предпросмотр markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Переключить предпросмотр Markdown/HTML (Код, Просмотр, Рядом)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Показать / скрыть панель форматирования</sys:String>
     <sys:String x:Key="Str_KS_Export">Экспортировать открытую заметку (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Свернуть / развернуть боковую панель</sys:String>
@@ -705,7 +705,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Метки</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Управление метками...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Управление группами...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Менеджер групп</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Нажмите, чтобы отфильтровать по этой метке</sys:String>
     <sys:String x:Key="Str_Tags_Title">Управление метками</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Выберите цвет для новой метки</sys:String>
@@ -850,7 +850,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">Таблицы станут обычными строками текста</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Изображения и наброски будут потеряны</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Цвета текста и маркера будут потеряны</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Эта заметка в markdown - в ней только текст, поэтому изображения, таблицы, наброски и записи добавить нельзя</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Заметки Markdown хранят текстовый исходник. Нельзя добавить встроенные изображения, таблицы форматированного текста, наброски и записи.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Преобразовано в markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Преобразовано в форматированный текст</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Выберите, куда записать папку markdown</sys:String>
@@ -1256,7 +1256,7 @@
     <sys:String x:Key="Str_Card_Rename">Переименовать</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Свернуть</sys:String>
     <sys:String x:Key="Str_Card_Graph">Граф</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Упорядочить</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Менеджер групп</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Показать файл</sys:String>
     <sys:String x:Key="Str_Card_Parent">Родитель</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Верхний уровень</sys:String>
@@ -1269,12 +1269,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Новая заметка в этой группе</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Новая заметка в группе</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Свернуть все группы</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Упорядочить группы</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Менеджер групп</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Другие способы начать заметку</sys:String>
-    <sys:String x:Key="Str_TT_Library">Импорт и экспорт всего блокнота</sys:String>
+    <sys:String x:Key="Str_TT_Library">Экспортировать все заметки как Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Заметка продублирована. Ctrl+Z удалит копию.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Сохранено как шаблон в группе {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Группы</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Менеджер групп</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Ещё не написана</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 ссылка</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">Ссылок: {0}</sys:String>
@@ -1298,7 +1298,7 @@
     <sys:String x:Key="Str_GraphCard_Free">Свободно</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Спираль</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Волна</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Группы</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Менеджер групп</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Новая группа</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Поиск групп и заметок</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Группы</sys:String>

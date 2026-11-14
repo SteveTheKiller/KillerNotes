@@ -243,7 +243,7 @@
     <sys:String x:Key="Str_KS_ThisList">键盘快捷键 (此列表)</sys:String>
     <sys:String x:Key="Str_KS_Rename">重命名当前笔记</sys:String>
     <sys:String x:Key="Str_KS_Search">搜索所有笔记</sys:String>
-    <sys:String x:Key="Str_KS_Preview">切换 Markdown/HTML 预览</sys:String>
+    <sys:String x:Key="Str_KS_Preview">循环切换 Markdown/HTML 预览 (源码, 渲染, 分屏)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">显示 / 隐藏格式栏</sys:String>
     <sys:String x:Key="Str_KS_Export">导出当前笔记 (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">折叠 / 展开侧边栏</sys:String>
@@ -550,7 +550,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">标签</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">管理标签...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">管理分组...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">分组管理器</sys:String>
     <sys:String x:Key="Str_TT_TagChip">点击按此标签筛选</sys:String>
     <sys:String x:Key="Str_Tags_Title">管理标签</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">为新标签选择颜色</sys:String>
@@ -813,7 +813,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">表格会变成纯文本行</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">图片和草图会丢失</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">文字颜色和高亮颜色会丢失</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">此笔记是 Markdown - 只保存文本，因此无法添加图片、表格、草图和录音</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown 笔记保存文本源码。无法添加内嵌图片、富文本表格、草图和录音。</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">已转换为 Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">已转换为富文本</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">选择 Markdown 文件夹的写入位置</sys:String>
@@ -1246,7 +1246,7 @@
     <sys:String x:Key="Str_Card_Rename">重命名</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">折叠</sys:String>
     <sys:String x:Key="Str_Card_Graph">图谱</sys:String>
-    <sys:String x:Key="Str_Card_Organize">整理</sys:String>
+    <sys:String x:Key="Str_Card_Organize">分组管理器</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">显示文件</sys:String>
     <sys:String x:Key="Str_Card_Parent">上级</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">顶层</sys:String>
@@ -1259,12 +1259,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">在此分组中新建笔记</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">在组中新建笔记</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">折叠所有分组</sys:String>
-    <sys:String x:Key="Str_KS_Organize">整理分组</sys:String>
+    <sys:String x:Key="Str_KS_Organize">分组管理器</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">更多新建笔记的方式</sys:String>
-    <sys:String x:Key="Str_TT_Library">导入和导出整个笔记本</sys:String>
+    <sys:String x:Key="Str_TT_Library">将所有笔记导出为 Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">笔记已复制。按 Ctrl+Z 可删除副本。</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">已在 {0} 中保存为模板。</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - 分组</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - 分组管理器</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">尚未撰写</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 个链接</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} 个链接</sys:String>
@@ -1288,7 +1288,7 @@
     <sys:String x:Key="Str_GraphCard_Free">自然</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">螺旋</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">波浪</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">分组</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">分组管理器</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">新建分组</sys:String>
     <sys:String x:Key="Str_Mgr_Search">搜索分组和笔记</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">分组</sys:String>

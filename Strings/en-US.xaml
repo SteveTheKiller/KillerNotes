@@ -493,7 +493,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_KS_Rename">Rename the open note</sys:String>
     <sys:String x:Key="Str_KS_Search">Search all notes</sys:String>
     <sys:String x:Key="Str_KS_Find">Find in this note</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Toggle markdown/HTML preview</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Cycle markdown/HTML preview (Source, Rendered, Split)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Show / hide the format bar</sys:String>
     <sys:String x:Key="Str_KS_Export">Export the open note (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Collapse / expand the sidebar</sys:String>
@@ -741,7 +741,7 @@ Leave both boxes empty to share without one.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Tags</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Manage tags...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Manage groups...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Group manager</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Click to filter by this tag</sys:String>
     <sys:String x:Key="Str_Tags_Title">Manage tags</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Pick a color for the new tag</sys:String>
@@ -891,7 +891,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tables become plain lines of text</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Images and sketches are dropped</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Text and highlight colors are dropped</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">This note is markdown - it holds text only, so images, tables, sketches and recordings cannot be added</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown notes store text source. Embedded images, rich-text tables, sketches and recordings cannot be added.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Converted to markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Converted to rich text</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Choose where to write the markdown folder</sys:String>
@@ -1295,7 +1295,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Rename</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Collapse</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graph</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Organize</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Group manager</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Show file</sys:String>
     <sys:String x:Key="Str_Card_Parent">Parent</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Top level</sys:String>
@@ -1308,12 +1308,12 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">New note in this group</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">New note in group</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Collapse all groups</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Organize groups</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Group manager</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">More ways to start a note</sys:String>
-    <sys:String x:Key="Str_TT_Library">Import and export the whole notepad</sys:String>
+    <sys:String x:Key="Str_TT_Library">Export all notes as Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Note duplicated. Ctrl+Z removes the copy.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Saved as a template in {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Groups</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Group manager</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Not written yet</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 link</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} links</sys:String>
@@ -1337,7 +1337,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Free</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spiral</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Wave</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Groups</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Group manager</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">New group</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Search groups and notes</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Groups</sys:String>

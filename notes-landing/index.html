@@ -219,8 +219,8 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <h2 data-i18n="features_h">What it does</h2>
 <div class="hero-blurbs">
 <div class="blurb"><p data-i18n="s170_cards">Right-click a note for its card: pin, share, export, history, color, tags and group. Duplicate (<code>Alt+Shift+U</code>) makes a copy; Save as template (<code>Alt+Shift+T</code>) copies it into the templates group. Select several notes to change their pin, color, tags or group together.</p></div>
-<div class="blurb"><p data-i18n="s170_groups">Organize on the sidebar rail (<code>Alt+Shift+O</code>) opens a searchable group tree and sortable note list. Drag notes into groups or groups into parents; right-click for the same cards as the sidebar. The group card offers rename, color, parent, template and daily roles. <code>Alt+Shift+H</code> creates a note in the selected group; <code>Alt+Shift+Z</code> collapses all groups. <code>Ctrl+Z</code> undoes organization changes.</p></div>
-<div class="blurb"><p data-i18n="s170_new">The arrow beside New note opens Markdown notes, templates, today's note, a note in a chosen group, and folder import (<code>Alt+Shift+I</code>). Whole-notepad Markdown export is on the sidebar's library button.</p></div>
+<div class="blurb"><p data-i18n="s170_groups">Group manager on the sidebar rail (<code>Alt+Shift+O</code>) opens a searchable group tree and sortable note list. Drag notes into groups or groups into parents; right-click for the same cards as the sidebar. The group card offers rename, color, parent, template and daily roles. <code>Alt+Shift+H</code> creates a note in the selected group; <code>Alt+Shift+Z</code> collapses all groups. <code>Ctrl+Z</code> undoes organization changes.</p></div>
+<div class="blurb"><p data-i18n="s170_new">The arrow beside New note opens Markdown notes, templates, today's note, a note in a chosen group, and folder import (<code>Alt+Shift+I</code>). Click Export all notes as Markdown on the sidebar rail, or press <code>Alt+E</code>, to choose an export folder directly.</p></div>
 </div>
 <div class="feature-grid">
 <div class="feature-card"><h3 data-i18n="f_notepad_t">One notepad, not 80 tabs</h3><p data-i18n="f_notepad_d">Notes save after a typing pause, when switching notes, and on close. Ctrl+S saves immediately.</p></div>
@@ -243,7 +243,7 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="feature-card"><h3 data-i18n="f_syntax_t">Syntax highlighting</h3><p data-i18n="f_syntax_d">Ctrl+Shift+E colors code in a note across sixteen languages - PowerShell, Python, SQL, Bash, C#, JavaScript, TypeScript, CSS, HTML, XAML, XML, Vue, JSON, YAML, Markdown and plain text. The language is detected per paragraph, so one scratch note full of mixed snippets colors every block correctly with no language picker.</p></div>
 <div class="feature-card"><h3 data-i18n="f_float_t">Float images &amp; clips</h3><p data-i18n="f_float_d">Drag an image or a recording out of the text and it floats: text wraps down the side, it snaps to a twelve-column grid so pictures on different lines line up, and dropping one onto a table widens the column to fit.</p></div>
 <div class="feature-card"><h3 data-i18n="f_links_t">Real hyperlinks</h3><p data-i18n="f_links_d">Ctrl+K links the selection or edits the link under the caret, Ctrl+Click opens it, and typed URLs auto-link. Links survive pasting from browsers, Word and other note apps - and only web and mail addresses ever open.</p></div>
-<div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="site_preview_current"><code>F4</code> cycles Source, Rendered and Split for Markdown and HTML. The eye button lists the same views. The About card controls automatic detection. The native WPF preview follows the theme and grain; scripts never run.</p></div>
+<div class="feature-card"><h3 data-i18n="f_preview_t">Markdown &amp; HTML preview</h3><p data-i18n="site_preview_current"><code>F4</code> cycles Source, Rendered and Split for Markdown and HTML. The preview dropdown selects the same views. The About card controls automatic detection. The native WPF preview follows the theme and grain; scripts never run.</p><p data-i18n="hp_md_2">Markdown notes store plain-text source. The format bar and editor card insert Markdown for bold, italic, strike, inline code, headings, lists, checkboxes, links, pipe tables and horizontal rules. Rich-text-only controls are hidden. Dictation can insert its transcript; embedded images, rich-text tables, sketches and recordings cannot be inserted into a Markdown note.</p></div>
 <div class="feature-card"><h3 data-i18n="f_hotkeys_t">Hotkeys &amp; keyboard map</h3><p data-i18n="s160_f_hotkeys">Everything has a key. F1 opens the shortcut list on a search box: type an action's name or keys and Enter runs it. The visual keyboard map shows each layer as you hold Ctrl, Shift or Alt.</p></div>
 <div class="feature-card"><h3 data-i18n="f_install_t">Portable or installed</h3><p data-i18n="f_install_d">Runs portable from a USB stick, or one-click installs per-user with no admin. A /silent switch handles RMM and winget rollouts, and uninstall always keeps your notes.</p></div>
 <div class="feature-card"><h3 data-i18n="f_themes_t">Themes &amp; accents</h3><p data-i18n="site_themes_current">13 themes, 41 looks: Dark, Light, Black and 98SE each offer eight accent colors. Gradients follow the theme; 98SE stays flat. The theme menu can turn Film Grain on or off.</p></div>
@@ -281,32 +281,38 @@ html[data-theme="light"] .blurb h3, html[data-theme="light"] .feature-card h3 { 
 <div class="egg-toast" id="eggToast"></div>
 
 <div hidden id="screenshotDescriptions">
-<span data-i18n="shot_workspace">Cyanotic theme: a quarterly review with a system status table, the table editing menu, and nested client groups.</span>
-<span data-i18n="shot_graph">The animated note graph shows connections between notes, with note titles and group colors.</span>
+<span data-i18n="shot_workspace">Cyanotic: editor card with table actions and nested groups.</span>
+<span data-i18n="shot_graph">The note graph shows connections between notes, with note titles and group colors.</span>
 <span data-i18n="shot_about">Sepulchre theme: the About panel with version, publisher, startup, tray, and lock settings.</span>
 <span data-i18n="shot_dictation">Ectoplasm theme: Dictation over a client review, with recording, transcription, and note insertion controls.</span>
 <span data-i18n="shot_sketchpad">Malaise theme: SketchPad with a labeled rack diagram and drawing tools.</span>
 <span data-i18n="shot_tools">A rack diagram in SketchPad beside a recording waveform and the offline speech model chooser.</span>
 <span data-i18n="shot_amort">AMORT PowerShell code with syntax highlighting, line numbers, a right sidebar, and the note menu.</span>
-<span data-i18n="shot_classic">98SE with a blue accent: mixed code snippets, syntax highlighting, and the editor context menu.</span>
+<span data-i18n="shot_classic">98SE: Markdown source tools and the editor card.</span>
+<span data-i18n="shot_groups">Group manager.</span>
+<span data-i18n="shot_cards">Multi-note card with shared note actions.</span>
+<span data-i18n="shot_unlock">Unlock screen with password controls.</span>
 </div>
-<script src="kn-i18n.js?v=21"></script>
-<script src="kn-i18n-170.js?v=1"></script>
+<script src="kn-i18n.js?v=23"></script>
+<script src="kn-i18n-170.js?v=3"></script>
 <script src="kn.js?v=10"></script>
 <script src="feature-carousel.js?v=4"></script>
 <script>
 (function () {
-  // The release collection keeps the existing graph clip alongside the new stills.
+  // Current app captures share localized descriptions throughout the gallery.
   // Each localized description supplies alt text, a tooltip, and the lightbox caption.
   var screenshots = [
     { file:'01.jpg', key:'shot_workspace' },
-    { file:'02', key:'shot_graph', video:true },
+    { file:'02.png', key:'shot_graph' },
     { file:'03.jpg', key:'shot_about' },
     { file:'04.jpg', key:'shot_dictation' },
     { file:'05.jpg', key:'shot_sketchpad' },
     { file:'06.png', key:'shot_tools' },
     { file:'07.png', key:'shot_amort' },
-    { file:'08.png', key:'shot_classic' }
+    { file:'08.png', key:'shot_classic' },
+    { file:'09.png', key:'shot_groups' },
+    { file:'10.png', key:'shot_cards' },
+    { file:'11.png', key:'shot_unlock' }
   ];
   function descriptionFor(n) {
     var caption = document.querySelector('[data-i18n="' + screenshots[n - 1].key + '"]');

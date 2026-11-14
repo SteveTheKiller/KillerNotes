@@ -43,7 +43,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button and distinct Group manager and export icons. Empty sidebar space no longer opens a menu.
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
 - Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
-- Help, technical documentation, and translated landing pages cover the new menus and group workflows. The landing shortcut list matches the in-app overlay.
+- README, landing screenshots, help, technical documentation, and all translations cover the current Markdown tools, menus, and group workflows. The landing shortcut list matches the in-app overlay.
 - The copyright at the right end of the footer ends 8 px before the corner grip, the same gap in every Killer app.
 
 ### Added

@@ -455,7 +455,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_Rename">Nevezze át a nyitott jegyzetet</sys:String>
     <sys:String x:Key="Str_KS_Search">Keresés az összes jegyzetben</sys:String>
     <sys:String x:Key="Str_KS_Find">Keresse meg ebben a jegyzetben</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Markdown/HTML előnézet váltása</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML-előnézetek váltása (Forrás, Megjelenített, Osztott)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">A formátumsáv megjelenítése/elrejtése</sys:String>
     <sys:String x:Key="Str_KS_Export">A megnyitott jegyzet exportálása (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Az oldalsáv összecsukása/kibontása</sys:String>
@@ -703,7 +703,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Címkék</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Címkék kezelése...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Csoportok kezelése...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Csoportkezelő</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kattintson a címke szerinti szűréshez</sys:String>
     <sys:String x:Key="Str_Tags_Title">Címkék kezelése</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Válasszon színt az új címkéhez</sys:String>
@@ -870,7 +870,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_MdLoss_Tables">A táblázatokból egyszerű szövegsorok lesznek</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">A képek és a vázlatok elvesznek</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">A szöveg- és kiemelésszínek elvesznek</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Ez a jegyzet markdown - csak szöveget tartalmaz, ezért nem adhatók hozzá képek, táblázatok, vázlatok és felvételek</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">A Markdown-jegyzetek szöveges forrást tárolnak. Beágyazott képek, formázott szöveges táblázatok, vázlatok és felvételek nem adhatók hozzá.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Átalakítva markdownra</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Átalakítva formázott szöveggé</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Válassza ki, hová íródjon a markdown mappa</sys:String>
@@ -1274,7 +1274,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Card_Rename">Átnevezés</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Összecsukás</sys:String>
     <sys:String x:Key="Str_Card_Graph">Gráf</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Rendezés</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Csoportkezelő</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Fájl mutatása</sys:String>
     <sys:String x:Key="Str_Card_Parent">Szülő</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Legfelső szint</sys:String>
@@ -1287,12 +1287,12 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Új jegyzet ebben a csoportban</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Új jegyzet csoportban</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Összes csoport összecsukása</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Csoportok rendezése</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Csoportkezelő</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">További módok jegyzet indítására</sys:String>
-    <sys:String x:Key="Str_TT_Library">A teljes jegyzetfüzet importálása és exportálása</sys:String>
+    <sys:String x:Key="Str_TT_Library">Minden jegyzet exportálása Markdownként</sys:String>
     <sys:String x:Key="Str_St_Duplicated">A jegyzet kettőzve lett. A Ctrl+Z eltávolítja a másolatot.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Sablonként mentve ide: {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Csoportok</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Csoportkezelő</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Még nincs megírva</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 hivatkozás</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} hivatkozás</sys:String>
@@ -1316,7 +1316,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_GraphCard_Free">Szabad</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirál</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Hullám</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Csoportok</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Csoportkezelő</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Új csoport</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Csoportok és jegyzetek keresése</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Csoportok</sys:String>

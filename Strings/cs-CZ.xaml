@@ -347,7 +347,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Klávesové zkratky (tento seznam)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Přejmenovat otevřenou poznámku</sys:String>
     <sys:String x:Key="Str_KS_Search">Hledat ve všech poznámkách</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Přepnout náhled markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Přepínat náhled Markdown/HTML (Zdroj, Vykreslené, Vedle sebe)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Zobrazit / skrýt panel formátování</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportovat otevřenou poznámku (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Sbalit / rozbalit postranní panel</sys:String>
@@ -541,7 +541,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Štítky</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Spravovat štítky...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Spravovat skupiny...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Správce skupin</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknutím filtrujete podle tohoto štítku</sys:String>
     <sys:String x:Key="Str_Tags_Title">Spravovat štítky</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Vyberte barvu pro nový štítek</sys:String>
@@ -812,7 +812,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Z tabulek se stanou prosté řádky textu</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Obrázky a náčrty budou ztraceny</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Barvy textu a zvýraznění budou ztraceny</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Tato poznámka je v markdownu - obsahuje pouze text, takže do ní nelze přidat obrázky, tabulky, náčrty ani nahrávky</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Poznámky Markdown ukládají textový zdroj. Nelze přidat vložené obrázky, tabulky formátovaného textu, skici ani nahrávky.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Převedeno na markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Převedeno na formátovaný text</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Zvolte, kam zapsat složku s markdownem</sys:String>
@@ -1245,7 +1245,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Přejmenovat</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Sbalit</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Uspořádat</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Správce skupin</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Zobrazit soubor</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadřazená</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Nejvyšší úroveň</sys:String>
@@ -1258,12 +1258,12 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nová poznámka v této skupině</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nová poznámka ve skupině</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Sbalit všechny skupiny</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Uspořádat skupiny</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Správce skupin</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Další způsoby, jak začít poznámku</sys:String>
-    <sys:String x:Key="Str_TT_Library">Import a export celého zápisníku</sys:String>
+    <sys:String x:Key="Str_TT_Library">Exportovat všechny poznámky jako Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Poznámka byla duplikována. Kopii odstraníte stisknutím Ctrl+Z.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Uloženo jako šablona do skupiny {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Skupiny</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Správce skupin</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Zatím nenapsáno</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 odkaz</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">Odkazy: {0}</sys:String>
@@ -1287,7 +1287,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Volně</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirála</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Vlna</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Skupiny</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Správce skupin</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Nová skupina</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Hledat skupiny a poznámky</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Skupiny</sys:String>

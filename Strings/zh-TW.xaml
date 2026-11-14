@@ -243,7 +243,7 @@
     <sys:String x:Key="Str_KS_ThisList">鍵盤快速鍵 (這份清單)</sys:String>
     <sys:String x:Key="Str_KS_Rename">重新命名開啟中的筆記</sys:String>
     <sys:String x:Key="Str_KS_Search">搜尋所有筆記</sys:String>
-    <sys:String x:Key="Str_KS_Preview">切換 Markdown/HTML 預覽</sys:String>
+    <sys:String x:Key="Str_KS_Preview">循環切換 Markdown/HTML 預覽 (原始碼, 預覽, 分割)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">顯示 / 隱藏格式列</sys:String>
     <sys:String x:Key="Str_KS_Export">匯出開啟中的筆記 (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">摺疊 / 展開側邊欄</sys:String>
@@ -552,7 +552,7 @@
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">標籤</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">管理標籤...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">管理群組...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">群組管理員</sys:String>
     <sys:String x:Key="Str_TT_TagChip">按一下以依此標籤篩選</sys:String>
     <sys:String x:Key="Str_Tags_Title">管理標籤</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">為新標籤選擇色彩</sys:String>
@@ -815,7 +815,7 @@
     <sys:String x:Key="Str_MdLoss_Tables">表格會變成純文字行</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">圖片和草圖會遺失</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">文字色彩和螢光標示色彩會遺失</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">此筆記是 Markdown - 只保存文字，因此無法加入圖片、表格、草圖和錄音</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown 筆記儲存文字原始碼。無法加入內嵌圖片、格式化文字表格、草圖及錄音。</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">已轉換為 Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">已轉換為格式化文字</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">選擇 Markdown 資料夾的寫入位置</sys:String>
@@ -1248,7 +1248,7 @@
     <sys:String x:Key="Str_Card_Rename">重新命名</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">摺疊</sys:String>
     <sys:String x:Key="Str_Card_Graph">圖譜</sys:String>
-    <sys:String x:Key="Str_Card_Organize">整理</sys:String>
+    <sys:String x:Key="Str_Card_Organize">群組管理員</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">顯示檔案</sys:String>
     <sys:String x:Key="Str_Card_Parent">上層</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">最上層</sys:String>
@@ -1261,12 +1261,12 @@
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">在此群組中新增筆記</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">在群組中新增筆記</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">摺疊所有群組</sys:String>
-    <sys:String x:Key="Str_KS_Organize">整理群組</sys:String>
+    <sys:String x:Key="Str_KS_Organize">群組管理員</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">更多建立筆記的方式</sys:String>
-    <sys:String x:Key="Str_TT_Library">匯入和匯出整個筆記本</sys:String>
+    <sys:String x:Key="Str_TT_Library">將所有筆記匯出為 Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">筆記已複製。按 Ctrl+Z 可刪除複本。</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">已在 {0} 中儲存為範本。</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - 群組</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - 群組管理員</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">尚未撰寫</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 個連結</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} 個連結</sys:String>
@@ -1290,7 +1290,7 @@
     <sys:String x:Key="Str_GraphCard_Free">自然</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">螺旋</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">波浪</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">群組</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">群組管理員</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">新增群組</sys:String>
     <sys:String x:Key="Str_Mgr_Search">搜尋群組和筆記</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">群組</sys:String>

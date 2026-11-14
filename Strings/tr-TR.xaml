@@ -244,7 +244,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Klavye kısayolları (bu liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Açık notu yeniden adlandır</sys:String>
     <sys:String x:Key="Str_KS_Search">Tüm notlarda ara</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Markdown/HTML önizlemesini aç/kapat</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Markdown/HTML önizlemeleri arasında geçiş yap (Kaynak, Önizleme, Bölünmüş)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Biçim çubuğunu göster / gizle</sys:String>
     <sys:String x:Key="Str_KS_Export">Açık notu dışa aktar (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Kenar çubuğunu daralt / genişlet</sys:String>
@@ -552,7 +552,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Etiketler</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Etiketleri yönet...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Grupları yönet...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Grup yöneticisi</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Bu etikete göre filtrelemek için tıklayın</sys:String>
     <sys:String x:Key="Str_Tags_Title">Etiketleri yönet</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Yeni etiket için bir renk seçin</sys:String>
@@ -815,7 +815,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tablolar düz metin satırlarına dönüşür</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Görseller ve çizimler kaybolur</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Metin ve vurgu renkleri kaybolur</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Bu not markdown - yalnızca metin tutar, bu yüzden görsel, tablo, çizim ve kayıt eklenemez</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Markdown notları metin kaynağını saklar. Gömülü görseller, zengin metin tabloları, çizimler ve kayıtlar eklenemez.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Markdown'a dönüştürüldü</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Zengin metne dönüştürüldü</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Markdown klasörünün nereye yazılacağını seçin</sys:String>
@@ -1248,7 +1248,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Yeniden adlandır</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Daralt</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafik</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Düzenle</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Grup yöneticisi</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Dosyayı göster</sys:String>
     <sys:String x:Key="Str_Card_Parent">Üst grup</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Üst düzey</sys:String>
@@ -1261,12 +1261,12 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Bu grupta yeni not</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Grupta yeni not</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Tüm grupları daralt</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Grupları düzenle</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Grup yöneticisi</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Not başlatmanın diğer yolları</sys:String>
-    <sys:String x:Key="Str_TT_Library">Tüm not defterini içe veya dışa aktar</sys:String>
+    <sys:String x:Key="Str_TT_Library">Tüm notları Markdown olarak dışa aktar</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Not çoğaltıldı. Ctrl+Z kopyayı kaldırır.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">{0} içinde şablon olarak kaydedildi.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gruplar</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Grup yöneticisi</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Henüz yazılmadı</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 bağlantı</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} bağlantı</sys:String>
@@ -1290,7 +1290,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Serbest</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Sarmal</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Dalga</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Gruplar</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Grup yöneticisi</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Yeni grup</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Grupları ve notları ara</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Gruplar</sys:String>

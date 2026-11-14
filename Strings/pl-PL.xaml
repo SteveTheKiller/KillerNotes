@@ -393,7 +393,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_Rename">Zmień nazwę otwartej notatki</sys:String>
     <sys:String x:Key="Str_KS_Search">Szukaj we wszystkich notatkach</sys:String>
     <sys:String x:Key="Str_KS_Find">Znajdź w tej notatce</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Przełącz podgląd markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Przełączaj podgląd Markdown/HTML (Źródło, Podgląd, Obok siebie)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Pokaż / ukryj pasek formatowania</sys:String>
     <sys:String x:Key="Str_KS_Export">Eksportuj otwartą notatkę (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Zwiń / rozwiń pasek boczny</sys:String>
@@ -615,7 +615,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_TT_SwatchReplace">Kliknij, aby ustawić w tej próbce bieżący kolor</sys:String>
     <sys:String x:Key="Str_Ctx_Tags">Tagi</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Zarządzaj tagami...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Zarządzaj grupami...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Menedżer grup</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Kliknij, aby filtrować według tego tagu</sys:String>
     <sys:String x:Key="Str_Tags_Title">Zarządzaj tagami</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Wybierz kolor dla nowego tagu</sys:String>
@@ -771,7 +771,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Tabele staną się zwykłymi wierszami tekstu</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Obrazy i szkice zostaną pominięte</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Kolory tekstu i wyróżnień zostaną pominięte</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Ta notatka to markdown - zawiera tylko tekst, więc nie można dodać obrazów, tabel, szkiców ani nagrań</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Notatki Markdown przechowują źródło tekstowe. Nie można dodawać osadzonych obrazów, tabel tekstu sformatowanego, szkiców ani nagrań.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Zamieniono na markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Zamieniono na tekst sformatowany</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Wybierz miejsce zapisu folderu markdown</sys:String>
@@ -1175,7 +1175,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Zmień nazwę</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Zwiń</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graf</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Uporządkuj</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Menedżer grup</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Pokaż plik</sys:String>
     <sys:String x:Key="Str_Card_Parent">Nadrzędna</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Najwyższy poziom</sys:String>
@@ -1188,12 +1188,12 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nowa notatka w tej grupie</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nowa notatka w grupie</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Zwiń wszystkie grupy</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Uporządkuj grupy</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Menedżer grup</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Więcej sposobów na rozpoczęcie notatki</sys:String>
-    <sys:String x:Key="Str_TT_Library">Importuj i eksportuj cały notatnik</sys:String>
+    <sys:String x:Key="Str_TT_Library">Eksportuj wszystkie notatki jako Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Notatkę zduplikowano. Ctrl+Z usuwa kopię.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Zapisano jako szablon w grupie {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Grupy</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Menedżer grup</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Jeszcze nienapisana</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 link</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">Linki: {0}</sys:String>
@@ -1217,7 +1217,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Swobodnie</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirala</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Fala</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Grupy</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Menedżer grup</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Nowa grupa</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Szukaj grup i notatek</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Grupy</sys:String>

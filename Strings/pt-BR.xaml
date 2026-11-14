@@ -493,7 +493,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renomear a nota aberta</sys:String>
     <sys:String x:Key="Str_KS_Search">Pesquisar em todas as notas</sys:String>
     <sys:String x:Key="Str_KS_Find">Localizar nesta nota</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Alternar visualização de Markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Alternar visualizações Markdown/HTML (Código-fonte, Renderizado, Dividido)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar a barra de formatação</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportar a nota aberta (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Recolher / expandir a barra lateral</sys:String>
@@ -741,7 +741,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Marcadores</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Gerenciar marcadores...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Gerenciar grupos...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gerenciador de grupos</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Clique para filtrar por este marcador</sys:String>
     <sys:String x:Key="Str_Tags_Title">Gerenciar marcadores</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Escolha uma cor para o novo marcador</sys:String>
@@ -891,7 +891,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">As tabelas viram linhas de texto simples</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Imagens e desenhos são descartados</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">As cores de texto e de realce são descartadas</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Esta nota é Markdown - ela contém somente texto, então imagens, tabelas, desenhos e gravações não podem ser adicionados</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">As notas Markdown armazenam código-fonte textual. Não é possível adicionar imagens incorporadas, tabelas de texto formatado, desenhos ou gravações.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertida para Markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Convertida para texto formatado</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Escolha onde gravar a pasta de Markdown</sys:String>
@@ -1295,7 +1295,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Renomear</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Recolher</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafo</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Organizar</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Gerenciador de grupos</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Mostrar arquivo</sys:String>
     <sys:String x:Key="Str_Card_Parent">Superior</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Nível superior</sys:String>
@@ -1308,12 +1308,12 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nova nota neste grupo</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nova nota no grupo</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Recolher todos os grupos</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Organizar grupos</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Gerenciador de grupos</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Mais formas de começar uma nota</sys:String>
-    <sys:String x:Key="Str_TT_Library">Importar e exportar todo o bloco de notas</sys:String>
+    <sys:String x:Key="Str_TT_Library">Exportar todas as notas como Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Nota duplicada. Ctrl+Z remove a cópia.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Salva como modelo em {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Grupos</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gerenciador de grupos</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Ainda não escrita</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 link</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} links</sys:String>
@@ -1337,7 +1337,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Livre</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Espiral</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Onda</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Grupos</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Gerenciador de grupos</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Novo grupo</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Pesquisar grupos e notas</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Grupos</sys:String>

@@ -245,7 +245,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Atajos de teclado (esta lista)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renombrar la nota abierta</sys:String>
     <sys:String x:Key="Str_KS_Search">Buscar en todas las notas</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Alternar vista previa markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Alternar vistas previas Markdown/HTML (Código, Vista previa, Dividido)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Mostrar / ocultar la barra de formato</sys:String>
     <sys:String x:Key="Str_KS_Export">Exportar la nota abierta (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Contraer / expandir la barra lateral</sys:String>
@@ -552,7 +552,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Etiquetas</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Administrar etiquetas...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Administrar grupos...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Administrador de grupos</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Haga clic para filtrar por esta etiqueta</sys:String>
     <sys:String x:Key="Str_Tags_Title">Administrar etiquetas</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Elija un color para la nueva etiqueta</sys:String>
@@ -816,7 +816,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Las tablas pasan a ser líneas de texto simples</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Las imágenes y los bocetos se pierden</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Los colores de texto y resaltado se pierden</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Esta nota es markdown - solo contiene texto, así que no se pueden añadir imágenes, tablas, bocetos ni grabaciones</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Las notas Markdown guardan código fuente textual. No se pueden añadir imágenes incrustadas, tablas de texto enriquecido, bocetos ni grabaciones.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertida a markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Convertida a texto enriquecido</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Elija dónde escribir la carpeta markdown</sys:String>
@@ -1249,7 +1249,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Renombrar</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Contraer</sys:String>
     <sys:String x:Key="Str_Card_Graph">Grafo</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Organizar</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Administrador de grupos</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Mostrar archivo</sys:String>
     <sys:String x:Key="Str_Card_Parent">Superior</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Nivel superior</sys:String>
@@ -1262,12 +1262,12 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nueva nota en este grupo</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nueva nota en grupo</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Contraer todos los grupos</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Organizar grupos</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Administrador de grupos</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Más formas de empezar una nota</sys:String>
-    <sys:String x:Key="Str_TT_Library">Importar y exportar todo el bloc de notas</sys:String>
+    <sys:String x:Key="Str_TT_Library">Exportar todas las notas como Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Nota duplicada. Ctrl+Z elimina la copia.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Guardada como plantilla en {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Grupos</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Administrador de grupos</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Aún sin escribir</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 enlace</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} enlaces</sys:String>
@@ -1291,7 +1291,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Libre</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Espiral</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Onda</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Grupos</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Administrador de grupos</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Nuevo grupo</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Buscar grupos y notas</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Grupos</sys:String>

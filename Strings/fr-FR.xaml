@@ -244,7 +244,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_KS_ThisList">Raccourcis clavier (cette liste)</sys:String>
     <sys:String x:Key="Str_KS_Rename">Renommer la note ouverte</sys:String>
     <sys:String x:Key="Str_KS_Search">Rechercher dans toutes les notes</sys:String>
-    <sys:String x:Key="Str_KS_Preview">Basculer l'aperçu markdown/HTML</sys:String>
+    <sys:String x:Key="Str_KS_Preview">Parcourir les aperçus Markdown/HTML (Source, Rendu, Côte à côte)</sys:String>
     <sys:String x:Key="Str_KS_FormatBar">Afficher / masquer la barre de mise en forme</sys:String>
     <sys:String x:Key="Str_KS_Export">Exporter la note ouverte (.txt / .rtf / .html)</sys:String>
     <sys:String x:Key="Str_KS_Sidebar">Réduire / développer le panneau latéral</sys:String>
@@ -552,7 +552,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <!-- Tags -->
     <sys:String x:Key="Str_Ctx_Tags">Étiquettes</sys:String>
     <sys:String x:Key="Str_Ctx_ManageTags">Gérer les étiquettes...</sys:String>
-    <sys:String x:Key="Str_Ctx_ManageGroups">Gérer les groupes...</sys:String>
+    <sys:String x:Key="Str_Ctx_ManageGroups">Gestionnaire de groupes</sys:String>
     <sys:String x:Key="Str_TT_TagChip">Cliquez pour filtrer par cette étiquette</sys:String>
     <sys:String x:Key="Str_Tags_Title">Gérer les étiquettes</sys:String>
     <sys:String x:Key="Str_TT_TagPickColor">Choisir une couleur pour la nouvelle étiquette</sys:String>
@@ -816,7 +816,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_MdLoss_Tables">Les tableaux deviennent de simples lignes de texte</sys:String>
     <sys:String x:Key="Str_MdLoss_Images">Les images et les croquis sont perdus</sys:String>
     <sys:String x:Key="Str_MdLoss_Colors">Les couleurs de texte et de surlignage sont perdues</sys:String>
-    <sys:String x:Key="Str_St_MarkdownNoObjects">Cette note est en markdown - elle ne contient que du texte, donc images, tableaux, croquis et enregistrements ne peuvent pas y être ajoutés</sys:String>
+    <sys:String x:Key="Str_St_MarkdownNoObjects">Les notes Markdown conservent une source textuelle. Impossible d'ajouter des images intégrées, des tableaux de texte enrichi, des croquis ou des enregistrements.</sys:String>
     <sys:String x:Key="Str_St_ConvertedToMarkdown">Convertie en markdown</sys:String>
     <sys:String x:Key="Str_St_ConvertedToRich">Convertie en texte enrichi</sys:String>
     <sys:String x:Key="Str_Dlg_VaultPickFolder">Choisissez où écrire le dossier markdown</sys:String>
@@ -1249,7 +1249,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Card_Rename">Renommer</sys:String>
     <sys:String x:Key="Str_Card_CollapseAll">Réduire</sys:String>
     <sys:String x:Key="Str_Card_Graph">Graphe</sys:String>
-    <sys:String x:Key="Str_Card_Organize">Organiser</sys:String>
+    <sys:String x:Key="Str_Card_Organize">Gestionnaire de groupes</sys:String>
     <sys:String x:Key="Str_Card_ShowFile">Localiser</sys:String>
     <sys:String x:Key="Str_Card_Parent">Parent</sys:String>
     <sys:String x:Key="Str_Card_TopLevel">Niveau supérieur</sys:String>
@@ -1262,12 +1262,12 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroup">Nouvelle note dans ce groupe</sys:String>
     <sys:String x:Key="Str_Ctx_NewNoteInGroupMenu">Nouvelle note dans un groupe</sys:String>
     <sys:String x:Key="Str_Ctx_CollapseAll">Réduire tous les groupes</sys:String>
-    <sys:String x:Key="Str_KS_Organize">Organiser les groupes</sys:String>
+    <sys:String x:Key="Str_KS_Organize">Gestionnaire de groupes</sys:String>
     <sys:String x:Key="Str_TT_NewMenu">Autres façons de commencer une note</sys:String>
-    <sys:String x:Key="Str_TT_Library">Importer et exporter tout le bloc-notes</sys:String>
+    <sys:String x:Key="Str_TT_Library">Exporter toutes les notes en Markdown</sys:String>
     <sys:String x:Key="Str_St_Duplicated">Note dupliquée. Ctrl+Z supprime la copie.</sys:String>
     <sys:String x:Key="Str_St_SavedAsTemplate">Enregistrée comme modèle dans {0}.</sys:String>
-    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Groupes</sys:String>
+    <sys:String x:Key="Str_Mgr_Title">KillerNotes - Gestionnaire de groupes</sys:String>
     <sys:String x:Key="Str_GraphCard_NotWritten">Pas encore écrite</sys:String>
     <sys:String x:Key="Str_GraphCard_OneLink">1 lien</sys:String>
     <sys:String x:Key="Str_GraphCard_Links">{0} liens</sys:String>
@@ -1291,7 +1291,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_GraphCard_Free">Libre</sys:String>
     <sys:String x:Key="Str_GraphCard_Spiral">Spirale</sys:String>
     <sys:String x:Key="Str_GraphCard_Wave">Vague</sys:String>
-    <sys:String x:Key="Str_Mgr_Subtitle">Groupes</sys:String>
+    <sys:String x:Key="Str_Mgr_Subtitle">Gestionnaire de groupes</sys:String>
     <sys:String x:Key="Str_Mgr_NewGroup">Nouveau groupe</sys:String>
     <sys:String x:Key="Str_Mgr_Search">Rechercher des groupes et des notes</sys:String>
     <sys:String x:Key="Str_Mgr_Groups">Groupes</sys:String>
