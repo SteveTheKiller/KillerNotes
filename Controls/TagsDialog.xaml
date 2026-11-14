@@ -26,14 +26,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <local:DialogTitleBar x:Name="TitleBar" Grid.Row="0" Subtitle="{DynamicResource Str_Tags_Title}"
                                       CloseRequested="Close_Click"/>
 
                 <!-- Body -->
-                <StackPanel Grid.Row="1" Margin="24,16,24,12">
+                <StackPanel Grid.Row="1" Margin="12,8,12,12">
                     <!-- The "Manage tags" heading that used to sit here has moved into the
                          caption (DialogTitleBar Subtitle), same as DatabasesDialog. -->
                     <!-- The list is a CLIENT AREA, same treatment as DatabasesDialog's: square
@@ -100,31 +99,42 @@
                     </Grid>
 
                     <!-- Add row: name box + color swatch button + Add -->
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <!-- EditFieldTextBox (Controls.xaml): the search-box look - flat
                              SearchFieldBrush, themed focus border, sunken bevel on 98SE. -->
-                        <TextBox x:Name="NewNameBox" Width="180" Height="26" AutomationProperties.Name="{DynamicResource Str_Tags_NeedName}"
+                        <TextBox x:Name="NewNameBox" MinWidth="40" Height="26" AutomationProperties.Name="{DynamicResource Str_Tags_NeedName}"
                                  Style="{StaticResource EditFieldTextBox}"
                                  KeyDown="NewNameBox_KeyDown"/>
-                        <Button x:Name="NewColorSwatch" Width="26" Height="26"
+                        <Button x:Name="NewColorSwatch" Grid.Column="1" Width="26" Height="26"
                                 Style="{StaticResource SurfaceButton}" Padding="0" Margin="8,0,0,0"
                                 AutomationProperties.Name="{DynamicResource Str_TT_TagPickColor}"
                                 Cursor="Hand" BorderBrush="{DynamicResource InputBorderBrush}" BorderThickness="1"
                                 Click="NewColorSwatch_Click" ToolTip="{DynamicResource Str_TT_TagPickColor}"/>
-                        <Button x:Name="AddBtn" Content="{DynamicResource Str_Btn_TagAdd}" Click="Add_Click"
+                        <Button x:Name="AddBtn" Grid.Column="2" Content="{DynamicResource Str_Btn_TagAdd}" Click="Add_Click"
                                 Style="{StaticResource SurfaceButton}" Margin="8,0,0,0" Padding="12,0" Height="26"/>
-                    </StackPanel>
+                        <Button x:Name="DoneBtn" Grid.Column="3" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
+                                Style="{StaticResource OutlineButton}" MinWidth="64" Margin="8,0,0,0" Padding="12,2" Height="26"/>
+                    </Grid>
                     <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
-                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
 
-                <!-- Buttons -->
-                <Grid Grid.Row="2" Margin="24,0,24,18">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="DoneBtn" Content="{DynamicResource Str_Btn_Done}" Click="Close_Click"
-                                Style="{StaticResource OutlineButton}" MinWidth="80" Padding="12,2"/>
-                    </StackPanel>
-                </Grid>
             </Grid>
     </ContentControl>
 </Window>

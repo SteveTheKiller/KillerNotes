@@ -36,6 +36,29 @@ namespace KillerNotes.Tests
             finally { graph.Opacity = 0; graph.Close(); ThemeManager.Apply(previous); }
         });
 
+        [Fact]
+        public void ManageTagsKeepsTheAddAndDoneActionsOnOneCompactRow() => CardColorBehaviorTests.WithShell((_, _) =>
+        {
+            var dialog = new TagsDialog();
+            try
+            {
+                dialog.Show();
+                dialog.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                var name = (TextBox)dialog.FindName("NewNameBox");
+                var done = (Button)dialog.FindName("DoneBtn");
+                var list = (ListBox)dialog.FindName("TagList");
+                var root = (UIElement)dialog.Content;
+                Assert.InRange(System.Math.Abs(name.TranslatePoint(new Point(0, name.ActualHeight / 2), root).Y
+                    - done.TranslatePoint(new Point(0, done.ActualHeight / 2), root).Y), 0, 1);
+                Assert.False(((TextBlock)dialog.FindName("DlgStatus")).IsVisible);
+                var body = (StackPanel)((Grid)((Border)list.Parent).Parent).Parent;
+                Assert.InRange(body.Margin.Left, 8, 16);
+                Assert.InRange(body.Margin.Right, 8, 16);
+                Assert.InRange(body.Margin.Top, 4, 10);
+            }
+            finally { dialog.Opacity = 0; dialog.Close(); }
+        });
+
         private static IEnumerable<DependencyObject> Descendants(DependencyObject root)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
