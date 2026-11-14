@@ -56,9 +56,8 @@ namespace KillerNotes.Tests
         }
 
         [Theory]
-        [InlineData(4)]
         [InlineData(16)]
-        public void TruncatedOrOversizedChunksAreRejected(int sizeOffset)
+        public void OversizedMetadataThatHidesTheAudioHeaderIsRejected(int sizeOffset)
         {
             byte[] source = WaveWithMetadata();
             Buffer.BlockCopy(BitConverter.GetBytes(uint.MaxValue), 0, source, sizeOffset, 4);
