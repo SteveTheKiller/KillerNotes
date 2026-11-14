@@ -148,7 +148,7 @@ namespace KillerNotes.Shell
             });
             UpdateAccentStrip(animate: false);
             // The row is a Button in MenuRowButton style, matching KillerShell's flyout: MDL2
-            // glyph then a Consolas label, hover on the row. As a MenuItem it took the implicit
+            // glyph then the live menu font, hover on the row. As a MenuItem it took the implicit
             // MenuItem chrome and painted the whole row a solid accent bar with no icon.
             // The explicit Style is what keeps the TargetType=MenuItem ItemContainerStyle from
             // being applied to it - the same rule the Separator above follows.
@@ -163,13 +163,14 @@ namespace KillerNotes.Shell
                 Margin = new Thickness(0, 0, 8, 0),
                 VerticalAlignment = VerticalAlignment.Center,
             });
-            row.Children.Add(new TextBlock
+            var fontsLabel = new TextBlock
             {
                 Text = FindResource("Str_Fonts_Open") as string ?? "Fonts...",
-                FontFamily = new FontFamily("Consolas"),
                 FontSize = 11.5,
                 VerticalAlignment = VerticalAlignment.Center,
-            });
+            };
+            fontsLabel.SetResourceReference(TextBlock.FontFamilyProperty, "MenuFontFamily");
+            row.Children.Add(fontsLabel);
             var fonts = new Button
             {
                 Content = row,

@@ -190,10 +190,10 @@ namespace KillerNotes.Controls
             {
                 Text = L("Str_Dlg_PickColor", "Pick a color"),
                 FontSize = 14, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center,
-                Effect = new System.Windows.Media.Effects.DropShadowEffect { Color = Colors.Black, BlurRadius = 2, ShadowDepth = 1, Direction = 270, Opacity = 0.7 },
             };
             // ChromeTextBrush: the caption sits on the title band, which is dark on several themes.
             title.SetResourceReference(TextBlock.ForegroundProperty, "ChromeTextBrush");
+            title.SetResourceReference(UIElement.EffectProperty, "TextStrokeSoft");
             titleBand.Child = title;   // the card's grain shows through the transparent band
 
             // The band goes above the padded content, so it reaches the card's edges.

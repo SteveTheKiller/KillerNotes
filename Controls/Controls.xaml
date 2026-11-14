@@ -142,9 +142,7 @@
                     <Border x:Name="borderRing" IsHitTestVisible="False" CornerRadius="{Binding CornerRadius, ElementName=border}" BorderThickness="{Binding BorderThickness, ElementName=border}" BorderBrush="{Binding Background, ElementName=border}" Margin="{Binding Margin, ElementName=border}" Visibility="{Binding Visibility, ElementName=border}" Opacity="{Binding Opacity, ElementName=border}"/><Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
-                        <!-- No stroke effect on the caption: an effect rasterizes the text and blurs it
-                             at rest. PrimaryButton strokes a copy instead, but this template also
-                             carries BareButton's icon content, which cannot appear twice. -->
+                        <!-- Keep captions and icons free of effects so they stay sharp. -->
                         <ContentPresenter x:Name="label" HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                     </Border>
@@ -1459,10 +1457,10 @@
          Field rows that open a list (Tags, Group) are ordinary MenuItems with a richer Header,
          so their submenus keep the family submenu popup. No new theme keys: every brush here is
          an existing menu token. -->
-    <!-- 404 wide is a 360 card: the template's shadow halo takes 22 off each side. One fixed width
-         so the swatch row (ten colors and the picker) and six quick buttons always fit. -->
+    <!-- Cards fit their content between 280 and 404, including the 22px shadow halo on each side.
+         Swatches and quick buttons still determine the content's required width. -->
     <Style x:Key="CardMenu" TargetType="ContextMenu" BasedOn="{StaticResource {x:Type ContextMenu}}">
-        <Setter Property="MinWidth" Value="404"/>
+        <Setter Property="MinWidth" Value="280"/>
         <Setter Property="MaxWidth" Value="404"/>
         <Setter Property="Padding" Value="6"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
@@ -1576,9 +1574,10 @@
     </Style>
 
     <!-- One option of a segmented toggle: RadioButtons sharing a GroupName inside a Border
-         filled with MenuHoverBrush. The checked option lifts onto the menu surface. -->
+         filled with MenuHoverBrush. The checked option lifts onto the menu surface with the accent;
+         the others keep the plain menu text, made readable on the fill (MenuTrackTextBrush). -->
     <Style x:Key="CardSegment" TargetType="RadioButton">
-        <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource MenuTrackTextBrush}"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Padding" Value="10,3"/>
         <Setter Property="Cursor" Value="Hand"/>
@@ -1611,7 +1610,7 @@
     </Style>
 
     <!-- An independent on/off chip on a card row ("Use for: Templates / Daily notes"). Off is an
-         outline, on takes the hover fill with the text color, so on and off read apart in every
+         outline, on takes the hover fill with its contrast text color, so on and off read apart in every
          theme without a new token. -->
     <Style x:Key="CardToggle" TargetType="ToggleButton">
         <Setter Property="Foreground" Value="{DynamicResource MenuTextBrush}"/>
@@ -1634,7 +1633,7 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MenuHoverBrush}"/>
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource MenuHoverTextBrush}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
@@ -1868,7 +1867,10 @@
                                 BorderBrush="{DynamicResource BevelInnerLightBrush}" BorderThickness="{DynamicResource BevelInnerLightThickness}"/>
                         <Border x:Name="bevelOuterDark" IsHitTestVisible="False"
                                 BorderBrush="{DynamicResource BevelOuterDarkBrush}" BorderThickness="{DynamicResource BevelOuterDarkThickness}"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{DynamicResource AboutCloseGlyphMargin}"/>
+                        <TextBlock kl:GlyphInk.Center="True" Text="{TemplateBinding Content}"
+                                   FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}" Foreground="{TemplateBinding Foreground}"
+                                   TextOptions.TextFormattingMode="Ideal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -2811,6 +2813,12 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="hdrBg" Property="Background" Value="{DynamicResource RowSelectedBrush}"/>
+                        </Trigger>
+                        <!-- Headers are tab stops for the Apps key column menu: an accent edge marks keyboard focus. -->
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="hdrBg" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter TargetName="hdrBg" Property="BorderThickness" Value="1"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

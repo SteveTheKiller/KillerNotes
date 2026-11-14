@@ -110,22 +110,27 @@ namespace KillerNotes.Tests
         // The 98SE close is a 16x14 Win98 caption button with a 2 px bevel all round. Its X used
         // to fill the whole face, jammed against the left highlight and the bottom shadow. The
         // glyph's ink, not its line box, has to sit inside the face and centered on the button.
-        // The card themes' muted U+2715 sat 1.5 px low in its 28x26 slot: Segoe UI draws it
-        // below the middle of its line box, and the slot centered the line box, not the ink.
+        // Fixed offsets depend on display scaling. Center the visible ink at every DPI.
+        public static TheoryData<int, double> CloseGlyphScales()
+        {
+            var data = new TheoryData<int, double>();
+            foreach (var theme in new[] { Theme.SE98, Theme.Cyanotic, Theme.Dark, Theme.Light })
+                foreach (double dpi in new[] { 1.0, 1.25, 1.5, 2.0 }) data.Add((int)theme, dpi);
+            return data;
+        }
+
         [Theory]
-        [InlineData((int)Theme.SE98)]
-        [InlineData((int)Theme.Cyanotic)]
-        [InlineData((int)Theme.Dark)]
-        [InlineData((int)Theme.Light)]
-        public void TheCloseGlyphIsCenteredInItsButton(int themeId) => WithTheme((Theme)themeId, "en-US", () =>
+        [MemberData(nameof(CloseGlyphScales))]
+        public void TheCloseGlyphIsCenteredInItsButton(int themeId, double dpi) => WithTheme((Theme)themeId, "en-US", () =>
         {
             var win = new PasswordDialog("Heading", "Detail", "OK") { Width = 400 };
-            FrameworkElement content = Host(win);
+            FrameworkElement content = Host(win, dpi);
             var style = Application.Current.TryFindResource("OverlayCloseButton");
             var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
             var text = Descendants(close).OfType<TextBlock>().First();
             var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black, 1.0);
+                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black,
+                null, TextOptions.GetTextFormattingMode(text), VisualTreeHelper.GetDpi(text).PixelsPerDip);
             Point origin = text.TransformToAncestor(close).Transform(new Point(0, 0));
             Rect ink = ft.BuildGeometry(origin).Bounds;
             double w = close.ActualWidth, h = close.ActualHeight;
@@ -140,17 +145,22 @@ namespace KillerNotes.Tests
 
         // On the card themes the close button has no visible face, so the X reads against the
         // card's corner: its ink sits as far in from the right edge as down from the top edge.
+        public static TheoryData<int, string, double> CloseCornerScales()
+        {
+            var data = new TheoryData<int, string, double>();
+            foreach (var theme in new[] { Theme.Cyanotic, Theme.Dark, Theme.Light })
+                foreach (string dialog in new[] { "Confirm", "Password" })
+                    foreach (double dpi in new[] { 1.0, 1.25, 1.5, 2.0 }) data.Add((int)theme, dialog, dpi);
+            return data;
+        }
+
         [Theory]
-        [InlineData((int)Theme.Cyanotic, "Confirm")]
-        [InlineData((int)Theme.Cyanotic, "Password")]
-        [InlineData((int)Theme.Dark, "Confirm")]
-        [InlineData((int)Theme.Dark, "Password")]
-        [InlineData((int)Theme.Light, "Password")]
-        public void TheCardCloseXSitsInTheCorner(int themeId, string dialog) => WithTheme((Theme)themeId, "en-US", () =>
+        [MemberData(nameof(CloseCornerScales))]
+        public void TheCardCloseXSitsInTheCorner(int themeId, string dialog, double dpi) => WithTheme((Theme)themeId, "en-US", () =>
         {
             Window win = dialog == "Confirm" ? new ConfirmDialog("Heading", "Detail", "OK") : new PasswordDialog("Heading", "Detail", "OK");
             win.Width = 400;
-            FrameworkElement content = Host(win);
+            FrameworkElement content = Host(win, dpi);
             var style = Application.Current.TryFindResource("OverlayCloseButton");
             var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
             DependencyObject cardObj = close;
@@ -158,7 +168,8 @@ namespace KillerNotes.Tests
             var card = (FrameworkElement)cardObj;
             var text = Descendants(close).OfType<TextBlock>().First();
             var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black, 1.0);
+                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black,
+                null, TextOptions.GetTextFormattingMode(text), VisualTreeHelper.GetDpi(text).PixelsPerDip);
             Rect ink = ft.BuildGeometry(text.TransformToAncestor(card).Transform(new Point(0, 0))).Bounds;
 
             double fromTop = ink.Top + ink.Height / 2;
@@ -285,12 +296,13 @@ namespace KillerNotes.Tests
 
         /// <summary>Lays a window's content out at the window's width without showing it, carrying
         /// the text settings the content would inherit from the window.</summary>
-        private static FrameworkElement Host(Window win)
+        private static FrameworkElement Host(Window win, double dpi = 1.0)
         {
             double width = double.IsNaN(win.Width) ? 520 : win.Width;
             var content = (FrameworkElement)win.Content;
             win.Content = null;
             var host = new Grid { Width = width };
+            VisualTreeHelper.SetRootDpi(host, new DpiScale(dpi, dpi));
             foreach (var dp in new DependencyProperty[] { TextElement.ForegroundProperty, TextElement.FontFamilyProperty,
                          TextElement.FontSizeProperty, TextOptions.TextFormattingModeProperty })
                 host.SetValue(dp, win.GetValue(dp));

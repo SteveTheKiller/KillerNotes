@@ -13,12 +13,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Undoing a duplicate or template creation cannot delete a newer note, including after a password change.
 - Failed template copies leave no partial note or group, and unreadable source content reports an error instead of creating an empty copy.
 - Markdown exports preserve user-created and modified files in their media folder.
+- Recording edits wait for transcription, and completed transcripts stay with their original recording.
+- Read-only notepads reject tag changes without altering displayed tags or reporting a save.
 - Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.
 - Switching notes and refreshing the sidebar avoid rereading or rewriting large pictures. Existing notepads receive a one-time layout update and remain compatible with older versions.
 - Imported groups appear in every picker immediately, and nested groups stay under their parents regardless of alphabetical order.
 - The group manager's custom color picker changes the intended note. Open managers and color menus refresh after a language change.
 - Fast clicks no longer start unintended note or group drags.
 - Mouse-wheel scrolling follows Windows' line and page settings.
+- Keyboard context menus follow the current editor selection and focused folder. Sketchpad and dictation cards support keyboard opening and focus return.
+- Dialog close glyphs stay centered at different display scales.
 - Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, the footer note-count inset, and the doubled left border in Rendered view are corrected.
 
 ### Changed
@@ -29,6 +33,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Preview menus offer Source, Rendered, and Split with shortcuts; F4 cycles through them.
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button. Empty sidebar space no longer opens a menu.
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
+- Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
 - Help, technical documentation, and translated landing pages cover the new menus and group workflows. The landing shortcut list matches the in-app overlay.
 
 ### Added

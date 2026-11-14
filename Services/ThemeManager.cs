@@ -1332,6 +1332,10 @@ namespace KillerNotes.Services
                 ? combined["ComboHighlightTextBrush"]
                 : Frozen(ColorContrast.ReadableOn(hoverAccent.Color, hoverFill.Color, 4.5));
 
+            // Options that sit on the hover fill without being picked (a card segment's other choices) keep the
+            // plain menu text color; the accent marks only the picked one.
+            combined["MenuTrackTextBrush"] = ColorContrast.MenuTrackText(combined);
+
             // A dialog's caption band. TRANSPARENT by default, so the band shows the card's own
             // face and is invisible - the family look, where a dialog title blends into the
             // surface. A theme that genuinely wants a distinct caption declares UseDialogCaption
