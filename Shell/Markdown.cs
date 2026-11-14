@@ -10,16 +10,8 @@
 // working untouched: FindBar's adorner walk, GlobalReplace, dictation, caret and scroll
 // persistence, word wrap. Swapping in a TextBox for markdown notes would have forked all of it.
 //
-// The consequence to keep in mind: markdown notes ARE plain text. ApplyFormatMode hides the
-// format bar, and RejectsObject blocks the four paths that would put a non-text object into the
-// document - an image, a table, a sketch or an embedded recording. Those are the ones that
-// actually lose data: MarkdownBlobFromEditor walks Runs and LineBreaks only, so an object in a
-// markdown note is gone at the next autosave with nothing on screen to say so.
-//
-// Formatting is deliberately NOT blocked. Bold applied by Ctrl+B loses the weight on save but
-// keeps every character, so the text survives; refusing the keystroke would be a bigger
-// surprise than the formatting quietly not sticking. Objects are the opposite: the whole thing
-// disappears, so those are refused up front.
+// Markdown tools write source characters rather than document formatting or embedded objects.
+// Unsupported media objects remain blocked because their contents cannot survive a text save.
 //
 // Paragraph margins are zeroed for markdown. The rich-text default puts space between
 // paragraphs, and since every line of markdown source is its own paragraph, that default
@@ -45,6 +37,7 @@ namespace KillerNotes.Shell
         private int _currentFormat;
 
         private bool CurrentIsMarkdown => _currentFormat == Note.FormatMarkdown;
+        private bool UsesMarkdownTools => CurrentIsMarkdown || _docKind == DocKind.Markdown;
 
         // ---- Load / save ----
 
@@ -68,16 +61,14 @@ namespace KillerNotes.Shell
 
         // ---- Mode gating ----
 
-        /// <summary>Turns the rich-text affordances off for a markdown note and back on for a
-        /// rich one. Called by OpenNote after the content is in.</summary>
+        /// <summary>Keep the same bar while adapting its tools to the note's source format.</summary>
         private void ApplyFormatMode()
         {
-            bool md = CurrentIsMarkdown;
-            // The format bar has no meaning over plain text, nor over a trashed note that is
-            // read-only (Trash.cs). Collapsed rather than disabled: a row of dead buttons
-            // invites clicking them.
-            FormatBar?.Visibility = md || _currentInTrash ? Visibility.Collapsed : Visibility.Visible;
-            if (FormatBar != null) ClearTitleOfFormatBar();   // FormatBar.cs - collapsing raises no SizeChanged
+            if (FormatBar == null) return;
+            FormatBar.Visibility = _currentInTrash ? Visibility.Collapsed : Visibility.Visible;
+            UpdateFormatBarDensity(0);
+            UpdatePreviewPickerVisibility();
+            ClearTitleOfFormatBar();
         }
 
         /// <summary>True when the open note is markdown and therefore cannot hold the object the

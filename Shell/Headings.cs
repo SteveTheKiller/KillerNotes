@@ -37,7 +37,7 @@ namespace KillerNotes.Shell
             var paras = ParagraphsInSelection();   // Checklist.cs
             if (paras.Count == 0) return;
             level = Math.Max(0, Math.Min(Headings.MaxLevel, level));
-            bool md = CurrentIsMarkdown;
+            bool md = UsesMarkdownTools;
             Editor.BeginChange();   // one undo step for the whole selection
             try
             {
@@ -63,7 +63,7 @@ namespace KillerNotes.Shell
         }
 
         private int HeadingLevelOf(Paragraph p) =>
-            CurrentIsMarkdown ? Headings.LevelOfMarkdown(TextOf(p)) : Headings.LevelOf(p, Editor.FontSize);
+            UsesMarkdownTools ? Headings.LevelOfMarkdown(TextOf(p)) : Headings.LevelOf(p, Editor.FontSize);
 
         private void SetRichHeading(Paragraph p, int level)
         {

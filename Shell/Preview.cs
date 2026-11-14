@@ -388,6 +388,7 @@ namespace KillerNotes.Shell
             EditorCol.MinWidth = split ? 200 : 0;
             PreviewCol.MinWidth = split ? 200 : 0;
             PreviewSplitter.Visibility = split ? Visibility.Visible : Visibility.Collapsed;
+            ApplyFormatMode();
             QueuePreviewMinimum();
             SyncPreviewMenuChecks();
             if (persist) App.SetSetting(PreviewModeSettingKey, mode.ToString());

@@ -45,6 +45,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 
+- Markdown toolbars and context cards insert source syntax for formatting, headings, lists, links, pipe tables, and horizontal rules.
 - Group manager (Alt+Shift+O) with a searchable group tree and sortable note table, drag-and-drop organization, shared context cards, rename, delete, and undo.
 - Duplicate note (Alt+Shift+U), Save as template (Alt+Shift+T), New note in this group (Alt+Shift+H), and Collapse all groups (Alt+Shift+Z).
 - A New note in group submenu lists every group and starts a note there.

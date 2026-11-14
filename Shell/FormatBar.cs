@@ -265,23 +265,27 @@ namespace KillerNotes.Shell
         // the parameter is named _ rather than left looking like an input somebody forgot to read.
         private void UpdateFormatBarDensity(double _)
         {
-            SetVisible(FmtItalicBtn, true);
-            SetVisible(FmtUnderlineBtn, true);
-            SetVisible(FmtStrikeBtn, true);
-            SetVisible(FmtMonoBtn, true);
-            SetVisible(FmtFontSeparator, true);
-            SetVisible(FontSizeBtn, true);
-            SetVisible(FmtColorSeparator, true);
-            SetVisible(TextColorBtn, true);
-            SetVisible(FmtListSeparator, true);
-            SetVisible(FmtBulletsBtn, true);
-            SetVisible(FmtNumberingBtn, true);
-            SetVisible(FmtCheckBtn, true);
-            SetVisible(FmtHeadingBtn, true);
-            SetVisible(FmtInsertSeparator, true);
-            SetVisible(FmtRuleBtn, true);
-            SetVisible(TableBtn, true);
-            SetVisible(FmtImageBtn, true);
+            bool md = UsesMarkdownTools;
+            bool editing = !md || _previewMode != PreviewMode.Rendered;
+            SetVisible(FmtBoldBtn, editing);
+            SetVisible(FmtItalicBtn, editing);
+            SetVisible(FmtUnderlineBtn, editing && !md);
+            SetVisible(FmtStrikeBtn, editing);
+            SetVisible(FmtMonoBtn, editing);
+            SetVisible(FmtFontSeparator, editing && !md);
+            SetVisible(FontSizeBtn, editing && !md);
+            SetVisible(FmtColorSeparator, editing && !md);
+            SetVisible(TextColorBtn, editing && !md);
+            SetVisible(FmtListSeparator, editing);
+            SetVisible(FmtBulletsBtn, editing);
+            SetVisible(FmtNumberingBtn, editing);
+            SetVisible(FmtCheckBtn, editing);
+            SetVisible(FmtHeadingBtn, editing);
+            SetVisible(FmtInsertSeparator, editing);
+            SetVisible(FmtRuleBtn, editing);
+            SetVisible(TableBtn, editing);
+            SetVisible(FmtLinkBtn, editing && md);
+            SetVisible(FmtImageBtn, editing && !md);
             SetVisible(FmtEndSeparator, true);
         }
 

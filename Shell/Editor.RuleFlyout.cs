@@ -135,7 +135,7 @@ namespace KillerNotes.Shell
 
         private void OpenRuleFlyout()
         {
-            if (_currentId < 0) return;
+            if (_currentId < 0 || UsesMarkdownTools) return;
             // A selection holding rules shows the first one's style, so the flyout reads what it
             // is about to change; otherwise it shows the style the next rule will get.
             _ruleShown = RuleStyle.RulesIn(Editor.Document.Blocks, Editor.Selection).Select(RuleStyle.Read).FirstOrDefault()

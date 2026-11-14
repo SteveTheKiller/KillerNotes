@@ -2,7 +2,9 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
+using KillerFamily.Controls;
 
 namespace KillerNotes.Shell
 {
@@ -67,6 +69,9 @@ namespace KillerNotes.Shell
             EditorPasteBtn.IsEnabled = ApplicationCommands.Paste.CanExecute(null, Editor);
             EditorLinkBtn.Visibility = Show(!onObject);
             EditorListBtn.Visibility = Show(!onObject && hasText);
+            bool markdown = !onObject && UsesMarkdownTools;
+            MarkdownFormatSlot.Visibility = MarkdownInsertSlot.Visibility = Show(markdown);
+            if (markdown) FillMarkdownCard();
             RecSlot.Visibility = Show(onRecording);
             DocToggleSlot.Visibility = Show(!onObject);
             PageWidthSlot.Visibility = Show(!onObject);
@@ -76,6 +81,45 @@ namespace KillerNotes.Shell
             WordWrapToggle.IsChecked = _wordWrap;
             SyntaxToggle.IsChecked = _syntaxHighlight;
             SpellToggle.IsChecked = Editor.SpellCheck.IsEnabled;
+        }
+
+        private void FillMarkdownCard()
+        {
+            bool writable = CanEditCurrentNote(explain:false);
+            CardAction Action(string glyph, string caption, string label, string gesture, Action run) =>
+                new(glyph,caption,Loc(label),gesture,run,writable);
+            Put(MarkdownFormatSlot,false,
+                Action("\uE8DD","**","Str_Kb_Bold","Ctrl+B",() => EditingCommands.ToggleBold.Execute(null,Editor)),
+                Action("\uE8DB","*","Str_Kb_Italic","Ctrl+I",() => EditingCommands.ToggleItalic.Execute(null,Editor)),
+                Action("\uEDE0","~~","Str_KS_Strike","Ctrl+Shift+S",() => Strike_Click(this,new RoutedEventArgs())),
+                Action("\uE943","`","Str_KS_Mono","Ctrl+Shift+M",() => Mono_Click(this,new RoutedEventArgs())),
+                Action("\uE8A5","#","Str_Kb_Heading","Alt+1 / Alt+2 / Alt+3",() => Heading_Click(this,new RoutedEventArgs())));
+            Put(MarkdownInsertSlot,true,
+                Action("\uE8FD","-","Str_Kb_Bullets","Ctrl+Shift+L",() => EditingCommands.ToggleBullets.Execute(null,Editor)),
+                Action("\uEA37","1.","Str_Kb_Numbered","Ctrl+Shift+N",() => EditingCommands.ToggleNumbering.Execute(null,Editor)),
+                Action("\uE73A","[ ]","Str_Kb_Checkbox","Alt+C",() => Checkbox_Click(this,new RoutedEventArgs())),
+                Action("\uE8A9","| |","Str_KS_Table","Ctrl+Shift+T",() => TableBtn_Click(this,new RoutedEventArgs())),
+                Action("\uE738","---","Str_KS_Rule","Ctrl+Shift+R",() => InsertRule_Click(this,new RoutedEventArgs())));
+
+            void Put(MenuItem slot, bool rule, params CardAction[] actions)
+            {
+                var row = CardBuilder.QuickStrip(Loc("Str_Card_Markdown"),actions);
+                var header = (Border)row.Header;
+                row.Header = null;
+                header.BorderThickness = new Thickness(0,0,0,rule ? 1 : 0);
+                if (slot == MarkdownFormatSlot)
+                {
+                    var button = (Button)((UniformGrid)header.Child).Children[4];
+                    button.Content = "H";
+                    button.ApplyTemplate();
+                    if (button.Template.FindName("Glyph",button) is TextBlock heading)
+                    {
+                        heading.SetResourceReference(TextBlock.FontFamilyProperty,"UiFont");
+                        heading.FontWeight = FontWeights.Bold;
+                    }
+                }
+                slot.Header = header;
+            }
         }
     }
 }

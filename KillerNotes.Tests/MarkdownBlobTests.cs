@@ -169,7 +169,7 @@ namespace KillerNotes.Tests
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void MarkdownEditorRefusesNativeListCommands(bool numbered) => Sta.Run(() =>
+        public void MarkdownEditorUsesTextListMarkersInsteadOfNativeLists(bool numbered) => Sta.Run(() =>
         {
             var editor = new System.Windows.Controls.RichTextBox();
             MarkdownEditing.Attach(editor, () => true);
@@ -179,7 +179,7 @@ namespace KillerNotes.Tests
             var command = numbered ? EditingCommands.ToggleNumbering : EditingCommands.ToggleBullets;
             command.Execute(null, editor);
             Assert.Empty(editor.Document.Blocks.OfType<List>());
-            Assert.Equal("keep this text", MarkdownBlob.TextOf(editor.Document));
+            Assert.Equal((numbered ? "1. " : "- ") + "keep this text", MarkdownBlob.TextOf(editor.Document));
         });
 
         [Theory]

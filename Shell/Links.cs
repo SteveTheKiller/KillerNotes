@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using KillerNotes.Controls;
@@ -59,19 +60,44 @@ namespace KillerNotes.Shell
 
         private void LinkMenu_Click(object sender, RoutedEventArgs e) => LinkShortcut();
 
+        private void MarkdownLink_ToolTipOpening(object sender, ToolTipEventArgs e) =>
+            ((Button)sender).ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(Loc("Str_Ctx_Link"),"Ctrl+K");
+
         private void LinkShortcut()
         {
             if (!CanEditCurrentNote()) return;
-            var existing = FindLink(Editor.Selection.Start) ?? FindLink(Editor.Selection.End);
-            string initial = existing?.NavigateUri?.OriginalString ?? GuessClipboardUrl();
+            var markdownLink = UsesMarkdownTools ? MarkdownLinkAtSelection() : null;
+            var existing = UsesMarkdownTools ? null : FindLink(Editor.Selection.Start) ?? FindLink(Editor.Selection.End);
+            string initial = markdownLink?.Address ?? existing?.NavigateUri?.OriginalString ?? GuessClipboardUrl();
 
             var dlg = new InputDialog(
-                Loc(existing is null ? "Str_Dlg_LinkAdd" : "Str_Dlg_LinkEdit"),
+                Loc(existing is null && markdownLink == null ? "Str_Dlg_LinkAdd" : "Str_Dlg_LinkEdit"),
                 initial, Loc("Str_Btn_Link")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
             string raw = dlg.Value.Trim();
+            if (UsesMarkdownTools)
+            {
+                if (raw.Length == 0 && markdownLink == null) return;
+                Uri? destination = raw.Length == 0 ? null : ParseUrl(raw);
+                if (raw.Length > 0 && destination == null) { FlashStatus(Loc("Str_St_LinkBad")); return; }
+                string label = markdownLink?.Label ?? (Editor.Selection.IsEmpty ? raw : Editor.Selection.Text.TrimEnd('\r','\n'));
+                if (label.IndexOfAny(new[] { '\r','\n' }) >= 0) { FlashStatus(Loc("Str_St_LinkNotText")); return; }
+                if (markdownLink == null) label = label.Replace("\\","\\\\").Replace("[","\\[").Replace("]","\\]");
+                string address = destination?.AbsoluteUri.Replace("(","%28").Replace(")","%29") ?? "";
+                Editor.BeginChange();
+                try
+                {
+                    var range = markdownLink?.Range ?? new TextRange(Editor.Selection.Start,Editor.Selection.End);
+                    range.Text = destination == null ? label : "["+label+"]("+address+")";
+                    Editor.CaretPosition = range.End;
+                }
+                finally { Editor.EndChange(); }
+                MarkDirty();
+                Editor.Focus();
+                return;
+            }
             if (existing != null)
             {
                 if (raw.Length == 0) { Unlink(existing); MarkDirty(); return; }   // cleared = unlink
@@ -103,6 +129,40 @@ namespace KillerNotes.Shell
                 catch (ArgumentException) { FlashStatus(Loc("Str_St_LinkNotText")); return; }
             }
             MarkDirty();
+        }
+
+        private (TextRange Range, string Label, string Address)? MarkdownLinkAtSelection()
+        {
+            var selection = Editor.Selection;
+            var paragraph = selection.Start.Paragraph;
+            if (paragraph == null || selection.End.GetInsertionPosition(LogicalDirection.Backward)?.Paragraph != paragraph) return null;
+            int start = new TextRange(paragraph.ContentStart,selection.Start).Text.Length;
+            int end = new TextRange(paragraph.ContentStart,selection.End.CompareTo(paragraph.ContentEnd) > 0 ? paragraph.ContentEnd : selection.End).Text.Length;
+            foreach (Match match in Regex.Matches(TextOf(paragraph),@"(?<!!)\[(?<label>(?:\\.|[^\]\\\r\n])*)\]\((?<url><[^>\r\n]*>|[^()\r\n]*(?:\([^()\r\n]*\)[^()\r\n]*)*)\)"))
+            {
+                if (start < match.Index || end > match.Index+match.Length) continue;
+                return (new TextRange(At(match.Index),At(match.Index+match.Length)),match.Groups["label"].Value,
+                    match.Groups["url"].Value.Trim('<','>'));
+            }
+            return null;
+
+            TextPointer At(int offset)
+            {
+                var position = paragraph.ContentStart;
+                while (position.CompareTo(paragraph.ContentEnd) < 0)
+                {
+                    if (position.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                    {
+                        int length = position.GetTextInRun(LogicalDirection.Forward).Length;
+                        if (offset <= length) return position.GetPositionAtOffset(offset,LogicalDirection.Forward);
+                        offset -= length;
+                    }
+                    else if (position.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.ElementStart
+                        && position.GetAdjacentElement(LogicalDirection.Forward) is LineBreak) offset -= 2;
+                    position = position.GetNextContextPosition(LogicalDirection.Forward) ?? paragraph.ContentEnd;
+                }
+                return paragraph.ContentEnd;
+            }
         }
 
         /// <summary>Bare "thekiller.net" style input gets https:// prepended; anything
@@ -152,6 +212,7 @@ namespace KillerNotes.Shell
 
         private void AutoLinkWordBeforeCaret()
         {
+            if (UsesMarkdownTools) return;
             try
             {
                 if (_currentId < 0 || !Editor.Selection.IsEmpty || !CanEditCurrentNote(explain: false)) return;

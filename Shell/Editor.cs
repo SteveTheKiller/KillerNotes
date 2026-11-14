@@ -34,7 +34,7 @@ namespace KillerNotes.Shell
             Editor.FocusVisualStyle = focusStyle;
 
             DataObject.AddPastingHandler(Editor, Editor_OnPaste);
-            MarkdownEditing.Attach(Editor, () => CurrentIsMarkdown);
+            MarkdownEditing.Attach(Editor, () => UsesMarkdownTools);
             InitLinks();         // Links.cs (clickable + pasted + Ctrl+K hyperlinks)
             InitTiltWheel();     // TiltWheel.cs (WM_MOUSEHWHEEL + Shift+wheel, issue #9)
             InitEditorFade();    // EditorFade.cs (top and bottom fades while there is more to scroll)

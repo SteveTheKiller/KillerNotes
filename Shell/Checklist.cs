@@ -51,7 +51,7 @@ namespace KillerNotes.Shell
             if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly) return;
             var paras = ParagraphsInSelection();
             if (paras.Count == 0) return;
-            bool md = CurrentIsMarkdown;
+            bool md = UsesMarkdownTools;
             bool add = paras.Any(p => Checklist.Of(TextOf(p), md) == Checklist.State.None);
             Editor.BeginChange();   // one undo step for the whole selection
             try
@@ -146,7 +146,7 @@ namespace KillerNotes.Shell
         /// <summary>Flips the box on a line: the glyph in rich text, the marker in markdown.</summary>
         private void FlipBox(Paragraph p)
         {
-            bool md = CurrentIsMarkdown;
+            bool md = UsesMarkdownTools;
             var state = Checklist.Of(TextOf(p), md);
             if (state == Checklist.State.None) return;
             var head = Head(p);
@@ -168,7 +168,7 @@ namespace KillerNotes.Shell
             {
                 var pos = Editor.GetPositionFromPoint(pt, false);
                 if (pos?.Paragraph is not Paragraph p) return null;
-                bool md = CurrentIsMarkdown;
+                bool md = UsesMarkdownTools;
                 if (Checklist.Of(LeadingText(p, Checklist.MdEmpty.Length), md) == Checklist.State.None) return null;
                 var head = Head(p);
                 var (from, to) = Checklist.BoxSpan(md);
@@ -209,7 +209,7 @@ namespace KillerNotes.Shell
             if (e.Key != Key.Return || Keyboard.Modifiers != ModifierKeys.None) return;
             if (_currentId < 0 || _currentInTrash || NoteStore.IsReadOnly || WikiPopupOpen) return;
             if (Editor.CaretPosition.Paragraph is not Paragraph p) return;
-            bool md = CurrentIsMarkdown;
+            bool md = UsesMarkdownTools;
             string text = TextOf(p);
             if (Checklist.Of(text, md) == Checklist.State.None) return;
 

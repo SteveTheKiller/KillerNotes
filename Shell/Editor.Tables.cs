@@ -225,6 +225,7 @@ namespace KillerNotes.Shell
         {
             if (_currentId < 0) return;
             TablePickerStyleBtn.IsEnabled = CellAt(Editor.Selection.Start) != null && CanEditCurrentNote(explain: false);
+            TablePickerStyleBtn.Visibility = UsesMarkdownTools ? Visibility.Collapsed : Visibility.Visible;
             _tblCols = _tblRows = 0;
             TableSizeLabel.Text = Loc("Str_Lbl_Size");   // same key as its XAML default
             foreach (Border b in TableSizeCells.Children)
@@ -303,6 +304,16 @@ namespace KillerNotes.Shell
         private void InsertTable(int rows, int cols)
         {
             if (!CanEditCurrentNote()) return;
+            if (UsesMarkdownTools)
+            {
+                var lines = new System.Collections.Generic.List<string>();
+                lines.Add("| " + string.Join(" | ", Enumerable.Range(1,cols).Select(i => Loc("Str_TableStyle_Column")+" "+i)) + " |");
+                lines.Add("| " + string.Join(" | ", Enumerable.Repeat("---",cols)) + " |");
+                for (int row=1; row<rows; row++) lines.Add("| " + string.Join(" | ", Enumerable.Repeat("",cols)) + " |");
+                MarkdownEditing.InsertBlock(Editor,string.Join("\n",lines));
+                MarkDirty();
+                return;
+            }
             // A table cannot survive in a markdown note's stored text (Markdown.cs).
             if (RejectsObject()) return;
 

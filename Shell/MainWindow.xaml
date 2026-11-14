@@ -2226,6 +2226,9 @@
                             </StackPanel>
                         </Border>
                     </Popup>
+                    <Button x:Name="FmtLinkBtn" Style="{StaticResource FmtButton}" Content="&#xE71B;" Visibility="Collapsed"
+                            ToolTip="{DynamicResource Str_Ctx_Link}" AutomationProperties.Name="{DynamicResource Str_Ctx_Link}"
+                            AutomationProperties.AcceleratorKey="Ctrl+K" Click="LinkMenu_Click" ToolTipOpening="MarkdownLink_ToolTipOpening"/>
                     <!-- Insert an image from a file (Editor.cs); paste and drag-and-drop are the other two ways in.
                          Icon = the SketchPad's own add-image picture (framed photo + mountain + sun), drawn as shapes
                          (the plain E91B glyph read as a bare rectangle) and theme-reactive via TextBrush. -->
@@ -2345,6 +2348,10 @@
                                         </Border>
                                     </MenuItem.Header>
                                 </MenuItem>
+                                <MenuItem x:Name="MarkdownFormatSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
+                                          AutomationProperties.Name="{DynamicResource Str_Card_Markdown}"/>
+                                <MenuItem x:Name="MarkdownInsertSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
+                                          AutomationProperties.Name="{DynamicResource Str_Card_Markdown}"/>
                                 <!-- The recording under the pointer (Editor.Dictation.cs). -->
                                 <MenuItem x:Name="RecSlot" Style="{StaticResource CardSlot}" Padding="0" Visibility="Collapsed"
                                           AutomationProperties.Name="{DynamicResource Str_Dict_Share}">

@@ -198,6 +198,11 @@ namespace KillerNotes.Shell
 
         private void Strike_Click(object sender, RoutedEventArgs e)
         {
+            if (UsesMarkdownTools)
+            {
+                if (!CanEditCurrentNote()) return;
+                MarkdownEditing.ToggleInline(Editor,"~~"); MarkDirty(); return;
+            }
             var cur = Editor.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
             bool has = cur is TextDecorationCollection tdc &&
                        tdc.Any(d => d.Location == TextDecorationLocation.Strikethrough);
@@ -207,6 +212,11 @@ namespace KillerNotes.Shell
 
         private void Mono_Click(object sender, RoutedEventArgs e)
         {
+            if (UsesMarkdownTools)
+            {
+                if (!CanEditCurrentNote()) return;
+                MarkdownEditing.ToggleInline(Editor,"`"); MarkDirty(); return;
+            }
             var cur = Editor.Selection.GetPropertyValue(TextElement.FontFamilyProperty) as FontFamily;
             bool mono = cur?.Source?.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
             ApplyToSelection(TextElement.FontFamilyProperty, new FontFamily(mono ? "Segoe UI" : "Consolas"));
@@ -229,6 +239,10 @@ namespace KillerNotes.Shell
         {
             if (!CanEditCurrentNote()) return;
             RulePopup.IsOpen = false;
+            if (UsesMarkdownTools)
+            {
+                MarkdownEditing.InsertBlock(Editor,"---"); MarkDirty(); return;
+            }
             var hr = RuleStyle.Create(CurrentRuleStyle());
             var para = Editor.CaretPosition.Paragraph;
             if (para != null && para.Parent is FlowDocument doc) doc.Blocks.InsertAfter(para, hr);
