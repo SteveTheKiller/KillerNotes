@@ -280,7 +280,7 @@ namespace KillerNotes.Shell
         {
             double dip = VisualTreeHelper.GetDpi(picker).PixelsPerDip;
             double TextWidth(string text, Typeface face, double size) => new FormattedText(text, CultureInfo.CurrentUICulture,
-                FlowDirection.LeftToRight, face, size, Brushes.Black, dip).WidthIncludingTrailingWhitespace;
+                FlowDirection.LeftToRight, face, size, picker.Foreground, dip).WidthIncludingTrailingWhitespace;
             var font = new Typeface(picker.FontFamily, picker.FontStyle, picker.FontWeight, picker.FontStretch);
             double label = Math.Max(TextWidth(Loc("Str_Preview_Source"), font, picker.FontSize),
                 Math.Max(TextWidth(Loc("Str_Preview_Rendered"), font, picker.FontSize), TextWidth(Loc("Str_Preview_Split"), font, picker.FontSize)));
