@@ -66,6 +66,7 @@ namespace KillerNotes.Shell
         // What the last right-click landed on. Captured on the button press because by the time the
         // context menu opens the mouse is over the menu, not over the document.
         private FrameworkElement? _ctxObject;
+        private bool _editorContextFromMouse;
 
         // ---- drag-to-place state ----
         private FrameworkElement? _dragObject;
@@ -420,6 +421,7 @@ namespace KillerNotes.Shell
         private void Editor_ObjectRightPress(object sender, MouseButtonEventArgs e)
         {
             _ctxObject = FloatableAt(e.OriginalSource);
+            _editorContextFromMouse = true;
         }
 
         /// <summary>
@@ -430,6 +432,10 @@ namespace KillerNotes.Shell
         /// </summary>
         private void Editor_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
+            // A captured mouse target belongs to one opening. Keep it through the action's
+            // close-then-run callback, but never reuse it for a later keyboard opening.
+            if (!_editorContextFromMouse) _ctxObject = null;
+            _editorContextFromMouse = false;
             bool onObject = _ctxObject != null;
             // Whitespace does not count: "convert to list" on a selected space is a no-op that looks
             // like a broken command.
@@ -474,6 +480,7 @@ namespace KillerNotes.Shell
         /// </summary>
         private void Editor_ContextMenuClosing(object sender, ContextMenuEventArgs e)
         {
+            _editorContextFromMouse = false;
             PreviewMenuItem.Visibility = _currentId >= 0 && _docKind != DocKind.None
                 ? Visibility.Visible : Visibility.Collapsed;
         }

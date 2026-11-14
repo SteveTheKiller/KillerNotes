@@ -16,6 +16,32 @@ namespace KillerNotes.Tests
     [Collection("Application resources")]
     public sealed class EditorCardContextTests
     {
+        [Fact]
+        public void KeyboardMenuUsesTheCurrentTextSelectionAfterAnImageMenuCloses() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            var editor = (RichTextBox)window.FindName("Editor");
+            var image = Picture();
+            var words = new Paragraph(new Run("Selected words"));
+            editor.Document.Blocks.Clear();
+            editor.Document.Blocks.Add(new Paragraph(new InlineUIContainer(image)));
+            editor.Document.Blocks.Add(words);
+            WithEditor(editor, () =>
+            {
+                Open(window, editor, image);
+                Close(editor);
+                editor.Selection.Select(words.ContentStart, words.ContentEnd);
+                editor.Focus();
+                InputManager.Current.ProcessInput(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(editor), 0, Key.Apps)
+                    { RoutedEvent = Keyboard.KeyUpEvent, Source = editor });
+                editor.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+
+                Assert.True(editor.ContextMenu.IsOpen);
+                Assert.Equal(Visibility.Visible, ((MenuItem)window.FindName("DocToggleSlot")).Visibility);
+                Assert.Equal(Visibility.Visible, ((Button)window.FindName("EditorListBtn")).Visibility);
+                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("RecSlot")).Visibility);
+            });
+        });
+
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
