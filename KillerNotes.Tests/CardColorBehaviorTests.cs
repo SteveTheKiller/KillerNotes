@@ -110,11 +110,30 @@ namespace KillerNotes.Tests
             }
             finally
             {
+                if (window != null) PinAutomationNames(window,new System.Collections.Generic.HashSet<DependencyObject>());
+                if (window?.FindName("RootGrid") is Grid root)
+                {
+                    root.BeginAnimation(UIElement.OpacityProperty,null);
+                    root.Opacity = 0;
+                }
                 window?.Close();
                 MainWindow.DemoMode = previousDemo;
                 app.Resources.MergedDictionaries.Clear();
                 foreach (var resource in saved) app.Resources.MergedDictionaries.Add(resource);
             }
         });
+
+        private static void PinAutomationNames(DependencyObject node, System.Collections.Generic.HashSet<DependencyObject> seen)
+        {
+            if (!seen.Add(node)) return;
+            if (node is FrameworkElement element)
+            {
+                AutomationProperties.SetName(element,AutomationProperties.GetName(element) ?? "");
+                if (element.ContextMenu != null) PinAutomationNames(element.ContextMenu,seen);
+            }
+            foreach (var child in LogicalTreeHelper.GetChildren(node).OfType<DependencyObject>()) PinAutomationNames(child,seen);
+            if (node is Visual)
+                for (int i=0;i<VisualTreeHelper.GetChildrenCount(node);i++) PinAutomationNames(VisualTreeHelper.GetChild(node,i),seen);
+        }
     }
 }
