@@ -298,6 +298,7 @@ namespace KillerNotes.Shell
             double minH = FmtPeekHeight
                 + FormatBar.BorderThickness.Top + FormatBar.BorderThickness.Bottom;
             _fmtMinimized = !_fmtMinimized;
+            UpdatePreviewPickerVisibility();
             if (_fmtMinimized) ClearTitleOfFormatBar();
 
             if (_fmtMinimized)

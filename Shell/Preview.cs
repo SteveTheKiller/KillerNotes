@@ -182,11 +182,11 @@ namespace KillerNotes.Shell
             // The outline reads # headings from a detected markdown note (Headings.cs), and it is
             // built before this runs on a note load, so a change of kind rebuilds it.
             if (_docKind != previousKind) RefreshOutline();
+            ApplyFormatMode();
             bool detected = _docKind != DocKind.None;
             PreviewMenuItem.Visibility = detected ? Visibility.Visible : Visibility.Collapsed;
             PreviewModeBtn.Visibility = PreviewMenuItem.Visibility;
-            PreviewTitleBtn.Visibility = detected && FormatBar.Visibility != Visibility.Visible
-                ? Visibility.Visible : Visibility.Collapsed;
+            UpdatePreviewPickerVisibility();
             SyncPreviewMenuChecks();
             if (!detected && PreviewOpen) SetPreviewMode(PreviewMode.Source, persist: false);
             else if (PreviewOpen) RenderPreview(text, preserveScroll);
@@ -221,41 +221,59 @@ namespace KillerNotes.Shell
             PreviewSourceSeg.IsChecked   = _previewMode == PreviewMode.Source;
             PreviewRenderedSeg.IsChecked = _previewMode == PreviewMode.Rendered;
             PreviewSplitSeg.IsChecked    = _previewMode == PreviewMode.Split;
-            // The chip names the current mode, so it is always visible which view is up.
-            PreviewTitleText.Text = PreviewModeText.Text = Loc(_previewMode switch
+            _syncingPreviewPickers = true;
+            try
             {
-                PreviewMode.Rendered => "Str_Preview_Rendered",
-                PreviewMode.Split    => "Str_Preview_Split",
-                _                    => "Str_Preview_Source",
-            });
+                foreach (var picker in new[] { PreviewModeBtn, PreviewTitleBtn })
+                {
+                    if (picker.Items.Count == 0) FillPreviewPicker(picker);
+                    picker.SelectedValue = _previewMode.ToString();
+                }
+            }
+            finally { _syncingPreviewPickers = false; }
         }
 
-        /// <summary>The preview chip (format bar or title row): a dropdown of the three views
-        /// under the chip, the current one checked, each with its key. It used to cycle on click
-        /// like F4, but it looked like a label, so nothing said it was a button or what came next.
-        /// Built on each open, so it follows the language and the current view.</summary>
-        private void PreviewModeBtn_Click(object sender, RoutedEventArgs e)
+        private bool _syncingPreviewPickers;
+
+        private void UpdatePreviewPickerVisibility() =>
+            PreviewTitleBtn.Visibility = _docKind != DocKind.None && (FormatBar.Visibility != Visibility.Visible || _fmtMinimized)
+                ? Visibility.Visible : Visibility.Collapsed;
+
+        private void FillPreviewPicker(ComboBox picker)
         {
-            if (sender is not FrameworkElement chip) return;
-            var menu = new ContextMenu();
-            foreach (var (mode, label, gesture, glyph, run) in new (PreviewMode, string, string, string, RoutedEventHandler)[]
-                     {
-                         (PreviewMode.Source, "Str_Preview_Source", "Ctrl+Shift+F6", "\uE8A5", PreviewSource_Click),
-                         (PreviewMode.Rendered, "Str_Preview_Rendered", "Ctrl+Shift+F7", "\uE7B3", PreviewRendered_Click),
-                         (PreviewMode.Split, "Str_Preview_Split", "Ctrl+Shift+F8", "\uE89A", PreviewSplit_Click),
-                     })
+            foreach (var (mode, label, gesture, glyph) in new[]
             {
-                var item = new MenuItem
-                {
-                    Header = Loc(label), InputGestureText = gesture, Icon = glyph,
-                    IsCheckable = true, IsChecked = _previewMode == mode,
-                };
-                item.Click += run;
-                menu.Items.Add(item);
+                (PreviewMode.Source, "Str_Preview_Source", "Ctrl+Shift+F6", "</>"),
+                (PreviewMode.Rendered, "Str_Preview_Rendered", "Ctrl+Shift+F7", "\uE7B3"),
+                (PreviewMode.Split, "Str_Preview_Split", "Ctrl+Shift+F8", "\uE89A"),
+            })
+            {
+                var content = new StackPanel { Orientation = Orientation.Horizontal };
+                content.Children.Add(new TextBlock { Text = glyph, Width = 20, Margin = new Thickness(0,0,4,0),
+                    FontFamily = new FontFamily(mode == PreviewMode.Source ? "Consolas" : "Segoe MDL2 Assets"), FontSize = 11,
+                    VerticalAlignment = VerticalAlignment.Center });
+                var text = new TextBlock();
+                text.SetResourceReference(TextBlock.TextProperty, label);
+                content.Children.Add(text);
+                var item = new ComboBoxItem { Content = content, Tag = mode.ToString() };
+                item.SetResourceReference(Control.FontFamilyProperty, "UiFont");
+                item.SetResourceReference(System.Windows.Automation.AutomationProperties.NameProperty, label);
+                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(item, gesture);
+                item.ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(Loc(label), gesture);
+                item.ToolTipOpening += (_, _) => item.ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(Loc(label), gesture);
+                picker.Items.Add(item);
             }
-            KillerNotes.Controls.FlyoutPlacement.AttachBelowRight(menu, chip);
-            menu.IsOpen = true;
         }
+
+        private void PreviewMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_syncingPreviewPickers && sender is ComboBox { SelectedValue: string value }
+                && Enum.TryParse(value, out PreviewMode mode) && mode != _previewMode) SetPreviewMode(mode);
+        }
+
+        private void PreviewPicker_ToolTipOpening(object sender, ToolTipEventArgs e) =>
+            ((ComboBox)sender).ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(
+                Loc("Str_Preview_Source") + " / " + Loc("Str_Preview_Rendered") + " / " + Loc("Str_Preview_Split"), "F4");
 
         private void QueuePreviewRefresh()
         {
@@ -447,7 +465,9 @@ namespace KillerNotes.Shell
                         DispatcherPriority.Loaded);
                 // Rendered mode hides the editor, so give the preview the keyboard: Home, End,
                 // Page Up/Down and the arrows then scroll it.
-                if (_previewMode == PreviewMode.Rendered && !preserveScroll)
+                if (_previewMode == PreviewMode.Rendered && !preserveScroll
+                    && !PreviewModeBtn.IsDropDownOpen && !PreviewTitleBtn.IsDropDownOpen
+                    && !PreviewModeBtn.IsKeyboardFocusWithin && !PreviewTitleBtn.IsKeyboardFocusWithin)
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
                         // Arrowing through the notes list stays in the list.

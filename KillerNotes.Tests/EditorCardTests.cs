@@ -109,26 +109,25 @@ namespace KillerNotes.Tests
             }
         });
 
-        /// <summary>The "Rendered" chip read as a label: it cycled on click, with no sign it was a
-        /// button. It now carries an eye and a chevron and opens the three views with their keys.</summary>
         [Fact]
-        public void ThePreviewChipIsADropdown()
+        public void ThePreviewPickerUsesTheFamilyDropdownAndSynchronizesBothLocations() => CardColorBehaviorTests.WithShell((window, _) =>
         {
-            var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            foreach (string name in new[] { "PreviewTitleBtn", "PreviewModeBtn" })
+            window.Show();
+            window.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+            var picker = Assert.IsType<ComboBox>(window.FindName("PreviewModeBtn"));
+            var title = Assert.IsType<ComboBox>(window.FindName("PreviewTitleBtn"));
+            Assert.Same(Application.Current.FindResource(typeof(ComboBox)), picker.Style);
+            Assert.Equal(3, picker.Items.Count);
+            var source = (ComboBoxItem)picker.Items[0];
+            Assert.Equal("</>", ((StackPanel)source.Content).Children.OfType<TextBlock>().First().Text);
+            var editor = (RichTextBox)window.FindName("Editor");
+            foreach (string mode in new[] { "Rendered", "Split", "Source" })
             {
-                var chip = doc.Descendants().Single(e => (string?)e.Attribute(X + "Name") == name);
-                var glyphs = chip.Descendants().Select(e => (string?)e.Attribute("Text")).ToList();
-                Assert.Contains("\uE890", glyphs);   // eye
-                Assert.Contains("\uE70D", glyphs);   // chevron
+                picker.SelectedValue = mode;
+                Assert.Equal(mode, title.SelectedValue);
+                Assert.Equal(mode == "Rendered" ? Visibility.Collapsed : Visibility.Visible, editor.Visibility);
             }
-            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "Preview.cs"));
-            int start = src.IndexOf("private void PreviewModeBtn_Click", StringComparison.Ordinal);
-            string body = src.Substring(start, src.IndexOf("menu.IsOpen = true;", start, StringComparison.Ordinal) - start);
-            Assert.DoesNotContain("CyclePreviewMode", body);
-            foreach (string key in new[] { "Ctrl+Shift+F6", "Ctrl+Shift+F7", "Ctrl+Shift+F8", "AttachBelowRight" })
-                Assert.Contains(key, body);
-        }
+        });
 
         /// <summary>A disabled chip or segment dims like a disabled quick button. The graph's Lock
         /// chip on a note not written yet is disabled, and it looked like it would work.</summary>

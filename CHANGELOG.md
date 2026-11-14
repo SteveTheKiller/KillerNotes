@@ -36,7 +36,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The New note card groups rich text, Markdown, and today's note as quick actions.
 - The Databases dialog uses tighter spacing around its list and controls.
 - Note creation and folder import live beside New note; whole-notepad export lives on the library rail, and Markdown and HTML detection live in About settings.
-- Preview menus offer Source, Rendered, and Split with shortcuts; F4 cycles through them.
+- Preview uses a family dropdown for Source, Rendered, and Split, with a code icon for Source; F4 cycles through the views.
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button and a distinct export icon. Empty sidebar space no longer opens a menu.
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
 - Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
