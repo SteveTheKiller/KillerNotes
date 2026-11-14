@@ -85,7 +85,8 @@ namespace KillerNotes.Shell
             };
 
             var head = BuildMenuRow(check, swatch, name, number <= 9 ? "Ctrl+" + number : "Enter");
-            var item = new MenuItem { Header = head, StaysOpenOnClick = true, Padding = new Thickness(6, 5, 14, 5), HorizontalContentAlignment = HorizontalAlignment.Stretch };
+            var item = new MenuItem { Header = head, StaysOpenOnClick = true, Padding = new Thickness(6, 5, 14, 5), HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly };
             item.Click += (_, _) =>
             {
                 bool nowAssigned = ToggleTagOnNotes(notes, name);
@@ -129,6 +130,7 @@ namespace KillerNotes.Shell
         /// <summary>Adds/removes the tag on the note; returns true when now assigned.</summary>
         private bool ToggleTag(Note note, string tag)
         {
+            if (RefuseReadOnly() || !NoteStore.IsOpen) return TagManager.HasTag(note, tag);
             var snap = new List<(long Id, string Tags)> { (note.Id, note.Tags) };
             bool nowAssigned = !TagManager.HasTag(note, tag);
             TagManager.SetAssigned(note, tag, nowAssigned);
@@ -153,6 +155,7 @@ namespace KillerNotes.Shell
         /// shared state.</summary>
         private bool ToggleTagOnNotes(List<Note> notes, string tag)
         {
+            if (RefuseReadOnly() || !NoteStore.IsOpen) return notes.Count > 0 && notes.All(n => TagManager.HasTag(n, tag));
             if (notes.Count == 1) return ToggleTag(notes[0], tag);
 
             var snap = notes.Select(n => (n.Id, n.Tags)).ToList();
