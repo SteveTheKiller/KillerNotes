@@ -34,7 +34,7 @@
                                       CloseRequested="Close_Click"/>
 
                 <!-- Body -->
-                <StackPanel Grid.Row="1" Margin="24,16,24,12">
+                <StackPanel Grid.Row="1" Margin="12,8,12,8">
                     <!-- The "Databases" heading that used to sit here has moved into the caption,
                          beside the wordmark, so the dialog is titled where every other one is. -->
                     <!-- The list is a CLIENT AREA: square corners from the theme rather than a
@@ -103,7 +103,7 @@
                             Opacity="{DynamicResource GrainOpacity}"
                             Background="{DynamicResource GrainTileBrush}"/>
                     </Grid>
-                    <DockPanel Margin="0,12,0,0">
+                    <DockPanel Margin="0,8,0,0">
                         <TextBox x:Name="TrashRetentionBox" DockPanel.Dock="Right" Width="58"
                                  Style="{StaticResource EditFieldTextBox}" Padding="6,0"
                                  ToolTip="{DynamicResource Str_Trash_RetentionHelp}"
@@ -114,12 +114,22 @@
                                    VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,8,0"/>
                     </DockPanel>
                     <TextBlock x:Name="DlgStatus" Foreground="{DynamicResource DimTextBrush}"
-                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                               FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
 
                 <!-- Buttons: glyphs left (new / delete / explorer; rename is inline via
                      double-click), Open right -->
-                <Grid Grid.Row="2" Margin="24,0,24,18">
+                <Grid Grid.Row="2" Margin="12,0,12,12">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <!-- Padding 0: SurfaceButton's side padding clips glyphs at fixed width -->
                         <Button x:Name="NewBtn" Content="&#xE710;" Click="New_Click" ToolTip="{DynamicResource Str_TT_NewDb}"
