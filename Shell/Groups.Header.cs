@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using KillerFamily.Controls;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -146,7 +147,15 @@ namespace KillerNotes.Shell
 
         private void GroupHeader_RightDown(object sender, MouseButtonEventArgs e) => UpdateGroupHeaderMenu(sender);
 
-        private void GroupHeader_ContextMenuOpening(object sender, ContextMenuEventArgs e) => UpdateGroupHeaderMenu(sender);
+        private void GroupHeader_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            UpdateGroupHeaderMenu(sender);
+            if (sender is not FrameworkElement target || _ctxGroup == null) return;
+            // The first keyboard request chooses its owner before this event assigns the card.
+            e.Handled = true;
+            CardBuilder.Open(GroupCard, target, e.CursorLeft < 0 || e.CursorTop < 0,
+                new Rect(0, target.ActualHeight, 0, 0));
+        }
 
         private void UpdateGroupHeaderMenu(object sender)
         {
