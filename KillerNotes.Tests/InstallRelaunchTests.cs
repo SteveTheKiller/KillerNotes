@@ -124,6 +124,7 @@ namespace KillerNotes.Tests
             string name = "Local\\InstallRelaunch-" + Guid.NewGuid().ToString("N");
             using var ready = new EventWaitHandle(false, EventResetMode.ManualReset, name + "-ready");
             using var release = new EventWaitHandle(false, EventResetMode.ManualReset, name + "-release");
+            using var normalRelease = new EventWaitHandle(false, EventResetMode.ManualReset, name + "-normal-release");
             using var provider = new CSharpCodeProvider();
             var parameters = new CompilerParameters(new[] { "System.dll" }, executable)
             {
@@ -141,10 +142,15 @@ namespace KillerNotes.Tests
             start.EnvironmentVariables["INSTALL_RELAUNCH_HELPER"] = helperMarker;
             using var parent = Process.Start(start);
             Assert.NotNull(parent);
+            Process? helper = null;
+            Process? normal = null;
             try
             {
                 Assert.True(ready.WaitOne(10000), "Owned parent did not reach its shutdown boundary.");
-                Assert.True(SpinWait.SpinUntil(() => File.Exists(helperMarker), 10000), "Owned helper did not start.");
+                int helperId = 0;
+                Assert.True(SpinWait.SpinUntil(() => int.TryParse(TryReadShared(helperMarker), out helperId), 10000), "Owned helper did not start.");
+                helper = Process.GetProcessById(helperId);
+                Assert.Equal(executable, helper.MainModule.FileName);
                 Assert.False(SpinWait.SpinUntil(() => File.Exists(marker), 300), "Normal copy launched while its parent still held the mutex.");
                 Assert.False(parent!.HasExited);
                 release.Set();
@@ -157,11 +163,25 @@ namespace KillerNotes.Tests
                 Assert.True(SpinWait.SpinUntil(() => (written = TryReadShared(marker)).Length > 0, 10000),
                     "Installed copy did not launch after parent exit.");
                 Assert.Equal("first", written);
+                int normalId = 0;
+                Assert.True(SpinWait.SpinUntil(() => int.TryParse(TryReadShared(marker + ".pid"), out normalId), 10000));
+                normal = Process.GetProcessById(normalId);
+                Assert.Equal(executable, normal.MainModule.FileName);
             }
             finally
             {
                 release.Set();
+                normalRelease.Set();
                 if (parent != null && !parent.WaitForExit(10000)) { parent.Kill(); parent.WaitForExit(5000); }
+                // The marker is written before the final child exits. Pin both owned child
+                // handles while they are waiting, then join them before deleting their image.
+                try
+                {
+                    if (helper != null) Assert.True(helper.WaitForExit(10000), "Owned helper did not exit.");
+                    if (normal != null) Assert.True(normal.WaitForExit(10000), "Owned normal copy did not exit.");
+                }
+                finally { helper?.Dispose(); normal?.Dispose(); }
+                provider.Dispose();
                 Assert.True(SpinWait.SpinUntil(() =>
                 {
                     try { Directory.Delete(root, true); return true; }
@@ -217,14 +237,17 @@ internal static class OwnedHandoff
             }
             if (args.Length > 0)
             {
-                File.WriteAllText(Environment.GetEnvironmentVariable(""INSTALL_RELAUNCH_HELPER""), ""started"");
+                File.WriteAllText(Environment.GetEnvironmentVariable(""INSTALL_RELAUNCH_HELPER""), Process.GetCurrentProcess().Id.ToString());
                 object[] request = { args, exe, 1 };
                 bool handled = (bool)type.GetMethod(""TryRunHelper"").Invoke(service, request);
                 return handled ? (int)request[2] : 33;
             }
             bool claimed;
+            File.WriteAllText(Environment.GetEnvironmentVariable(""INSTALL_RELAUNCH_MARKER"") + "".pid"", Process.GetCurrentProcess().Id.ToString());
             using (var claim = new Mutex(true, name, out claimed))
                 File.WriteAllText(Environment.GetEnvironmentVariable(""INSTALL_RELAUNCH_MARKER""), claimed ? ""first"" : ""blocked"");
+            using (var releaseNormal = EventWaitHandle.OpenExisting(name + ""-normal-release""))
+                if (!releaseNormal.WaitOne(10000)) return 35;
             return 0;
         }
         catch { return 34; }
