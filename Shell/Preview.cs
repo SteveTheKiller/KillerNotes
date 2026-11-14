@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -263,6 +264,35 @@ namespace KillerNotes.Shell
                 item.ToolTipOpening += (_, _) => item.ToolTip = KillerFamily.Layout.ShortcutHints.WithHint(Loc(label), gesture);
                 picker.Items.Add(item);
             }
+            void FitWidth() => FitPreviewPickerWidth(picker);
+            picker.Loaded += (_, _) => FitWidth();
+            LocaleManager.LocaleChanged += FitWidth;
+            ThemeManager.ThemeChanged += FitWidth;
+            Closed += (_, _) =>
+            {
+                LocaleManager.LocaleChanged -= FitWidth;
+                ThemeManager.ThemeChanged -= FitWidth;
+            };
+            FitWidth();
+        }
+
+        private void FitPreviewPickerWidth(ComboBox picker)
+        {
+            double dip = VisualTreeHelper.GetDpi(picker).PixelsPerDip;
+            double TextWidth(string text, Typeface face, double size) => new FormattedText(text, CultureInfo.CurrentUICulture,
+                FlowDirection.LeftToRight, face, size, Brushes.Black, dip).WidthIncludingTrailingWhitespace;
+            var font = new Typeface(picker.FontFamily, picker.FontStyle, picker.FontWeight, picker.FontStretch);
+            double label = Math.Max(TextWidth(Loc("Str_Preview_Source"), font, picker.FontSize),
+                Math.Max(TextWidth(Loc("Str_Preview_Rendered"), font, picker.FontSize), TextWidth(Loc("Str_Preview_Split"), font, picker.FontSize)));
+            var arrowMargin = (Thickness)picker.FindResource("ComboChevMargin");
+            var glyphMargin = (Thickness)picker.FindResource("ComboChevGlyphMargin");
+            double arrow = Math.Max((double)picker.FindResource("ComboButtonMinWidth"),
+                TextWidth((string)picker.FindResource("ComboChevGlyph"),
+                    new Typeface((FontFamily)picker.FindResource("ComboChevFont"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal), 8)
+                + glyphMargin.Left + glyphMargin.Right) + arrowMargin.Left + arrowMargin.Right;
+            // Reserve the icon, its gap, and the family dropdown's own padding and arrow.
+            picker.Width = Math.Ceiling(24 + label + arrow + picker.Padding.Left + picker.Padding.Right
+                + picker.BorderThickness.Left + picker.BorderThickness.Right + 2);
         }
 
         private void PreviewMode_SelectionChanged(object sender, SelectionChangedEventArgs e)

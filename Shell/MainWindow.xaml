@@ -1935,7 +1935,8 @@
                 </TextBox>
                 <!-- The view selector stays available when the format bar is hidden. -->
                 <ComboBox x:Name="PreviewTitleBtn" Grid.Column="1" Style="{StaticResource {x:Type ComboBox}}" Visibility="Collapsed"
-                          Width="152" Margin="0,10,12,4" VerticalAlignment="Center" FontFamily="{DynamicResource UiFont}" FontSize="11"
+                          Background="Transparent"
+                          Width="Auto" HorizontalAlignment="Right" Margin="0,10,12,4" VerticalAlignment="Center" FontFamily="{DynamicResource UiFont}" FontSize="11"
                           SelectedValuePath="Tag" SelectionChanged="PreviewMode_SelectionChanged"
                           ToolTip="{DynamicResource Str_TT_Preview}" ToolTipOpening="PreviewPicker_ToolTipOpening"
                           AutomationProperties.Name="{DynamicResource Str_TT_Preview}"/>
@@ -2245,7 +2246,8 @@
                         </Viewbox>
                     </Button>
                     <ComboBox x:Name="PreviewModeBtn" Style="{StaticResource {x:Type ComboBox}}" Visibility="Collapsed"
-                              Width="152" FontFamily="{DynamicResource UiFont}" FontSize="11"
+                              Background="Transparent"
+                              Width="Auto" HorizontalAlignment="Left" FontFamily="{DynamicResource UiFont}" FontSize="11"
                               SelectedValuePath="Tag" SelectionChanged="PreviewMode_SelectionChanged"
                               ToolTip="{DynamicResource Str_TT_Preview}" ToolTipOpening="PreviewPicker_ToolTipOpening"
                               AutomationProperties.Name="{DynamicResource Str_TT_Preview}"/>
