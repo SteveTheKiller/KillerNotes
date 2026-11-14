@@ -59,7 +59,7 @@
                 <!-- Groups. "All notes" and "No group" sit above the real tree; dropping a group on
                      either moves it to the top level, dropping notes on "No group" ungroups them. -->
                 <Border Grid.Column="0" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
-                        CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource ListPaneBrush}">
+                        CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource PaneBrush}">
                     <TreeView x:Name="Tree" Style="{StaticResource FolderTreeView}" AllowDrop="True" Padding="4"
                               AutomationProperties.Name="{DynamicResource Str_Mgr_Groups}"
                               SelectedItemChanged="Tree_SelectedItemChanged" KeyDown="Tree_KeyDown"
@@ -85,6 +85,9 @@
                         </TreeView.ItemTemplate>
                     </TreeView>
                 </Border>
+                <Border Grid.Column="0" Margin="1" Panel.ZIndex="1" IsHitTestVisible="False"
+                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                        Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
 
                 <GridSplitter Grid.Column="1" Width="10" HorizontalAlignment="Stretch" Background="Transparent" Cursor="SizeWE"
                               Focusable="False"/>
@@ -92,7 +95,7 @@
                 <!-- Notes in the selected group: a header row of sort buttons over a list whose rows
                      share its columns. Multi-select with Ctrl and Shift, then drag onto a group. -->
                 <Border Grid.Column="2" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
-                        CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource ListPaneBrush}">
+                        CornerRadius="{DynamicResource ControlCornerRadius}" Background="{DynamicResource PaneBrush}">
                     <DockPanel>
                         <Grid x:Name="HeaderRow" DockPanel.Dock="Top" Margin="12,6,18,4">
                             <Grid.ColumnDefinitions>
@@ -142,6 +145,9 @@
                         </Grid>
                     </DockPanel>
                 </Border>
+                <Border Grid.Column="2" Margin="1" Panel.ZIndex="1" IsHitTestVisible="False"
+                        CornerRadius="{DynamicResource ControlCornerRadius}"
+                        Background="{DynamicResource GrainTileBrush}" Opacity="{DynamicResource GrainOpacity}"/>
             </Grid>
         </Grid>
     </ContentControl>
