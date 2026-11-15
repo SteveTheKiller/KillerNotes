@@ -152,12 +152,17 @@ namespace KillerNotes.Controls.Sketch
             clear.RenderTransform = new TranslateTransform(0, 4);
             DockPanel.SetDock(clear, Dock.Right);
             toolbar.Children.Add(clear);
+            var zoom = BuildZoomBox();
+            zoom.Margin = new Thickness(8, 0, 0, 6);
+            zoom.VerticalAlignment = VerticalAlignment.Top;
+            zoom.RenderTransform = new TranslateTransform(0, 4);
+            DockPanel.SetDock(zoom, Dock.Right);
+            toolbar.Children.Add(zoom);
             var top = new WrapPanel();
             toolbar.Children.Add(top);
 
-            var palette = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) };
-            _swatchRow = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            palette.Children.Add(_swatchRow);
+            var palette = new DockPanel { VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 0, 8, 0) };
+            _swatchRow = new WrapPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             // The swatches' shadow (bevel on 98SE, drop shadow elsewhere) pulls their VISUAL
             // center below their layout center, so the buttons beside them read top-shifted on
             // every theme. A 4px render nudge re-centers them against the swatches without
@@ -165,18 +170,20 @@ namespace KillerNotes.Controls.Sketch
             // (2026-08-08). Same nudge on the undo/redo/clear group below.
             var moreColors = ActionButton(Glyph(0xE790), L("Str_Sketch_MoreColors", "Custom color..."), OpenColorPicker);
             moreColors.RenderTransform = new TranslateTransform(0, 4);
+            DockPanel.SetDock(moreColors, Dock.Right);
             palette.Children.Add(moreColors);
+            palette.Children.Add(_swatchRow);
             top.Children.Add(palette);
-            top.Children.Add(BuildButtons());
 
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, RenderTransform = new TranslateTransform(0, 4) };   // see the moreColors nudge above
+            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 0, 8, 0), RenderTransform = new TranslateTransform(0, 4) };
+            actions.Children.Add(Separator());
             _undoBtn = ActionButton(Glyph(0xE7A7), L("Str_Sketch_Undo", "Undo (Ctrl+Z)"), Undo);
             _redoBtn = ActionButton(Glyph(0xE7A6), L("Str_Sketch_Redo", "Redo (Ctrl+Y)"), Redo);
             actions.Children.Add(_undoBtn);
             actions.Children.Add(_redoBtn);
-            actions.Children.Add(Separator());
-            actions.Children.Add(BuildZoomBox());
             top.Children.Add(actions);
+            top.Children.Add(BuildButtons());
 
             RebuildSwatches();
             Grid.SetRow(toolbar, 1);
@@ -512,10 +519,10 @@ namespace KillerNotes.Controls.Sketch
             grid.Children.Add(row);
         }
 
-        private StackPanel BuildButtons()
+        private WrapPanel BuildButtons()
         {
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 8, 0), RenderTransform = new TranslateTransform(0, 4) };
+            var actions = new WrapPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top,
+                RenderTransform = new TranslateTransform(0, 4) };
 
             StackPanel Label(int icon, string text)
             {
@@ -528,7 +535,7 @@ namespace KillerNotes.Controls.Sketch
             }
 
             var copy = new Button { Content = Label(0xE8C8, L("Str_Sketch_CopyImage", "Copy to clipboard")), Height = 28,
-                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 6, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
+                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 8, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(copy, L("Str_Sketch_CopyImageTip", "Copy the drawing to the clipboard as an image"));
             SketchBind(copy, "Ctrl+C", Key.C, CopyToClipboard, ModifierKeys.Control);
             copy.Click += (_, _) => CopyToClipboard();

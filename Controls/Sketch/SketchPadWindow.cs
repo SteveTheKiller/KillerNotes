@@ -93,7 +93,7 @@ namespace KillerNotes.Controls.Sketch
         private FrameworkElement _closeBtn = null!;   // DialogChrome.CloseGlyph - a TextBlock, not a Border
         private Border? _grainBorder;
         private readonly Dictionary<Tool, Button> _toolBtns = [];
-        private StackPanel _swatchRow = null!;
+        private WrapPanel _swatchRow = null!;
         private Button _undoBtn = null!, _redoBtn = null!, _widthBtn = null!;
         private Ellipse _widthDot = null!;
         private TextBlock _opacityText = null!;
