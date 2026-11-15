@@ -69,6 +69,16 @@ namespace KillerNotes.Tests
                 Assert.True(Bounds(undo).Left < Bounds(redo).Left, $"{language}: Undo must precede Redo.");
                 Assert.True(Bounds(copy).Top >= Bounds(undo).Top - 1,
                     $"{language}: Copy at {Bounds(copy)} must not rise above Undo at {Bounds(undo)}.");
+                Assert.InRange(Math.Abs(Bounds(zoom).Height - Bounds(copy).Height), 0, 0.5);
+                if (Math.Abs(Bounds(copy).Top - Bounds(print).Top) < 1)
+                {
+                    double left = Math.Abs(Bounds(copy).Top - Bounds(redo).Top) < 1 ? Bounds(redo).Right : toolbar.Left;
+                    double before = Bounds(copy).Left - left;
+                    double between = Bounds(print).Left - Bounds(copy).Right;
+                    double after = Bounds(zoom).Left - Bounds(print).Right;
+                    Assert.InRange(Math.Abs(before - between), 0, 1);
+                    Assert.InRange(Math.Abs(after - between), 0, 1);
+                }
                 Fits(elements.OfType<ScrollViewer>().Single(viewer => viewer.Content is Canvas));
             }
             finally { pad.Hide(); pad.Close(); LocaleManager.Apply(previous); }

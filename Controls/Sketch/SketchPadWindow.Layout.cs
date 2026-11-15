@@ -153,15 +153,15 @@ namespace KillerNotes.Controls.Sketch
             DockPanel.SetDock(clear, Dock.Right);
             toolbar.Children.Add(clear);
             var zoom = BuildZoomBox();
-            zoom.Margin = new Thickness(8, 0, 0, 6);
+            zoom.Margin = new Thickness(0, 0, 0, 6);
             zoom.VerticalAlignment = VerticalAlignment.Top;
             zoom.RenderTransform = new TranslateTransform(0, 4);
             DockPanel.SetDock(zoom, Dock.Right);
             toolbar.Children.Add(zoom);
-            var top = new WrapPanel();
+            var top = new SketchToolbarPanel();
             toolbar.Children.Add(top);
 
-            var palette = new DockPanel { VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 0, 8, 0) };
+            var palette = new DockPanel { VerticalAlignment = VerticalAlignment.Top };
             _swatchRow = new WrapPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             // The swatches' shadow (bevel on 98SE, drop shadow elsewhere) pulls their VISUAL
             // center below their layout center, so the buttons beside them read top-shifted on
@@ -176,14 +176,17 @@ namespace KillerNotes.Controls.Sketch
             top.Children.Add(palette);
 
             var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(0, 0, 8, 0), RenderTransform = new TranslateTransform(0, 4) };
+                RenderTransform = new TranslateTransform(0, 4) };
             actions.Children.Add(Separator());
             _undoBtn = ActionButton(Glyph(0xE7A7), L("Str_Sketch_Undo", "Undo (Ctrl+Z)"), Undo);
             _redoBtn = ActionButton(Glyph(0xE7A6), L("Str_Sketch_Redo", "Redo (Ctrl+Y)"), Redo);
+            _redoBtn.Margin = new Thickness(0, 0, 0, 6);
             actions.Children.Add(_undoBtn);
             actions.Children.Add(_redoBtn);
             top.Children.Add(actions);
-            top.Children.Add(BuildButtons());
+            var (copy, print) = BuildButtons();
+            top.Children.Add(copy);
+            top.Children.Add(print);
 
             RebuildSwatches();
             Grid.SetRow(toolbar, 1);
@@ -192,7 +195,7 @@ namespace KillerNotes.Controls.Sketch
 
         private ComboBox BuildZoomBox()
         {
-            _zoomBox = new ComboBox { Width = 84, Height = 28, Margin = new Thickness(0, 0, 0, 6),
+            _zoomBox = new ComboBox { Width = 84, Height = 28, MinHeight = 28, MaxHeight = 28, Margin = new Thickness(0, 0, 0, 6),
                 VerticalContentAlignment = VerticalAlignment.Center };
             _zoomBox.SetResourceReference(FrameworkElement.StyleProperty, typeof(ComboBox));
             Tip(_zoomBox, L("Str_Sketch_Zoom", "Zoom (Ctrl+Wheel / F5)"));
@@ -519,11 +522,8 @@ namespace KillerNotes.Controls.Sketch
             grid.Children.Add(row);
         }
 
-        private WrapPanel BuildButtons()
+        private (Button Copy, Button Print) BuildButtons()
         {
-            var actions = new WrapPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top,
-                RenderTransform = new TranslateTransform(0, 4) };
-
             StackPanel Label(int icon, string text)
             {
                 var content = new StackPanel { Orientation = Orientation.Horizontal };
@@ -535,20 +535,86 @@ namespace KillerNotes.Controls.Sketch
             }
 
             var copy = new Button { Content = Label(0xE8C8, L("Str_Sketch_CopyImage", "Copy to clipboard")), Height = 28,
-                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 8, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
+                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 0, 6),
+                RenderTransform = new TranslateTransform(0, 4), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(copy, L("Str_Sketch_CopyImageTip", "Copy the drawing to the clipboard as an image"));
             SketchBind(copy, "Ctrl+C", Key.C, CopyToClipboard, ModifierKeys.Control);
             copy.Click += (_, _) => CopyToClipboard();
-            actions.Children.Add(copy);
 
             var print = new Button { Content = Label(0xE749, L("Str_Btn_CalcPrint", "Print to note")), Height = 28, IsDefault = true,
-                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 0, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
+                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 0, 6),
+                RenderTransform = new TranslateTransform(0, 4), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(print, L("Str_Sketch_Print", "Print to note (Ctrl+Enter)"));
             DialogShortcuts.Describe(print, "Ctrl+Enter");
             print.Click += (_, _) => _print(_objects, _canvasW, _canvasH);
-            actions.Children.Add(print);
+            return (copy, print);
+        }
 
-            return actions;
+        // Palette and history lead the row. Copy and Print share the remaining space with
+        // three equal gaps; narrow layouts put the actions on additional rows.
+        private sealed class SketchToolbarPanel : Panel
+        {
+            protected override Size MeasureOverride(Size available)
+            {
+                double width = available.Width;
+                Children[0].Measure(new Size(width, double.PositiveInfinity));
+                for (int i = 1; i < Children.Count; i++)
+                    Children[i].Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                if (double.IsInfinity(width))
+                    width = Children[0].DesiredSize.Width + Children[1].DesiredSize.Width
+                        + Children[2].DesiredSize.Width + Children[3].DesiredSize.Width + 24;
+                return new Size(width, Layout(width, false));
+            }
+
+            protected override Size ArrangeOverride(Size final)
+            {
+                Layout(final.Width, true);
+                return final;
+            }
+
+            private double Layout(double width, bool arrange)
+            {
+                var palette = Children[0].DesiredSize;
+                var history = Children[1].DesiredSize;
+                var copy = Children[2].DesiredSize;
+                var print = Children[3].DesiredSize;
+                void Place(int index, double x, double y)
+                {
+                    if (arrange) Children[index].Arrange(new Rect(new Point(x, y), Children[index].DesiredSize));
+                }
+                double prefix = palette.Width + history.Width;
+                if (prefix + copy.Width + print.Width + 24 <= width)
+                {
+                    double gap = (width - prefix - copy.Width - print.Width) / 3;
+                    Place(0, 0, 0);
+                    Place(1, palette.Width, 0);
+                    Place(2, prefix + gap, 0);
+                    Place(3, prefix + copy.Width + 2 * gap, 0);
+                    return Math.Max(Math.Max(palette.Height, history.Height), Math.Max(copy.Height, print.Height));
+                }
+                Place(0, 0, 0);
+                double y;
+                if (prefix <= width)
+                {
+                    Place(1, palette.Width, 0);
+                    y = Math.Max(palette.Height, history.Height);
+                }
+                else
+                {
+                    Place(1, 0, palette.Height);
+                    y = palette.Height + history.Height;
+                }
+                if (copy.Width + print.Width + 24 <= width)
+                {
+                    double gap = (width - copy.Width - print.Width) / 3;
+                    Place(2, gap, y);
+                    Place(3, copy.Width + 2 * gap, y);
+                    return y + Math.Max(copy.Height, print.Height);
+                }
+                Place(2, Math.Max(8, (width - copy.Width) / 2), y);
+                Place(3, Math.Max(8, (width - print.Width) / 2), y + copy.Height);
+                return y + copy.Height + print.Height;
+            }
         }
 
         // Copy the current drawing to the Windows clipboard as an image (the same flattened bitmap
