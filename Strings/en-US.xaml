@@ -809,7 +809,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Straighten line</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Text (T) - click to place a label, type, Enter to set it (Shift+Enter for a new line)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Crop (C) - drag a box to keep, everything outside it is trimmed away (Ctrl+Z restores it)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - click for 100%, again to fit</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom the canvas (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Fit</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" does not exist yet</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Create it as a new note and open it?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Update {0} links in {1} notes?</sys:String>

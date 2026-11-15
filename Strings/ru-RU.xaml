@@ -769,7 +769,8 @@
     <sys:String x:Key="Str_Sketch_Straighten">Выпрямить линию</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Текст (T) - нажмите, чтобы поставить подпись, наберите, Enter завершает (Shift+Enter - новая строка)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Обрезка (C) - потяните рамку, всё за её пределами отсекается (Ctrl+Z возвращает)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Масштаб (Ctrl+колесо) - нажмите для 100%, ещё раз по размеру окна</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Масштаб холста (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Вписать</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" ещё не существует</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Создать её как новую заметку и открыть?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Обновить {0} ссылок в {1} заметках?</sys:String>

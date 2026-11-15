@@ -699,7 +699,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Pasek łączy przychodzących ukryty - Alt+M pokazuje go ponownie</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">Pasek łączy przychodzących widoczny</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Przytnij (C) - przeciągnij ramkę, która ma zostać, wszystko poza nią zostanie usunięte (Ctrl+Z przywraca)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Powiększenie (Ctrl+Wheel) - kliknij, aby uzyskać 100%, ponownie, aby dopasować</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Powiększ płótno (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Dopasuj</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" jeszcze nie istnieje</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Utworzyć ją jako nową notatkę i otworzyć?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Zaktualizować {0} łączy w {1} notatkach?</sys:String>

@@ -743,7 +743,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Bağlantı şeridi gizlendi - Alt+M yeniden gösterir</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">Bağlantı şeridi gösteriliyor</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Kırp (C) - kalmasını istediğiniz alanı sürükleyin, dışında kalan her şey kesilir (Ctrl+Z geri alır)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Yakınlaştır (Ctrl+Wheel) - 100% için tıklayın, sığdırmak için tekrar tıklayın</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Tuvali yakınlaştır (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Sığdır</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" henüz yok</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Yeni bir not olarak oluşturulup açılsın mı?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} nottaki {0} bağlantı güncellensin mi?</sys:String>

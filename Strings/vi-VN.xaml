@@ -811,7 +811,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Sketch_Straighten">Làm thẳng đường</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Văn bản (T) - nhấp để đặt nhãn, nhập, Enter để xác nhận (Shift+Enter để xuống dòng)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Cắt (C) - kéo khung để giữ, mọi thứ bên ngoài sẽ bị cắt (Ctrl+Z để khôi phục)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Thu phóng (Ctrl+Wheel) - nhấp để về 100%, nhấp lại để vừa khung</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Thu phóng khung vẽ (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Vừa khung</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" chưa tồn tại</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Tạo thành ghi chú mới và mở?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Cập nhật {0} liên kết trong {1} ghi chú?</sys:String>

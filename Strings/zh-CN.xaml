@@ -741,7 +741,8 @@
     <sys:String x:Key="Str_St_MentionsHidden">链接来源条带已隐藏 - Alt+M 再次显示</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">链接来源条带已显示</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">裁剪 (C) - 拖出要保留的方框，框外的部分都会被裁掉 (Ctrl+Z 可以还原)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">缩放 (Ctrl+Wheel) - 点击显示 100%，再点一次适应窗口</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">缩放画布 (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">适合窗口</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">“{0}”还不存在</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">创建为一条新笔记并打开?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">更新 {1} 条笔记中的 {0} 个链接吗?</sys:String>

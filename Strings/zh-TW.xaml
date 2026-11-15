@@ -743,7 +743,8 @@
     <sys:String x:Key="Str_St_MentionsHidden">連結來源條帶已隱藏 - Alt+M 可再次顯示</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">連結來源條帶已顯示</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">裁切 (C) - 拖出要保留的方框，框外的部分都會被裁掉 (Ctrl+Z 可以還原)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">縮放 (Ctrl+Wheel) - 按一下顯示 100%，再按一次符合視窗</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">縮放畫布 (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">符合視窗</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">「{0}」還不存在</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">建立為一則新筆記並開啟?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">要更新 {1} 則筆記中的 {0} 個連結嗎?</sys:String>

@@ -809,7 +809,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Endireitar linha</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Texto (T) - clique para posicionar um rótulo, digite, Enter para confirmar (Shift+Enter para nova linha)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Cortar (C) - arraste uma caixa para manter; tudo fora dela é removido (Ctrl+Z restaura)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Roda) - clique para 100%, de novo para ajustar</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Ampliar a tela de desenho (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Ajustar</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">“{0}” ainda não existe</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Criar como uma nova nota e abri-la?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Atualizar {0} links em {1} notas?</sys:String>

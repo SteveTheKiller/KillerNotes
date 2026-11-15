@@ -807,7 +807,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Rett ut linje</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Tekst (T) - klikk for å plassere en etikett, skriv, Enter for å sette den (Shift+Enter for ny linje)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Beskjær (C) - dra en boks for å beholde, alt utenfor fjernes (Ctrl+Z gjenoppretter det)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+hjul) - klikk for 100 %, igjen for å tilpasse</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom lerretet (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Tilpass</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">«{0}» finnes ikke ennå</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Opprette det som et nytt notat og åpne det?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Oppdatere {0} lenker i {1} notater?</sys:String>

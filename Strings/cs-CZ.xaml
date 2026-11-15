@@ -740,7 +740,8 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Pruh příchozích odkazů skryt - Alt+M jej zase zobrazí</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">Pruh příchozích odkazů zobrazen</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Oříznout (C) - tažením vyznačte rámeček, který zůstane, vše mimo něj se odstraní (Ctrl+Z to vrátí)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Přiblížení (Ctrl+Wheel) - kliknutím na 100%, dalším kliknutím přizpůsobíte</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Přiblížit plátno (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Přizpůsobit</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">„{0}" zatím neexistuje</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Vytvořit ji jako novou poznámku a otevřít?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Aktualizovat {0} odkazů v {1} poznámkách?</sys:String>

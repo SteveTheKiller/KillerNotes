@@ -238,8 +238,8 @@ namespace KillerNotes.Controls.Sketch
             void OnThemeChanged()
             {
                 _flatChrome = TryFindResource("UseDialogCaption") is true;
-                _contentGrid.Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12);
-                _railPanel?.Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0);
+                _contentGrid.Margin = new Thickness(8, 8, 16, 16);
+                _railPanel?.Margin = new Thickness(0, 0, 8, 0);
                 // The canvas pane's shadow follows the theme too - it was baked at build and a
                 // pad opened flat stayed shadowless everywhere (2026-08-08).
                 _frameShadow?.Effect = CardShadowOrNull();
@@ -295,7 +295,11 @@ namespace KillerNotes.Controls.Sketch
             _undo.Clear();
             _redo.Clear();
             _sel = null;
-            if (canvasW > 0 && canvasH > 0) ResizeCanvasTo(canvasW, canvasH);
+            if (canvasW > 0 && canvasH > 0)
+            {
+                SetCanvasSize(canvasW, canvasH);
+                ResizeCanvasTo(canvasW, canvasH);
+            }
             RenderCanvas();
             UpdateUndoButtons();
         }
@@ -325,6 +329,7 @@ namespace KillerNotes.Controls.Sketch
             {
                 int w = Math.Max(1, fitted.PixelWidth), h = Math.Max(1, fitted.PixelHeight);
                 _objects.Add(new SketchObject { Kind = SketchKind.Image, Img = b64, X = 0, Y = 0, W = w, H = h });
+                SetCanvasSize(w, h);
                 ResizeCanvasTo(w, h);
             }
             RenderCanvas();
@@ -342,7 +347,9 @@ namespace KillerNotes.Controls.Sketch
         // at the same model coordinates it would at 100%. That is the whole reason this is a view
         // zoom on the canvas and not a scale baked into the objects.
         private ScrollViewer _zoomHost = null!;
-        private TextBlock _zoomReadout = null!;
+        private ComboBox _zoomBox = null!;
+        private ComboBoxItem _customZoomItem = null!;
+        private bool _updatingZoomBox;
         private double _zoom = 1.0;
         private const double ZoomMin = 0.1, ZoomMax = 8.0;
 
@@ -352,8 +359,26 @@ namespace KillerNotes.Controls.Sketch
             _canvas.LayoutTransform = _zoom == 1.0
                 ? Transform.Identity
                 : new System.Windows.Media.ScaleTransform(_zoom, _zoom);
-            _zoomReadout?.Text = $"{Math.Round(_zoom * 100)}%";
+            UpdateZoomBox();
             GrowCanvasToViewport();
+        }
+
+        private void UpdateZoomBox()
+        {
+            if (_zoomBox == null) return;
+            _updatingZoomBox = true;
+            try
+            {
+                ComboBoxItem? selected = null;
+                foreach (ComboBoxItem item in _zoomBox.Items)
+                    if (item != _customZoomItem && item.Tag is double value && Math.Abs(value - _zoom) < 0.0005)
+                        selected = item;
+                _customZoomItem.Visibility = selected == null ? Visibility.Visible : Visibility.Collapsed;
+                _customZoomItem.Content = $"{Math.Round(_zoom * 100)}%";
+                _customZoomItem.Tag = _zoom;
+                _zoomBox.SelectedItem = selected ?? _customZoomItem;
+            }
+            finally { _updatingZoomBox = false; }
         }
 
         // The canvas size that was ASKED for - by an opened image, a crop, or the default. The
@@ -379,6 +404,13 @@ namespace KillerNotes.Controls.Sketch
             double vw = _zoomHost.ViewportWidth, vh = _zoomHost.ViewportHeight;
             if (vw < 1 || vh < 1) return;
             int w = Math.Max(_canvasBaseW, (int)vw), h = Math.Max(_canvasBaseH, (int)vh);
+            foreach (var item in _objects)
+            {
+                var bounds = SketchModel.BoundsOf(item);
+                double stroke = item.Kind is SketchKind.Image or SketchKind.Text ? 0 : item.Width / 2;
+                w = Math.Max(w, (int)Math.Ceiling(bounds.Right + stroke));
+                h = Math.Max(h, (int)Math.Ceiling(bounds.Bottom + stroke));
+            }
             if (w == _canvasW && h == _canvasH) return;
             _canvasW = w; _canvasH = h;
             _canvas.Width = w; _canvas.Height = h;
@@ -396,16 +428,20 @@ namespace KillerNotes.Controls.Sketch
             e.Handled = true;
         }
 
-        /// <summary>The magnifier button: 100% if the view is zoomed, otherwise fit the whole
-        /// canvas into the viewport. One button covers both things you ever want from a zoom
-        /// control, and the readout beside it says which state you are in.</summary>
+        /// <summary>F5 alternates between actual size and fitting the drawing.</summary>
         private void ToggleZoomFit()
         {
             if (_zoom != 1.0) { ApplyZoom(1.0); return; }
+            FitCanvasZoom();
+        }
+
+        private void FitCanvasZoom()
+        {
             if (_zoomHost == null || _canvasW < 1 || _canvasH < 1) return;
-            double vw = _zoomHost.ViewportWidth, vh = _zoomHost.ViewportHeight;
+            double vw = _zoomHost.ActualWidth, vh = _zoomHost.ActualHeight;
             if (vw < 1 || vh < 1) return;
-            ApplyZoom(Math.Min(vw / _canvasW, vh / _canvasH));
+            double fit = Math.Min(1.0, Math.Min(vw / _canvasW, vh / _canvasH));
+            ApplyZoom(Math.Floor(fit * 1000) / 1000);
         }
 
         /// <summary>Scales an image down until it fits the working area with room for the pad's

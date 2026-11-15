@@ -741,7 +741,8 @@
     <sys:String x:Key="Str_St_MentionsHidden">リンク元の帯を隠しました - Alt+M で再表示</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">リンク元の帯を表示しました</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">切り抜き (C) - 残す範囲をドラッグすると、その外側は切り取られます (Ctrl+Z で元に戻ります)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">ズーム (Ctrl+Wheel) - クリックで 100%、もう一度で全体表示</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">キャンバスをズーム (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">全体表示</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">「{0}」はまだありません</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">新しいノートとして作成して開きますか?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} 件のノートの {0} 件のリンクを更新しますか?</sys:String>

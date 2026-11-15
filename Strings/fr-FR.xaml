@@ -744,7 +744,8 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Bandeau des liens entrants masqué - Alt+M le réaffiche</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">Bandeau des liens entrants affiché</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Rogner (C) - glissez un cadre à conserver, tout ce qui dépasse est retiré (Ctrl+Z le restaure)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - cliquez pour 100%, encore pour ajuster</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoomer sur le canevas (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Ajuster</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">« {0} » n'existe pas encore</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">La créer comme nouvelle note et l'ouvrir ?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Mettre à jour {0} liens dans {1} notes ?</sys:String>

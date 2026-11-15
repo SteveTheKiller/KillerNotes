@@ -798,7 +798,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_MentionsHidden">A bejövő hivatkozások sávja elrejtve - az Alt+M újra megjeleníti</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">A bejövő hivatkozások sávja megjelenítve</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Levágás (C) - húzzon egy keretet a megtartandó részre, a rajta kívüli rész lekerül (a Ctrl+Z visszaállítja)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Nagyítás (Ctrl+Wheel) - kattintson a 100%-hoz, ismét a képhez igazításhoz</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">A vászon nagyítása (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Illesztés</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">A(z) &quot;{0}&quot; még nem létezik</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Létrehozza új jegyzetként és megnyitja?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Frissíti a(z) {0} hivatkozást {1} jegyzetben?</sys:String>

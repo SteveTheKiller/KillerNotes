@@ -13,11 +13,9 @@ namespace KillerNotes.Controls.Sketch
     {
         // ---- Layout ----
 
-        /// <summary>True on a beveled theme (UseDialogCaption marker): the pad then uses the
-        /// notepad treatment - minimal insets, no air around the rail, whole-button rail
-        /// overflow. Margins re-apply on a live theme switch (ThemeChanged handler in the
-        /// ctor); only the rail's overflow STRUCTURE (arrows vs fades) is build-once and picks
-        /// up a cross-family switch on reopen.</summary>
+        /// <summary>True on a beveled theme (UseDialogCaption marker). Rail overflow uses
+        /// whole-button arrows there and fades elsewhere. Its structure is built once and
+        /// picks up a cross-family switch on reopen.</summary>
         private bool _flatChrome;
         private Grid _contentGrid = null!;   // the padded content grid, for live margin re-apply
 
@@ -67,24 +65,12 @@ namespace KillerNotes.Controls.Sketch
             shell.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });  // content
             root.Children.Add(shell);
 
-            // Tighter card padding everywhere - the old 16/6/16/12 wasted canvas space - and on a
-            // beveled theme tighter still: a real Win98 client runs nearly flush to its frame
-            // (Notepad's skinny right edge), so 98SE gets the notepad treatment with minimal
-            // insets and no air around the tool rail. (2026-08-08)
             _flatChrome = TryFindResource("UseDialogCaption") is true;
-            // TWO geometries, deliberately unequal (2026-08-08):
-            // - Flat/98SE: notepad treatment. Right margin ZERO - the window frame's own padding
-            //   is all the right edge keeps - and minimal insets everywhere else.
-            // - Every other theme: the ORIGINAL 16/6/16/12. A first tightening pass cut these
-            //   too, and the pane's floating-card depth died with the breathing room - the drop
-            //   shadow, grain and rounded corners all read as "lost" with nothing around them.
-            //   The standard look needs its air; do not shave these again.
-            var grid = new Grid { Margin = _flatChrome ? new Thickness(3, 2, 0, 4) : new Thickness(16, 6, 16, 12) };
+            var grid = new Grid { Margin = new Thickness(8, 8, 16, 16) };
             _contentGrid = grid;
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // (unused - title moved out)
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // tools
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });   // canvas fills
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });                        // buttons
             Grid.SetRow(grid, 1);
             shell.Children.Add(grid);
 
@@ -112,7 +98,6 @@ namespace KillerNotes.Controls.Sketch
             BuildTitleBar(shell);
             BuildToolBar(grid);
             BuildCanvas(grid);
-            BuildButtons(grid);
         }
 
         private void BuildTitleBar(Grid shell)
@@ -159,13 +144,18 @@ namespace KillerNotes.Controls.Sketch
 
         private void BuildToolBar(Grid grid)
         {
-            // Top strip (row 1): the color palette on the left, undo / redo / clear on the right. The
-            // drawing tools live in the left rail (BuildToolRail), MS-Paint style.
-            var top = new Grid { Margin = new Thickness(0, 0, 0, _flatChrome ? 6 : 8) };
-            top.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });   // palette
-            top.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });                        // actions
+            // Keep each toolbar group together when a narrow window or long labels need another row.
+            var toolbar = new DockPanel { Margin = new Thickness(0, 0, 0, 8) };
+            var clear = ActionButton(Glyph(0xE894), L("Str_Sketch_Clear", "Clear all"), ClearAll);
+            clear.Margin = new Thickness(8, 0, 0, 6);
+            clear.VerticalAlignment = VerticalAlignment.Top;
+            clear.RenderTransform = new TranslateTransform(0, 4);
+            DockPanel.SetDock(clear, Dock.Right);
+            toolbar.Children.Add(clear);
+            var top = new WrapPanel();
+            toolbar.Children.Add(top);
 
-            var palette = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+            var palette = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) };
             _swatchRow = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
             palette.Children.Add(_swatchRow);
             // The swatches' shadow (bevel on 98SE, drop shadow elsewhere) pulls their VISUAL
@@ -176,8 +166,8 @@ namespace KillerNotes.Controls.Sketch
             var moreColors = ActionButton(Glyph(0xE790), L("Str_Sketch_MoreColors", "Custom color..."), OpenColorPicker);
             moreColors.RenderTransform = new TranslateTransform(0, 4);
             palette.Children.Add(moreColors);
-            Grid.SetColumn(palette, 0);
             top.Children.Add(palette);
+            top.Children.Add(BuildButtons());
 
             var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right, RenderTransform = new TranslateTransform(0, 4) };   // see the moreColors nudge above
             _undoBtn = ActionButton(Glyph(0xE7A7), L("Str_Sketch_Undo", "Undo (Ctrl+Z)"), Undo);
@@ -185,35 +175,47 @@ namespace KillerNotes.Controls.Sketch
             actions.Children.Add(_undoBtn);
             actions.Children.Add(_redoBtn);
             actions.Children.Add(Separator());
-            // ZOOM, in the TOP bar rather than the tool rail: it is a view control, not a drawing
-            // tool, so it does not belong beside the pen and the eraser. The button toggles
-            // between 100% and fit; Ctrl+wheel over the canvas is the fine control.
-            actions.Children.Add(ActionButton(IconZoom(),
-                L("Str_Sketch_Zoom", "Zoom (Ctrl+Wheel) - click for 100%, again to fit"), ToggleZoomFit));
-            _zoomReadout = new TextBlock
-            {
-                Text = "100%", VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 8, 6), MinWidth = 38,
-                TextAlignment = TextAlignment.Right, FontSize = 11,
-            };
-            _zoomReadout.SetResourceReference(TextBlock.ForegroundProperty, "MutedTextBrush");
-            actions.Children.Add(_zoomReadout);
-            actions.Children.Add(Separator());
-            actions.Children.Add(ActionButton(Glyph(0xE894), L("Str_Sketch_Clear", "Clear all"), ClearAll));
-            Grid.SetColumn(actions, 1);
+            actions.Children.Add(BuildZoomBox());
             top.Children.Add(actions);
 
             RebuildSwatches();
-            Grid.SetRow(top, 1);
-            grid.Children.Add(top);
+            Grid.SetRow(toolbar, 1);
+            grid.Children.Add(toolbar);
+        }
+
+        private ComboBox BuildZoomBox()
+        {
+            _zoomBox = new ComboBox { Width = 84, Height = 28, Margin = new Thickness(0, 0, 0, 6),
+                VerticalContentAlignment = VerticalAlignment.Center };
+            _zoomBox.SetResourceReference(FrameworkElement.StyleProperty, typeof(ComboBox));
+            Tip(_zoomBox, L("Str_Sketch_Zoom", "Zoom (Ctrl+Wheel / F5)"));
+            SketchBind(_zoomBox, "F5", Key.F5, ToggleZoomFit);
+            _zoomBox.Items.Add(new ComboBoxItem { Content = L("Str_Sketch_ZoomFit", "Fit"), Tag = "fit" });
+            foreach (double scale in new[] { 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 4.0 })
+                _zoomBox.Items.Add(new ComboBoxItem { Content = $"{scale * 100:0}%", Tag = scale });
+            _customZoomItem = new ComboBoxItem { Visibility = Visibility.Collapsed };
+            _zoomBox.Items.Add(_customZoomItem);
+            UpdateZoomBox();
+            _zoomBox.SelectionChanged += (_, _) =>
+            {
+                if (_updatingZoomBox) return;
+                if (_zoomBox.SelectedItem is ComboBoxItem { Tag: double value }) ApplyZoom(value);
+                else if (_zoomBox.SelectedItem is ComboBoxItem { Tag: "fit" }) FitCanvasZoom();
+            };
+            return _zoomBox;
         }
 
         // MS-Paint-style vertical tool rail (left of the canvas). Grouped draw / brush / shapes /
         // content, with thin rules between; the eraser sits directly under the brush-size button.
         private UIElement BuildToolRail()
         {
-            var rail = new StackPanel { Orientation = Orientation.Vertical, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 0, _flatChrome ? 2 : 8, 0) };
-            void Add(FrameworkElement b) { b.Width = 42; rail.Children.Add(b); }   // uniform rail width (matches the opacity button)
+            var rail = new StackPanel { Orientation = Orientation.Vertical, VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 0, 8, 0) };
+            void Add(FrameworkElement b)
+            {
+                b.Width = 42;
+                b.Margin = new Thickness(b.Margin.Left, b.Margin.Top, 0, b.Margin.Bottom);
+                rail.Children.Add(b);
+            }
 
             Add(ToolButton(IconSelect(), L("Str_Sketch_Select", "Select / move (V) - click an object, drag to move it, Delete removes it"), Tool.Select));
             Add(ToolButton(Glyph(0xE70F), L("Str_Sketch_Pen", "Pen - freehand (P)"), Tool.Pen));
@@ -429,7 +431,13 @@ namespace KillerNotes.Controls.Sketch
                 Padding = new Thickness(0),
                 Content = _canvas,
             };
+            _zoomHost.SetResourceReference(FrameworkElement.StyleProperty, "BareScrollViewer");
             _zoomHost.SizeChanged += (_, _) => GrowCanvasToViewport();
+            _zoomHost.ScrollChanged += (_, e) =>
+            {
+                if (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)
+                    Dispatcher.BeginInvoke(new Action(GrowCanvasToViewport), System.Windows.Threading.DispatcherPriority.Loaded);
+            };
             // Ctrl+wheel is the zoom, and it is taken on the SCROLLER so it works over the
             // letterbox around a zoomed-out canvas too, not only over the artwork itself.
             _zoomHost.PreviewMouseWheel += ZoomHost_PreviewMouseWheel;
@@ -504,27 +512,36 @@ namespace KillerNotes.Controls.Sketch
             grid.Children.Add(row);
         }
 
-        private void BuildButtons(Grid grid)
+        private StackPanel BuildButtons()
         {
-            // Bottom action row, centered: Copy to clipboard (the same flattened image Print makes),
-            // then Print to note (stamps the drawing inline at the caret, keeps the pad open; Ctrl+Enter).
-            // The title-bar X closes the pad.
-            var actions = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, _flatChrome ? 8 : 12, 0, 0) };
+            var actions = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 8, 0), RenderTransform = new TranslateTransform(0, 4) };
 
-            var copy = new Button { Content = L("Str_Sketch_CopyImage", "Copy to clipboard"), MinWidth = 110, Height = 30, Margin = new Thickness(0, 0, 8, 0), Style = Application.Current.TryFindResource("OutlineButton") as Style };
+            StackPanel Label(int icon, string text)
+            {
+                var content = new StackPanel { Orientation = Orientation.Horizontal };
+                var glyph = Glyph(icon);
+                glyph.Margin = new Thickness(0, 0, 6, 0);
+                content.Children.Add(glyph);
+                content.Children.Add(new TextBlock { Text = text, VerticalAlignment = VerticalAlignment.Center });
+                return content;
+            }
+
+            var copy = new Button { Content = Label(0xE8C8, L("Str_Sketch_CopyImage", "Copy to clipboard")), Height = 28,
+                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 6, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(copy, L("Str_Sketch_CopyImageTip", "Copy the drawing to the clipboard as an image"));
             SketchBind(copy, "Ctrl+C", Key.C, CopyToClipboard, ModifierKeys.Control);
             copy.Click += (_, _) => CopyToClipboard();
             actions.Children.Add(copy);
 
-            var print = new Button { Content = L("Str_Btn_CalcPrint", "Print to note"), MinWidth = 110, Height = 30, IsDefault = true, Style = Application.Current.TryFindResource("OutlineButton") as Style };
+            var print = new Button { Content = Label(0xE749, L("Str_Btn_CalcPrint", "Print to note")), Height = 28, IsDefault = true,
+                Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 0, 6), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(print, L("Str_Sketch_Print", "Print to note (Ctrl+Enter)"));
             DialogShortcuts.Describe(print, "Ctrl+Enter");
             print.Click += (_, _) => _print(_objects, _canvasW, _canvasH);
             actions.Children.Add(print);
 
-            Grid.SetRow(actions, 3);
-            grid.Children.Add(actions);
+            return actions;
         }
 
         // Copy the current drawing to the Windows clipboard as an image (the same flattened bitmap

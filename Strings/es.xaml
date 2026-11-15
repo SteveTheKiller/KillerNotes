@@ -744,7 +744,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_MentionsHidden">Barra de enlaces entrantes oculta - Alt+M la muestra de nuevo</sys:String>
     <sys:String x:Key="Str_St_MentionsShown">Barra de enlaces entrantes visible</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Recortar (C) - arrastre un recuadro para conservarlo, todo lo de fuera se recorta (Ctrl+Z lo restaura)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Wheel) - clic para 100%, otra vez para ajustar</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Ampliar el lienzo (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Ajustar</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" aún no existe</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">¿Crearla como nota nueva y abrirla?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">¿Actualizar {0} enlaces en {1} notas?</sys:String>

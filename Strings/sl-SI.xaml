@@ -693,7 +693,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Poravnaj črto</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Besedilo (T), kliknite za postavitev oznake, tipkajte, potrdite z Enter (Shift+Enter za novo vrstico)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Obreži (C), povlecite okvir za ohranitev, vse zunaj njega se odstrani (Ctrl+Z obnovi)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Povečava (Ctrl+Wheel), kliknite za 100 %, znova za prilagajanje</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Povečaj platno (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Prilagodi</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">»{0}« še ne obstaja</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Ustvarim in odprem nov zapisek?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Posodobim {0} povezav v {1} zapiskih?</sys:String>

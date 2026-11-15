@@ -769,7 +769,8 @@
     <sys:String x:Key="Str_Sketch_Straighten">Сызықты түзету</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Мәтін (T) - жапсырма қою үшін басыңыз, теріңіз, Enter бекітеді (Shift+Enter - жаңа жол)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Қиып алу (C) - қалдыратын аумақты сүйреп белгілеңіз, сыртындағының бәрі кесіледі (Ctrl+Z қайтарады)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Масштаб (Ctrl+дөңгелек) - 100% үшін басыңыз, тағы бассаңыз шақтайды</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Кенеп масштабы (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Сыйдыру</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" әлі жоқ</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Оны жаңа жазба етіп жасап ашу керек пе?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">{1} жазбадағы {0} сілтеме жаңартылсын ба?</sys:String>

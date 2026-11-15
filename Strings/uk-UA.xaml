@@ -809,7 +809,8 @@
     <sys:String x:Key="Str_Sketch_Straighten">Випрямити лінію</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Текст (T) - клацніть, щоб розмістити напис, введіть текст, Enter, щоб закріпити (Shift+Enter - новий рядок)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Обрізання (C) - обведіть рамкою те, що залишити, решту буде обрізано (Ctrl+Z відновлює)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Масштаб (Ctrl+коліщатко) - клацніть для 100%, ще раз, щоб умістити</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Масштабувати полотно (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Вмістити</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">«{0}» ще не існує</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Створити її як нову нотатку й відкрити?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Оновити посилання ({0}) у нотатках ({1})?</sys:String>

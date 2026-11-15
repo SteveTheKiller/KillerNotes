@@ -769,7 +769,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Sketch_Straighten">Raddrizza linea</sys:String>
     <sys:String x:Key="Str_Sketch_Text">Testo (T) - clicca per posizionare un'etichetta, digita, Enter per confermarla (Shift+Enter per una nuova riga)</sys:String>
     <sys:String x:Key="Str_Sketch_Crop">Ritaglia (C) - trascina un riquadro da tenere, tutto ciò che è fuori viene eliminato (Ctrl+Z lo ripristina)</sys:String>
-    <sys:String x:Key="Str_Sketch_Zoom">Zoom (Ctrl+Rotella) - clic per il 100%, di nuovo per adattare</sys:String>
+    <sys:String x:Key="Str_Sketch_Zoom">Zoom della tela (Ctrl+Wheel / F5)</sys:String>
+    <sys:String x:Key="Str_Sketch_ZoomFit">Adatta</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewHead">"{0}" non esiste ancora</sys:String>
     <sys:String x:Key="Str_Dlg_WikiNewBody">Crearla come nuova nota e aprirla?</sys:String>
     <sys:String x:Key="Str_Dlg_RenameLinksHead">Aggiornare {0} link in {1} note?</sys:String>
