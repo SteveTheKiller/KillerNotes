@@ -78,8 +78,8 @@ namespace KillerNotes.Tests
             var bar = new DialogTitleBar();
             var close = (Button)bar.FindName("CloseButton");
 
-            Assert.Equal((double)Application.Current.FindResource("AboutCloseWidth"), close.Width);
-            Assert.Equal((double)Application.Current.FindResource("AboutCloseHeight"), close.Height);
+            Assert.Equal((double)Application.Current.FindResource("DialogCloseWidth"), close.Width);
+            Assert.Equal((double)Application.Current.FindResource("DialogCloseHeight"), close.Height);
         });
 
         // The shared title bar (Password, Tags, Input, Databases) put its X flush in the corner on

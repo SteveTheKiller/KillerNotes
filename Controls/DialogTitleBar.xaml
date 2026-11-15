@@ -61,7 +61,7 @@
                     ToolTip="{DynamicResource Str_Sys_Close}"
                     AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                     HorizontalAlignment="Right" VerticalAlignment="Center"
-                    Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                    Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
                     Style="{StaticResource OverlayCloseButton}"/>
         </Grid>
         </Grid>

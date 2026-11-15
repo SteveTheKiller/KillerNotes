@@ -145,6 +145,10 @@
          downward depth takes 4 off the top and adds 4 to the bottom. -->
     <Thickness x:Key="MenuHaloMargin">22,18,22,26</Thickness>
 
+    <!-- Elevation for the format bar (KillerPDF ShadowBar). The kit dropped its fixed-opacity
+         shadows from Controls.xaml; this app still lifts the format bar with this one. -->
+    <DropShadowEffect x:Key="ShadowBar" Color="Black" BlurRadius="6" ShadowDepth="3" Direction="270" Opacity="0.38"/>
+
     <!-- The FLOATING close: same shared template, all four hover-block corners rounded
          (DialogCloseCornerRadius = SmallCornerRadius, 0 on a square theme). ONLY for the X's
          that float INSET from a window corner - the About and Fonts overlays - where the

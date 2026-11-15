@@ -949,8 +949,11 @@ namespace KillerNotes.Services
             // theme that draws a dialog caption, a compact 28x26 everywhere else, flush with the
             // caption buttons' right inset.
             bool pickerCaption = combined.Contains("UseDialogCaption") && combined["UseDialogCaption"] is bool fp && fp;
-            SetIfAbsent("DialogCloseWidth", pickerCaption ? combined["CaptionButtonWidth"] : 28.0);
-            SetIfAbsent("DialogCloseHeight", pickerCaption ? combined["CaptionButtonHeight"] : 26.0);
+            // Sized from the dialog band, not the main caption: Win98 made a caption button the
+            // caption minus 4 tall and 2 wider than that, so a 20px band gets an 18x16 X.
+            double bar = combined["DialogTitleBarHeight"] is double barH ? barH : 32.0;
+            SetIfAbsent("DialogCloseWidth", pickerCaption ? bar - 2 : 28.0);
+            SetIfAbsent("DialogCloseHeight", pickerCaption ? bar - 4 : 26.0);
             SetIfAbsent("DialogCaptionButtonsMargin", new Thickness(0, 0,
                 combined["CaptionButtonsMargin"] is Thickness pickerButtons ? pickerButtons.Right : 0, 0));
             SetIfAbsent("TitleLogoMargin", combined.Contains("UseDialogCaption") && combined["UseDialogCaption"] is bool fc && fc
@@ -1039,6 +1042,9 @@ namespace KillerNotes.Services
                 // A 1px MDL2 stroke disappears against a gray button face at 16px.
                 combined["CaptionGlyphWeight"] = flat ? FontWeights.Bold : FontWeights.Normal;
 
+                // ...and at 10px the X fills a 98SE face edge to edge, which reads as off center.
+                combined["CaptionGlyphSize"] = flat ? 8.0 : 10.0;
+
                 // The About card only gets a caption band when the theme asks for one; 0 keeps
                 // every other theme's card at the exact layout it already had.
                 combined["AboutCaptionHeight"] = flat ? combined["DialogTitleBarHeight"] : 0.0;
@@ -1049,7 +1055,9 @@ namespace KillerNotes.Services
                 // bare glyph always occupied (matching KillerNotes' card).
                 combined["AboutCloseWidth"]  = flat ? 16.0 : 28.0;
                 combined["AboutCloseHeight"] = flat ? 14.0 : 26.0;
-                combined["AboutCloseMargin"] = flat ? new Thickness(0, 5, 5, 0) : new Thickness(0, 6, 6, 0);
+                // The About, Fonts and Shortcuts closes now take DialogCloseWidth/Height (18x16 on
+                // the 20px band), so the flat margin centers that box in the band below the 2px inset.
+                combined["AboutCloseMargin"] = flat ? new Thickness(0, 4, 4, 0) : new Thickness(0, 6, 6, 0);
 
                 // ...and the rest of the OverlayCloseButton split (Controls.xaml): the ordinary
                 // themes keep the card X's ORIGINAL look - muted U+2715, red glyph on hover, no

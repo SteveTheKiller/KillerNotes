@@ -75,6 +75,7 @@ namespace KillerFamily.Controls
                 var b = new Button { Content = a.Glyph, Tag = a.Caption, IsEnabled = a.Enabled, ToolTip = Tip(a.Tip, a.Gesture) };
                 b.SetResourceReference(FrameworkElement.StyleProperty, "CardQuickButton");
                 AutomationProperties.SetName(b, a.Tip);
+                ToolTipService.SetShowOnDisabled(b, true);
                 if (!string.IsNullOrEmpty(a.Gesture)) AutomationProperties.SetAcceleratorKey(b, a.Gesture);
                 var run = a.Run;
                 b.Click += (_, _) => { Close(b); run(); };
@@ -98,6 +99,7 @@ namespace KillerFamily.Controls
                 var t = new ToggleButton { Content = c.Text, IsChecked = c.On, IsEnabled = c.Enabled, ToolTip = Tip(c.Tip, c.Gesture), Margin = new Thickness(0, 2, 6, 2) };
                 t.SetResourceReference(FrameworkElement.StyleProperty, "CardToggle");
                 AutomationProperties.SetName(t, c.Tip);
+                ToolTipService.SetShowOnDisabled(t, true);
                 if (!string.IsNullOrEmpty(c.Gesture)) AutomationProperties.SetAcceleratorKey(t, c.Gesture);
                 var run = c.Run;
                 t.Click += (_, _) => { Close(t); run(); };
@@ -117,6 +119,7 @@ namespace KillerFamily.Controls
                 var r = new RadioButton { Content = c.Text, GroupName = group, IsChecked = c.On, IsEnabled = c.Enabled, ToolTip = Tip(c.Tip, c.Gesture) };
                 r.SetResourceReference(FrameworkElement.StyleProperty, "CardSegment");
                 AutomationProperties.SetName(r, c.Tip);
+                ToolTipService.SetShowOnDisabled(r, true);
                 if (!string.IsNullOrEmpty(c.Gesture)) AutomationProperties.SetAcceleratorKey(r, c.Gesture);
                 var run = c.Run;
                 bool was = c.On;
@@ -209,9 +212,24 @@ namespace KillerFamily.Controls
 
         private static MenuItem Slot(object header)
         {
-            var slot = new MenuItem { Header = header };
+            var slot = new CardSlotItem { Header = header };
             slot.SetResourceReference(FrameworkElement.StyleProperty, "CardSlot");
             return slot;
+        }
+
+        // A header, quick strip or labeled row holds controls of its own, so it is a group to
+        // assistive technology and not one more menu item to arrow through.
+        private sealed class CardSlotItem : MenuItem
+        {
+            protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer() => new Peer(this);
+
+            private sealed class Peer : System.Windows.Automation.Peers.MenuItemAutomationPeer
+            {
+                public Peer(MenuItem owner) : base(owner) { }
+                protected override System.Windows.Automation.Peers.AutomationControlType GetAutomationControlTypeCore() =>
+                    System.Windows.Automation.Peers.AutomationControlType.Group;
+                protected override string GetClassNameCore() => "CardSlot";
+            }
         }
     }
 }

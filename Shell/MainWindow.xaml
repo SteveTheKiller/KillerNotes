@@ -3246,7 +3246,7 @@
                                 Click="AboutClose_Click" Style="{StaticResource OverlayCloseButton}"
                                 AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
 
                         <!-- 8px between the card edge and the info panel on each side. Family
@@ -3511,7 +3511,7 @@
                                 AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 AutomationProperties.AcceleratorKey="Esc" ToolTip="{DynamicResource Str_Sys_Close}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
                         <ScrollViewer Grid.Row="1" Style="{StaticResource OverlayScrollViewer}"
                                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -3616,7 +3616,7 @@
                                 AutomationProperties.Name="{DynamicResource Str_Sys_Close}"
                                 Style="{StaticResource OverlayCloseButton}"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Width="{DynamicResource AboutCloseWidth}" Height="{DynamicResource AboutCloseHeight}"
+                                Width="{DynamicResource DialogCloseWidth}" Height="{DynamicResource DialogCloseHeight}"
                                 Margin="{DynamicResource AboutCloseMargin}" Panel.ZIndex="2"/>
                         <ScrollViewer x:Name="ShortcutScroller" VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled" Style="{StaticResource OverlayScrollViewer}"
