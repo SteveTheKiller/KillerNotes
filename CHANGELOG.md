@@ -18,7 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.
 - Switching notes and refreshing the sidebar avoid rereading or rewriting large pictures. Existing notepads receive a one-time layout update and remain compatible with older versions.
 - Imported groups appear in every picker immediately, and nested groups stay under their parents regardless of alphabetical order.
-- Multi-note Delete confirms and deletes the whole selection in both the sidebar and Group manager.
+- Multi-note Delete confirms and deletes the whole selection in both the sidebar and Group manager. Deleting notes and undoing deletion keep the sidebar's scroll position.
 - The group manager's custom color picker changes the intended note. Open managers refresh after note edits and language changes, and note rows expose their titles to accessibility tools.
 - Fast clicks no longer start unintended note or group drags.
 - Mouse-wheel scrolling follows Windows' line and page settings.

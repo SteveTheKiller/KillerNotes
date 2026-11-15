@@ -84,8 +84,8 @@ namespace KillerNotes.Shell
             NoteStore.Trash(n.Id);
             if (n.Id == _currentId) CloseCurrentNote();   // Trash.cs
             long id = n.Id;
-            PushUndo(() => { NoteStore.Restore(id); RefreshList(); });   // ActionUndo.cs
-            RefreshList();
+            PushUndo(() => { NoteStore.Restore(id); RefreshList(preserveScroll: true); });   // ActionUndo.cs
+            RefreshList(preserveScroll: true);
             StatusText.Text = Loc("Str_St_NoteDeleted");
             OpenStartupNote();   // never drop back to the empty screen
         }
@@ -118,8 +118,8 @@ namespace KillerNotes.Shell
                 NoteStore.Trash(id);
                 if (id == _currentId) CloseCurrentNote();   // Trash.cs
             }
-            PushUndo(() => { foreach (long id in ids) NoteStore.Restore(id); RefreshList(); });
-            RefreshList();
+            PushUndo(() => { foreach (long id in ids) NoteStore.Restore(id); RefreshList(preserveScroll: true); });
+            RefreshList(preserveScroll: true);
             StatusText.Text = string.Format(Loc("Str_St_NotesDeleted"), notes.Count);
             OpenStartupNote();   // never drop back to the empty screen
         }
