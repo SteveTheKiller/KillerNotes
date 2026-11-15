@@ -40,7 +40,7 @@ namespace KillerNotes.Shell
             else UpdateBackupHealth();   // overdue can begin without any backup being attempted
         }
 
-        /// <summary>Alt+B (Shortcuts.cs): a backup right now, schedule or no schedule, as long
+        /// <summary>Shift+F6 (Shortcuts.cs): a backup right now, schedule or no schedule, as long
         /// as a folder has been chosen in Manage databases.</summary>
         private void BackupNowShortcut()
         {

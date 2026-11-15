@@ -225,7 +225,7 @@ namespace KillerNotes.Shell
                         TemplateShortcut();   // Templates.cs (a flyout of the templates group)
                         e.Handled = true; return;
                     case Key.B:
-                        BackupNowShortcut();   // Backup.cs (a copy now, schedule or not)
+                        ToggleFormatBarPlacement();   // FormatBar.cs: docked or floating
                         e.Handled = true; return;
                     case Key.Delete:
                         GoToTrash();   // Trash.cs (open the Trash section on its first note)
@@ -344,7 +344,7 @@ namespace KillerNotes.Shell
                     }
                     break;
                 case Key.F6:
-                    if (shift && !ctrl) ToggleFormatBarPlacement();   // FormatBar.cs: docked or floating
+                    if (shift && !ctrl) BackupNowShortcut();   // Backup.cs (a copy now, schedule or not)
                     else ToggleFormatBar();                  // FormatBar.cs
                     e.Handled = true;
                     break;

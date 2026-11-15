@@ -10,9 +10,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
 
+### Changed
+
+- Backing up the database right away moved from Alt+B to Shift+F6.
+
 ### Added
 
-- The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Shift+F6. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
+- The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
 
 ## [1.7.0] - 2026-11-14
 

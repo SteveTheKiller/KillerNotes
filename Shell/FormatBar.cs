@@ -473,7 +473,7 @@ namespace KillerNotes.Shell
                 Header = Loc(docked ? "Str_ToolMenu_Floating" : "Str_ToolMenu_Docked"),
                 Tag = "toolmenu",
                 Icon = FormatBarIcons.For(floating: docked),
-                InputGestureText = "Shift+F6",
+                InputGestureText = "Alt+B",
             };
             item.Click += (_, _) => ToggleFormatBarPlacement();
             return item;
@@ -542,7 +542,7 @@ namespace KillerNotes.Shell
                 e.Handled = true;
                 if (!e.IsRepeat) { menu.IsOpen = false; ToggleFormatBar(); }
             }
-            else if (mods == System.Windows.Input.ModifierKeys.Shift && key == System.Windows.Input.Key.F6)
+            else if (mods == System.Windows.Input.ModifierKeys.Alt && key == System.Windows.Input.Key.B)
             {
                 e.Handled = true;
                 if (!e.IsRepeat) { menu.IsOpen = false; ToggleFormatBarPlacement(); }
