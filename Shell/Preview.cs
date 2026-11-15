@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -158,6 +157,7 @@ namespace KillerNotes.Shell
             bool on = !DetectMarkdownGlobally;
             App.SetSetting("DetectMarkdown", on ? "on" : "off");
             AboutDetectMarkdown.IsChecked = on;   // the settings row (About card) mirrors Alt+V
+            RefreshList(preserveScroll: true);
             UpdatePreviewState();
             FlashStatus(Loc(on ? "Str_St_PreviewGlobalOn" : "Str_St_PreviewGlobalOff"));
         }
@@ -180,6 +180,8 @@ namespace KillerNotes.Shell
             // gets the preview and F4. Detection only guesses for rich-text notes.
             _docKind = CurrentIsMarkdown ? DocKind.Markdown
                 : DetectMarkdownGlobally ? DetectDocKind(text) : DocKind.None;
+            foreach (var note in _notes.Concat(_sidebarItems.OfType<Models.Note>()).Where(n => n.Id == _currentId))
+                note.DetectedMarkdown = _docKind == DocKind.Markdown;
             // The outline reads # headings from a detected markdown note (Headings.cs), and it is
             // built before this runs on a note load, so a change of kind rebuilds it.
             if (_docKind != previousKind) RefreshOutline();
@@ -331,22 +333,7 @@ namespace KillerNotes.Shell
             if (string.IsNullOrWhiteSpace(t)) return DocKind.None;
             if (PreviewDocument.HasHtml(t)) return DocKind.Html;
 
-            // STRONG signals: syntax nobody types unless they mean markdown. One is enough.
-            int strong = 0;
-            if (Regex.IsMatch(t, @"(?m)^#{1,6}\s")) strong++;            // # headers
-            if (t.Contains("```")) strong++;                             // fenced code
-            if (Regex.IsMatch(t, @"\[[^\]]+\]\([^)]+\)")) strong++;      // [text](link)
-            if (Regex.IsMatch(t, @"\*\*[^*]+\*\*")) strong++;            // **bold**
-            if (Regex.IsMatch(t, @"(?m)^>\s")) strong++;                 // blockquote
-            if (Regex.IsMatch(t, @"(?m)^\|.+\|\s*$")) strong++;          // | table |
-
-            // Deliberately NOT signals: "- bullet" and "1. numbered" lines. They are how everyone
-            // writes a plain-text checklist, and the old "any 2 of 8" rule let those two alone add
-            // up to markdown - so every tech's cutover list grew a Preview button it never wanted
-            // (#14, MrPapaya-JRR). Real markdown almost always carries a header, fence, link, bold,
-            // quote or table as well, so requiring one strong signal keeps detection and drops the
-            // false positives.
-            return strong >= 1 ? DocKind.Markdown : DocKind.None;
+            return PreviewDocument.IsMarkdown(t) ? DocKind.Markdown : DocKind.None;
         }
 
         // Three submenu picks - one radio-style choice at a time. Each drives the same

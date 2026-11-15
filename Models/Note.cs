@@ -108,8 +108,20 @@ namespace KillerNotes.Models
             }
         }
         public bool IsMarkdown => Format == FormatMarkdown;
-        // Sidebar cue that a row holds markdown rather than rich text.
-        public Visibility FormatBadgeVisibility => IsMarkdown ? Visibility.Visible : Visibility.Collapsed;
+        private bool _detectedMarkdown;
+        public bool DetectedMarkdown
+        {
+            get => _detectedMarkdown;
+            set
+            {
+                if (_detectedMarkdown == value) return;
+                _detectedMarkdown = value;
+                OnChanged(nameof(DetectedMarkdown));
+                OnChanged(nameof(FormatBadgeVisibility));
+            }
+        }
+        // Detection describes the source without changing its stored content format.
+        public Visibility FormatBadgeVisibility => IsMarkdown || DetectedMarkdown ? Visibility.Visible : Visibility.Collapsed;
 
         public const int FormatRich = 0;
         public const int FormatMarkdown = 1;

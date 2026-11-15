@@ -155,7 +155,7 @@ namespace KillerNotes.Shell
         {
             Note n => string.Join("|", "N", n.Id, n.Title, n.Snippet, n.ModifiedDisplay, n.TitleColor,
                                   n.Tags, n.Notebook, n.GroupDepth, n.GroupColor, n.IsFirstInGroup, n.IsLastInGroup, n.Density, RailSig(n.Rails),
-                                  n.IsDeleted, n.Pinned),
+                                  n.IsDeleted, n.Pinned, n.Format, n.DetectedMarkdown),
             GroupHeader g => string.Join("|", "G", g.Path, g.Name, g.Depth, g.Count, g.Collapsed, g.NameColor, g.Density, RailSig(g.Rails)),
             TrashHeader t => string.Join("|", "T", t.Count, t.Collapsed, t.Density),
             _ => o.GetHashCode().ToString(),

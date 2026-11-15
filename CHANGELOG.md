@@ -13,6 +13,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Undoing a duplicate or template creation cannot delete a newer note, including after a password change. Later Templates and Daily group choices survive template Undo.
 - Template copies preserve sketch-label search and leave no partial note or group after failure. Unreadable source content reports an error instead of creating an empty copy.
 - Markdown exports preserve user-created and modified files in their media folder.
+- Detected Markdown shows its sidebar symbol, and converting existing source preserves its syntax without adding escapes.
 - Recording edits wait for transcription, and completed transcripts stay with their original recording.
 - Read-only notepads reject tag changes without altering displayed tags or reporting a save.
 - Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.

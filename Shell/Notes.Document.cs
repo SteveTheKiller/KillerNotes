@@ -310,6 +310,7 @@ namespace KillerNotes.Shell
                     meta.Title = TitleBox.Text;
                     meta.Modified = DateTime.Now;
                     meta.Snippet = snippet;
+                    meta.DetectedMarkdown = DetectMarkdownGlobally && PreviewDocument.IsMarkdown(bodyText);
                 }
 
             if (refreshList)

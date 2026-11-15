@@ -22,6 +22,14 @@ namespace KillerNotes.Services
             return false;
         }
 
+        public static bool IsMarkdown(string source)
+        {
+            if (string.IsNullOrWhiteSpace(source) || HasHtml(source)) return false;
+            // Lists alone are ordinary plain-text checklists. Require a strong source signal.
+            return Regex.IsMatch(source, @"(?m)^#{1,6}\s|\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|^>\s|^\|.+\|\s*$")
+                || source.Contains("```");
+        }
+
         public static FlowDocument Render(string source, double fontSize)
         {
             // Preserve technical placeholders while leaving code examples untouched.

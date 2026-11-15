@@ -143,7 +143,10 @@ namespace KillerNotes.Shell
             byte[] beforeBlob = blob ?? [];
             string beforePlain = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
 
-            string md = MarkdownConvert.FromDocument(doc);
+            string source = MarkdownBlob.TextOf(doc);
+            string md = DetectMarkdownGlobally && PreviewDocument.IsMarkdown(source)
+                ? source
+                : MarkdownConvert.FromDocument(doc);
             NoteStore.SetFormat(note.Id, Note.FormatMarkdown, MarkdownBlob.Encode(md), md);
             PushConvertUndo(note, Note.FormatRich, beforeBlob, beforePlain);
             FinishConvert(note, Note.FormatMarkdown);

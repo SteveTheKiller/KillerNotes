@@ -716,7 +716,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 "custom"       => "sort_order ASC, id ASC",
                 _              => "created ASC, id ASC",
             };
-            const string cols = "id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
+            const string cols = "id, title, notebook, tags, created, modified, plain, title_color, spellcheck, sort_order, format, syntax, pinned, deleted";
 
             using var cmd = _db.CreateCommand();
             var query = SearchQuery.Parse(search);
@@ -747,7 +747,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null) return null;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
                               "FROM notes WHERE id = $id";
             cmd.Parameters.AddWithValue("$id", id);
             using var reader = cmd.ExecuteReader();
@@ -763,6 +763,8 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             Created  = ParseTs(r.GetString(4)),
             Modified = ParseTs(r.GetString(5)),
             Snippet  = FirstLine(r.IsDBNull(6) ? "" : r.GetString(6)),
+            DetectedMarkdown = App.GetSetting("DetectMarkdown") != "off"
+                && !r.IsDBNull(6) && PreviewDocument.IsMarkdown(r.GetString(6)),
             TitleColor = r.IsDBNull(7) ? "" : r.GetString(7),
             SpellCheck = !r.IsDBNull(8) && r.GetInt64(8) != 0,
             SortOrder  = r.IsDBNull(9) ? 0 : (int)r.GetInt64(9),
@@ -786,7 +788,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             var results = new List<Note>();
             if (_db == null) return results;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
+            cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
                               "FROM notes WHERE deleted <> '' ORDER BY deleted DESC, id DESC";
             using var r = cmd.ExecuteReader();
             while (r.Read()) results.Add(ReadListRow(r));
@@ -2832,7 +2834,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                 SnapshotFolder = folder;
                 var notes = new List<Note>();
                 using var cmd = _conn.CreateCommand();
-                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, substr(plain, 1, 120), " +
+                cmd.CommandText = "SELECT id, title, notebook, tags, created, modified, plain, " +
                     "title_color, spellcheck, sort_order, format, syntax, pinned, deleted " +
                     "FROM notes WHERE deleted = '' ORDER BY created DESC, id DESC";
                 using var reader = cmd.ExecuteReader();
@@ -3339,6 +3341,7 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
 
         private static string FirstLine(string s)
         {
+            if (s.Length > 120) s = s[..120];
             s = s.TrimStart();
             int nl = s.IndexOfAny(['\r', '\n']);
             return nl < 0 ? s : s[..nl];
