@@ -69,6 +69,7 @@ namespace KillerNotes.Controls
         public string ModifiedDisplay => Modified.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
         public string Tags { get; init; } = "";
         public Brush ColorBrush { get; init; } = Brushes.Transparent;
+        public Brush? TitleBrush { get; init; }
     }
 
     public partial class GroupManagerWindow : Window
@@ -302,6 +303,7 @@ namespace KillerNotes.Controls
                 Modified = n.Modified,
                 Tags = string.Join(", ", n.Tags.Split(',').Select(t => t.Trim()).Where(t => t.Length > 0)),
                 ColorBrush = BrushOf(n.TitleColor) ?? Brushes.Transparent,
+                TitleBrush = BrushOf(n.TitleColor),
             });
             Func<NoteRowItem, object> key = _sortKey switch
             {

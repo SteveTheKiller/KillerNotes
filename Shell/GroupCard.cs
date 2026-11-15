@@ -34,6 +34,8 @@ namespace KillerNotes.Shell
             string count = g.Count == 1 ? Loc("Str_Card_OneNote") : string.Format(Loc("Str_Card_NotesCount"), g.Count);
             GroupCardMeta.Text = parent.Length > 0 ? count + "  \u00B7  " + parent.Replace(NoteStore.GroupSep, " / ") : count;
             GroupCardDot.Fill = g.NameBrush ?? (Brush)Brushes.Transparent;
+            if (g.NameBrush is Brush titleBrush) GroupCardTitle.Foreground = titleBrush;
+            else GroupCardTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
             GroupCardSwatches.Show(ColorPickerDialog.UserSwatches(), g.NameColor);
             GroupCardParentText.Text = parent.Length == 0 ? Loc("Str_Card_TopLevel") : parent.Replace(NoteStore.GroupSep, " / ");
             BuildParentMenu(g.Path);

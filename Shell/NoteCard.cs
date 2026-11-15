@@ -76,7 +76,16 @@ namespace KillerNotes.Shell
             CardPinMark.Visibility = allPinned ? Visibility.Visible : Visibility.Collapsed;
 
             string? color = SharedValue(_cardNotes.Select(n => n.TitleColor));
-            CardColorDot.Fill = color is { Length: > 0 } && TryBrush(color) is Brush b ? b : Brushes.Transparent;
+            if (color is { Length: > 0 } && TryBrush(color) is Brush b)
+            {
+                CardColorDot.Fill = b;
+                CardTitle.Foreground = b;
+            }
+            else
+            {
+                CardColorDot.Fill = Brushes.Transparent;
+                CardTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
+            }
             CardSwatches.Show(ColorPickerDialog.UserSwatches(), color);
 
             // Quick buttons: Pin names what it will do; the rest only make sense for one note.

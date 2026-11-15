@@ -123,7 +123,18 @@
                                             </Ellipse.Style>
                                         </Ellipse>
                                     </Grid>
-                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{Binding ColorMarkerBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ColorMarkerBrush}" Value="{x:Null}">
+                                                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                     <TextBlock Text="{Binding CountDisplay}" FontSize="11" Margin="8,0,0,0" Opacity="0.6" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
@@ -181,7 +192,18 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                                 <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center" Fill="{Binding ColorBrush}"/>
-                                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="{Binding TitleBrush}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding TitleBrush}" Value="{x:Null}">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </StackPanel>
                                             <TextBlock Grid.Column="1" Text="{Binding ModifiedDisplay}" Opacity="0.75" Margin="6,0,0,0" VerticalAlignment="Center"/>
                                             <TextBlock Grid.Column="2" Text="{Binding Tags}" TextTrimming="CharacterEllipsis" Opacity="0.75"
