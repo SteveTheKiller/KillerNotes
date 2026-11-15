@@ -109,6 +109,8 @@
     <Resource Include="Resources\kn-icon.ico" />
     <Resource Include="Resources\app-icon-master.png" />
     <Resource Include="Resources\kn-icon.png" />
+    <Resource Include="Resources\group-folder.png" />
+    <Resource Include="Resources\group-folder-classic.png" />
     <Resource Include="Resources\Demo\KillerPDF.png" />
     <Resource Include="Resources\Demo\KillerShell.png" />
     <Resource Include="Resources\Demo\Killendar.png" />

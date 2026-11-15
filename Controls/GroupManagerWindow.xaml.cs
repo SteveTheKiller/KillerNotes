@@ -42,12 +42,14 @@ namespace KillerNotes.Controls
     {
         internal enum NodeKind { Group, AllNotes, NoGroup }
         internal NodeKind Kind { get; init; }
+        public bool IsFolder => Kind != NodeKind.AllNotes;
         public string Path { get; init; } = "";
         public string Name { get; init; } = "";
         public int Count { get; set; }
         public string CountDisplay => Count > 0 ? Count.ToString(CultureInfo.CurrentCulture) : "";
         public string Glyph { get; init; } = "\uE8B7";
         public Brush? GlyphBrush { get; init; }
+        public Brush? ColorMarkerBrush { get; init; }
         public ObservableCollection<GroupNode> Children { get; } = [];
 
         private bool _expanded, _selected;
@@ -147,6 +149,8 @@ namespace KillerNotes.Controls
         private void UpdateChrome()
         {
             bool flat = TryFindResource("UseDialogCaption") is true;
+            Resources["GroupFolderIcon"] = Resources[flat ? "ClassicGroupFolder" : "ModernGroupFolder"];
+            Resources["GroupFolderScalingMode"] = flat ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
             Resources["DialogHaloMargin"] = flat ? new Thickness(0) : new Thickness(20, 20, 20, 24);
             WindowChrome.SetWindowChrome(this, new WindowChrome
             {
@@ -207,6 +211,7 @@ namespace KillerNotes.Controls
                     Name = NoteStore.GroupNameOf(path),
                     Count = counts.TryGetValue(path, out int c) ? c : 0,
                     GlyphBrush = BrushOf(color) ?? TryFindResource("PrimaryBrush") as Brush,
+                    ColorMarkerBrush = BrushOf(color),
                     IsExpanded = firstLoad || open.Contains(path),
                 };
                 byPath[path] = node;

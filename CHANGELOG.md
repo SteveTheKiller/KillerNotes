@@ -42,6 +42,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Note creation and folder import live beside New note; whole-notepad export runs directly from the library rail, and Markdown and HTML detection live in About settings.
 - Preview uses a compact family dropdown that fits translated labels and blends with its surface, with a code icon for Source; F4 cycles through Source, Rendered, and Split.
 - The sidebar combines sort controls, shows group counts, and uses a compact New note button and distinct Group manager and export icons. Empty sidebar space no longer opens a menu.
+- Group manager uses KillerShell folder artwork with group-color markers and a compact folder-plus New group button.
 - The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
 - Buttons use flat styling without shadows.
 - Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
