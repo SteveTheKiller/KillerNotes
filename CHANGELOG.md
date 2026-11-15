@@ -4,7 +4,7 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.7.0] - Unreleased
+## [1.7.0] - 2026-11-14
 
 1.7.0 adds context cards and a group manager, improves large notepads, and strengthens copying, exports, and recording edits.
 
@@ -13,49 +13,49 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Undoing a duplicate or template creation cannot delete a newer note, including after a password change. Later Templates and Daily group choices survive template Undo.
 - Template copies preserve sketch-label search and leave no partial note or group after failure. Unreadable source content reports an error instead of creating an empty copy.
 - Markdown exports preserve user-created and modified files in their media folder.
-- Detected Markdown shows its sidebar symbol, and converting existing source preserves its syntax without adding escapes.
 - Recording edits wait for transcription, and completed transcripts stay with their original recording.
-- Read-only notepads reject tag changes without altering displayed tags or reporting a save.
 - Editing or converting imported PCM recordings handles metadata chunks and 8-, 16-, 24-, and 32-bit samples correctly. Simultaneous audio startup no longer reports an available codec as missing.
+- Read-only notepads reject tag changes without altering displayed tags or reporting a save.
+- Multi-note Delete confirms and deletes the whole selection in both the sidebar and Group manager. Deleting notes and undoing deletion keep the sidebar's scroll position.
 - Switching notes and refreshing the sidebar avoid rereading or rewriting large pictures. Existing notepads receive a one-time layout update and remain compatible with older versions.
 - Imported groups appear in every picker immediately, and nested groups stay under their parents regardless of alphabetical order.
-- Multi-note Delete confirms and deletes the whole selection in both the sidebar and Group manager. Deleting notes and undoing deletion keep the sidebar's scroll position.
+- Detected Markdown shows its sidebar symbol, and converting existing source preserves its syntax without adding escapes.
 - The group manager's custom color picker changes the intended note. Open managers refresh after note edits and language changes, and note rows expose their titles to accessibility tools.
 - Fast clicks no longer start unintended note or group drags.
-- Mouse-wheel scrolling follows Windows' line and page settings.
 - Keyboard context menus follow the current editor selection and focused folder. Group cards open on the first keyboard request. Sketchpad and dictation cards support keyboard opening and focus return.
+- Mouse-wheel scrolling follows Windows' line and page settings.
 - Rendered notes use localized Copy and Select all commands with properly spaced shortcuts.
+- Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, the footer note-count inset, and the doubled left border in Rendered view are corrected.
 - Dialog close glyphs stay centered at different display scales.
 - Group manager panes use the theme's pane background and grain instead of the window gradient.
 - Graph windows no longer show a gray resize patch in modern themes.
-- Scrolled keyboard shortcuts keep a single rounded border.
 - SketchPad keeps its pane border when clicked and shows keyboard focus separately.
-- Context cards hide irrelevant sections and unnecessary trailing dividers. Menu icons, shortcut alignment, compact-sidebar dates, dialog close buttons, the footer note-count inset, and the doubled left border in Rendered view are corrected.
+- Scrolled keyboard shortcuts keep a single rounded border.
 
 ### Changed
 
 - Notes and groups use context cards with color swatches, matching title colors, larger color markers, and common actions. Multi-note cards apply color, tags, group, pin, and delete to the selection.
 - Editor, graph, sketch, recording, database, and tag menus use matching cards with actions appropriate to the selected object.
+- The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
+- The sidebar combines sort controls, shows group counts, and uses a compact New note button, distinct Group manager and export icons, and a larger Markdown symbol. Empty sidebar space no longer opens a menu.
+- Note creation and folder import live beside New note; whole-notepad export runs directly from the library rail, and Markdown and HTML detection live in About settings.
+- Preview uses a compact family dropdown that fits translated labels and blends with its surface, with a code icon for Source; F4 cycles through Source, Rendered, and Split.
+- Group manager uses KillerShell folder artwork, matching group and note title colors, and a compact folder-plus New group button.
 - SketchPad groups Undo/Redo and evenly spaced Copy/Print actions in its toolbar, with matching-height Zoom and Clear all at the right. Translated controls fit narrow windows, the resize grip has room, and blank pads open without scrollbars or a white corner.
 - Dictation actions pair icons with translated captions, including playback and recording edit states.
 - Table Style uses a compact two-column layout with its default choice beside Cancel and OK. The table picker also opens Table Style for the current table.
 - The New note card groups rich text, Markdown, and today's note as quick actions.
+- README, landing screenshots, help, technical documentation, and all translations cover the current Markdown tools, menus, and group workflows. The landing shortcut list matches the in-app overlay.
+- Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
+- Buttons use flat styling without shadows.
 - The Databases dialog uses tighter spacing around its list and controls.
 - Manage tags uses tighter spacing and puts Done beside the add controls.
-- Note creation and folder import live beside New note; whole-notepad export runs directly from the library rail, and Markdown and HTML detection live in About settings.
-- Preview uses a compact family dropdown that fits translated labels and blends with its surface, with a code icon for Source; F4 cycles through Source, Rendered, and Split.
-- The sidebar combines sort controls, shows group counts, and uses a compact New note button, distinct Group manager and export icons, and a larger Markdown symbol. Empty sidebar space no longer opens a menu.
-- Group manager uses KillerShell folder artwork, matching group and note title colors, and a compact folder-plus New group button.
-- The unlock screen groups database choices, shows password errors below the field, and adds Caps Lock and password-visibility controls.
-- Buttons use flat styling without shadows.
-- Context cards fit their contents and use family menu fonts and selection colors. The Light color picker's caption stays sharp.
-- README, landing screenshots, help, technical documentation, and all translations cover the current Markdown tools, menus, and group workflows. The landing shortcut list matches the in-app overlay.
 - The copyright at the right end of the footer ends 8 px before the corner grip, the same gap in every Killer app.
 
 ### Added
 
-- Markdown toolbars and context cards insert source syntax for formatting, headings, lists, links, pipe tables, and horizontal rules.
 - Group manager (Alt+Shift+O) with a searchable group tree and sortable note table, drag-and-drop organization, shared context cards, rename, delete, and undo.
+- Markdown toolbars and context cards insert source syntax for formatting, headings, lists, links, pipe tables, and horizontal rules.
 - Duplicate note (Alt+Shift+U), Save as template (Alt+Shift+T), New note in this group (Alt+Shift+H), and Collapse all groups (Alt+Shift+Z).
 - A New note in group submenu lists every group and starts a note there.
 
