@@ -37,6 +37,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Notes and groups use context cards with color swatches, matching title colors, larger color markers, and common actions. Multi-note cards apply color, tags, group, pin, and delete to the selection.
 - Editor, graph, sketch, recording, database, and tag menus use matching cards with actions appropriate to the selected object.
 - SketchPad groups Undo/Redo and evenly spaced Copy/Print actions in its toolbar, with matching-height Zoom and Clear all at the right. Translated controls fit narrow windows, the resize grip has room, and blank pads open without scrollbars or a white corner.
+- Dictation actions pair icons with translated captions, including playback and recording edit states.
 - Table Style uses a compact two-column layout with its default choice beside Cancel and OK. The table picker also opens Table Style for the current table.
 - The New note card groups rich text, Markdown, and today's note as quick actions.
 - The Databases dialog uses tighter spacing around its list and controls.

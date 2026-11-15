@@ -204,6 +204,20 @@ namespace KillerNotes.Controls.Dictation
 
         private static Style? S(string key) => Application.Current.TryFindResource(key) as Style;
 
+        private static void SetButtonFace(Button button, int glyph, string caption)
+        {
+            var face = new StackPanel { Orientation = Orientation.Horizontal };
+            face.Children.Add(new TextBlock
+            {
+                Text = char.ConvertFromUtf32(glyph), FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                FontSize = 15, Margin = new Thickness(0, 0, 6, 0), VerticalAlignment = VerticalAlignment.Center
+            });
+            face.Children.Add(new TextBlock { Text = caption, VerticalAlignment = VerticalAlignment.Center });
+            button.Content = face;
+            button.ToolTip = caption;
+            System.Windows.Automation.AutomationProperties.SetName(button, caption);
+        }
+
         private void BuildUi()
         {
             _outerBorder = new PickerBorder
@@ -340,20 +354,23 @@ namespace KillerNotes.Controls.Dictation
 
         private void BuildControls(Grid body)
         {
-            var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
+            var row = new WrapPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
 
             _recordBtn = new Button { Content = L("Str_Dict_Record", "Record"), MinWidth = 96, Height = 30,
                                       Style = S("OutlineButton") };
+            SetButtonFace(_recordBtn, 0xE720, L("Str_Dict_Record", "Record"));
             _recordBtn.Click += (_, _) => ToggleRecord();
             row.Children.Add(_recordBtn);
 
             _playBtn = new Button { Content = L("Str_Dict_Play", "Play"), MinWidth = 76, Height = 30,
                                     Margin = new Thickness(8, 0, 0, 0), IsEnabled = false, Style = S("SurfaceButton") };
+            SetButtonFace(_playBtn, 0xE768, L("Str_Dict_Play", "Play"));
             _playBtn.Click += (_, _) => Play();
             row.Children.Add(_playBtn);
 
             _transcribeBtn = new Button { Content = L("Str_Dict_Transcribe", "Transcribe"), MinWidth = 96, Height = 30,
                                           Margin = new Thickness(8, 0, 0, 0), IsEnabled = false, Style = S("SurfaceButton") };
+            SetButtonFace(_transcribeBtn, 0xE8D2, L("Str_Dict_Transcribe", "Transcribe"));
             _transcribeBtn.Click += (_, _) => Transcribe();
             row.Children.Add(_transcribeBtn);
 
@@ -547,16 +564,18 @@ namespace KillerNotes.Controls.Dictation
         {
             // Left-aligned, primary first, the same as the Record row above, so the corner stays
             // clear for the resize grip.
-            var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Left,
+            var row = new WrapPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Left,
                                        Margin = new Thickness(0, 12, 0, 0) };
 
             _printBtn = new Button { Content = L("Str_Dict_Print", "Print to note"), MinWidth = 120, Height = 30,
                                      IsDefault = true, Style = S("OutlineButton") };
+            SetButtonFace(_printBtn, 0xE749, L("Str_Dict_Print", "Print to note"));
             _printBtn.Click += (_, _) => PrintText();
             row.Children.Add(_printBtn);
 
             _embedBtn = new Button { Content = L("Str_Dict_Embed", "Embed recording"), MinWidth = 130, Height = 30,
                                      Margin = new Thickness(8, 0, 0, 0), IsEnabled = false, Style = S("SurfaceButton") };
+            SetButtonFace(_embedBtn, 0xE723, L("Str_Dict_Embed", "Embed recording"));
             _embedBtn.Click += (_, _) => Embed();
             row.Children.Add(_embedBtn);
 
@@ -589,7 +608,7 @@ namespace KillerNotes.Controls.Dictation
                 _durationMs = (int)DictationRecorder.ElapsedMs;
                 _wav = DictationRecorder.Stop();
                 _tick.Stop();
-                _recordBtn.Content = L("Str_Dict_Record", "Record");
+                SetButtonFace(_recordBtn, 0xE720, L("Str_Dict_Record", "Record"));
                 _elapsed.Text = Format(_durationMs);
                 SyncPlayButton();
 
@@ -640,10 +659,10 @@ namespace KillerNotes.Controls.Dictation
             _editHash = null;
             _editNoteId = -1;
             _editDatabase = null;
-            _embedBtn.Content = L("Str_Dict_Embed", "Embed recording");
+            SetButtonFace(_embedBtn, 0xE723, L("Str_Dict_Embed", "Embed recording"));
 
             _wave.Clear();
-            _recordBtn.Content = L("Str_Dict_Stop", "Stop");
+            SetButtonFace(_recordBtn, 0xE71A, L("Str_Dict_Stop", "Stop"));
             _status.Text = L("Str_Dict_Recording", "Recording...");
             _elapsed.Text = "0:00";
             _playBtn.IsEnabled = true;
@@ -679,7 +698,7 @@ namespace KillerNotes.Controls.Dictation
 
             _playBtn.IsEnabled = _embedBtn.IsEnabled = true;
             _transcribeBtn.IsEnabled = _recognize != null || DictationRecorder.RecognizerAvailable();
-            _embedBtn.Content = L("Str_Dict_SaveChanges", "Save changes");
+            SetButtonFace(_embedBtn, 0xE74E, L("Str_Dict_SaveChanges", "Save changes"));
             _status.Text = L("Str_Dict_Editing", "Editing an embedded recording. Slice it, then save your changes.");
             Activate();
             return true;
@@ -920,11 +939,13 @@ namespace KillerNotes.Controls.Dictation
         {
             if (DictationRecorder.IsRecording)
             {
-                _playBtn.Content = DictationRecorder.IsPaused ? L("Str_Dict_Resume", "Resume") : L("Str_Dict_Pause", "Pause");
+                SetButtonFace(_playBtn, DictationRecorder.IsPaused ? 0xE768 : 0xE769,
+                    DictationRecorder.IsPaused ? L("Str_Dict_Resume", "Resume") : L("Str_Dict_Pause", "Pause"));
                 return;
             }
             bool playing = DictationPlayer.IsOpen && !DictationPlayer.IsPaused && !DictationPlayer.IsFinished;
-            _playBtn.Content = playing ? L("Str_Dict_Pause", "Pause") : L("Str_Dict_Play", "Play");
+            SetButtonFace(_playBtn, playing ? 0xE769 : 0xE768,
+                playing ? L("Str_Dict_Pause", "Pause") : L("Str_Dict_Play", "Play"));
         }
 
         /// <summary>Click or drag anywhere on the waveform to move the playhead. The waveform is the
