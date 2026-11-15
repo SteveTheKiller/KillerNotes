@@ -4,7 +4,7 @@
 var I18N = {
  "sl": {
   "shot_workspace": "Cyanotic: kartica urejevalnika z dejanji za tabele in gnezdenimi skupinami.",
-  "shot_graph": "Graf zapiskov prikazuje povezave med zapiski z njihovimi naslovi in barvami skupin.",
+  "shot_graph": "Animirani graf zapiskov prikazuje povezave med zapiski, njihove naslove in barve skupin.",
   "shot_about": "Tema Sepulchre: okno O programu z različico, založnikom ter nastavitvami zagona, sistemske vrstice in zaklepanja.",
   "shot_dictation": "Tema Ectoplasm: narekovanje nad pregledom stranke s kontrolniki za snemanje, prepis in vstavljanje v zapisek.",
   "shot_sketchpad": "Tema Malaise: SketchPad z označeno shemo omare in risalnimi orodji.",
@@ -634,7 +634,7 @@ var I18N = {
 },
  "it": {
   "shot_workspace": "Cyanotic: scheda dell'editor con azioni per tabelle e gruppi annidati.",
-  "shot_graph": "Il grafo delle note mostra i collegamenti tra le note, con i titoli delle note e i colori dei gruppi.",
+  "shot_graph": "Il grafo animato mostra i collegamenti tra le note, con titoli e colori dei gruppi.",
   "shot_about": "Tema Sepulchre: il pannello Informazioni con versione, autore e impostazioni di avvio, area di notifica e blocco.",
   "shot_dictation": "Tema Ectoplasm: Dettatura sopra una revisione cliente, con comandi per registrare, trascrivere e inserire nella nota.",
   "shot_sketchpad": "Tema Malaise: SketchPad con uno schema del rack etichettato e strumenti di disegno.",
@@ -1118,7 +1118,7 @@ var I18N = {
  },
  "hu": {
   "shot_workspace": "Cyanotic: szerkesztőkártya táblázatműveletekkel és egymásba ágyazott csoportokkal.",
-  "shot_graph": "A jegyzetgráf a jegyzetek közötti kapcsolatokat mutatja, a jegyzetcímekkel és a csoportszínekkel együtt.",
+  "shot_graph": "Az animált jegyzetgráf a jegyzetek kapcsolatait, címeit és csoportszíneit mutatja.",
   "shot_about": "Sepulchre téma: a Névjegy panel a verzióval, kiadóval, valamint az indítás, a tálca és a zárolás beállításaival.",
   "shot_dictation": "Ectoplasm téma: Diktálás egy ügyféláttekintés felett, felvételi, átírási és jegyzetbe illesztési vezérlőkkel.",
   "shot_sketchpad": "Malaise téma: SketchPad feliratozott rackszekrényrajzzal és rajzeszközökkel.",
@@ -1603,7 +1603,7 @@ var I18N = {
 
  "pl": {
   "shot_workspace": "Cyanotic: karta edytora z działaniami tabeli i zagnieżdżonymi grupami.",
-  "shot_graph": "Graf notatek pokazuje połączenia między notatkami wraz z ich tytułami i kolorami grup.",
+  "shot_graph": "Animowany graf pokazuje połączenia między notatkami, ich tytuły i kolory grup.",
   "shot_about": "Motyw Sepulchre: panel O programie z wersją, wydawcą oraz ustawieniami uruchamiania, zasobnika i blokady.",
   "shot_dictation": "Motyw Ectoplasm: Dyktowanie nad przeglądem klienta, z przyciskami nagrywania, transkrypcji i wstawiania do notatki.",
   "shot_sketchpad": "Motyw Malaise: SketchPad z opisanym schematem szafy i narzędziami do rysowania.",
@@ -2087,7 +2087,7 @@ var I18N = {
  },
  "cs": {
   "shot_workspace": "Cyanotic: karta editoru s akcemi tabulky a vnořenými skupinami.",
-  "shot_graph": "Graf poznámek ukazuje propojení mezi poznámkami s jejich názvy a barvami skupin.",
+  "shot_graph": "Animovaný graf poznámek zobrazuje propojení mezi poznámkami, jejich názvy a barvy skupin.",
   "shot_about": "Motiv Sepulchre: panel O aplikaci s verzí, vydavatelem a nastavením spouštění, oznamovací oblasti a zamykání.",
   "shot_dictation": "Motiv Ectoplasm: diktování nad přehledem klienta s ovládáním nahrávání, přepisu a vložení do poznámky.",
   "shot_sketchpad": "Motiv Malaise: SketchPad s popsaným schématem racku a kreslicími nástroji.",
@@ -2571,7 +2571,7 @@ var I18N = {
  },
  "es": {
   "shot_workspace": "Cyanotic: tarjeta del editor con acciones de tabla y grupos anidados.",
-  "shot_graph": "El grafo de notas muestra las conexiones entre notas, con sus títulos y los colores de los grupos.",
+  "shot_graph": "El grafo animado muestra las conexiones entre notas, con sus títulos y los colores de los grupos.",
   "shot_about": "Tema Sepulchre: el panel Acerca de con versión, editor y ajustes de inicio, bandeja y bloqueo.",
   "shot_dictation": "Tema Ectoplasm: Dictado sobre una revisión de cliente, con controles para grabar, transcribir e insertar en la nota.",
   "shot_sketchpad": "Tema Malaise: SketchPad con un diagrama de rack etiquetado y herramientas de dibujo.",
@@ -3056,7 +3056,7 @@ var I18N = {
  },
  "de": {
   "shot_workspace": "Cyanotic: Editorkarte mit Tabellenaktionen und verschachtelten Gruppen.",
-  "shot_graph": "Der Notizgraph zeigt Verbindungen zwischen Notizen mit Notiztiteln und Gruppenfarben.",
+  "shot_graph": "Der animierte Notizgraph zeigt Verbindungen zwischen Notizen, ihre Titel und die Gruppenfarben.",
   "shot_about": "Sepulchre-Theme: der Infobereich mit Version, Herausgeber und Einstellungen für Start, Infobereich und Sperre.",
   "shot_dictation": "Ectoplasm-Theme: Diktieren über einem Kundenbericht, mit Steuerelementen für Aufnahme, Transkription und Einfügen in die Notiz.",
   "shot_sketchpad": "Malaise-Theme: SketchPad mit beschriftetem Rackdiagramm und Zeichenwerkzeugen.",
@@ -3541,7 +3541,7 @@ var I18N = {
  },
  "fr": {
   "shot_workspace": "Cyanotic : fiche de l'éditeur avec actions de tableau et groupes imbriqués.",
-  "shot_graph": "Le graphe des notes montre les connexions entre les notes, avec leurs titres et les couleurs des groupes.",
+  "shot_graph": "Le graphe animé montre les liens entre les notes, leurs titres et les couleurs des groupes.",
   "shot_about": "Thème Sepulchre : le panneau À propos avec version, éditeur et réglages de démarrage, de zone de notification et de verrouillage.",
   "shot_dictation": "Thème Ectoplasm : Dictée au-dessus d'un bilan client, avec les commandes d'enregistrement, de transcription et d'insertion dans la note.",
   "shot_sketchpad": "Thème Malaise : SketchPad avec un schéma de baie légendé et les outils de dessin.",
@@ -4026,7 +4026,7 @@ var I18N = {
  },
  "ja": {
   "shot_workspace": "Cyanotic：表の操作と入れ子のグループを備えたエディターカード。",
-  "shot_graph": "ノートグラフは、ノートのタイトルとグループの色を使ってノート間のつながりを表示します。",
+  "shot_graph": "アニメーションするノートグラフが、ノート同士のつながりをタイトルとグループの色で表示。",
   "shot_about": "Sepulchre テーマ：バージョン、発行元、起動、トレイ、ロックの設定を表示する「バージョン情報」パネル。",
   "shot_dictation": "Ectoplasm テーマ：顧客レビューの上に音声入力を開き、録音、文字起こし、ノートへの挿入を操作。",
   "shot_sketchpad": "Malaise テーマ：ラベル付きのラック構成図と描画ツールを表示した SketchPad。",
@@ -4511,7 +4511,7 @@ var I18N = {
  },
  "tr": {
   "shot_workspace": "Cyanotic: tablo işlemleri ve iç içe gruplar içeren düzenleyici kartı.",
-  "shot_graph": "Not grafiği, not başlıkları ve grup renkleriyle notlar arasındaki bağlantıları gösterir.",
+  "shot_graph": "Hareketli not grafiği, notlar arasındaki bağlantıları not başlıkları ve grup renkleriyle gösterir.",
   "shot_about": "Sepulchre teması: sürüm, yayıncı, başlangıç, sistem tepsisi ve kilit ayarlarıyla Hakkında paneli.",
   "shot_dictation": "Ectoplasm teması: müşteri değerlendirmesinin üzerinde kayıt, yazıya dökme ve nota ekleme kontrolleriyle Dikte.",
   "shot_sketchpad": "Malaise teması: etiketli raf şeması ve çizim araçlarıyla SketchPad.",
@@ -4996,7 +4996,7 @@ var I18N = {
  },
  "zh": {
   "shot_workspace": "Cyanotic：含表格操作及巢狀群組的編輯器卡片。",
-  "shot_graph": "筆記關聯圖顯示筆記之間的連結，並呈現筆記標題與群組色彩。",
+  "shot_graph": "動態筆記圖譜以筆記標題和群組顏色顯示筆記之間的連結。",
   "shot_about": "Sepulchre 主題：「關於」面板顯示版本、發行者，以及啟動、系統匣與鎖定設定。",
   "shot_dictation": "Ectoplasm 主題：在客戶檢討上方開啟聽寫，提供錄音、轉錄及插入筆記的控制項。",
   "shot_sketchpad": "Malaise 主題：SketchPad 顯示附有標籤的機架圖與繪圖工具。",
@@ -5481,7 +5481,7 @@ var I18N = {
  },
  "zh-cn": {
   "shot_workspace": "Cyanotic：含表格操作和嵌套分组的编辑器卡片。",
-  "shot_graph": "笔记关系图显示笔记之间的连接，并呈现笔记标题和组颜色。",
+  "shot_graph": "动态笔记图谱通过笔记标题和分组颜色显示笔记之间的连接。",
   "shot_about": "Sepulchre 主题：“关于”面板显示版本、发布者以及启动、托盘和锁定设置。",
   "shot_dictation": "Ectoplasm 主题：在客户回顾上方打开听写，提供录音、转录和插入笔记的控件。",
   "shot_sketchpad": "Malaise 主题：SketchPad 显示带标签的机架图和绘图工具。",
@@ -5966,7 +5966,7 @@ var I18N = {
  },
  "bn": {
   "shot_workspace": "Cyanotic: টেবিলের কাজ ও নেস্টেড গ্রুপসহ এডিটর কার্ড।",
-  "shot_graph": "নোট গ্রাফ নোটের শিরোনাম ও গ্রুপের রংসহ নোটগুলোর মধ্যকার সংযোগ দেখায়।",
+  "shot_graph": "চলমান নোট গ্রাফে নোটের শিরোনাম ও গ্রুপের রংসহ নোটগুলোর মধ্যকার সংযোগ দেখা যায়।",
   "shot_about": "Sepulchre থিম: সংস্করণ, প্রকাশক, চালু হওয়া, সিস্টেম ট্রে ও লক করার সেটিংসসহ পরিচিতি প্যানেল।",
   "shot_dictation": "Ectoplasm থিম: ক্লায়েন্ট পর্যালোচনার ওপর ডিকটেশন, সঙ্গে রেকর্ডিং, প্রতিলিপি ও নোটে যোগ করার নিয়ন্ত্রণ।",
   "shot_sketchpad": "Malaise থিম: লেবেলযুক্ত র‍্যাকের চিত্র ও আঁকার সরঞ্জামসহ SketchPad।",
@@ -6451,7 +6451,7 @@ var I18N = {
  },
  "ru": {
   "shot_workspace": "Cyanotic: карточка редактора с действиями для таблицы и вложенными группами.",
-  "shot_graph": "Граф заметок показывает связи между заметками с их названиями и цветами групп.",
+  "shot_graph": "Анимированный граф показывает связи между заметками, их заголовки и цвета групп.",
   "shot_about": "Тема Sepulchre: панель «О программе» с версией, издателем и настройками запуска, трея и блокировки.",
   "shot_dictation": "Тема Ectoplasm: диктовка поверх обзора клиента с управлением записью, расшифровкой и вставкой в заметку.",
   "shot_sketchpad": "Тема Malaise: SketchPad со схемой стойки, подписями и инструментами рисования.",
@@ -6935,7 +6935,7 @@ var I18N = {
  },
  "kk": {
   "shot_workspace": "Cyanotic: кесте әрекеттері мен кірістірілген топтары бар редактор карточкасы.",
-  "shot_graph": "Жазбалар графы жазба тақырыптары мен топ түстерін көрсетіп, жазбалар арасындағы байланыстарды бейнелейді.",
+  "shot_graph": "Қозғалыстағы жазбалар графы жазбалардың байланыстарын, атауларын және топ түстерін көрсетеді.",
   "shot_about": "Sepulchre тақырыбы: нұсқа, баспагер, іске қосу, жүйелік науа және құлыптау параметрлері бар бағдарлама туралы панель.",
   "shot_dictation": "Ectoplasm тақырыбы: клиент шолуының үстіндегі диктант терезесі, жазу, мәтінге айналдыру және жазбаға кірістіру басқару элементтерімен.",
   "shot_sketchpad": "Malaise тақырыбы: белгіленген тірек сызбасы және сурет салу құралдары бар SketchPad.",
@@ -7419,7 +7419,7 @@ var I18N = {
  },
  vi: {
   "shot_workspace": "Cyanotic: thẻ trình soạn thảo với thao tác bảng và các nhóm lồng nhau.",
-  "shot_graph": "Đồ thị ghi chú hiển thị kết nối giữa các ghi chú, cùng tiêu đề ghi chú và màu nhóm.",
+  "shot_graph": "Đồ thị ghi chú động hiển thị liên kết giữa các ghi chú, cùng tiêu đề và màu nhóm.",
   "shot_about": "Giao diện Sepulchre: bảng Giới thiệu với phiên bản, nhà phát hành và cài đặt khởi động, khay hệ thống, khóa.",
   "shot_dictation": "Giao diện Ectoplasm: cửa sổ Đọc chính tả trên báo cáo khách hàng, với điều khiển ghi âm, chép lời và chèn vào ghi chú.",
   "shot_sketchpad": "Giao diện Malaise: SketchPad với sơ đồ tủ rack có nhãn và công cụ vẽ.",
@@ -7905,7 +7905,7 @@ var I18N = {
 if (typeof window !== "undefined") { window.I18N = I18N; }
 I18N.uk = {
   "shot_workspace": "Cyanotic: картка редактора з діями для таблиці та вкладеними групами.",
-  "shot_graph": "Граф нотаток показує зв'язки між нотатками з їхніми назвами та кольорами груп.",
+  "shot_graph": "Анімований граф показує зв'язки між нотатками, їхні заголовки та кольори груп.",
   "shot_about": "Тема Sepulchre: панель «Про програму» з версією, видавцем і налаштуваннями запуску, трея та блокування.",
   "shot_dictation": "Тема Ectoplasm: диктування поверх огляду клієнта з керуванням записом, транскрипцією та вставленням у нотатку.",
   "shot_sketchpad": "Тема Malaise: SketchPad зі схемою стійки, підписами та інструментами малювання.",
@@ -8389,7 +8389,7 @@ I18N.uk = {
 };
 I18N.nb = {
   "shot_workspace": "Cyanotic: redigeringskort med tabellhandlinger og nestede grupper.",
-  "shot_graph": "Notatgrafen viser forbindelser mellom notater, med notattitler og gruppefarger.",
+  "shot_graph": "Den animerte notatgrafen viser forbindelser mellom notater, med notattitler og gruppefarger.",
   "shot_about": "Sepulchre-tema: Om-panelet med versjon, utgiver og innstillinger for oppstart, systemstatusfelt og låsing.",
   "shot_dictation": "Ectoplasm-tema: Diktering over en kundegjennomgang, med kontroller for opptak, transkripsjon og innsetting i notatet.",
   "shot_sketchpad": "Malaise-tema: SketchPad med et merket rackdiagram og tegneverktøy.",
@@ -8873,7 +8873,7 @@ I18N.nb = {
 };
 I18N.pt = {
   "shot_workspace": "Cyanotic: cartão do editor com ações de tabela e grupos aninhados.",
-  "shot_graph": "O grafo de notas mostra conexões entre notas, com os títulos das notas e as cores dos grupos.",
+  "shot_graph": "O grafo animado mostra as conexões entre notas, com seus títulos e as cores dos grupos.",
   "shot_about": "Tema Sepulchre: o painel Sobre com versão, publicador e configurações de inicialização, bandeja e bloqueio.",
   "shot_dictation": "Tema Ectoplasm: Ditado sobre uma revisão de cliente, com controles para gravar, transcrever e inserir na nota.",
   "shot_sketchpad": "Tema Malaise: SketchPad com um diagrama de rack identificado e ferramentas de desenho.",
