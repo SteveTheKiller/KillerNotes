@@ -27,6 +27,8 @@
          under the same names; these keep KillerNotes' views as they were. -->
     <SolidColorBrush x:Key="BarEdgeBrush" Color="#ffffff" />
     <Thickness x:Key="BarEdgeThickness">1,1,0,0</Thickness>
+    <!-- Docked or floating, the 98SE bar is the same raised strip with its frame on all four sides. -->
+    <Thickness x:Key="DockedBarEdgeThickness">1,1,0,0</Thickness>
     <Thickness x:Key="BarPadding">3</Thickness>
     <Thickness x:Key="ContentPaneMargin">0,5,0,0</Thickness>
     <Thickness x:Key="PickerContentMargin">3</Thickness>

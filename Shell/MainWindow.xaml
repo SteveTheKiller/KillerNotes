@@ -1971,14 +1971,13 @@
                          The defaults are the 1px PaneBorderBrush edge the bar has always had, so
                          the other twelve themes are untouched. -->
                 <Grid>
-                    <!-- Classic raised frame: transparent in modern themes, a 2px light left edge
-                         and dark right/bottom edge in 98SE. No top edge by design - the bar hangs
-                         off the title bar and is flush there.
+                    <!-- Classic raised frame: transparent in modern themes, a 2px light top/left
+                         edge and dark right/bottom edge in 98SE, so the frame runs all around.
                          Margin -2 cancels the bar's Padding="2": without it these sit two pixels
                          inside the bar and the bevel floats away from the edge it is meant to be.
                          The grain overlay below cancels the same padding the same way. -->
                     <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
-                            BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="2,0,0,0"/>
+                            BorderBrush="{DynamicResource BevelLightBrush}" BorderThickness="2,2,0,0"/>
                     <Border Panel.ZIndex="20" IsHitTestVisible="False" Margin="-2"
                             BorderBrush="{DynamicResource BevelDarkBrush}" BorderThickness="0,0,2,2"/>
                     <!-- Film grain across the bar, KillerPDF-style; stays put when minimized -->

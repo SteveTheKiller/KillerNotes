@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Fixed
 
 - Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
+- On the 98SE theme the format bar's raised frame runs along its top edge too, so it is framed on all four sides.
 
 ### Changed
 

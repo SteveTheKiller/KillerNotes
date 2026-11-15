@@ -451,7 +451,7 @@ namespace KillerNotes.Shell
                 FormatBar.Width = double.NaN;
                 FormatBar.RenderTransform = null;
                 FormatBar.Effect = null;
-                FormatBar.BorderThickness = new Thickness(0, 0, 0, 1);
+                FormatBar.SetResourceReference(Border.BorderThicknessProperty, "DockedBarEdgeThickness");
             }
             else
             {

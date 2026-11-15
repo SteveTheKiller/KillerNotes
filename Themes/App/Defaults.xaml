@@ -8,6 +8,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- The format bar: a 1px edge on three sides and 2px inside it. -->
     <Thickness x:Key="BarEdgeThickness">1,0,1,1</Thickness>
+    <!-- Docked, the bar spans the pane and only its bottom edge separates it from the note. -->
+    <Thickness x:Key="DockedBarEdgeThickness">0,0,0,1</Thickness>
     <Thickness x:Key="BarPadding">2</Thickness>
     <!-- The editor pane keeps the 8px right gutter and a flush top. -->
     <Thickness x:Key="ContentPaneMargin">0,0,8,0</Thickness>
