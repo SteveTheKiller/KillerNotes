@@ -227,9 +227,7 @@ namespace KillerNotes.Services
             if (ExternalFile is not null)
             {
                 if (TryApplyExternal()) { EnsureWatcher(); return; }
-                if (!_externalLoadedOnce)
-                    MessageBox.Show($"Could not load the translation file:\n{ExternalFile}\n\nCheck the path and the file's XML, then start {AppInfo.DisplayName} again.",
-                                    $"{AppInfo.DisplayName} --lang-file", MessageBoxButton.OK, MessageBoxImage.Warning);
+                if (!_externalLoadedOnce) ShowExternalFailure();
                 // Fall through to the normal locale so the app still comes up usable.
             }
 
@@ -276,6 +274,23 @@ namespace KillerNotes.Services
                 if (merged[i].Source?.OriginalString.EndsWith("Strings/en-US.xaml", StringComparison.OrdinalIgnoreCase) == true)
                     return i;
             return 2;
+        }
+
+        /// <summary>The family dialog, not a raw MessageBox, for a --lang-file that will not load.
+        /// It can come up during startup before any app window exists, so it carries the installer
+        /// theme, and the app is kept from shutting down when this, its only window, closes.</summary>
+        private static void ShowExternalFailure()
+        {
+            var app = Application.Current;
+            var mode = app?.ShutdownMode ?? ShutdownMode.OnLastWindowClose;
+            if (app != null) app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            try
+            {
+                new Controls.ConfirmDialog("Could not load the translation file",
+                    $"{ExternalFile}\n\nCheck the path and the file's XML, then start {AppInfo.DisplayName} again.",
+                    "OK", installer: true, notice: true).ShowDialog();
+            }
+            finally { if (app != null) app.ShutdownMode = mode; }
         }
 
         /// <summary>Loads <see cref="ExternalFile"/> into the override slot. False on any parse or

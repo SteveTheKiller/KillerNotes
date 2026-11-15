@@ -127,27 +127,52 @@ namespace KillerNotes.Services
             return reader.ReadUInt32() == 0 && reader.ReadUInt32() == 0;
         }
 
-        private static (bool valid, string subject, string thumb, string publisher) Inspect(string exePath)
+        [DllImport("wintrust.dll", ExactSpelling = true)]
+        private static extern IntPtr WTHelperProvDataFromStateData(IntPtr stateData);
+
+        [DllImport("wintrust.dll", ExactSpelling = true)]
+        private static extern IntPtr WTHelperGetProvSignerFromChain(
+            IntPtr providerData, uint signerIndex, [MarshalAs(UnmanagedType.Bool)] bool counterSigner, uint counterSignerIndex);
+
+        [DllImport("wintrust.dll", ExactSpelling = true)]
+        private static extern IntPtr WTHelperGetProvCertFromChain(IntPtr signer, uint certIndex);
+
+        /// <summary>The signer certificate of the verification whose state <paramref name="dataPtr"/>
+        /// holds (WTD_STATEACTION_VERIFY), or null when the file carries no signer. It is read from the
+        /// provider data WinVerifyTrust produced, never from the file again, so the certificate shown
+        /// is the one that was verified even if the file changes afterwards.</summary>
+        private static X509Certificate2? ReadVerifiedSigner(IntPtr dataPtr)
         {
-            var subject = "(not signed)";
-            var thumb   = "(none)";
-            string publisher;
+            var data = Marshal.PtrToStructure<WINTRUST_DATA>(dataPtr);
+            if (data.hWVTStateData == IntPtr.Zero) return null;
+            IntPtr provider = WTHelperProvDataFromStateData(data.hWVTStateData);
+            if (provider == IntPtr.Zero) return null;
+            IntPtr signer = WTHelperGetProvSignerFromChain(provider, 0, false, 0);
+            if (signer == IntPtr.Zero) return null;
+            IntPtr entry = WTHelperGetProvCertFromChain(signer, 0);
+            if (entry == IntPtr.Zero) return null;
+            // CRYPT_PROVIDER_CERT: DWORD cbStruct, then the PCCERT_CONTEXT, pointer aligned.
+            IntPtr context = Marshal.ReadIntPtr(entry, IntPtr.Size);
+            return context == IntPtr.Zero ? null : new X509Certificate2(context);
+        }
 
-            try
-            {
-                if (exePath.Length == 0) return (false, "(unavailable)", "(none)", string.Empty);
-#pragma warning disable SYSLIB0057 // Authenticode signer extraction has no X509CertificateLoader equivalent.
-                using var sourceCertificate = X509Certificate.CreateFromSignedFile(exePath);
-                using var cert = new X509Certificate2(sourceCertificate);
-#pragma warning restore SYSLIB0057
-                var subj = cert.GetNameInfo(X509NameType.SimpleName, false);
-                subject   = string.IsNullOrEmpty(subj) ? cert.Subject : subj;
-                thumb     = string.IsNullOrEmpty(cert.Thumbprint) ? "(none)" : cert.Thumbprint;
-                publisher = cert.Subject ?? string.Empty;
-            }
-            catch { return (false, "(not signed)", "(none)", string.Empty); }
+        private static void CloseVerification(IntPtr dataPtr)
+        {
+            var data = Marshal.PtrToStructure<WINTRUST_DATA>(dataPtr);
+            if (data.hWVTStateData == IntPtr.Zero) return;
+            data.dwStateAction = 2; // WTD_STATEACTION_CLOSE
+            Marshal.StructureToPtr(data, dataPtr, false);
+            var actionId = WTD_VERIFY_GENERIC;
+            WinVerifyTrust(IntPtr.Zero, ref actionId, dataPtr);
+        }
 
-            var pathPtr     = Marshal.StringToHGlobalUni(exePath);
+        /// <summary><paramref name="afterVerify"/> is a test seam: it runs right after each
+        /// WinVerifyTrust call, before the signer is read from that call's state.</summary>
+        internal static (bool valid, string subject, string thumb, string publisher) Inspect(string exePath, Action? afterVerify = null)
+        {
+            if (exePath.Length == 0) return (false, "(unavailable)", "(none)", string.Empty);
+            X509Certificate2? signer = null;
+            var pathPtr    = Marshal.StringToHGlobalUni(exePath);
             var fileInfoPtr = Marshal.AllocHGlobal(Marshal.SizeOf<WINTRUST_FILE_INFO>());
             var dataPtr     = Marshal.AllocHGlobal(Marshal.SizeOf<WINTRUST_DATA>());
             try
@@ -158,26 +183,50 @@ namespace KillerNotes.Services
                     pcwszFilePath = pathPtr
                 }, fileInfoPtr, false);
 
+                // The signer is read from the state of the verification that decides the result (the
+                // last call, which is the cache-only retry after an offline revocation server), and
+                // the state is closed straight after, so nothing re-reads the file by path.
                 bool valid = VerifyTrust((revocation, flags) =>
                 {
                     Marshal.StructureToPtr(new WINTRUST_DATA
                     {
                         cbStruct = (uint)Marshal.SizeOf<WINTRUST_DATA>(), dwUIChoice = 2,
                         dwUnionChoice = 1, pUnion = fileInfoPtr,
-                        fdwRevocationChecks = revocation, dwProvFlags = flags
+                        fdwRevocationChecks = revocation, dwProvFlags = flags,
+                        dwStateAction = 1 // WTD_STATEACTION_VERIFY
                     }, dataPtr, false);
                     var actionId = WTD_VERIFY_GENERIC;
-                    return WinVerifyTrust(IntPtr.Zero, ref actionId, dataPtr);
+                    uint status = WinVerifyTrust(IntPtr.Zero, ref actionId, dataPtr);
+                    try
+                    {
+                        afterVerify?.Invoke();
+                        var fresh = ReadVerifiedSigner(dataPtr);
+                        signer?.Dispose();
+                        signer = fresh;
+                    }
+                    finally { CloseVerification(dataPtr); }
+                    return status;
                 });
-                return (valid, subject, thumb, publisher);
+                return Describe(valid, signer);
             }
-            catch { return (false, subject, thumb, publisher); }
+            catch { return Describe(false, signer); }
             finally
             {
+                signer?.Dispose();
                 Marshal.FreeHGlobal(dataPtr);
                 Marshal.FreeHGlobal(fileInfoPtr);
                 Marshal.FreeHGlobal(pathPtr);
             }
+        }
+
+        private static (bool valid, string subject, string thumb, string publisher) Describe(bool valid, X509Certificate2? cert)
+        {
+            if (cert == null) return (false, "(not signed)", "(none)", string.Empty);
+            var subj = cert.GetNameInfo(X509NameType.SimpleName, false);
+            return (valid,
+                string.IsNullOrEmpty(subj) ? cert.Subject : subj,
+                string.IsNullOrEmpty(cert.Thumbprint) ? "(none)" : cert.Thumbprint,
+                cert.Subject ?? string.Empty);
         }
 
         internal static bool VerifyTrust(Func<uint, uint, uint> nativeVerify)

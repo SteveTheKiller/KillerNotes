@@ -652,14 +652,14 @@ public static class KillerUpdateGuard {
             && string.Equals(subject, signer, StringComparison.OrdinalIgnoreCase);
     }
     public static bool Signature(string path, out string thumbprint, out string subject) {
+        return Signature(path, out thumbprint, out subject, null);
+    }
+    // beforeVerify is a test seam: it runs right before the first WinVerifyTrust call.
+    public static bool Signature(string path, out string thumbprint, out string subject, Action beforeVerify) {
         thumbprint = ""; subject = "";
         IntPtr name = IntPtr.Zero, file = IntPtr.Zero, data = IntPtr.Zero;
+        string foundThumbprint = "", foundSubject = "";
         try {
-            using (var source = X509Certificate.CreateFromSignedFile(path))
-            using (var certificate = new X509Certificate2(source)) {
-                thumbprint = certificate.Thumbprint ?? "";
-                subject = certificate.GetNameInfo(X509NameType.SimpleName, false);
-            }
             name = Marshal.StringToHGlobalUni(path);
             file = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TrustFile)));
             data = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TrustData)));
@@ -668,11 +668,23 @@ public static class KillerUpdateGuard {
             var trust = new TrustData(); trust.Size = (uint)Marshal.SizeOf(typeof(TrustData));
             trust.UiChoice = 2; trust.UnionChoice = 1; trust.File = file;
             var action = new Guid("00AAC56B-CD44-11d0-8CC2-00C04FC295EE");
-            return thumbprint.Length > 0 && VerifyTrust(delegate(uint revocation, uint flags) {
-                trust.RevocationChecks = revocation; trust.ProviderFlags = flags;
+            if (beforeVerify != null) beforeVerify();
+            // The signer is read from the state of the verification that decides the result (the
+            // last call, which is the cache-only retry after an offline revocation server) and the
+            // state is closed straight after, so the file is never read again by path.
+            bool valid = VerifyTrust(delegate(uint revocation, uint flags) {
+                trust.RevocationChecks = revocation; trust.ProviderFlags = flags; trust.StateAction = 1;
                 Marshal.StructureToPtr(trust, data, false);
-                return WinVerifyTrust(IntPtr.Zero, ref action, data);
+                uint status = WinVerifyTrust(IntPtr.Zero, ref action, data);
+                try {
+                    string readThumbprint, readSubject;
+                    if (ReadVerifiedSigner(data, out readThumbprint, out readSubject)) { foundThumbprint = readThumbprint; foundSubject = readSubject; }
+                    else { foundThumbprint = ""; foundSubject = ""; }
+                } finally { CloseVerification(data, ref action); }
+                return status;
             });
+            thumbprint = foundThumbprint; subject = foundSubject;
+            return valid && thumbprint.Length > 0;
         }
         catch { return false; }
         finally {
@@ -686,6 +698,34 @@ public static class KillerUpdateGuard {
         if (status == 0) return true;
         // CRYPT_E_REVOCATION_OFFLINE or CERT_E_REVOCATION_FAILURE: the revocation server could not be reached.
         return (status == 0x80092013 || status == 0x800B010E) && nativeVerify(0, 0x1010) == 0;
+    }
+    // The signer certificate held in the provider data of the WinVerifyTrust call whose state the
+    // data block points at (WTD_STATEACTION_VERIFY). False when the file has no signer.
+    private static bool ReadVerifiedSigner(IntPtr dataPtr, out string thumbprint, out string subject) {
+        thumbprint = ""; subject = "";
+        var data = (TrustData)Marshal.PtrToStructure(dataPtr, typeof(TrustData));
+        if (data.StateData == IntPtr.Zero) return false;
+        IntPtr provider = WTHelperProvDataFromStateData(data.StateData);
+        if (provider == IntPtr.Zero) return false;
+        IntPtr signer = WTHelperGetProvSignerFromChain(provider, 0, false, 0);
+        if (signer == IntPtr.Zero) return false;
+        IntPtr entry = WTHelperGetProvCertFromChain(signer, 0);
+        if (entry == IntPtr.Zero) return false;
+        // CRYPT_PROVIDER_CERT: a DWORD size, then the PCCERT_CONTEXT at pointer alignment.
+        IntPtr context = Marshal.ReadIntPtr(entry, IntPtr.Size);
+        if (context == IntPtr.Zero) return false;
+        using (var certificate = new X509Certificate2(context)) {
+            thumbprint = certificate.Thumbprint ?? "";
+            subject = certificate.GetNameInfo(X509NameType.SimpleName, false);
+        }
+        return true;
+    }
+    private static void CloseVerification(IntPtr dataPtr, ref Guid action) {
+        var data = (TrustData)Marshal.PtrToStructure(dataPtr, typeof(TrustData));
+        if (data.StateData == IntPtr.Zero) return;
+        data.StateAction = 2;
+        Marshal.StructureToPtr(data, dataPtr, false);
+        WinVerifyTrust(IntPtr.Zero, ref action, dataPtr);
     }
     // Starts the published image and fails unless a process was actually created. An elevated
     // helper starts it with the desktop shell's own token, at normal integrity, and only when that
@@ -788,6 +828,9 @@ public static class KillerUpdateGuard {
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("kernel32.dll", EntryPoint = "CreateFileW", CharSet = CharSet.Unicode, SetLastError = true)] private static extern SafeFileHandle CreateFile(string path, uint access, uint share, IntPtr security, uint disposition, uint flags, IntPtr template);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("kernel32.dll", SetLastError = true)] private static extern bool GetFileInformationByHandle(SafeFileHandle file, out FileInformation information);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wintrust.dll", ExactSpelling = true, CharSet = CharSet.Unicode)] private static extern uint WinVerifyTrust(IntPtr window, ref Guid action, IntPtr data);
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wintrust.dll", ExactSpelling = true)] private static extern IntPtr WTHelperProvDataFromStateData(IntPtr state);
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wintrust.dll", ExactSpelling = true)] private static extern IntPtr WTHelperGetProvSignerFromChain(IntPtr provider, uint signer, [MarshalAs(UnmanagedType.Bool)] bool counterSigner, uint counterSignerIndex);
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wintrust.dll", ExactSpelling = true)] private static extern IntPtr WTHelperGetProvCertFromChain(IntPtr signer, uint certificate);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("kernel32.dll")] private static extern uint WTSGetActiveConsoleSessionId();
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wtsapi32.dll", EntryPoint = "WTSQuerySessionInformationW", CharSet = CharSet.Unicode, SetLastError = true)] private static extern bool WTSQuerySessionInformation(IntPtr server, int session, int information, out IntPtr buffer, out int bytes);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] [DllImport("wtsapi32.dll")] private static extern void WTSFreeMemory(IntPtr buffer);

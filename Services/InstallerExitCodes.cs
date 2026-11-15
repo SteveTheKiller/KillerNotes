@@ -87,11 +87,36 @@ namespace KillerFamily.Deployment
             return product + "-" + token;
         }
 
+        private static System.Security.AccessControl.MutexSecurity InstallMutexSecurity()
+        {
+            var security = new System.Security.AccessControl.MutexSecurity();
+            foreach (var sid in new[]
+            {
+                WindowsIdentity.GetCurrent().User!,
+                new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null),
+                new SecurityIdentifier(WellKnownSidType.LocalSystemSid, null),
+            })
+                security.AddAccessRule(new System.Security.AccessControl.MutexAccessRule(sid,
+                    System.Security.AccessControl.MutexRights.FullControl,
+                    System.Security.AccessControl.AccessControlType.Allow));
+            security.SetAccessRuleProtection(true, false);
+            return security;
+        }
+
         internal static IDisposable Acquire(string product)
         {
             if (string.IsNullOrWhiteSpace(product) || ContainsPathSeparator(product))
                 throw new ArgumentException("A product name is required.", nameof(product));
-            var mutex = new Mutex(false, @"Global\KillerTools-Install-" + product);
+            // Created with an explicit, protected DACL: the account running the install, local
+            // administrators and SYSTEM (the elevated and scheduled helpers). With the default
+            // descriptor another local user could create the machine-wide name first, or open it, and
+            // hold it to block every install.
+            var security = InstallMutexSecurity();
+#if NET8_0_OR_GREATER
+            var mutex = System.Threading.MutexAcl.Create(false, @"Global\KillerTools-Install-" + product, out _, security);
+#else
+            var mutex = new Mutex(false, @"Global\KillerTools-Install-" + product, out _, security);
+#endif
             bool owned;
             try
             {
