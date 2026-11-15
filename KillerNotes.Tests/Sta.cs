@@ -72,6 +72,12 @@ namespace KillerNotes.Tests
             {
                 try { body(); }
                 catch (Exception ex) { failure = ex; }
+                finally
+                {
+                    // Binding and text-service shutdown must run before this apartment exits.
+                    var dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
+                    if (dispatcher != null && !dispatcher.HasShutdownStarted) dispatcher.InvokeShutdown();
+                }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
