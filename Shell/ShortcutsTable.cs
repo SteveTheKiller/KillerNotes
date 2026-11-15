@@ -48,6 +48,7 @@ namespace KillerNotes.Shell
             new("Alt+Shift+Left / Right", "Str_KS_SidebarSide", "View",
                 [(KbLayer.AltShift, "Left", "Str_Sidebar_Left"), (KbLayer.AltShift, "Right", "Str_Sidebar_Right")]),
             new("F6", "Str_KS_FormatBar", "View", [(KbLayer.Base, "F6", "Str_Kb_FormatBar")]),
+            new("Shift+F6", "Str_KS_ToolMenu", "View", []),
             new("F7 / Ctrl+Shift+D", "Str_KS_SketchPad", "View", [(KbLayer.Base, "F7", "Str_KS_SketchPad"), (KbLayer.CtrlShift, "D", "Str_KS_SketchPad")]),
             new("F8", "Str_KS_Export", "File", [(KbLayer.Base, "F8", "Str_Kb_Export")]),
             new("F9", "Str_KS_Calc", "View", [(KbLayer.Base, "F9", "Str_KS_Calc")]),

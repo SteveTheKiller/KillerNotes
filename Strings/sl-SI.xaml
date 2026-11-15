@@ -920,6 +920,9 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Opombe ob izdaji</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Pomanjšaj orodno vrstico</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Obnovi orodno vrstico</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Zasidrana orodna vrstica</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Plavajoča orodna vrstica</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Zasidraj ali odsidraj vrstico za oblikovanje</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Celoten vodnik in navodila na spletu</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Pomakni navzgor</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Pomakni navzdol</sys:String>

@@ -1021,6 +1021,9 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">Примечания к выпуску</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Свернуть панель инструментов</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Восстановить панель инструментов</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Закреплённая панель инструментов</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Плавающая панель инструментов</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Закрепить или открепить панель форматирования</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Полное руководство &amp; инструкция по работе в Интернете</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Прокрутить вверх</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Прокрутить вниз</sys:String>

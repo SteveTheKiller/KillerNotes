@@ -344,7 +344,8 @@ namespace KillerNotes.Shell
                     }
                     break;
                 case Key.F6:
-                    ToggleFormatBar();                   // FormatBar.cs
+                    if (shift && !ctrl) ToggleFormatBarPlacement();   // FormatBar.cs: docked or floating
+                    else ToggleFormatBar();                  // FormatBar.cs
                     e.Handled = true;
                     break;
                 case Key.F7:

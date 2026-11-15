@@ -1060,6 +1060,9 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">Примітки до випуску</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Згорнути панель інструментів</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Відновити панель інструментів</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Закріплена панель інструментів</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Плаваюча панель інструментів</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Закріпити або відкріпити панель форматування</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Повний посібник &amp; настанови онлайн</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Прокрутити вгору</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Прокрутити вниз</sys:String>

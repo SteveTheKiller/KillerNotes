@@ -7,6 +7,7 @@
         xmlns:fam="clr-namespace:KillerFamily.Controls"
         xmlns:icons="clr-namespace:KillerNotes.Controls"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:kn="clr-namespace:KillerNotes.Shell"
         xmlns:models="clr-namespace:KillerNotes.Models"
         xmlns:controls="clr-namespace:KillerNotes.Controls"
         Title="KillerNotes"
@@ -1903,8 +1904,11 @@
                     </Border.Background>
                 </Border>
 
+                <!-- The title and the format bar share the top row (FormatBarDock.cs): floating,
+                     the bar hangs over the title; docked, it takes a row of its own above it. -->
+                <kn:FormatBarDock x:Name="FormatBarHost" Grid.Row="0" Panel.ZIndex="30">
                 <!-- Note title + faint rule dividing it from the content -->
-                <StackPanel x:Name="TitleArea" Grid.Row="0">
+                <StackPanel x:Name="TitleArea">
                 <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -1949,7 +1953,8 @@
                      the top beside the title, slides horizontally by its grip (edge-anchored
                      or center-parked, position persisted), and minimizes to a grip-dots peek
                      strip - chevron, F6, or double-click the grip/peek (FormatBar.cs) -->
-                <Border x:Name="FormatBar" Grid.Row="0" Panel.ZIndex="30"
+                <kn:FormatBarDock.Bar>
+                <Border x:Name="FormatBar"
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,8,0"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
                         Background="{DynamicResource BgFlyout}"
@@ -2249,12 +2254,14 @@
                               ToolTip="{DynamicResource Str_TT_Preview}" ToolTipOpening="PreviewPicker_ToolTipOpening"
                               AutomationProperties.Name="{DynamicResource Str_TT_Preview}"/>
                     <Rectangle x:Name="FmtEndSeparator" Style="{StaticResource FmtSeparator}"/>
-                    <Button Style="{StaticResource RailButton}" Content="&#xE70E;" FontSize="12"
+                    <Button x:Name="FmtHideBtn" Style="{StaticResource RailButton}" Content="&#xE70E;" FontSize="12"
                             Width="22" Height="22" VerticalAlignment="Center"
                             ToolTip="{DynamicResource Str_TT_HideBar}" Click="FormatBarToggle_Click"/>
                 </WrapPanel>
                 </Grid>
                 </Border>
+                </kn:FormatBarDock.Bar>
+                </kn:FormatBarDock>
 
                 <!-- The note body. Content is stored as a XamlPackage blob, so pasted
                      images and real FlowDocument tables round-trip through the database.

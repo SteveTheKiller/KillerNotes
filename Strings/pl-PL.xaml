@@ -940,6 +940,9 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Informacje o wydaniu</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimalizuj pasek narzędzi</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Przywróć pasek narzędzi</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Zadokowany pasek narzędzi</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Pływający pasek narzędzi</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Zadokuj lub odepnij pasek formatowania</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Pełny przewodnik &amp; poradniki online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Przewiń w górę</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Przewiń w dół</sys:String>

@@ -32,10 +32,18 @@ namespace KillerNotes.Shell
         private const double FmtPeekHeight = 9;
         private const double FmtEdgeGapDefault = 8;
         private const double FmtEdgeThreshold = 40;   // release this close to an edge = anchor to it
+        private const double FmtMinimizedCornerRadius = 3;   // the minimized strip's bottom corners
+
+        // Floating is the default; docking, which gives the bar a row of its own above the title,
+        // is the choice that gets saved. Docked, the bar never minimizes or slides.
+        private const string FmtDockedSetting = "FmtBarDocked";
+        internal static bool FormatBarDocked => App.GetSetting(FmtDockedSetting) == "1";
+        internal bool FormatBarMinimized => _fmtMinimized;
 
         private void InitFormatBar()
         {
             InitializeFormatBarMenus();
+            ApplyFormatBarPlacement(restoreMinimized: false);
             var inv = CultureInfo.InvariantCulture;
             if (double.TryParse(App.GetSetting("FmtBarFrac"), NumberStyles.Float, inv, out double f) &&
                 f >= 0 && f <= 1)
@@ -46,6 +54,7 @@ namespace KillerNotes.Shell
             EnableFmtBarSlide(FmtGrip);
             EnableFmtBarSlide(FmtPeek);
             EnableFmtBarSlide(FmtPeekHalo);   // the grab pixels above the strip act as the strip
+            EnableFmtBarSlide(FormatBar, emptySpaceOnly: true);   // empty bar space acts as the grip
             // The bar floats inside the editor pane, so reposition on pane resize
             // (covers both window resizes and sidebar-splitter drags).
             if (FormatBar.Parent is FrameworkElement hostEl)
@@ -58,7 +67,7 @@ namespace KillerNotes.Shell
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 PositionFormatBar();
-                if (App.GetSetting("FmtBarMin") == "1") ToggleFormatBar(animate: false);
+                if (App.GetSetting("FmtBarMin") == "1" && !_fmtMinimized) ToggleFormatBar(animate: false);
             }), DispatcherPriority.Loaded);
         }
 
@@ -68,6 +77,7 @@ namespace KillerNotes.Shell
         {
             if (_fmtShownOnce) return;
             _fmtShownOnce = true;
+            if (FormatBarDocked) return;   // a docked row is part of the layout, not a drop-in
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 double h = FormatBar.ActualHeight;
@@ -85,15 +95,18 @@ namespace KillerNotes.Shell
 
         // ---- Horizontal slide (grip drag; KillerPDF EnableBarSlide) ----
 
-        private void EnableFmtBarSlide(FrameworkElement grip)
+        private void EnableFmtBarSlide(FrameworkElement grip, bool emptySpaceOnly = false)
         {
             bool dragging = false;   // true only after real movement (per-grip closure state)
-            grip.Cursor = DragCursors.Open;
+            // The whole bar keeps its controls' own cursors; only the dedicated grips show the hand.
+            if (!emptySpaceOnly) grip.Cursor = DragCursors.Open;
             // A capture lost to an alt-tab or a dialog never reaches the button-up handler, which
             // would strand the closed hand on screen for the rest of the session.
             grip.LostMouseCapture += (_, _) => DragCursors.EndDrag();
             grip.MouseLeftButtonDown += (s, e) =>
             {
+                if (FormatBarDocked) return;
+                if (emptySpaceOnly && !IsEmptyFormatBarSpace(e.OriginalSource)) return;
                 if (e.ClickCount == 2)
                 {
                     // Swallow the tail of a double-click on the peek: the first click
@@ -134,10 +147,24 @@ namespace KillerNotes.Shell
             grip.MouseLeftButtonUp += (s, e) =>
             {
                 if (_fmtDrag == null) return;
+                var (startX, origLeft) = _fmtDrag.Value;
                 _fmtDrag = null;
                 grip.ReleaseMouseCapture();
                 DragCursors.EndDrag();
                 e.Handled = true;
+                // A quick drag can end before any move is reported; the release still lands the
+                // bar where the pointer let go.
+                if (!dragging && FormatBar.Parent is FrameworkElement releaseHost)
+                {
+                    double dx = e.GetPosition(releaseHost).X - startX;
+                    if (Math.Abs(dx) >= SystemParameters.MinimumHorizontalDragDistance)
+                    {
+                        double room = Math.Max(0, releaseHost.ActualWidth - FormatBar.ActualWidth);
+                        FormatBar.HorizontalAlignment = HorizontalAlignment.Left;
+                        FormatBar.Margin = new Thickness(Math.Max(0, Math.Min(room, origLeft + dx)), FormatBar.Margin.Top, 0, 0);
+                        dragging = true;
+                    }
+                }
                 if (!dragging)
                 {
                     // Plain click, no drag: on the slim peek strip (or its halo) that
@@ -165,6 +192,20 @@ namespace KillerNotes.Shell
             };
         }
 
+        // Only empty bar space starts a drag or a double-click from the bar itself; a press on a
+        // button, a combo box or a field belongs to that control.
+        private bool IsEmptyFormatBarSpace(object source)
+        {
+            for (var d = source as DependencyObject; d != null;
+                 d = (d is Visual ? VisualTreeHelper.GetParent(d) : null) ?? LogicalTreeHelper.GetParent(d))
+            {
+                if (ReferenceEquals(d, FormatBar)) return true;
+                if (d is System.Windows.Controls.Primitives.ButtonBase or System.Windows.Controls.Primitives.Selector
+                    or System.Windows.Controls.Primitives.TextBoxBase or System.Windows.Controls.Primitives.Thumb) return false;
+            }
+            return false;
+        }
+
         private void SaveFmtBarPlacement()
         {
             var inv = CultureInfo.InvariantCulture;
@@ -187,6 +228,15 @@ namespace KillerNotes.Shell
             if (FormatBar.Parent is not FrameworkElement host) return;
             double hw = host.ActualWidth;
             UpdateFormatBarDensity(hw);
+            if (FormatBarDocked)
+            {
+                FormatBar.HorizontalAlignment = HorizontalAlignment.Stretch;
+                FormatBar.Margin = new Thickness(0);
+                FormatBar.MaxWidth = double.PositiveInfinity;
+                ClearTitleOfFormatBar();
+                UpdateFormatBarCorners();
+                return;
+            }
             FormatBar.MaxWidth = Math.Max(88, hw - 4);
             FormatBar.UpdateLayout();
             double bw = FormatBar.ActualWidth;
@@ -220,6 +270,18 @@ namespace KillerNotes.Shell
             if (FormatBar.Parent is not FrameworkElement host) return;
             var flyout = TryFindResource("FlyoutCornerRadius") is CornerRadius fr ? fr : new CornerRadius(6);
             var pane = TryFindResource("ControlCornerRadius") is CornerRadius pr ? pr : new CornerRadius(0);
+            if (FormatBarDocked)
+            {
+                // A row across the pane's top: it fills the pane's rounded top corners and meets the
+                // title square along its bottom edge.
+                var row = new CornerRadius(pane.TopLeft, pane.TopRight, 0, 0);
+                if (FormatBar.CornerRadius != row) FormatBar.CornerRadius = row;
+                return;
+            }
+            // The minimized strip keeps the tab shape with smaller bottom corners.
+            if (_fmtMinimized)
+                flyout = new CornerRadius(0, 0, Math.Min(FmtMinimizedCornerRadius, flyout.BottomRight),
+                    Math.Min(FmtMinimizedCornerRadius, flyout.BottomLeft));
             double hw = host.ActualWidth, bw = FormatBar.ActualWidth;
             double left = FormatBar.HorizontalAlignment == HorizontalAlignment.Right
                 ? hw - bw - FormatBar.Margin.Right
@@ -240,7 +302,7 @@ namespace KillerNotes.Shell
         {
             _titleMargin ??= TitleBox.Margin;
             var own = _titleMargin.Value;
-            if (_fmtMinimized || FormatBar.Visibility != Visibility.Visible
+            if (_fmtMinimized || FormatBarDocked || FormatBar.Visibility != Visibility.Visible
                 || FormatBar.Parent is not FrameworkElement host || FormatBar.ActualWidth <= 0)
             {
                 TitleBox.Margin = own;
@@ -294,8 +356,11 @@ namespace KillerNotes.Shell
 
         // ---- Minimize / restore (KillerPDF ToggleAnnotBarMinimized, 120ms) ----
 
-        private void ToggleFormatBar(bool animate = true)
+        internal void ToggleFormatBar(bool animate = true) => ToggleFormatBar(animate, persist: true);
+
+        private void ToggleFormatBar(bool animate, bool persist)
         {
+            if (FormatBarDocked && !_fmtMinimized) return;   // a docked bar is never minimized
             // Minimized, the whole strip must fit inside the title's 10px top margin so it
             // never overlaps the title text: 9px peek + 1px bottom border, vertical padding
             // dropped for the duration.
@@ -356,7 +421,62 @@ namespace KillerNotes.Shell
                 }
                 else Restore();
             }
-            App.SetSetting("FmtBarMin", _fmtMinimized ? "1" : "0");
+            if (persist) App.SetSetting("FmtBarMin", _fmtMinimized ? "1" : "0");
+            UpdateFormatBarCorners();
+        }
+
+        // ---- Docked or floating ----
+
+        /// <summary>Switches the bar between floating over the title and docked in a row above it.</summary>
+        internal void ToggleFormatBarPlacement()
+        {
+            App.SetSetting(FmtDockedSetting, FormatBarDocked ? "0" : "1");
+            ApplyFormatBarPlacement();
+        }
+
+        /// <summary>Lays the bar out for the saved placement. Docking shows a minimized bar in full
+        /// without forgetting the choice, so it comes back minimized when it floats again.</summary>
+        private void ApplyFormatBarPlacement(bool restoreMinimized = true)
+        {
+            bool docked = FormatBarDocked;
+            if (docked && _fmtMinimized) ToggleFormatBar(animate: false, persist: false);
+            FormatBarHost.Docked = docked;
+            var floatingOnly = docked ? Visibility.Collapsed : Visibility.Visible;
+            FmtGrip.Visibility = floatingOnly;
+            FmtHideBtn.Visibility = floatingOnly;
+            if (docked)
+            {
+                FormatBar.BeginAnimation(HeightProperty, null);
+                FormatBar.Height = double.NaN;
+                FormatBar.Width = double.NaN;
+                FormatBar.RenderTransform = null;
+                FormatBar.Effect = null;
+                FormatBar.BorderThickness = new Thickness(0, 0, 0, 1);
+            }
+            else
+            {
+                FormatBar.SetResourceReference(Border.BorderThicknessProperty, "BarEdgeThickness");
+                if (!_fmtMinimized) FormatBar.Effect = TryFindResource("ShadowBar") as Effect;
+            }
+            PositionFormatBar();
+            // At startup the Loaded pass restores a minimized bar once the bar has its real width.
+            if (restoreMinimized && !docked && App.GetSetting("FmtBarMin") == "1" && !_fmtMinimized)
+                ToggleFormatBar(animate: false, persist: false);
+        }
+
+        /// <summary>The row names the placement a click switches to and shows a small window of it.</summary>
+        private MenuItem FormatBarPlacementItem()
+        {
+            bool docked = FormatBarDocked;
+            var item = new MenuItem
+            {
+                Header = Loc(docked ? "Str_ToolMenu_Floating" : "Str_ToolMenu_Docked"),
+                Tag = "toolmenu",
+                Icon = FormatBarIcons.For(floating: docked),
+                InputGestureText = "Shift+F6",
+            };
+            item.Click += (_, _) => ToggleFormatBarPlacement();
+            return item;
         }
 
         private void InitializeFormatBarMenus()
@@ -387,17 +507,24 @@ namespace KillerNotes.Shell
                     menu.Items.Add(normal);
                     menu.Items.Add(new Separator());
                 }
-                menu.Items.Add(FormatBarMinimizeItem());
+                menu.Items.Add(FormatBarPlacementItem());
+                if (!FormatBarDocked) menu.Items.Add(FormatBarMinimizeItem());
             };
             foreach (var button in FmtButtons.Children.OfType<Button>().Where(b => b.ContextMenu != null))
             {
                 var owned = button.ContextMenu!;
                 owned.PreviewKeyDown += FormatBarMenu_KeyDown;
                 var minimize = FormatBarMinimizeItem();
+                var placement = FormatBarPlacementItem();
                 owned.Items.Add(new Separator());
+                owned.Items.Add(placement);
                 owned.Items.Add(minimize);
                 owned.Opened += (_, _) =>
                 {
+                    bool docked = FormatBarDocked;
+                    placement.Header = Loc(docked ? "Str_ToolMenu_Floating" : "Str_ToolMenu_Docked");
+                    placement.Icon = FormatBarIcons.For(floating: docked);
+                    minimize.Visibility = docked ? Visibility.Collapsed : Visibility.Visible;
                     minimize.SetResourceReference(HeaderedItemsControl.HeaderProperty,
                         _fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar");
                     minimize.Icon = _fmtMinimized ? "\uE70D" : "\uE70E";
@@ -414,6 +541,11 @@ namespace KillerNotes.Shell
             {
                 e.Handled = true;
                 if (!e.IsRepeat) { menu.IsOpen = false; ToggleFormatBar(); }
+            }
+            else if (mods == System.Windows.Input.ModifierKeys.Shift && key == System.Windows.Input.Key.F6)
+            {
+                e.Handled = true;
+                if (!e.IsRepeat) { menu.IsOpen = false; ToggleFormatBarPlacement(); }
             }
             else if (ReferenceEquals(menu, FormatBar.ContextMenu) && mods == System.Windows.Input.ModifierKeys.Alt &&
                      key >= System.Windows.Input.Key.D0 && key <= System.Windows.Input.Key.D3)

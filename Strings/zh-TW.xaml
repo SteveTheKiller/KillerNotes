@@ -1013,6 +1013,9 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">版本資訊</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具列</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">還原工具列</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">停靠的工具列</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">浮動工具列</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">停靠或浮動格式列</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">完整指南與線上教學</sys:String>
     <sys:String x:Key="Str_Scroll_Up">向上捲動</sys:String>
     <sys:String x:Key="Str_Scroll_Down">向下捲動</sys:String>

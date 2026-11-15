@@ -1011,6 +1011,9 @@
     <sys:String x:Key="Str_KS_ReleaseNotes">发行说明</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">最小化工具栏</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">还原工具栏</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">停靠的工具栏</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">浮动工具栏</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">停靠或浮动格式栏</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">完整指南和在线教程</sys:String>
     <sys:String x:Key="Str_Scroll_Up">向上滚动</sys:String>
     <sys:String x:Key="Str_Scroll_Down">向下滚动</sys:String>

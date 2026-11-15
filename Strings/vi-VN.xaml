@@ -1064,6 +1064,9 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_ReleaseNotes">Ghi chú phát hành</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Thu nhỏ thanh công cụ</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Khôi phục thanh công cụ</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Thanh công cụ gắn cố định</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Thanh công cụ nổi</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Gắn cố định hoặc thả nổi thanh định dạng</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Hướng dẫn đầy đủ &amp; cách sử dụng trực tuyến</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Cuộn lên</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Cuộn xuống</sys:String>

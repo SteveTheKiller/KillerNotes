@@ -1021,6 +1021,9 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Note di rilascio</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Riduci la barra degli strumenti</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Ripristina la barra degli strumenti</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Barra degli strumenti ancorata</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Barra degli strumenti mobile</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Ancora o sgancia la barra di formattazione</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guida online completa e come-fare</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Scorri verso l'alto</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Scorri verso il basso</sys:String>

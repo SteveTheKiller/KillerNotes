@@ -1060,6 +1060,9 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Notas da versão</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimizar barra de ferramentas</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurar barra de ferramentas</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Barra de ferramentas ancorada</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Barra de ferramentas flutuante</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Ancorar ou destacar a barra de formatação</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guia completo &amp; tutoriais online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Rolar para cima</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Rolar para baixo</sys:String>

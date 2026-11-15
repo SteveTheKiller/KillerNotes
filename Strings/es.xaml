@@ -1014,6 +1014,9 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_ReleaseNotes">Notas de la versión</sys:String>
     <sys:String x:Key="Str_Ctx_MinimizeToolbar">Minimizar barra de herramientas</sys:String>
     <sys:String x:Key="Str_Ctx_RestoreToolbar">Restaurar barra de herramientas</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Docked">Barra de herramientas acoplada</sys:String>
+    <sys:String x:Key="Str_ToolMenu_Floating">Barra de herramientas flotante</sys:String>
+    <sys:String x:Key="Str_KS_ToolMenu">Acoplar o desacoplar la barra de formato</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guía completa y tutoriales en línea</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Desplazar hacia arriba</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Desplazar hacia abajo</sys:String>
