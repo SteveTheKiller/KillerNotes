@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
@@ -17,6 +18,63 @@ namespace KillerNotes.Tests
     [Collection("Application resources")]
     public sealed class FinalReadinessRegressionTests
     {
+        [Fact]
+        public void ReusedKeyboardCardReleasesItsEarlierTarget()
+        {
+            ContextMenu? menu = null;
+            WeakReference? earlier = null;
+            CardColorBehaviorTests.WithShell((window, host) =>
+            {
+                var panel = new StackPanel();
+                var owner = new Window { Content = panel, ShowInTaskbar = false };
+                owner.Show();
+                menu = CardBuilder.Menu(200);
+                menu.Items.Add(new MenuItem { Header = "Action" });
+                try
+                {
+                    earlier = OpenEarlierTarget(menu, panel);
+                    var current = new Button { Content = "Current target" };
+                    panel.Children.Add(current);
+                    OpenAndDismiss(menu, current);
+                }
+                finally { menu.IsOpen = false; owner.Close(); }
+            });
+            Application.Current.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            Assert.NotNull(earlier);
+            Assert.False(earlier!.IsAlive, "A shared card must release a removed target after a later opening.");
+            GC.KeepAlive(menu);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference OpenEarlierTarget(ContextMenu menu, Panel panel)
+        {
+            var target = new Button { Content = "Earlier target" };
+            panel.Children.Add(target);
+            OpenAndDismiss(menu, target);
+            panel.Children.Remove(target);
+            return new WeakReference(target);
+        }
+
+        private static void OpenAndDismiss(ContextMenu menu, FrameworkElement target)
+        {
+            bool opened = false, closed = false;
+            RoutedEventHandler onOpened = (_, _) => opened = true;
+            RoutedEventHandler onClosed = (_, _) => closed = true;
+            menu.Opened += onOpened;
+            menu.Closed += onClosed;
+            try
+            {
+                CardBuilder.Open(menu, target, true, new Rect(0, target.ActualHeight, 0, 0));
+                WaitFor(() => opened, "The card must complete opening.");
+                menu.IsOpen = false;
+                WaitFor(() => closed, "The card must complete dismissal.");
+            }
+            finally { menu.Opened -= onOpened; menu.Closed -= onClosed; }
+        }
+
         [Fact]
         public void ReusedKeyboardCardReturnsFocusToItsLatestTarget() => CardColorBehaviorTests.WithShell((window, host) =>
         {
@@ -100,8 +158,7 @@ namespace KillerNotes.Tests
             ((Button)window.FindName("NewNoteBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             long original = host.Notes().First().Id;
             int before = host.Notes().Count;
-            ((Button)window.FindName("OrganizeRailBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            var manager = Application.Current.Windows.OfType<GroupManagerWindow>().Single();
+            var manager = OpenManager(window);
             var table = (ListBox)manager.FindName("Table");
             void Pump() => window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             try
@@ -235,8 +292,7 @@ namespace KillerNotes.Tests
         {
             NoteStore.Create("First accessible note");
             NoteStore.Create("Second accessible note");
-            ((Button)window.FindName("OrganizeRailBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            var manager = Application.Current.Windows.OfType<GroupManagerWindow>().Single();
+            var manager = OpenManager(window);
             try
             {
                 var table = (ListBox)manager.FindName("Table");
@@ -254,5 +310,11 @@ namespace KillerNotes.Tests
             }
             finally { manager.CloseForStoreChange(); }
         });
+        private static GroupManagerWindow OpenManager(KillerNotes.Shell.MainWindow window)
+        {
+            var existing = Application.Current.Windows.OfType<GroupManagerWindow>().ToArray();
+            ((Button)window.FindName("OrganizeRailBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            return Application.Current.Windows.OfType<GroupManagerWindow>().Single(manager => !existing.Contains(manager));
+        }
     }
 }
