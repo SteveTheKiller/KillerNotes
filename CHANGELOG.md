@@ -4,6 +4,12 @@ All notable changes to KillerNotes are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] - Unreleased
+
+### Fixed
+
+- Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
+
 ## [1.7.0] - 2026-11-14
 
 1.7.0 adds context cards and a group manager, improves large notepads, and strengthens copying, exports, and recording edits.
