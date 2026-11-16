@@ -12,6 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Fixed
 
+- The Mourning theme highlights selections in its original peach with dark text again, instead of pink.
 - A second Enter in the file dialog's name box waits for a slow folder check instead of running twice.
 - A translation file that fails to load reports through the app's own dialog.
 
