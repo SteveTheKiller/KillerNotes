@@ -19,8 +19,8 @@ the hashes equal.
 | SQLCipher | 4.20.0 community (SQLite 3.54.1) |
 | LibTomCrypt | 1.18.2 |
 | Toolchain | llvm-mingw 20260616 (clang 22.1.8), ucrt |
-| e_sqlcipher.dll sha256 | unsigned build `c7aef1d1588adb83bf3b8a58eefb22baddf66ffdc81ff22cd06e683bf4f8b3be`; signed hash recorded when signed |
-| Signature | Not yet signed. Sign with the Open Source Developer certificate before a real release (the 4.19.0 build was signed). |
+| e_sqlcipher.dll sha256 | signed `91db382675516caa0b6dea22776c054ac354e0178e861359405d7f9832042f57` (unsigned build was `c7aef1d1588adb83bf3b8a58eefb22baddf66ffdc81ff22cd06e683bf4f8b3be`) |
+| Signature | Signed and timestamped 2026-11-16 with the Open Source Developer Stephen Riley certificate. |
 
 Source tarballs (verify before building):
 
