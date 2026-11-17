@@ -196,7 +196,8 @@
          Defaults to AppBorderBrush in ThemeManager, so only a theme that cares states it. -->
     <Border x:Name="RootBorder" BorderBrush="{DynamicResource WindowEdgeBrush}"
             BorderThickness="{DynamicResource WindowEdgeThickness}"
-            CornerRadius="{DynamicResource WindowCornerRadius}" SnapsToDevicePixels="True">
+            CornerRadius="{DynamicResource WindowCornerRadius}" SnapsToDevicePixels="True"
+            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="BackgroundBrush">
     <!-- FrameHost holds the window frame OUTSIDE the content. The frame borders used to live
          inside RootGrid as RowSpan=3 overlays, painting on top of the title bar, the sidebar and
          the footer - which was survivable while they all stacked at pixel 0 and only 2px actually
@@ -227,7 +228,8 @@
              exactly as wide as the content on every other theme. (2026-08-07) -->
         <!-- ZIndex 1 so the wordmark's drips can hang into the top of the content row below. -->
         <Grid x:Name="NotesTitleBar" Grid.Row="0" Background="{DynamicResource TitleBarBrush}"
-              Height="{DynamicResource TitleBarHeight}" Margin="{DynamicResource TitleBarBleed}" Panel.ZIndex="1">
+              Height="{DynamicResource TitleBarHeight}" Margin="{DynamicResource TitleBarBleed}" Panel.ZIndex="1"
+              controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="TitleBarBrush">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -601,7 +603,8 @@
              content can land a sub-pixel short of the row slot, and the window backdrop showed
              through the seam as a dark stripe above the footer. Backed with the same
              BackgroundBrush the chrome tiers use, a hairline seam is invisible (2026-08-08). -->
-        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"/>
+        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"
+                controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="BackgroundBrush"/>
         <kl:UnclippedGrid x:Name="ScaleHost" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="SidebarCol" Width="300" MinWidth="230" MaxWidth="480"/>
@@ -614,7 +617,8 @@
             <!-- Chrome strip behind the whole row: same BackgroundBrush as the title bar and
                  footer, so the sidebar and both bars merge into one chrome surface, and the
                  side margins carry the grain like the other bars (family pattern) -->
-            <Border Grid.ColumnSpan="3" Background="{DynamicResource BackgroundBrush}">
+            <Border Grid.ColumnSpan="3" Background="{DynamicResource BackgroundBrush}"
+                    controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="BackgroundBrush">
                 <Border IsHitTestVisible="False" Opacity="{DynamicResource GrainOpacity}"
                         Background="{DynamicResource GrainTileBrush}"/>
             </Border>
@@ -1855,7 +1859,10 @@
                  rendered as a hard 5px stripe, and bare, the shader surface dropped out at some
                  accessibility-zoom scales and not others - gone at 102% magnification, back
                  at 104 (2026-08-08). Geometry cannot do any of that. -->
+            <!-- Trash Polka: the note card carries the pane's ink (Part Window), the same as KillerPDF's
+                 document card; the editor is transparent over it. -->
             <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
+                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
             <!-- NOTHING CASTS ONTO THE FOOTER. KillerScan and KillerPDF are the family baseline
@@ -2979,7 +2986,8 @@
         <!-- ZIndex -1 so the content pane's shadow lands on the footer rather than being painted
              over by it. The footer is pushed down rather than the content row raised, which would
              also put it above the overlays declared later. -->
-        <Border Grid.Row="2" Panel.ZIndex="-1" Background="{DynamicResource FooterBackgroundBrush}">
+        <Border Grid.Row="2" Panel.ZIndex="-1" Background="{DynamicResource FooterBackgroundBrush}"
+                controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="FooterBackgroundBrush">
             <Grid>
             <!-- The status bar's own SLIGHT recess. Win98 status bars are sunk a hair into the
                  window face - much shallower than a client area, which is why this is its own

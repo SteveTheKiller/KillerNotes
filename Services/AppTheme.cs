@@ -23,6 +23,8 @@ namespace KillerNotes.Services
             ThemeManager.SetDefaults(Theme.Black, dark: Accent.Green, light: Accent.Green, black: Accent.Purple, se98: Accent.Blue);
             ThemeManager.AppTokens = AppTokens;
             ThemeManager.AppDerivedTokens = AppDerivedTokens;
+            // Trash Polka's background ink on every dialog, picker and tool window, not just the main window.
+            Controls.ThemeMotif.EnableForAllWindows();
             // Dialog captions (Controls/DialogChrome.cs): the file picker's and ConfirmDialog's
             // title icon and wordmark come from here.
             Controls.DialogChrome.AppName = "KillerNotes";

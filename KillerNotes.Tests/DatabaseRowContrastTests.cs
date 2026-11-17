@@ -17,11 +17,13 @@ namespace KillerNotes.Tests
             foreach (Theme theme in Enum.GetValues(typeof(Theme)))
             foreach (Accent accent in Enum.GetValues(typeof(Accent)))
             {
-                bool hasAccents = theme is Theme.Dark or Theme.Light or Theme.Black or Theme.SE98;
-                if (!hasAccents && accent != Accent.Green) continue;
                 string family = theme == Theme.SE98 ? "98SE" : theme.ToString();
+                bool hasAccents = ThemeAccentRules.TakesAccents(family);
+                // A family's base palette bakes one accent (Green, or Red for Trash Polka); the rest are overlays.
+                bool baked = accent.ToString() == ThemeAccentRules.BakedAccent(family);
+                if (!hasAccents && accent != Accent.Green) continue;
                 var palette = (ResourceDictionary)XamlReader.Parse(File.ReadAllText(Path.Combine(root, "Themes", family + ".xaml")));
-                if (hasAccents && accent != Accent.Green)
+                if (hasAccents && !baked)
                 {
                     var overlay = (ResourceDictionary)XamlReader.Parse(File.ReadAllText(Path.Combine(root, "Themes", "Accents", family, accent + ".xaml")));
                     foreach (var key in overlay.Keys) palette[key] = overlay[key];

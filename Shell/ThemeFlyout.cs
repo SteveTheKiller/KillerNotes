@@ -15,7 +15,7 @@ namespace KillerNotes.Shell
     {
         private static readonly Theme[] PickerThemes =
         [
-            Theme.Dark, Theme.Light, Theme.Black, Theme.SE98, Theme.Blood, Theme.Greed, Theme.Cyanotic,
+            Theme.Dark, Theme.Light, Theme.Black, Theme.SE98, Theme.TrashPolka, Theme.Blood, Theme.Greed, Theme.Cyanotic,
             Theme.Ectoplasm, Theme.Decay,
             Theme.Malaise, Theme.Sepulchre, Theme.Delirium, Theme.Mourning
         ];
@@ -27,6 +27,9 @@ namespace KillerNotes.Shell
         [(Accent.Red,"#FF2929"),(Accent.Orange,"#FF910A"), (Accent.Yellow, "#FFEB00"),(Accent.Green,"#00FF66"),(Accent.Teal,"#0AFFE7"),(Accent.Blue,"#298DFF"),(Accent.Purple,"#B829FF"), (Accent.Magenta, "#FF2BBD")];
         private static readonly (Accent Accent, string Color)[] SE98StripColors =
         [(Accent.Red,"#800000"),(Accent.Orange,"#A05000"), (Accent.Yellow, "#EAD900"),(Accent.Green,"#006000"),(Accent.Teal,"#008080"),(Accent.Blue,"#000080"),(Accent.Purple,"#5A376E"), (Accent.Magenta, "#750052")];
+        // Blood, Ember, Ochre, Moss, Teal, Cobalt, Violet, Rose.
+        private static readonly (Accent Accent, string Color)[] TrashPolkaStripColors =
+        [(Accent.Red,"#D7263D"),(Accent.Orange,"#EE7B22"), (Accent.Yellow, "#D9A21B"),(Accent.Green,"#7A9A3A"),(Accent.Teal,"#1E9A96"),(Accent.Blue,"#3A6FD0"),(Accent.Purple,"#8A4CC2"), (Accent.Magenta, "#E4588E")];
         private readonly Dictionary<Theme, RadioButton> _themeRadios = [];
         private readonly List<Border> _accentStripDots = [];
         private Grid? _accentStripHost;
@@ -233,7 +236,7 @@ namespace KillerNotes.Shell
             return _accentStripHost;
         }
 
-        private static bool HasAccents(Theme t) => t is Theme.Dark or Theme.Light or Theme.Black or Theme.SE98;
+        private static bool HasAccents(Theme t) => ThemeManager.SupportsAccents(t);
         /// <summary>Localized display name for a theme, keyed Str_Theme_&lt;member&gt; - the same keys
         /// the rest of the family uses, so a translation is shared key for key across the apps.
         /// The picker showed raw enum members in every language until 1.3.0.
@@ -304,6 +307,7 @@ namespace KillerNotes.Shell
             Theme.Light => LightStripColors,
             Theme.Black => BlackStripColors,
             Theme.SE98 => SE98StripColors,
+            Theme.TrashPolka => TrashPolkaStripColors,
             _ => DarkStripColors,
         };
 
@@ -317,7 +321,8 @@ namespace KillerNotes.Shell
                 brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(flatColor));
             else
             {
-                string path = accent == Accent.Green
+                // The accent a family bakes into its base palette has no overlay of its own.
+                string path = accent.ToString() == ThemeAccentRules.BakedAccent(family.ToString())
                     ? $"Themes/{family}.xaml"
                     : $"Themes/Accents/{family}/{accent}.xaml";
                 var palette = new ResourceDictionary

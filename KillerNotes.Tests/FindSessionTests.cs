@@ -231,7 +231,7 @@ namespace KillerNotes.Tests
                 host.Show();
                 Pump();
                 var adorner = new FindMatchAdorner(shell.Editor, shell.Window);
-                foreach (string theme in new[] { "Dark", "Light", "Black", "98SE", "Blood", "Greed", "Cyanotic",
+                foreach (string theme in new[] { "Dark", "Light", "Black", "98SE", "TrashPolka", "Blood", "Greed", "Cyanotic",
                     "Ectoplasm", "Decay", "Malaise", "Sepulchre", "Delirium", "Mourning" })
                 {
                     shell.Editor.Resources.MergedDictionaries.Clear();
