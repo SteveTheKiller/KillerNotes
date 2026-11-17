@@ -16,19 +16,35 @@ the hashes equal.
 
 | | |
 |---|---|
-| SQLCipher | 4.19.0 community (SQLite 3.53.4) |
+| SQLCipher | 4.20.0 community (SQLite 3.54.1) |
 | LibTomCrypt | 1.18.2 |
 | Toolchain | llvm-mingw 20260616 (clang 22.1.8), ucrt |
-| e_sqlcipher.dll sha256 | `2580c4caaff37b29545187e918e5b79b0404f27ff197fd9127ce90fe51bb0d3b` |
-| Signature | Authenticode, Open Source Developer Stephen Riley (thumbprint `E478E4940DFD3547DAF2199494B399214FB3E0FD`), timestamped by DigiCert |
+| e_sqlcipher.dll sha256 | unsigned build `c7aef1d1588adb83bf3b8a58eefb22baddf66ffdc81ff22cd06e683bf4f8b3be`; signed hash recorded when signed |
+| Signature | Not yet signed. Sign with the Open Source Developer certificate before a real release (the 4.19.0 build was signed). |
 
 Source tarballs (verify before building):
 
 | Tarball | URL | sha256 |
 |---|---|---|
-| sqlcipher v4.19.0 | github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.19.0.tar.gz | `7075f96cbabe45b4ecfc2e6b1745a625f856f695b0827a5506ce9ed85b906aa0` |
+| sqlcipher v4.20.0 | github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.20.0.tar.gz | `38705f51b61ac0636a5fd064f9a77fafabc7227b2aa2513f1b14c8bb1102affc` |
 | libtomcrypt 1.18.2 | github.com/libtom/libtomcrypt/releases/download/v1.18.2/crypt-1.18.2.tar.xz | `96ad4c3b8336050993c5bc2cf6c057484f2b0f9f763448151567fbab5e767b84` |
 | llvm-mingw 20260616 | github.com/mstorsjo/llvm-mingw/releases/download/20260616/llvm-mingw-20260616-ucrt-ubuntu-22.04-x86_64.tar.xz | `534b92e067b22a6b4441f48ae9240a3341b17825d04d577eab0cf85c44b4deda` |
+
+## Dependency verification, November 16, 2026 (4.20.0)
+
+The DLL is a byte-for-byte copy of KillerShot's 4.20.0 build (same recipe and defines; only
+the source version differs). [SQLCipher 4.20.0](https://www.zetetic.net/blog/2026/10/27/sqlcipher-4.20.0-release/)
+is a maintenance release on SQLite 3.54.1, and `PBKDF2_ITER` is still 256000.
+
+`KillerNotes.Tests/Fixtures/sqlcipher-4.19.0-notes.db` is an encrypted database written by
+the 4.19.0 build. `SqlCipherUpgradeCompatTests` opens it with the bundled DLL, checks the
+note and its FTS search, refuses a wrong password, changes the password and asserts
+`PRAGMA cipher_version` reports `4.20.0 community`. On the next bump, regenerate the fixture
+on the old build first (set `KILLERNOTES_WRITE_SQLCIPHER_FIXTURE` and run
+`WriteFixtureWhenRequested`), then swap the DLL and update the expected version.
+
+Copying a DLL in keeps its old timestamp, and MSBuild then keeps embedding the previous
+one. Touch the file (or rebuild clean) after replacing it.
 
 ## Dependency verification, October 20, 2026
 
@@ -47,7 +63,7 @@ Extract the three tarballs into one folder. Generate the amalgamation first
 (needs tclsh):
 
 ```sh
-cd sqlcipher-4.19.0 && ./configure --with-tempstore=yes && make sqlite3.c && cd ..
+cd sqlcipher-4.20.0 && ./configure --with-tempstore=yes && make sqlite3.c && cd ..
 ```
 
 Then run `build-e_sqlcipher.sh` (in this folder). It compiles the amalgamation plus the

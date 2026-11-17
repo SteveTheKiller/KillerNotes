@@ -21,4 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\KillerNotes.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures\*.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

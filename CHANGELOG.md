@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Changed
 
+- The encrypted database engine is updated to SQLCipher 4.20.0 (SQLite 3.54.1). Existing databases and passwords open unchanged.
 - Backing up the database right away moved from Alt+B to Shift+F6.
 
 ### Added
