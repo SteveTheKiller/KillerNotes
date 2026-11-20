@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using KillerFamily.Controls;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -479,9 +481,14 @@ namespace KillerNotes.Shell
             return item;
         }
 
+        /// <summary>True while the bar card shows the heading tiles for a writable note (Alt+0..3 reach them).</summary>
+        private bool _fmtCardHeadings;
+
         private void InitializeFormatBarMenus()
         {
-            var menu = new ContextMenu();
+            // The bar's own right-click is a KillerUI tile card (NoteCards): the heading levels when it lands on
+            // the heading button, then Docked or Floating and Minimize. The picker buttons keep their own lists.
+            var menu = NoteCards.Menu();
             menu.PreviewKeyDown += FormatBarMenu_KeyDown;
             FormatBar.ContextMenu = menu;
             FormatBar.ContextMenuOpening += (_, e) =>
@@ -490,25 +497,26 @@ namespace KillerNotes.Shell
                 while (source != null && source is not Button)
                     source = source is Visual ? VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
                 if (source is Button { ContextMenu: not null }) return;
-                menu.Items.Clear();
+                bool writable = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash;
+                _fmtCardHeadings = source == FmtHeadingBtn && writable;
+                var tiles = new List<CardTile>();
                 if (source == FmtHeadingBtn)
                 {
                     for (int level = 1; level <= 3; level++)
                     {
                         int chosen = level;
-                        var item = new MenuItem { Header = string.Format(Loc("Str_St_Heading"), level), Icon = "\uE8D2", InputGestureText = "Alt+" + level, Tag = level,
-                            IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
-                        item.Click += (_, _) => SetHeadingLevel(chosen);
-                        menu.Items.Add(item);
+                        tiles.Add(new CardTile("", string.Format(Loc("Str_St_Heading"), level), "Alt+" + level,
+                            () => SetHeadingLevel(chosen), false, writable) { Id = "heading" + level });
                     }
-                    var normal = new MenuItem { Header = Loc("Str_St_HeadingOff"), Icon = "\uE8D3", InputGestureText = "Alt+0", Tag = 0,
-                        IsEnabled = NoteStore.IsOpen && !NoteStore.IsReadOnly && !_currentInTrash };
-                    normal.Click += (_, _) => SetHeadingLevel(0);
-                    menu.Items.Add(normal);
-                    menu.Items.Add(new Separator());
+                    tiles.Add(new CardTile("", Loc("Str_St_HeadingOff"), "Alt+0", () => SetHeadingLevel(0), false, writable) { Id = "heading0" });
                 }
-                menu.Items.Add(FormatBarPlacementItem());
-                if (!FormatBarDocked) menu.Items.Add(FormatBarMinimizeItem());
+                bool docked = FormatBarDocked;
+                tiles.Add(new CardTile(docked ? "" : "", Loc(docked ? "Str_ToolMenu_Floating" : "Str_ToolMenu_Docked"), "Alt+B",
+                    ToggleFormatBarPlacement) { Id = "toolmenu" });
+                if (!docked)
+                    tiles.Add(new CardTile(_fmtMinimized ? "" : "", Loc(_fmtMinimized ? "Str_Ctx_RestoreToolbar" : "Str_Ctx_MinimizeToolbar"), "F6",
+                        () => ToggleFormatBar()) { Id = "minimize" });
+                NoteCards.Fill(menu, null, tiles);
             };
             foreach (var button in FmtButtons.Children.OfType<Button>().Where(b => b.ContextMenu != null))
             {
@@ -550,10 +558,10 @@ namespace KillerNotes.Shell
             else if (ReferenceEquals(menu, FormatBar.ContextMenu) && mods == System.Windows.Input.ModifierKeys.Alt &&
                      key >= System.Windows.Input.Key.D0 && key <= System.Windows.Input.Key.D3)
             {
-                var item = menu.Items.OfType<MenuItem>().FirstOrDefault(i => i.Tag is int level && level == key - System.Windows.Input.Key.D0);
-                if (item?.IsEnabled != true) return;
+                if (!_fmtCardHeadings) return;
+                int level = key - System.Windows.Input.Key.D0;
                 e.Handled = true;
-                if (!e.IsRepeat) { menu.IsOpen = false; item.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, item)); }
+                if (!e.IsRepeat) { menu.IsOpen = false; SetHeadingLevel(level); }
             }
         }
 

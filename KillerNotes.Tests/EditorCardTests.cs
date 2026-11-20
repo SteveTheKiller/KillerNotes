@@ -14,10 +14,9 @@ using Xunit;
 namespace KillerNotes.Tests
 {
     /// <summary>
-    /// The editor's right-click menu is a card (1.7.0): a clipboard strip, recording and table
-    /// strips, the view switches as chips and segments, and only the destructive table rows as a
-    /// list. The shortcut table names its buttons as surfaces, so a renamed button silently drops
-    /// the key from its tooltip; these tests hold the names, the shape and the look.
+    /// The editor's right-click menu is a card: 1.7.0 built it as strips, chips and segments in XAML, and 1.7.1
+    /// makes it a KillerUI tile card built in EditorCard.cs. The shortcut table names its XAML surfaces, so a
+    /// renamed button silently drops the key from its tooltip; these tests hold the names, the shape and the look.
     /// </summary>
     [Collection("Application resources")]
     public sealed class EditorCardTests
@@ -46,68 +45,20 @@ namespace KillerNotes.Tests
                 Assert.True(xaml.Contains("x:Name=\"" + name + "\""), $"The shortcut table names {name}, which no longer exists, so its key drops off the tooltip.");
         }
 
+        /// <summary>1.7.1: the editor card is a KillerUI tile card built in EditorCard.cs. The XAML element is an
+        /// empty card, and the builder names every tile the old strips carried.</summary>
         [Fact]
-        public void TheEditorMenuIsACardWithNoSubmenus()
+        public void TheEditorMenuIsATileCard()
         {
             var card = EditorCard();
             Assert.Equal("{StaticResource CardMenu}", (string?)card.Attribute("Style"));
-            foreach (string name in new[] { "EditorCutBtn", "EditorCopyBtn", "EditorPasteBtn", "EditorLinkBtn", "EditorListBtn",
-                         "RecPlayPauseBtn", "TblRowAboveBtn", "TableStyleBtn", "WordWrapToggle", "SyntaxToggle", "SpellToggle",
-                         "PageWidthFullSeg", "PreviewRenderedSeg", "TblDeleteMenuItem" })
-                Assert.Contains(card.Descendants(), e => (string?)e.Attribute(X + "Name") == name);
-            // A card holds no flyout rows: every MenuItem is a slot or a leaf.
-            Assert.DoesNotContain(card.Descendants().Where(e => e.Name.LocalName == "MenuItem"),
-                e => e.Elements().Any(c => c.Name.LocalName == "MenuItem"));
+            Assert.Empty(card.Elements());
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "EditorCard.cs"));
+            Assert.Contains("NoteCards.Editable(EditorCard, \"Editor\"", src);
+            foreach (string id in new[] { "cut", "copy", "paste", "link", "list", "play", "rowabove", "tablestyle",
+                         "wrap", "syntax", "spell", "width", "preview", "deltable" })
+                Assert.Contains("\"" + id + "\"", src);
         }
-
-        [Fact]
-        public void TheCardRendersOnDark() => Sta.RunApplication(() =>
-        {
-            if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
-            var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-            var merged = app.Resources.MergedDictionaries;
-            var saved = merged.ToList();
-            merged.Clear();
-            merged.Add(ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark)));
-            foreach (string r in new[] { "Controls/Controls.xaml", "Strings/en-US.xaml", "Controls/AppStyles.xaml" })
-                merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/" + r, UriKind.Relative) });
-            try
-            {
-                // A ContextMenu only draws in its own popup window, so its rows are laid out in a
-                // panel on the card's surface instead: the same row templates, no window.
-                var menu = LoadCard(showAll: true);
-                // As a real note shows them: wrap on, full width, rendered preview.
-                foreach (string on in new[] { "WordWrapToggle", "PageWidthFullSeg", "PreviewRenderedSeg" })
-                    ((System.Windows.Controls.Primitives.ToggleButton)menu.FindName(on)).IsChecked = true;
-                var rows = menu.Items.Cast<object>().ToList();
-                menu.Items.Clear();
-                var panel = new StackPanel();
-                foreach (var row in rows) panel.Children.Add((UIElement)row);
-                var (minWidth, maxWidth) = CardWidths();
-                var host = new Border { MinWidth = minWidth, MaxWidth = maxWidth, Padding = new Thickness(6), Child = panel };
-                host.SetResourceReference(Border.BackgroundProperty, "MenuBackgroundBrush");
-                host.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                host.Arrange(new Rect(host.DesiredSize));
-                host.UpdateLayout();
-                Assert.True(host.ActualHeight > 200, "The card laid out empty.");
-
-                string? outPath = Environment.GetEnvironmentVariable("KN_EDITOR_CARD_PNG");
-                if (outPath != null)
-                {
-                    var bmp = new RenderTargetBitmap((int)host.ActualWidth, (int)host.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-                    bmp.Render(host);
-                    var enc = new PngBitmapEncoder();
-                    enc.Frames.Add(BitmapFrame.Create(bmp));
-                    using var f = File.Create(outPath);
-                    enc.Save(f);
-                }
-            }
-            finally
-            {
-                merged.Clear();
-                foreach (var d in saved) merged.Add(d);
-            }
-        });
 
         [Fact]
         public void ThePreviewPickerUsesTheFamilyDropdownAndSynchronizesBothLocations() => CardColorBehaviorTests.WithShell((window, _) =>
@@ -161,9 +112,8 @@ namespace KillerNotes.Tests
             }
         });
 
-        /// <summary>Every quick-button caption sits on one line and every chip and segment row
-        /// fits, in every language, at the card's own width. "Column right" wrapped to two lines
-        /// beside one-line neighbours, which read as a mistake.</summary>
+        /// <summary>Every editor tile caption fits the two lines a tile shows, in every language, on the kit's
+        /// three-across tile grid. "Column right" wrapped past its tile in 1.7.0, which read as a mistake.</summary>
         [Fact]
         public void EveryCaptionFitsItsTileInEveryLanguage() => Sta.RunApplication(() =>
         {
@@ -171,7 +121,15 @@ namespace KillerNotes.Tests
             var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             var merged = app.Resources.MergedDictionaries;
             var saved = merged.ToList();
-            var (minWidth, maxWidth) = CardWidths();
+            // The caption a tile shows: its Shown key where it has one (a shorter word), else its caption key.
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "EditorCard.cs"));
+            var keys = src.Split('\n').SelectMany(line =>
+                {
+                    var shown = Regex.Match(line, @"Shown = Loc\(""(Str_[A-Za-z0-9_]+)""\)");
+                    return shown.Success ? new[] { shown.Groups[1].Value }
+                        : Regex.Matches(line, @"""(Str_(?:Ctx|Card|Kb|KS)_[A-Za-z0-9]+)""").Cast<Match>().Select(m => m.Groups[1].Value);
+                }).Distinct().ToList();
+            Assert.NotEmpty(keys);
             var problems = new System.Collections.Generic.List<string>();
             try
             {
@@ -183,33 +141,26 @@ namespace KillerNotes.Tests
                     foreach (string r in new[] { "Controls/Controls.xaml", $"Strings/{lang}.xaml", "Controls/AppStyles.xaml" })
                         merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/" + r, UriKind.Relative) });
 
-                    var menu = LoadCard(showAll: true);
-                    var rows = menu.Items.Cast<object>().ToList();
-                    menu.Items.Clear();
-                    var panel = new StackPanel();
-                    foreach (var row in rows) panel.Children.Add((UIElement)row);
-                    // Sized the way the popup sizes it: natural width, held between the card's
-                    // MinWidth and MaxWidth.
-                    var host = new Border { MinWidth = minWidth, MaxWidth = maxWidth, Padding = new Thickness(6), Child = panel };
-                    host.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    var tiles = keys.Select(k => new KillerFamily.Controls.CardTile("", (app.TryFindResource(k) as string) ?? k, "Ctrl+Shift+F10", () => { }))
+                        .ToList();
+                    var card = Shell.NoteCards.Menu();
+                    var grid = Shell.NoteCards.Grid(card, tiles);
+                    var header = (FrameworkElement)grid.Header;
+                    grid.Header = null;
+                    var host = new Border { Width = Shell.NoteCards.Width, Child = header };
+                    host.SetResourceReference(Border.BackgroundProperty, "MenuBackgroundBrush");
+                    host.Measure(new Size(Shell.NoteCards.Width, double.PositiveInfinity));
                     host.Arrange(new Rect(host.DesiredSize));
                     host.UpdateLayout();
-                    if (lang == "en-US" && host.ActualWidth > minWidth + 0.5)
-                        problems.Add($"en-US: the card grew to {host.ActualWidth:0} past its {minWidth:0}");
-
-                    // The kit caps a tile caption's width so a long one wraps inside its tile instead of widening
-                    // the card (KillerUI card rule 1); it must still fit the two lines the caption shows.
-                    foreach (var caption in Descendants(host).OfType<TextBlock>().Where(t => t.Name == "Caption"))
+                    if (host.ActualHeight <= 0) problems.Add($"{lang}: the card laid out empty");
+                    foreach (var caption in Descendants(host).OfType<TextBlock>().Where(t => t.Name == "Caption" && !string.IsNullOrEmpty(t.Text)))
                     {
                         var ft = new FormattedText(caption.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                             new Typeface(caption.FontFamily, caption.FontStyle, caption.FontWeight, caption.FontStretch), caption.FontSize,
                             Brushes.Black, null, TextFormattingMode.Ideal, 1.0) { MaxTextWidth = Math.Max(1, caption.ActualWidth) };
-                        if (ft.Height > caption.MaxHeight + 0.5)
+                        if (!double.IsInfinity(caption.MaxHeight) && ft.Height > caption.MaxHeight + 0.5)
                             problems.Add($"{lang}: caption '{caption.Text}' needs more than two lines");
                     }
-                    foreach (var slot in panel.Children.OfType<MenuItem>())
-                        if (slot.Header is FrameworkElement header && header.DesiredSize.Width - header.Margin.Left - header.Margin.Right > header.ActualWidth + 0.5)
-                            problems.Add($"{lang}: row '{System.Windows.Automation.AutomationProperties.GetName(slot)}' runs past the card");
                 }
             }
             finally
@@ -217,63 +168,8 @@ namespace KillerNotes.Tests
                 merged.Clear();
                 foreach (var d in saved) merged.Add(d);
             }
-            Assert.True(problems.Count == 0, string.Join("\n", problems));
+            Assert.True(problems.Count == 0, string.Join(Environment.NewLine, problems));
         });
-
-        /// <summary>One left edge: the labels, the strips' rules, the separators and the row icons
-        /// all start on the icon column. The labels sat 16px further in, past an icon gutter
-        /// they do not use, and the strips' rules ran 8px further out than everything else.</summary>
-        [Fact]
-        public void EverythingStartsOnOneLeftEdge() => Sta.RunApplication(() =>
-        {
-            if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
-            var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-            var merged = app.Resources.MergedDictionaries;
-            var saved = merged.ToList();
-            merged.Clear();
-            merged.Add(ThemeHarness.Create(Theme.Dark, ThemeHarness.FirstRunAccent(Theme.Dark)));
-            foreach (string r in new[] { "Controls/Controls.xaml", "Strings/en-US.xaml", "Controls/AppStyles.xaml" })
-                merged.Add(new ResourceDictionary { Source = new Uri("/KillerNotes;component/" + r, UriKind.Relative) });
-            try
-            {
-                var menu = LoadCard(showAll: true);
-                var rows = menu.Items.Cast<object>().ToList();
-                menu.Items.Clear();
-                var panel = new StackPanel();
-                foreach (var row in rows) panel.Children.Add((UIElement)row);
-                var host = new Border { Width = 320, Child = panel };
-                host.Measure(new Size(320, double.PositiveInfinity));
-                host.Arrange(new Rect(host.DesiredSize));
-                host.UpdateLayout();
-                double Left(FrameworkElement e) => e.TransformToAncestor(host).Transform(new Point(0, 0)).X;
-
-                var cardLabel = (Style)app.FindResource("CardLabel");
-                var edges = new System.Collections.Generic.List<(string What, double X)>();
-                foreach (var d in Descendants(host).OfType<FrameworkElement>())
-                {
-                    if (d is TextBlock { Style: var st } t && ReferenceEquals(st, cardLabel)) edges.Add(("label " + t.Text, Left(d)));
-                    else if (d is Border { Child: System.Windows.Controls.Primitives.UniformGrid }) edges.Add(("strip rule", Left(d)));
-                    else if (d is Separator) edges.Add(("separator", Left(d)));
-                    else if (d.Name == "IconPresenter" && d.ActualWidth > 0) edges.Add(("row icon", Left(d)));
-                }
-                Assert.Contains(edges, e => e.What.StartsWith("label"));
-                Assert.Contains(edges, e => e.What == "strip rule");
-                Assert.Contains(edges, e => e.What == "row icon");
-                double column = edges.First(e => e.What == "row icon").X;
-                var off = edges.Where(e => Math.Abs(e.X - column) > 0.5).Select(e => $"{e.What} at {e.X:0.#}").ToList();
-                Assert.True(off.Count == 0, $"icon column {column:0.#}; off it: " + string.Join(", ", off));
-            }
-            finally
-            {
-                merged.Clear();
-                foreach (var d in saved) merged.Add(d);
-            }
-        });
-
-        /// <summary>The editor card's own width range: its MinWidth and MaxWidth less the
-        /// template's 22px halo on each side.</summary>
-        private static (double Min, double Max) CardWidths() =>
-            ((double)EditorCard().Attribute("MinWidth")! - 44, (double)EditorCard().Attribute("MaxWidth")! - 44);
 
         private static System.Collections.Generic.IEnumerable<DependencyObject> Descendants(DependencyObject root)
         {
@@ -283,19 +179,6 @@ namespace KillerNotes.Tests
                 yield return child;
                 foreach (var d in Descendants(child)) yield return d;
             }
-        }
-
-        /// <summary>The card's XAML from MainWindow.xaml, without its event wiring, every part shown.</summary>
-        private static Menu LoadCard(bool showAll)
-        {
-            var card = new XElement(EditorCard());
-            foreach (var a in card.DescendantsAndSelf().Attributes().Where(a => a.Name.LocalName == "Click").ToList()) a.Remove();
-            if (showAll)
-                foreach (var a in card.DescendantsAndSelf().Attributes().Where(a => a.Name.LocalName == "Visibility").ToList()) a.Remove();
-            card.SetAttributeValue(XNamespace.Xmlns + "x", X.NamespaceName);
-            card.Attribute("Style")?.Remove();
-            card.Name = XName.Get("Menu", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            return (Menu)XamlReader.Parse(card.ToString());
         }
     }
 }

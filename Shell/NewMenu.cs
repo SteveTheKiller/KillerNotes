@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using KillerFamily.Controls;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -10,8 +11,8 @@ using KillerNotes.Services;
 namespace KillerNotes.Shell
 {
     // 1.7.0 homes for what left the note menu. The note card is about one note, so:
-    //   - the other ways to START a note (markdown, from template, today's) sit behind the
-    //     chevron beside New note (MainWindow.xaml NewMenuBtn / NewMenu);
+    //   - the other ways to START a note (markdown, from template, today's) sit on the tile card
+    //     behind the chevron beside New note (MainWindow.xaml NewMenuBtn / NewMenu);
     //   - folder import sits in the New note menu; whole-notepad export uses LibraryRailBtn;
     //   - a right-click on empty sidebar opens nothing, because there is no note to be about.
     public partial class MainWindow
@@ -27,27 +28,35 @@ namespace KillerNotes.Shell
             NewMenu.IsOpen = true;
         }
 
+        /// <summary>The New in group and From template lists the card's flyout tiles open.</summary>
+        private readonly MenuItem NewInGroupMenu = new(), TemplateMenu = new();
+
+        /// <summary>The creation card: New note, Markdown and Today's note, then the In group and Template
+        /// lists and folder import, each tile with its shortcut.</summary>
         private void NewMenu_Opened(object sender, RoutedEventArgs e)
         {
             BuildTemplateMenu();      // Templates.cs
             BuildNewInGroupMenu();
-            NewRichQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_KS_NewNote"), "Ctrl+N");
-            NewMarkdownQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_Ctx_NewMarkdownNote"), "Alt+N");
-            NewTodayQuickBtn.ToolTip = KillerFamily.Controls.CardBuilder.Tip(Loc("Str_Ctx_TodayNote"), "Alt+D");
+            NoteCards.Prepare(NewMenu);
+            NewMenu.Items.Add(NoteCards.Header(NewMenu, Loc("Str_KS_NewNote")));
+            CardTile Act(string id, string glyph, string caption, string? shown, string keys, RoutedEventHandler run) =>
+                new(glyph, Loc(caption), keys, () => run(this, new RoutedEventArgs())) { Id = id, Shown = shown == null ? null : Loc(shown) };
+            NewMenu.Items.Add(NoteCards.Grid(NewMenu, new[]
+            {
+                Act("rich", "", "Str_KS_NewNote", "Str_Card_Rich", "Ctrl+N", NewNote_Click),
+                Act("markdown", "", "Str_Ctx_NewMarkdownNote", "Str_Card_Markdown", "Alt+N", NewMarkdownNote_Click),
+                Act("today", "", "Str_Ctx_TodayNote", null, "Alt+D", TodayNote_Click),
+                NoteCards.Flyout("", Loc("Str_Ctx_NewNoteInGroupMenu"), null, NewInGroupMenu.Items.Cast<object>().ToList(), id: "ingroup")
+                    with { Shown = Loc("Str_Card_Group") },
+                NoteCards.Flyout("", Loc("Str_Ctx_NewFromTemplate"), "Alt+T", TemplateMenu.Items.Cast<object>().ToList(), id: "template")
+                    with { Shown = Loc("Str_Card_Templates") },
+                Act("import", "", "Str_Ctx_ImportFolder", "Str_Card_Import", "Alt+Shift+I", ImportFolder_Click),
+            }));
             Dispatcher.BeginInvoke(new System.Action(() =>
             {
-                if (NewMenu.IsOpen) NewRichQuickBtn.Focus();
+                if (NewMenu.IsOpen) NoteCards.FirstTile(NewMenu)?.Focus();
             }), System.Windows.Threading.DispatcherPriority.Input);
         }
-
-        private void NewCardRich_Click(object sender, RoutedEventArgs e)
-        { NewMenu.IsOpen = false; NewNote_Click(sender, e); }
-
-        private void NewCardMarkdown_Click(object sender, RoutedEventArgs e)
-        { NewMenu.IsOpen = false; NewMarkdownNote_Click(sender, e); }
-
-        private void NewCardToday_Click(object sender, RoutedEventArgs e)
-        { NewMenu.IsOpen = false; TodayNote_Click(sender, e); }
 
         /// <summary>New note in group: every group by its full path, so a subgroup reads
         /// unambiguously. Picking one makes the note there and opens it, like the group card's
@@ -56,7 +65,6 @@ namespace KillerNotes.Shell
         {
             NewInGroupMenu.Items.Clear();
             var groups = NoteStore.IsOpen ? NoteStore.ListGroupTree() : [];
-            NewInGroupMenu.Visibility = groups.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
             foreach (var g in groups)
             {
                 string path = g.Path;

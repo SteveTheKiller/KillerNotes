@@ -35,7 +35,7 @@ namespace KillerNotes.Tests
             if (kind == 0) host.ShowGroupCard("Work", 0, target, false);
             else host.ShowNoteCard(kind == 1 ? new[] { id } : new[] { id, second }, target, false);
             window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-            var swatches = (SwatchRow)window.FindName(kind == 0 ? "GroupCardSwatches" : "CardSwatches");
+            var swatches = CardTileHelper.Swatches((ContextMenu)window.FindName(kind == 0 ? "GroupCard" : "NoteCard"));
             Window? actualOwner = null;
             bool accepted = false;
             var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(20) };
@@ -98,8 +98,8 @@ namespace KillerNotes.Tests
             timer.Start();
             try
             {
-                ((System.Windows.Controls.Primitives.ToggleButton)window.FindName(markdown ? "CardRichSeg" : "CardMarkdownSeg"))
-                    .RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                // 1.7.1: one Markdown tile converts the note either way.
+                CardTileHelper.Click((ContextMenu)window.FindName("NoteCard"), "markdown");
             }
             finally { timer.Stop(); manager.Close(); }
             Assert.True(accepted);
@@ -117,7 +117,7 @@ namespace KillerNotes.Tests
             var manager = Application.Current.Windows.OfType<GroupManagerWindow>().Single();
             host.ShowNoteCard(new[] { id }, (UIElement)manager.FindName("Table"), false);
             window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-            var groupMenu = (MenuItem)window.FindName("GroupMenu");
+            var groupRows = CardTileHelper.Items((ContextMenu)window.FindName("NoteCard"), "group");
             Window? actualOwner = null;
             bool accepted = false;
             var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(20) };
@@ -132,7 +132,7 @@ namespace KillerNotes.Tests
                 ((Button)input.FindName("OkButton")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             };
             timer.Start();
-            try { ((MenuItem)groupMenu.Items[groupMenu.Items.Count - 2]).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent)); }
+            try { groupRows[groupRows.Count - 2].RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent)); }
             finally { timer.Stop(); manager.Close(); }
             Assert.True(accepted);
             Assert.Same(manager, actualOwner);

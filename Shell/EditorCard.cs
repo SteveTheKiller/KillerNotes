@@ -1,125 +1,154 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using KillerFamily.Controls;
+using KillerNotes.Services;
 
 namespace KillerNotes.Shell
 {
-    // The editor card (1.7.0): the editor's right-click menu in the note card's shape
-    // (MainWindow.xaml EditorCard). Every control calls the handler its old menu row called, so
-    // Ctrl+X, Alt+Shift+A, F4 and the rest still reach the same code. Wired here rather than in
-    // XAML because a control has to close the card BEFORE it acts: Link, Edit recording and Table
-    // style open dialogs, and a card left open under a modal dialog keeps its popup on screen.
+    // The editor card (1.7.0, KillerUI tiles in 1.7.1): the editor's right-click menu as one tile grid
+    // (MainWindow.xaml EditorCard, built here each time it opens). Every tile calls the handler its old
+    // menu row called, so Ctrl+X, Alt+Shift+A, F4 and the rest still reach the same code, and every tile
+    // shows that key on its second line. A tile closes the card BEFORE it acts (the kit's tile Click):
+    // Link, Edit recording and Table style open dialogs, and a card left open under a modal dialog keeps
+    // its popup on screen.
     public partial class MainWindow
     {
-        /// <summary>Called once from InitEditor (Editor.Float.cs), beside the menu's opening hooks.</summary>
-        private void InitEditorCard()
-        {
-            Act(EditorCutBtn, () => ApplicationCommands.Cut.Execute(null, Editor));
-            Act(EditorCopyBtn, () => EditorCopyMenuItem_Click(this, new RoutedEventArgs()));
-            Act(EditorPasteBtn, () => ApplicationCommands.Paste.Execute(null, Editor));
-            Act(EditorLinkBtn, () => LinkMenu_Click(this, new RoutedEventArgs()));
-            Act(EditorListBtn, () => ConvertToList_Click(this, new RoutedEventArgs()));
+        /// <summary>The Preview gate: visible while the open note is a detected markdown note. Preview.cs owns
+        /// it and F4 (Shortcuts.cs) reads it; it is not on the card, the card shows a Preview tile for it.</summary>
+        private readonly MenuItem PreviewMenuItem = new() { Visibility = Visibility.Collapsed };
 
-            Act(RecPlayPauseBtn, () => RecPlayPause_Click(this, new RoutedEventArgs()));
-            // Volume steps keep the card open, as the old rows did, so a few clicks walk the level.
-            RecVolumeUpBtn.Click += (_, _) => RecVolumeUp_Click(this, new RoutedEventArgs());
-            RecVolumeDownBtn.Click += (_, _) => RecVolumeDown_Click(this, new RoutedEventArgs());
-            Act(RecEditBtn, () => RecEdit_Click(this, new RoutedEventArgs()));
-            Act(RecSaveAsBtn, () => RecSaveAs_Click(this, new RoutedEventArgs()));
-            Act(RecCopyFileBtn, () => RecCopyFile_Click(this, new RoutedEventArgs()));
+        /// <summary>Kept for InitEditor's call order; the card wires each tile as it builds it.</summary>
+        private void InitEditorCard() { }
 
-            Act(TblRowAboveBtn, () => TableRowAbove_Click(this, new RoutedEventArgs()));
-            Act(TblRowBelowBtn, () => TableRowBelow_Click(this, new RoutedEventArgs()));
-            Act(TblColLeftBtn, () => TableColLeft_Click(this, new RoutedEventArgs()));
-            Act(TblColRightBtn, () => TableColRight_Click(this, new RoutedEventArgs()));
-            Act(TableStyleBtn, () => TableStyle_Click(this, new RoutedEventArgs()));
-
-            // The chips flip themselves on click; each handler flips the real state and writes the
-            // chip back from it, so a refused toggle (spell check on a huge note) shows as off.
-            Act(WordWrapToggle, () => WordWrap_Click(this, new RoutedEventArgs()));
-            Act(SyntaxToggle, () => SyntaxHighlight_Click(this, new RoutedEventArgs()));
-            Act(SpellToggle, () => { Spell_Click(this, new RoutedEventArgs()); SpellToggle.IsChecked = Editor.SpellCheck.IsEnabled; });
-
-            Act(PageWidthFullSeg, () => PageWidthFull_Click(this, new RoutedEventArgs()));
-            Act(PageWidthWideSeg, () => PageWidthWide_Click(this, new RoutedEventArgs()));
-            Act(PageWidthMediumSeg, () => PageWidthMedium_Click(this, new RoutedEventArgs()));
-            Act(PageWidthNarrowSeg, () => PageWidthNarrow_Click(this, new RoutedEventArgs()));
-
-            Act(PreviewSourceSeg, () => PreviewSource_Click(this, new RoutedEventArgs()));
-            Act(PreviewRenderedSeg, () => PreviewRendered_Click(this, new RoutedEventArgs()));
-            Act(PreviewSplitSeg, () => PreviewSplit_Click(this, new RoutedEventArgs()));
-        }
-
-        /// <summary>Closes the card, then runs the action.</summary>
-        private void Act(ButtonBase control, Action action) =>
-            control.Click += (_, _) => { EditorCard.IsOpen = false; action(); };
-
-        /// <summary>The parts of the card for what was right-clicked: the clipboard strip always,
-        /// Link and List on text, the recording strip on a recording, the table strip and rows in
-        /// a table cell, the view switches on text. Called from Editor_ContextMenuOpening.</summary>
+        /// <summary>The tiles for what was right-clicked: the clipboard always, Link and List on text, the
+        /// markdown tools on a markdown note, the recording tiles on a recording, the table tiles in a table
+        /// cell, the view tiles on text. Called from Editor_ContextMenuOpening after UpdateTableMenu.</summary>
         private void FillEditorCard(bool onObject, bool hasText, bool onRecording)
         {
-            Visibility Show(bool on) => on ? Visibility.Visible : Visibility.Collapsed;
-            EditorCutBtn.IsEnabled = ApplicationCommands.Cut.CanExecute(null, Editor);
-            EditorCopyBtn.IsEnabled = _ctxObject is System.Windows.Controls.Image { Source: System.Windows.Media.Imaging.BitmapSource } || !Editor.Selection.IsEmpty;
-            EditorPasteBtn.IsEnabled = ApplicationCommands.Paste.CanExecute(null, Editor);
-            EditorLinkBtn.Visibility = Show(!onObject);
-            EditorListBtn.Visibility = Show(!onObject && hasText);
-            bool markdown = !onObject && UsesMarkdownTools;
-            MarkdownFormatSlot.Visibility = MarkdownInsertSlot.Visibility = Show(markdown);
-            if (markdown) FillMarkdownCard();
-            RecSlot.Visibility = Show(onRecording);
-            DocToggleSlot.Visibility = Show(!onObject);
-            PageWidthSlot.Visibility = Show(!onObject);
-            ((Border)EditorQuickSlot.Header).BorderThickness = new Thickness(0, 0, 0, !onObject || onRecording ? 1 : 0);
-            ((Border)RecSlot.Header).BorderThickness = new Thickness(0, 0, 0, !onObject ? 1 : 0);
-            if (onObject) PreviewMenuItem.Visibility = Visibility.Collapsed;
-            WordWrapToggle.IsChecked = _wordWrap;
-            SyntaxToggle.IsChecked = _syntaxHighlight;
-            SpellToggle.IsChecked = Editor.SpellCheck.IsEnabled;
+            NoteCards.Prepare(EditorCard);
+            CardTile Act(string id, string glyph, string caption, string? keys, Action run, bool enabled = true) =>
+                new(glyph, Loc(caption), keys, run, false, enabled) { Id = id };
+            CardTile Click(string id, string glyph, string caption, string? keys, RoutedEventHandler run, bool enabled = true) =>
+                Act(id, glyph, caption, keys, () => run(this, new RoutedEventArgs()), enabled);
+
+            var groups = new List<IEnumerable<CardTile>>
+            {
+                new[]
+                {
+                    Act("cut", "", "Str_Ctx_Cut", "Ctrl+X", () => ApplicationCommands.Cut.Execute(null, Editor),
+                        ApplicationCommands.Cut.CanExecute(null, Editor)),
+                    Click("copy", "", "Str_Ctx_Copy", "Ctrl+C", EditorCopyMenuItem_Click,
+                        _ctxObject is Image { Source: System.Windows.Media.Imaging.BitmapSource } || !Editor.Selection.IsEmpty),
+                    Act("paste", "", "Str_Ctx_Paste", "Ctrl+V", () => ApplicationCommands.Paste.Execute(null, Editor),
+                        ApplicationCommands.Paste.CanExecute(null, Editor)),
+                },
+            };
+            if (!onObject)
+                groups.Add(new[]
+                {
+                    Click("link", "", "Str_Card_Link", "Ctrl+K", LinkMenu_Click),
+                    Click("list", "", "Str_Card_List", "Ctrl+Shift+J", ConvertToList_Click, hasText),
+                });
+            if (!onObject && UsesMarkdownTools) groups.Add(MarkdownTiles());
+            if (onRecording)
+                groups.Add(new[]
+                {
+                    Click("play", "", "Str_Card_Play", "Alt+Shift+P", RecPlayPause_Click),
+                    Click("louder", "", "Str_Card_Louder", "Alt+Shift+Up", RecVolumeUp_Click),
+                    Click("quieter", "", "Str_Card_Quieter", "Alt+Shift+Down", RecVolumeDown_Click),
+                    Click("editrec", "", "Str_Card_EditRec", "Ctrl+Shift+F9", RecEdit_Click),
+                    Click("saverec", "", "Str_Card_SaveAs", "Ctrl+Shift+F10", RecSaveAs_Click),
+                    Click("copyrec", "", "Str_Card_CopyFile", "Ctrl+Shift+F11", RecCopyFile_Click),
+                });
+            if (_tblMenuCell != null)
+                groups.Add(new[]
+                {
+                    Click("rowabove", "", "Str_Card_RowAbove", "Alt+Shift+A", TableRowAbove_Click),
+                    Click("rowbelow", "", "Str_Card_RowBelow", "Alt+Shift+B", TableRowBelow_Click),
+                    Click("colleft", "", "Str_Card_ColLeft", "Alt+Shift+L", TableColLeft_Click),
+                    Click("colright", "", "Str_Card_ColRight", "Alt+Shift+R", TableColRight_Click),
+                    Click("tablestyle", "", "Str_Card_TableStyle", "Alt+Shift+S", TableStyle_Click),
+                    Click("delrow", "", "Str_Ctx_TblDelRow", "Alt+Shift+D", TableDelRow_Click),
+                    Click("delcol", "", "Str_Ctx_TblDelCol", "Alt+Shift+C", TableDelCol_Click),
+                    Click("deltable", "", "Str_Ctx_TblDelete", "Alt+Shift+X", TableDelete_Click),
+                });
+            if (!onObject)
+            {
+                var view = new List<CardTile>
+                {
+                    Click("wrap", "", "Str_Card_Wrap", "Ctrl+Shift+W", WordWrap_Click) with { Checked = _wordWrap },
+                    Click("syntax", "", "Str_Card_Syntax", "Ctrl+Shift+E", SyntaxHighlight_Click) with { Checked = _syntaxHighlight },
+                    Click("spell", "", "Str_Card_Spelling", "Ctrl+Shift+P", Spell_Click) with { Checked = Editor.SpellCheck.IsEnabled },
+                    NoteCards.Flyout("", Loc("Str_Card_Width"), null, PageWidthRows(), id: "width"),
+                };
+                if (PreviewMenuItem.Visibility == Visibility.Visible)
+                    view.Add(NoteCards.Flyout("", Loc("Str_Card_Preview"), "F4", PreviewRows(), id: "preview"));
+                groups.Add(view);
+            }
+            EditorCard.Items.Add(NoteCards.Editable(EditorCard, "Editor", ["cut", "copy", "paste"], [], groups.ToArray()));
         }
 
-        private void FillMarkdownCard()
+        /// <summary>The markdown tools a markdown note's card carries, writable notes only.</summary>
+        private CardTile[] MarkdownTiles()
         {
-            bool writable = CanEditCurrentNote(explain:false);
-            CardAction Action(string glyph, string caption, string label, string gesture, Action run) =>
-                new(glyph,caption,Loc(label),gesture,run,writable);
-            Put(MarkdownFormatSlot,false,
-                Action("\uE8DD","**","Str_Kb_Bold","Ctrl+B",() => EditingCommands.ToggleBold.Execute(null,Editor)),
-                Action("\uE8DB","*","Str_Kb_Italic","Ctrl+I",() => EditingCommands.ToggleItalic.Execute(null,Editor)),
-                Action("\uEDE0","~~","Str_KS_Strike","Ctrl+Shift+S",() => Strike_Click(this,new RoutedEventArgs())),
-                Action("\uE943","`","Str_KS_Mono","Ctrl+Shift+M",() => Mono_Click(this,new RoutedEventArgs())),
-                Action("\uE8A5","#","Str_Kb_Heading","Alt+1 / Alt+2 / Alt+3",() => Heading_Click(this,new RoutedEventArgs())));
-            Put(MarkdownInsertSlot,true,
-                Action("\uE8FD","-","Str_Kb_Bullets","Ctrl+Shift+L",() => EditingCommands.ToggleBullets.Execute(null,Editor)),
-                Action("\uEA37","1.","Str_Kb_Numbered","Ctrl+Shift+N",() => EditingCommands.ToggleNumbering.Execute(null,Editor)),
-                Action("\uE73A","[ ]","Str_Kb_Checkbox","Alt+C",() => Checkbox_Click(this,new RoutedEventArgs())),
-                Action("\uE8A9","| |","Str_KS_Table","Ctrl+Shift+T",() => TableBtn_Click(this,new RoutedEventArgs())),
-                Action("\uE738","---","Str_KS_Rule","Ctrl+Shift+R",() => InsertRule_Click(this,new RoutedEventArgs())));
+            bool writable = CanEditCurrentNote(explain: false);
+            CardTile Md(string id, string glyph, string label, string keys, Action run) =>
+                new(glyph, Loc(label), keys, run, false, writable) { Id = id };
+            return
+            [
+                Md("bold", "", "Str_Kb_Bold", "Ctrl+B", () => EditingCommands.ToggleBold.Execute(null, Editor)),
+                Md("italic", "", "Str_Kb_Italic", "Ctrl+I", () => EditingCommands.ToggleItalic.Execute(null, Editor)),
+                Md("strike", "", "Str_KS_Strike", "Ctrl+Shift+S", () => Strike_Click(this, new RoutedEventArgs())),
+                Md("mono", "", "Str_KS_Mono", "Ctrl+Shift+M", () => Mono_Click(this, new RoutedEventArgs())) with { Shown = Loc("Str_Card_Code") },
+                Md("heading", "", "Str_Kb_Heading", "Alt+1", () => Heading_Click(this, new RoutedEventArgs())),
+                Md("bullets", "", "Str_Kb_Bullets", "Ctrl+Shift+L", () => EditingCommands.ToggleBullets.Execute(null, Editor)),
+                Md("numbered", "", "Str_Kb_Numbered", "Ctrl+Shift+N", () => EditingCommands.ToggleNumbering.Execute(null, Editor)),
+                Md("checkbox", "", "Str_Kb_Checkbox", "Alt+C", () => Checkbox_Click(this, new RoutedEventArgs())),
+                Md("table", "", "Str_KS_Table", "Ctrl+Shift+T", () => TableBtn_Click(this, new RoutedEventArgs())),
+                Md("rule", "", "Str_Kb_Rule", "Ctrl+Shift+R", () => InsertRule_Click(this, new RoutedEventArgs())),
+            ];
+        }
 
-            void Put(MenuItem slot, bool rule, params CardAction[] actions)
+        /// <summary>The four page widths as checkable rows, the current one checked.</summary>
+        private List<object> PageWidthRows()
+        {
+            var rows = new List<object>();
+            foreach (var mode in new[] { PageWidthMode.Full, PageWidthMode.Wide, PageWidthMode.Medium, PageWidthMode.Narrow })
             {
-                var row = CardBuilder.QuickStrip(Loc("Str_Card_Markdown"),actions);
-                var header = (Border)row.Header;
-                row.Header = null;
-                header.BorderThickness = new Thickness(0,0,0,rule ? 1 : 0);
-                if (slot == MarkdownFormatSlot)
+                var row = new MenuItem
                 {
-                    var button = (Button)((UniformGrid)header.Child).Children[4];
-                    button.Content = "H";
-                    button.ApplyTemplate();
-                    if (button.Template.FindName("Glyph",button) is TextBlock heading)
-                    {
-                        heading.SetResourceReference(TextBlock.FontFamilyProperty,"UiFont");
-                        heading.FontWeight = FontWeights.Bold;
-                    }
-                }
-                slot.Header = header;
+                    Header = Loc(PageWidthLabel(mode)), InputGestureText = PageWidthGesture(mode),
+                    IsCheckable = true, IsChecked = mode == _pageWidth,
+                };
+                var chosen = mode;
+                row.Click += (_, _) => ApplyPageWidth(chosen);
+                rows.Add(row);
             }
+            return rows;
+        }
+
+        /// <summary>Source, Rendered and Split as checkable rows, the current mode checked.</summary>
+        private List<object> PreviewRows()
+        {
+            var rows = new List<object>();
+            foreach (var (mode, label, keys) in new[]
+            {
+                (PreviewMode.Source, "Str_Preview_Source", "Ctrl+Shift+F6"),
+                (PreviewMode.Rendered, "Str_Preview_Rendered", "Ctrl+Shift+F7"),
+                (PreviewMode.Split, "Str_Preview_Split", "Ctrl+Shift+F8"),
+            })
+            {
+                var row = new MenuItem { Header = Loc(label), InputGestureText = keys, IsCheckable = true, IsChecked = mode == _previewMode };
+                var chosen = mode;
+                row.Click += (_, _) => SetPreviewMode(chosen);
+                rows.Add(row);
+            }
+            return rows;
         }
     }
 }

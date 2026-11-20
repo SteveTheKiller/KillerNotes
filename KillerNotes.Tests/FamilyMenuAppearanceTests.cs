@@ -83,13 +83,14 @@ namespace KillerNotes.Tests
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
                 menu.UpdateLayout();
                 Assert.InRange(menu.ActualWidth, 280, 403.99);
+                // 1.7.1: the palette sits in the Color tile's flyout, and every tile fits the card's face.
                 var face = (FrameworkElement)menu.Template.FindName("MenuRoot", menu);
-                var palette = (SwatchRow)window.FindName("CardSwatches");
+                var palette = CardTileHelper.Swatches(menu);
                 Assert.Equal(11, palette.Children.OfType<Button>().Count());
-                foreach (var swatch in palette.Children.OfType<Button>())
+                foreach (var tile in Shell.NoteCards.Tiles(menu))
                 {
-                    Assert.InRange(swatch.TranslatePoint(new Point(), face).X, 0, face.ActualWidth);
-                    Assert.InRange(swatch.TranslatePoint(new Point(swatch.ActualWidth, 0), face).X, 0, face.ActualWidth);
+                    Assert.InRange(tile.TranslatePoint(new Point(), face).X, 0, face.ActualWidth);
+                    Assert.InRange(tile.TranslatePoint(new Point(tile.ActualWidth, 0), face).X, 0, face.ActualWidth);
                 }
             }
             finally { menu.IsOpen = false; owner.Close(); }

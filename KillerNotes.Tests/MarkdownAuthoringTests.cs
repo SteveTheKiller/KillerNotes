@@ -61,7 +61,7 @@ namespace KillerNotes.Tests
         public void BoldWritesMarkdownAndUndoRestoresTheSource() => CardColorBehaviorTests.WithShell((window, _) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var editor = (RichTextBox)window.FindName("Editor");
             editor.Document.Blocks.Clear();
             MarkdownBlob.Fill(editor.Document, "selected words");
@@ -80,7 +80,7 @@ namespace KillerNotes.Tests
         public void MarkdownToolbarInsertsAPipeTableAsOneUndoableTextEdit() => CardColorBehaviorTests.WithShell((window, _) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             Assert.Equal(Visibility.Visible, ((Border)window.FindName("FormatBar")).Visibility);
             foreach (string name in new[] { "FmtUnderlineBtn", "FontSizeBtn", "TextColorBtn", "FmtImageBtn" })
                 Assert.True(((UIElement)window.FindName(name)).Visibility == Visibility.Collapsed,
@@ -116,7 +116,7 @@ namespace KillerNotes.Tests
         public void MarkdownLinkToolWritesTheLabelAndEscapedDestinationIntoTheSource(bool afterLineBreak) => CardColorBehaviorTests.WithShell((window, _) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var editor = (RichTextBox)window.FindName("Editor");
             editor.Document.Blocks.Clear();
             string prefix = afterLineBreak ? "prefix " + char.ConvertFromUtf32(0x1F600) + "\n" : "";
@@ -177,7 +177,7 @@ namespace KillerNotes.Tests
         public void TextToolsWriteMarkdownSyntax(string name, string expected) => CardColorBehaviorTests.WithShell((window, _) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var editor = (RichTextBox)window.FindName("Editor");
             editor.Document.Blocks.Clear();
             MarkdownBlob.Fill(editor.Document,"words");
@@ -194,20 +194,20 @@ namespace KillerNotes.Tests
         public void MarkdownContextToolsFormatSourceAndStayOutOfRichTextCards() => CardColorBehaviorTests.WithShell((window, _) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var editor = (RichTextBox)window.FindName("Editor");
             editor.Document.Blocks.Clear(); MarkdownBlob.Fill(editor.Document,"words"); editor.SelectAll();
             Open();
-            var slot = Assert.IsType<MenuItem>(window.FindName("MarkdownFormatSlot"));
-            Assert.Equal(Visibility.Visible,slot.Visibility);
-            var buttons = (System.Windows.Controls.Primitives.UniformGrid)((Border)slot.Header).Child;
-            buttons.Children.OfType<Button>().Single(b => System.Windows.Automation.AutomationProperties.GetAcceleratorKey(b)=="Ctrl+B")
-                .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            // 1.7.1: the markdown tools are tiles on the editor card, on a markdown note only.
+            var card = (ContextMenu)editor.ContextMenu;
+            var bold = CardTileHelper.Tile(card, "bold");
+            Assert.Equal("Ctrl+B", System.Windows.Automation.AutomationProperties.GetAcceleratorKey(bold));
+            CardTileHelper.Click(bold);
             Assert.False(editor.ContextMenu.IsOpen);
             Assert.Equal("**words**",MarkdownBlob.TextOf(editor.Document));
             ((Button)window.FindName("NewNoteBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             Open();
-            Assert.Equal(Visibility.Collapsed,slot.Visibility);
+            Assert.Null(Shell.NoteCards.Tile(card, "bold"));
             editor.ContextMenu.IsOpen=false;
             Assert.Equal(Visibility.Visible,((Button)window.FindName("FmtUnderlineBtn")).Visibility);
 
@@ -225,7 +225,7 @@ namespace KillerNotes.Tests
         public void ViewDropdownKeepsKeyboardFocusWhileChoosingAMode() => CardColorBehaviorTests.WithShell((window,_) =>
         {
             Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var picker=(ComboBox)window.FindName("PreviewModeBtn");
             picker.Focus(); picker.IsDropDownOpen=true;
             InputManager.Current.ProcessInput(new KeyEventArgs(Keyboard.PrimaryDevice,PresentationSource.FromVisual(picker),0,Key.Down)

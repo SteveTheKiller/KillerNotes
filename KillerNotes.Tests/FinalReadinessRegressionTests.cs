@@ -145,7 +145,7 @@ namespace KillerNotes.Tests
                     { RoutedEvent = Keyboard.KeyUpEvent, Source = header });
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
                 Assert.True(((ContextMenu)window.FindName("GroupCard")).IsOpen);
-                Assert.Equal("Fresh keyboard group", ((TextBlock)window.FindName("GroupCardTitle")).Text);
+                Assert.Equal("Fresh keyboard group", CardTileHelper.Title((ContextMenu)window.FindName("GroupCard")));
                 Assert.False(((ContextMenu)window.FindName("NoteCard")).IsOpen);
             }
             finally { ((ContextMenu)window.FindName("GroupCard")).IsOpen = false; ((ContextMenu)window.FindName("NoteCard")).IsOpen = false; }
@@ -178,7 +178,7 @@ namespace KillerNotes.Tests
                 var card = (ContextMenu)window.FindName("NoteCard");
                 card.IsOpen = true;
                 Pump();
-                var tag = ((MenuItem)window.FindName("TagsMenu")).Items.OfType<MenuItem>().First();
+                var tag = CardTileHelper.Items(card, "tags").First();
                 string label = ((Grid)tag.Header).Children.OfType<TextBlock>().Single(text => Grid.GetColumn(text) == 2).Text;
                 tag.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
                 card.IsOpen = false;
@@ -208,35 +208,36 @@ namespace KillerNotes.Tests
                 ((ContextMenu)window.FindName(name)).IsOpen = false;
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             }
-            void Toggle(string group, string control)
+            var groupCard = (ContextMenu)window.FindName("GroupCard");
+            void Toggle(string group, string tile)
             {
                 host.ShowGroupCard(group, 0, target, false);
-                ((ToggleButton)window.FindName(control)).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                CardTileHelper.Run(groupCard, tile);
                 CloseCard("GroupCard");
             }
-            bool Selected(string group, string control)
+            bool Selected(string group, string tile)
             {
                 host.ShowGroupCard(group, 0, target, false);
-                bool selected = ((ToggleButton)window.FindName(control)).IsChecked == true;
+                bool selected = CardTileHelper.Checked(groupCard, tile);
                 CloseCard("GroupCard");
                 return selected;
             }
             try
             {
                 host.ShowNoteCard(new[] { source }, target, false);
-                ((MenuItem)window.FindName("CardSaveTemplateItem")).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                CardTileHelper.Run((ContextMenu)window.FindName("NoteCard"), "template");
                 CloseCard("NoteCard");
                 string createdGroup = host.Notes().Single(note => note.Id != source).Notebook;
-                if (scenario is "different" or "reselected") Toggle("Later templates", "GroupCardTemplatesToggle");
-                if (scenario == "reselected") Toggle(createdGroup, "GroupCardTemplatesToggle");
-                if (scenario == "daily") Toggle(createdGroup, "GroupCardDailyToggle");
+                if (scenario is "different" or "reselected") Toggle("Later templates", "templates");
+                if (scenario == "reselected") Toggle(createdGroup, "templates");
+                if (scenario == "daily") Toggle(createdGroup, "daily");
                 Assert.True(host.Undo());
                 Assert.Equal(source, Assert.Single(host.Notes()).Id);
-                Assert.Equal(scenario == "different", Selected("Later templates", "GroupCardTemplatesToggle"));
+                Assert.Equal(scenario == "different", Selected("Later templates", "templates"));
                 if (scenario is "reselected" or "daily")
                 {
                     Assert.Contains(host.Groups(), group => group.Path == createdGroup);
-                    Assert.True(Selected(createdGroup, scenario == "daily" ? "GroupCardDailyToggle" : "GroupCardTemplatesToggle"));
+                    Assert.True(Selected(createdGroup, scenario == "daily" ? "daily" : "templates"));
                 }
             }
             finally { CloseCard("NoteCard"); CloseCard("GroupCard"); owner.Close(); }
@@ -272,9 +273,11 @@ namespace KillerNotes.Tests
             };
             try
             {
+                var card = (ContextMenu)window.FindName("NoteCard");
                 if (managerCard) host.ShowNoteCard(new[] { first, second }, target, false);
+                else { card.IsOpen = true; window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle); }
                 timer.Start();
-                ((MenuItem)window.FindName("CardDeleteItem")).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                CardTileHelper.HeaderDelete(card).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 Assert.True(prompted, "Deleting a multi-selection must show one confirmation.");
                 Assert.Equal(confirm ? 1 : 3, host.Notes().Count);
                 Assert.Contains(host.Notes(), note => note.Id == untouched);

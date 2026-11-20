@@ -334,18 +334,12 @@ namespace KillerNotes.Shell
 
         // ---- Context menu ----
 
-        /// <summary>Shows the editor card's table strip and rows when the right-click (or the menu key) lands in a
+        /// <summary>Finds the table cell the editor card's table tiles act on when the right-click (or the menu key) lands in a
         /// table cell. Called from Editor_ContextMenuOpening, after the object/text split.</summary>
         private void UpdateTableMenu(bool onObject)
         {
             _tblMenuCell = onObject || CurrentIsMarkdown ? null : _tblPressCell ?? CellAt(Editor.Selection.Start);
             _tblPressCell = null;
-            Visibility v = _tblMenuCell != null ? Visibility.Visible : Visibility.Collapsed;
-            TableSlot.Visibility = v;
-            TableListRule.Visibility = v;
-            TblDelRowMenuItem.Visibility = v;
-            TblDelColMenuItem.Visibility = v;
-            TblDeleteMenuItem.Visibility = v;
         }
     }
 }

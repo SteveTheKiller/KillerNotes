@@ -27,8 +27,7 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(multiple ? new[] { first, second } : new[] { first }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                var tags = (MenuItem)window.FindName("TagsMenu");
-                var assign = tags.Items.OfType<MenuItem>().First();
+                var assign = CardTileHelper.Items(menu, "tags").First();
                 assign.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
 
                 Assert.Contains("Read-only", ((TextBlock)window.FindName("StatusText")).Text);

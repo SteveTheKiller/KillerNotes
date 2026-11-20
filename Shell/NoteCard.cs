@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using KillerFamily.Controls;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -13,10 +14,10 @@ namespace KillerNotes.Shell
     // The note card (1.7.0): the sidebar's right-click menu, rebuilt as a card about the note
     // (MainWindow.xaml NoteCard, styled by the family CardMenu pieces in Controls.xaml).
     //
-    // One note: header, the five quick buttons, color, tags, group, format, Save as template
-    // and Delete. Several notes: a "12 notes" header and only what applies to all of them -
-    // Pin, color, tags, group and Delete. Trashed notes: Restore and Delete forever only
-    // (Trash.cs ApplyTrashMenuMode runs first and hides everything else).
+    // One note: a header with Delete, then the KillerUI tile grid: Pin, Share, Export, History,
+    // Duplicate, Color, Tags, Group, Markdown and Save as template, each with its shortcut. Several
+    // notes: a "12 notes" header, and the tiles for one note stay in place, dimmed. Trashed notes:
+    // Restore and Delete permanently only (FillTrashNoteCard).
     //
     // Every control calls the handler its old menu row called, so the keyboard shortcuts in
     // ActionShortcuts.cs and Shortcuts.cs reach exactly the same code.
@@ -41,79 +42,84 @@ namespace KillerNotes.Shell
             return live.Length == 1 ? live[0] : null;
         }
 
-        /// <summary>Wires the swatch row once; called from the constructor.</summary>
-        private void InitNoteCard()
-        {
-            CardSwatches.ColorChosen += hex =>
-            {
-                NoteCard.IsOpen = false;
-                ApplyTitleColorToNotes(_cardNotes, hex);
-            };
-            CardSwatches.PickRequested += () =>
-            {
-                NoteCard.IsOpen = false;
-                PickTitleColorForNotes(_cardNotes);
-            };
-        }
+        /// <summary>The Tags and Group lists the card's flyout tiles open (Tags.cs, Groups.Menu.cs build their
+        /// rows). They are not on the card themselves; a flyout tile takes their rows when it opens.</summary>
+        private readonly MenuItem TagsMenu = new(), GroupMenu = new();
 
-        /// <summary>Called from NotesContextMenu_Opened (Tags.cs) for live notes.</summary>
+        /// <summary>Kept for the constructor's call order; the swatch row is built with each card now.</summary>
+        private void InitNoteCard() { }
+
+        /// <summary>Called from NotesContextMenu_Opened (Tags.cs) for live notes, after the Tags and Group
+        /// lists are built. Header with Delete, then one customizable tile grid.</summary>
         private void FillNoteCard(List<Note> selected)
         {
-            CardSwatches.NoneName = Loc("Str_Card_NoColor");
-            CardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+C)";
             _cardNotes = [.. selected.Where(n => !n.IsDeleted)];
             bool one = _cardNotes.Count == 1;
             var first = _cardNotes.FirstOrDefault();
+            bool allPinned = _cardNotes.Count > 0 && _cardNotes.All(n => n.Pinned);
+            string? color = SharedValue(_cardNotes.Select(n => n.TitleColor));
+            Brush? titleBrush = color is { Length: > 0 } ? TryBrush(color) : null;
 
             // Header: the note's name, when it changed and what it is; a selection counts itself.
-            CardTitle.Text = one ? DisplayTitle(first!) : string.Format(Loc("Str_Card_NotesCount"), _cardNotes.Count);
-            CardMeta.Text = one
-                ? string.Format(Loc("Str_Card_Edited"), first!.ModifiedDisplay) + "  \u00B7  " +
-                  Loc(first.IsMarkdown ? "Str_Card_Markdown" : "Str_Card_Rich")
-                : "";
-            CardMeta.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
-            bool allPinned = _cardNotes.Count > 0 && _cardNotes.All(n => n.Pinned);
-            CardPinMark.Visibility = allPinned ? Visibility.Visible : Visibility.Collapsed;
-
-            string? color = SharedValue(_cardNotes.Select(n => n.TitleColor));
-            if (color is { Length: > 0 } && TryBrush(color) is Brush b)
-            {
-                CardColorDot.Fill = b;
-                CardTitle.Foreground = b;
-            }
-            else
-            {
-                CardColorDot.Fill = Brushes.Transparent;
-                CardTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
-            }
-            CardSwatches.Show(ColorPickerDialog.UserSwatches(), color);
-
-            // Quick buttons: Pin names what it will do; the rest only make sense for one note.
-            CardPinBtn.Tag = Loc(allPinned ? "Str_Card_Unpin" : "Str_Card_Pin");
-            DescribeSurface(CardPinBtn, allPinned ? "Str_Card_Unpin" : "Str_Card_Pin", "Alt+P");
-            CardShareBtn.Visibility = CardExportBtn.Visibility = CardHistoryBtn.Visibility =
-                CardDuplicateBtn.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
-
-            // Tags row: the tags every selected note shares, or a quiet "None".
-            var shared = first == null ? [] : first.Chips
-                .Where(c => _cardNotes.All(n => TagManager.HasTag(n, c.Name))).ToList();
-            CardTagChips.ItemsSource = shared.Count > 0 ? shared : [NoneChip()];
-
-            // Group row: where the notes live, or "Several groups".
+            string title = one ? DisplayTitle(first!) : string.Format(Loc("Str_Card_NotesCount"), _cardNotes.Count);
             string? group = SharedValue(_cardNotes.Select(n => n.Notebook));
-            CardGroupText.Text = group == null ? Loc("Str_Card_SeveralGroups")
+            string where = group == null ? Loc("Str_Card_SeveralGroups")
                 : group.Length == 0 ? Loc("Str_Card_NoGroup")
                 : group.Replace(NoteStore.GroupSep, " / ");
+            string meta = one
+                ? string.Format(Loc("Str_Card_Edited"), first!.ModifiedDisplay) + "  ·  " +
+                  Loc(first.IsMarkdown ? "Str_Card_Markdown" : "Str_Card_Rich")
+                : where;
 
-            // Format: one note only. A mixed selection has no single direction, and converting a
-            // batch silently both ways is not something to do behind one click.
-            CardFormatSlot.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
-            if (one)
+            NoteCards.Prepare(NoteCard);
+            NoteCard.Items.Add(NoteCards.Header(NoteCard, title, meta, Loc("Str_Ctx_DeleteNote"), "Delete",
+                () => DeleteNote_Click(this, new RoutedEventArgs()), _cardNotes.Count > 0, titleBrush));
+
+            // The color list: the family swatch row in one flyout row, so a swatch is one click away.
+            var swatches = new KillerFamily.Controls.SwatchRow
             {
-                CardRichSeg.IsChecked = !first!.IsMarkdown;
-                CardMarkdownSeg.IsChecked = first.IsMarkdown;
-            }
-            CardSaveTemplateItem.Visibility = one ? Visibility.Visible : Visibility.Collapsed;
+                NoneName = Loc("Str_Card_NoColor"),
+                PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+C)",
+                Margin = new Thickness(4),
+            };
+            swatches.Show(ColorPickerDialog.UserSwatches(), color);
+            var notes = _cardNotes;
+            swatches.ColorChosen += hex => { CardBuilder.Close(swatches); NoteCard.IsOpen = false; ApplyTitleColorToNotes(notes, hex); };
+            swatches.PickRequested += () => { CardBuilder.Close(swatches); NoteCard.IsOpen = false; PickTitleColorForNotes(notes); };
+
+            CardTile Act(string id, string glyph, string caption, string keys, RoutedEventHandler run, bool enabled = true) =>
+                new(glyph, Loc(caption), keys, () => run(this, new RoutedEventArgs()), false, enabled) { Id = id };
+
+            var tiles = new List<CardTile>
+            {
+                Act("pin", "", allPinned ? "Str_Card_Unpin" : "Str_Card_Pin", "Alt+P", PinNote_Click) with { Checked = allPinned },
+                Act("share", "", "Str_Card_Share", "Alt+S", ShareNote_Click, one),
+                Act("export", "", "Str_Card_Export", "F8", ExportNoteAs_Click, one),
+                Act("history", "", "Str_Card_History", "Alt+H", History_Click, one),
+                Act("duplicate", "", "Str_Card_Duplicate", "Alt+Shift+U", DuplicateNote_Click, one),
+                NoteCards.Flyout("", Loc("Str_Card_Color"), null, new object[] { CardBuilder.Slot(swatches, new Thickness(0)) },
+                    _cardNotes.Count > 0, "color"),
+                NoteCards.Flyout("", Loc("Str_Card_Tags"), "Alt+K", TagsMenu.Items.Cast<object>().ToList(), _cardNotes.Count > 0, "tags"),
+                NoteCards.Flyout("", Loc("Str_Card_Group"), "Alt+G", GroupMenu.Items.Cast<object>().ToList(), _cardNotes.Count > 0, "group"),
+                // Format: one note only. A mixed selection has no single direction, and converting a
+                // batch silently both ways is not something to do behind one click.
+                Act("markdown", "", "Str_Card_Markdown", "Alt+F", ConvertFormat_Click, one) with { Checked = one && first!.IsMarkdown },
+                Act("template", "", "Str_Ctx_SaveAsTemplate", "Alt+Shift+T", SaveAsTemplate_Click, one),
+            };
+            NoteCard.Items.Add(NoteCards.Editable(NoteCard, "Note", ["pin"], ["template"], tiles));
+        }
+
+        /// <summary>The trash rows' card (Trash.cs): Restore and Delete permanently, nothing else.</summary>
+        private void FillTrashNoteCard(List<Note> selected)
+        {
+            NoteCards.Prepare(NoteCard);
+            string title = selected.Count == 1 ? DisplayTitle(selected[0]) : string.Format(Loc("Str_Card_NotesCount"), selected.Count);
+            NoteCard.Items.Add(NoteCards.Header(NoteCard, title));
+            NoteCard.Items.Add(NoteCards.Grid(NoteCard, new[]
+            {
+                new CardTile("", Loc("Str_Ctx_Restore"), "Ctrl+F8", () => RestoreNote_Click(this, new RoutedEventArgs())) { Id = "restore" },
+                new CardTile("", Loc("Str_Ctx_DeleteForever"), "Ctrl+F9", () => DeleteForever_Click(this, new RoutedEventArgs())) { Id = "deleteforever" },
+            }));
         }
 
         private string DisplayTitle(Note n) => n.Title.Length > 0 ? n.Title : Loc("Str_Untitled");
@@ -134,37 +140,6 @@ namespace KillerNotes.Shell
         {
             try { return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex)); }
             catch (FormatException) { return null; }
-        }
-
-        private TagChip NoneChip()
-        {
-            var chip = new TagChip { Name = Loc("Str_Card_NoTags"), Background = Brushes.Transparent };
-            if (TryFindResource("DimTextBrush") is Brush dim) chip.Foreground = dim;
-            return chip;
-        }
-
-        // ---- Quick buttons: close the card, then run the row handler they replace ----
-
-        private void RunFromCard(RoutedEventHandler action)
-        {
-            NoteCard.IsOpen = false;
-            action(this, new RoutedEventArgs());
-        }
-
-        private void CardPin_Click(object sender, RoutedEventArgs e) => RunFromCard(PinNote_Click);
-        private void CardShare_Click(object sender, RoutedEventArgs e) => RunFromCard(ShareNote_Click);
-        private void CardExport_Click(object sender, RoutedEventArgs e) => RunFromCard(ExportNoteAs_Click);
-        private void CardHistory_Click(object sender, RoutedEventArgs e) => RunFromCard(History_Click);
-        private void CardDuplicate_Click(object sender, RoutedEventArgs e) => RunFromCard(DuplicateNote_Click);
-
-        /// <summary>The Rich text / Markdown toggle. Picking the side the note is already on
-        /// does nothing; the other side runs the same conversion as Alt+F.</summary>
-        private void CardFormat_Click(object sender, RoutedEventArgs e)
-        {
-            if (_cardNotes.Count != 1) return;
-            bool wantMarkdown = ReferenceEquals(sender, CardMarkdownSeg);
-            if (wantMarkdown == _cardNotes[0].IsMarkdown) return;
-            RunFromCard(ConvertFormat_Click);
         }
 
         // ---- Title color for one note or many ----

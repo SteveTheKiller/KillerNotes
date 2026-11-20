@@ -1363,4 +1363,15 @@
     <sys:String x:Key="Str_FD_FolderTooLong">Ця назва задовга. Використовуйте не більше 255 символів.</sys:String>
     <sys:String x:Key="Str_FD_FolderExists">Тут уже є папка або файл із такою назвою.</sys:String>
     <sys:String x:Key="Str_FD_FolderFailed">Не вдалося створити папку:</sys:String>
+    <!-- Customizable cards (KillerUI CardEdit) -->
+    <sys:String x:Key="Str_Card_Quick">Швидкі дії</sys:String>
+    <sys:String x:Key="Str_Card_Edit">Налаштувати цю картку</sys:String>
+    <sys:String x:Key="Str_Card_EditDone">Готово</sys:String>
+    <sys:String x:Key="Str_Card_EditReset">Скинути до типових</sys:String>
+    <sys:String x:Key="Str_Card_EditResetShort">Скинути</sys:String>
+    <sys:String x:Key="Str_Card_Hidden">Приховані</sys:String>
+    <sys:String x:Key="Str_Card_HiddenHint">Перетягніть плитку сюди, щоб приховати її</sys:String>
+    <sys:String x:Key="Str_Card_AlwaysShown">Завжди показано</sys:String>
+    <sys:String x:Key="Str_Card_Import">Імпорт</sys:String>
+    <sys:String x:Key="Str_Card_Code">Код</sys:String>
 </ResourceDictionary>

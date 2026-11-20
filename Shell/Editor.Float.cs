@@ -449,8 +449,8 @@ namespace KillerNotes.Shell
             bool onRecording = RecordingRef.Of(_ctxObject as UIElement) != null ||
                                (_ctxObject == null && CtxRecording() != null);
             // Converting to a list needs words to convert.
+            UpdateTableMenu(onObject);   // Editor.TableEdit.cs: the cell the table tiles act on
             FillEditorCard(onObject, hasText, onRecording);   // EditorCard.cs
-            UpdateTableMenu(onObject);   // Editor.TableEdit.cs
         }
 
         /// <summary>True as soon as the selection holds one non-whitespace character. Walks the

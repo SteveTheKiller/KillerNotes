@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using KillerFamily.Controls;
 using KillerNotes.Controls;
 using KillerNotes.Models;
 using KillerNotes.Services;
@@ -10,38 +12,54 @@ using KillerNotes.Services;
 namespace KillerNotes.Shell
 {
     // The group card (1.7.0): the group header's right-click menu, in the same card shape as
-    // the note card (NoteCard.cs). One instance, parked on GroupCardHost in MainWindow.xaml and
-    // handed to whichever header was right-clicked (Groups.Header.cs UpdateGroupHeaderMenu).
-    // _ctxGroup is the group it is about; every control acts on it through the handler its
-    // old menu row used, so Ctrl+F2, Ctrl+Shift+G and the rest still reach the same code.
+    // the note card (NoteCard.cs): a header with Delete, then the KillerUI tile grid. One instance,
+    // parked on GroupCardHost in MainWindow.xaml and handed to whichever header was right-clicked
+    // (Groups.Header.cs UpdateGroupHeaderMenu). _ctxGroup is the group it is about; every tile acts
+    // on it through the handler its old menu row used, so Ctrl+F2, Ctrl+Shift+G and the rest reach
+    // the same code.
     public partial class MainWindow
     {
-        private bool _groupCardWired;
+        /// <summary>The Parent list the card's flyout tile opens (BuildParentMenu builds its rows).</summary>
+        private readonly MenuItem GroupParentMenu = new();
 
+        /// <summary>Builds the card for this group: a header with Delete, then one customizable tile grid.</summary>
         private void FillGroupCard(GroupHeader g)
         {
-            GroupCardSwatches.NoneName = Loc("Str_Card_NoColor");
-            GroupCardSwatches.PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+K)";
-            if (!_groupCardWired)
-            {
-                _groupCardWired = true;
-                GroupCardSwatches.ColorChosen += hex => { GroupCard.IsOpen = false; SetGroupColorWithUndo(_ctxGroup, hex); };
-                GroupCardSwatches.PickRequested += () => { GroupCard.IsOpen = false; GroupColorPick_Click(this, new RoutedEventArgs()); };
-            }
-
-            GroupCardTitle.Text = g.Name;
             string parent = NoteStore.GroupParentOf(g.Path);
             string count = g.Count == 1 ? Loc("Str_Card_OneNote") : string.Format(Loc("Str_Card_NotesCount"), g.Count);
-            GroupCardMeta.Text = parent.Length > 0 ? count + "  \u00B7  " + parent.Replace(NoteStore.GroupSep, " / ") : count;
-            GroupCardDot.Fill = g.NameBrush ?? (Brush)Brushes.Transparent;
-            if (g.NameBrush is Brush titleBrush) GroupCardTitle.Foreground = titleBrush;
-            else GroupCardTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextBrush");
-            GroupCardSwatches.Show(ColorPickerDialog.UserSwatches(), g.NameColor);
-            GroupCardParentText.Text = parent.Length == 0 ? Loc("Str_Card_TopLevel") : parent.Replace(NoteStore.GroupSep, " / ");
+            string meta = parent.Length > 0 ? count + "  ·  " + parent.Replace(NoteStore.GroupSep, " / ") : count;
+            NoteCards.Prepare(GroupCard);
+            GroupCard.Items.Add(NoteCards.Header(GroupCard, g.Name, meta, Loc("Str_Ctx_DeleteGroup"), "Ctrl+F7",
+                () => DeleteGroup_Click(this, new RoutedEventArgs()), titleBrush: g.NameBrush));
+
+            var swatches = new SwatchRow
+            {
+                NoneName = Loc("Str_Card_NoColor"),
+                PickerName = Loc("Str_Card_MoreColors") + " (Ctrl+Shift+K)",
+                Margin = new Thickness(4),
+            };
+            swatches.Show(ColorPickerDialog.UserSwatches(), g.NameColor);
+            swatches.ColorChosen += hex => { CardBuilder.Close(swatches); GroupCard.IsOpen = false; SetGroupColorWithUndo(_ctxGroup, hex); };
+            swatches.PickRequested += () => { CardBuilder.Close(swatches); GroupCard.IsOpen = false; GroupColorPick_Click(this, new RoutedEventArgs()); };
             BuildParentMenu(g.Path);
-            GroupCardTemplatesToggle.IsChecked = IsTemplatesGroup(g.Path);   // Templates.cs
-            GroupCardDailyToggle.IsChecked = IsDailyGroup(g.Path);           // DailyNote.cs
-            GroupCardSubTopItem.IsChecked = App.GetSetting("SubgroupsOnTop") != "0";
+
+            CardTile Act(string id, string glyph, string caption, string keys, RoutedEventHandler run) =>
+                new(glyph, Loc(caption), keys, () => run(this, new RoutedEventArgs())) { Id = id };
+            var tiles = new List<CardTile>
+            {
+                Act("newnote", "", "Str_Card_NewNote", "Alt+Shift+H", GroupCardNewNote_Click),
+                Act("subgroup", "", "Str_Card_Subgroup", "Ctrl+Shift+G", NewSubgroup_Click),
+                Act("rename", "", "Str_Card_Rename", "Ctrl+F2", RenameGroup_Click),
+                NoteCards.Flyout("", Loc("Str_Card_Color"), null, new object[] { CardBuilder.Slot(swatches, new Thickness(0)) }, id: "color"),
+                NoteCards.Flyout("", Loc("Str_Card_Parent"), null, GroupParentMenu.Items.Cast<object>().ToList(), id: "parent"),
+                Act("organize", "", "Str_Card_Organize", "Alt+Shift+O", GroupCardManager_Click),
+                Act("templates", "", "Str_Card_Templates", "Ctrl+F4", TemplatesGroup_Click) with { Checked = IsTemplatesGroup(g.Path) },   // Templates.cs
+                Act("daily", "", "Str_Card_Daily", "Ctrl+F5", DailyGroup_Click) with { Checked = IsDailyGroup(g.Path) },   // DailyNote.cs
+                Act("collapse", "", "Str_Card_CollapseAll", "Alt+Shift+Z", CollapseAllGroups_Click),
+                Act("graph", "", "Str_Card_Graph", "Ctrl+Shift+B", GroupGraph_Click),
+                Act("subtop", "", "Str_Ctx_SubTop", "Ctrl+F3", SubgroupsOnTop_Click) with { Checked = App.GetSetting("SubgroupsOnTop") != "0" },
+            };
+            GroupCard.Items.Add(NoteCards.Editable(GroupCard, "Group", ["newnote"], ["graph", "subtop"], tiles));
         }
 
         /// <summary>Every place this group may move: the top level, then each group that is not
@@ -85,32 +103,12 @@ namespace KillerNotes.Shell
             GroupsChanged?.Invoke();   // GroupManager.cs
         }
 
-        private void RunFromGroupCard(RoutedEventHandler action)
-        {
-            GroupCard.IsOpen = false;
-            action(this, new RoutedEventArgs());
-        }
-
         private void GroupCardNewNote_Click(object sender, RoutedEventArgs e)
         {
-            GroupCard.IsOpen = false;
             if (_ctxGroup is GroupHeader g) NewNoteInGroup(g.Path);
         }
 
-        private void GroupCardSubgroup_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(NewSubgroup_Click);
-        private void GroupCardRename_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(RenameGroup_Click);
-        private void GroupCardGraph_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(GroupGraph_Click);
-        private void GroupCardDelete_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(DeleteGroup_Click);
-        private void GroupCardCollapseAll_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(CollapseAllGroups_Click);
-
-        private void GroupCardManager_Click(object sender, RoutedEventArgs e)
-        {
-            GroupCard.IsOpen = false;
-            OpenGroupManager(_ctxGroup?.Path);   // GroupManager.cs
-        }
-
-        private void GroupCardTemplates_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(TemplatesGroup_Click);
-        private void GroupCardDaily_Click(object sender, RoutedEventArgs e) => RunFromGroupCard(DailyGroup_Click);
+        private void GroupCardManager_Click(object sender, RoutedEventArgs e) => OpenGroupManager(_ctxGroup?.Path);   // GroupManager.cs
 
         /// <summary>A new untitled note filed straight into the group, which opens to show it.
         /// Alt+Shift+H runs it on the group the keyboard is in (RunGroupAction).</summary>

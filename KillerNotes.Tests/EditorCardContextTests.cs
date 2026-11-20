@@ -36,9 +36,9 @@ namespace KillerNotes.Tests
                 editor.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
 
                 Assert.True(editor.ContextMenu.IsOpen);
-                Assert.Equal(Visibility.Visible, ((MenuItem)window.FindName("DocToggleSlot")).Visibility);
-                Assert.Equal(Visibility.Visible, ((Button)window.FindName("EditorListBtn")).Visibility);
-                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("RecSlot")).Visibility);
+                Assert.True(Has(window, "wrap"));
+                Assert.True(Has(window, "list"));
+                Assert.False(Has(window, "play"));
             });
         });
 
@@ -58,12 +58,13 @@ namespace KillerNotes.Tests
             detection.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             detection.IsChecked = true;
             detection.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            var preview = (MenuItem)window.FindName("PreviewMenuItem");
+            var preview = CardTileHelper.Field<MenuItem>(window, "PreviewMenuItem");
             Assert.Equal(supported ? Visibility.Visible : Visibility.Collapsed, preview.Visibility);
             WithEditor(editor, () =>
             {
                 Open(window, editor, image);
-                Assert.Equal(Visibility.Collapsed, preview.Visibility);
+                // 1.7.1: an image's card carries no Preview tile; the note's own Preview gate is untouched.
+                Assert.False(Has(window, "preview"));
                 Close(editor);
                 Assert.Equal(supported ? Visibility.Visible : Visibility.Collapsed, preview.Visibility);
             });
@@ -80,10 +81,10 @@ namespace KillerNotes.Tests
             WithEditor(editor, () =>
             {
                 Open(window, editor, chip);
-                Assert.Equal(Visibility.Visible, ((MenuItem)window.FindName("RecSlot")).Visibility);
-                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("DocToggleSlot")).Visibility);
-                Assert.Equal(1, ((Border)((MenuItem)window.FindName("EditorQuickSlot")).Header).BorderThickness.Bottom);
-                Assert.Equal(0, ((Border)((MenuItem)window.FindName("RecSlot")).Header).BorderThickness.Bottom);
+                Assert.True(Has(window, "play"));
+                Assert.True(Has(window, "copyrec"));
+                Assert.True(Has(window, "copy"));
+                Assert.False(Has(window, "wrap"));
             });
         });
 
@@ -108,12 +109,11 @@ namespace KillerNotes.Tests
             WithEditor(editor, () =>
             {
                 Open(window, editor, editor);
-                Assert.Equal(Visibility.Visible, ((Button)window.FindName("EditorLinkBtn")).Visibility);
-                Assert.Equal(Visibility.Visible, ((Button)window.FindName("EditorListBtn")).Visibility);
-                Assert.Equal(Visibility.Visible, ((MenuItem)window.FindName("DocToggleSlot")).Visibility);
-                Assert.Equal(table ? Visibility.Visible : Visibility.Collapsed, ((MenuItem)window.FindName("TableSlot")).Visibility);
-                Assert.Equal(table ? Visibility.Visible : Visibility.Collapsed, ((MenuItem)window.FindName("TblDeleteMenuItem")).Visibility);
-                Assert.Equal(1, ((Border)((MenuItem)window.FindName("EditorQuickSlot")).Header).BorderThickness.Bottom);
+                Assert.True(Has(window, "link"));
+                Assert.True(Has(window, "list"));
+                Assert.True(Has(window, "wrap"));
+                Assert.Equal(table, Has(window, "rowabove"));
+                Assert.Equal(table, Has(window, "deltable"));
             });
         });
 
@@ -131,13 +131,14 @@ namespace KillerNotes.Tests
             WithEditor(editor, () =>
             {
                 Open(window, editor, image);
-                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("DocToggleSlot")).Visibility);
-                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("RecSlot")).Visibility);
-                Assert.Equal(Visibility.Collapsed, ((MenuItem)window.FindName("TableSlot")).Visibility);
-                var strip = (Border)((MenuItem)window.FindName("EditorQuickSlot")).Header;
-                Assert.Equal(0, strip.BorderThickness.Bottom);
+                Assert.Equal(["cut", "copy", "paste"], Shell.NoteCards.Tiles(Card(window)).Select(b => b.Uid));
             });
         });
+
+        private static ContextMenu Card(Shell.MainWindow window) => (ContextMenu)window.FindName("EditorCard");
+
+        /// <summary>Whether the open editor card carries the tile with this Id (1.7.1 tile card).</summary>
+        private static bool Has(Shell.MainWindow window, string id) => Shell.NoteCards.Tile(Card(window), id) != null;
 
         private static void WithEditor(RichTextBox editor, Action body)
         {
@@ -177,7 +178,7 @@ namespace KillerNotes.Tests
                 Directory.CreateDirectory(directory);
                 var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
                 string context = source is Image ? "image" : source is Border ? "recording" :
-                    ((MenuItem)window.FindName("TableSlot")).Visibility == Visibility.Visible ? "table" : "text";
+                    Has(window, "rowabove") ? "table" : "text";
                 using var file = File.Create(Path.Combine(directory, context + ".png"));
                 encoder.Save(file);
             }

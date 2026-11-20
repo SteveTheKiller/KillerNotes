@@ -39,33 +39,32 @@ namespace KillerNotes.Shell
             // check reflects "every selected note has this tag", and toggling brings
             // all of them to the same state.
             var selected = SidebarSelection();   // NoteCard.cs: the group manager's rows while it has the card
-            // Inside the trash the menu is two rows, restore and delete for good (Trash.cs).
-            // First, because it resets every other row's visibility before the lines below
-            // decide theirs.
+            // Inside the trash the card is two tiles, restore and delete for good.
             bool trash = selected.Count > 0 && selected.All(n => n.IsDeleted);
-            ApplyTrashMenuMode(trash);
-            if (trash) return;
-            FillNoteCard(selected);   // NoteCard.cs (header, quick buttons, color, chips, group, format)
+            if (trash) { FillTrashNoteCard(selected); return; }   // NoteCard.cs
             TagsMenu.Items.Clear();
-            TagsMenu.IsEnabled = selected.Count > 0;
-            if (selected.Count == 0) return;
-
-            int i = 0;
-            foreach (var def in TagManager.Order)
+            if (selected.Count > 0)
             {
-                bool allAssigned = selected.All(n => TagManager.HasTag(n, def.Name));
-                TagsMenu.Items.Add(BuildTagToggleItem(selected, def.Name, def.Color, allAssigned, ++i));
+                int i = 0;
+                foreach (var def in TagManager.Order)
+                {
+                    bool allAssigned = selected.All(n => TagManager.HasTag(n, def.Name));
+                    TagsMenu.Items.Add(BuildTagToggleItem(selected, def.Name, def.Color, allAssigned, ++i));
+                }
+                // A tag whose definition was deleted still shows on the note (TagManager.BuildChips, in gray), so the
+                // Tags flyout lists it too: the card is where the note's tags are read and taken off.
+                var defined = new HashSet<string>(TagManager.Order.Select(d => d.Name), StringComparer.OrdinalIgnoreCase);
+                foreach (string orphan in selected.SelectMany(n => NoteStore.SplitTags(n.Tags))
+                             .Where(t => !defined.Contains(t)).Distinct(StringComparer.OrdinalIgnoreCase).ToList())
+                    TagsMenu.Items.Add(BuildTagToggleItem(selected, orphan, "#9A9A9A", selected.All(n => TagManager.HasTag(n, orphan)), ++i));
+                var manageHead = BuildMenuRow(check: null, swatch: null, Loc("Str_Ctx_ManageTags"), "Ctrl+T");
+                var manage = new MenuItem { Header = manageHead, Icon = "", Padding = new Thickness(6, 6, 14, 6), HorizontalContentAlignment = HorizontalAlignment.Stretch };
+                manage.Click += (_, _) => OpenTagsDialog();
+                TagsMenu.Items.Add(manage);
             }
-
             BuildGroupMenu(selected);   // Groups.cs (#4)
-
-            // No Separator here: implicit Separator styles don't reach menu separators, so
-            // WPF drew the default light line ("white line"). A tighter-padded item reads
-            // fine without one. Its shortcut (Ctrl+T) is right-aligned like the rest.
-            var manageHead = BuildMenuRow(check: null, swatch: null, Loc("Str_Ctx_ManageTags"), "Ctrl+T");
-            var manage = new MenuItem { Header = manageHead, Icon = "\uE8EC", Padding = new Thickness(6, 6, 14, 6), HorizontalContentAlignment = HorizontalAlignment.Stretch };
-            manage.Click += (_, _) => OpenTagsDialog();
-            TagsMenu.Items.Add(manage);
+            // Last: the card's Tags and Group flyout tiles take the rows just built.
+            FillNoteCard(selected);   // NoteCard.cs
         }
 
         // Check glyph + color swatch + name + right-aligned Ctrl+n hint, built by hand

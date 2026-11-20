@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
 - On the 98SE theme the format bar's raised frame runs along its top edge too, so it is framed on all four sides.
+- The note card's Tags tile lists tags that are assigned to the note but no longer defined, in gray, so they can still be seen and removed.
 
 ### Changed
 
@@ -29,6 +30,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Backing up the database right away moved from Alt+B to Shift+F6.
 - Menus and cards draw their text in the full text color in Dark, Black, Light and Trash Polka, keep an even 8 px edge, and show tile shortcuts on a second line. The theme and language rows center their content, and dialog captions match ConfirmDialog's.
 - The preview's right-click menu, the lock button's menu, the Trash header's menu and the sidebar side menu are KillerUI tile cards, with each tile's shortcut under its caption.
+- The note, group and editor right-click menus, the New note menu and the format bar's own menu are KillerUI tile cards too, each tile showing its shortcut. The note, group and editor cards can be customized: tiles you seldom use move into the card's drawer.
 - Trash Polka's ink is kept in a disk cache per screen size, so the first switch to it decodes in about a second instead of rendering. A background builder at idle priority fills the cache after startup, and the ink is released when another theme is chosen.
 
 ### Added

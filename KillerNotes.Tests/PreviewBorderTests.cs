@@ -20,13 +20,13 @@ namespace KillerNotes.Tests
             host.Children.Add(preview);
             try
             {
-                Click("PreviewRenderedSeg");
+                Click("Rendered");
                 Assert.Equal(new Thickness(0), preview.BorderThickness);
                 AssertDivider(false);
-                Click("PreviewSplitSeg");
+                Click("Split");
                 Assert.Equal(new Thickness(1, 0, 0, 0), preview.BorderThickness);
                 AssertDivider(true);
-                Click("PreviewRenderedSeg");
+                Click("Rendered");
                 Assert.Equal(new Thickness(0), preview.BorderThickness);
                 AssertDivider(false);
             }
@@ -36,7 +36,10 @@ namespace KillerNotes.Tests
                 parent.Children.Add(preview);
             }
 
-            void Click(string name) => ((ButtonBase)window.FindName(name)).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            // 1.7.1: the editor card's preview segments became flyout rows; Ctrl+Shift+F7 and F8 run the same handlers.
+            void Click(string mode) => typeof(KillerNotes.Shell.MainWindow).GetMethod("Preview" + mode + "_Click",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public)!
+                .Invoke(window, new object[] { window, new RoutedEventArgs() });
 
             void AssertDivider(bool present)
             {

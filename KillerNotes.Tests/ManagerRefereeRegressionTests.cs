@@ -38,16 +38,16 @@ namespace KillerNotes.Tests
         });
 
         [Theory]
-        [InlineData("GroupCardTemplatesToggle", "unrelated")]
-        [InlineData("GroupCardTemplatesToggle", "affected")]
-        [InlineData("GroupCardTemplatesToggle", "replace")]
-        [InlineData("GroupCardTemplatesToggle", "clear")]
-        [InlineData("GroupCardTemplatesToggle", "rekey")]
-        [InlineData("GroupCardDailyToggle", "unrelated")]
-        [InlineData("GroupCardDailyToggle", "affected")]
-        [InlineData("GroupCardDailyToggle", "replace")]
-        [InlineData("GroupCardDailyToggle", "clear")]
-        [InlineData("GroupCardDailyToggle", "rekey")]
+        [InlineData("templates", "unrelated")]
+        [InlineData("templates", "affected")]
+        [InlineData("templates", "replace")]
+        [InlineData("templates", "clear")]
+        [InlineData("templates", "rekey")]
+        [InlineData("daily", "unrelated")]
+        [InlineData("daily", "affected")]
+        [InlineData("daily", "replace")]
+        [InlineData("daily", "clear")]
+        [InlineData("daily", "rekey")]
         public void DeleteUndoRestoresOnlyItsOwnUnchangedRoleMutation(string role, string scenario) => CardColorBehaviorTests.WithShell((window, host) =>
         {
             NoteStore.AddGroup("Work");
@@ -59,14 +59,14 @@ namespace KillerNotes.Tests
             void Toggle(string path)
             {
                 host.ShowGroupCard(path, 0, target, false);
-                ((ToggleButton)window.FindName(role)).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                CardTileHelper.Run((ContextMenu)window.FindName("GroupCard"), role);
                 ((ContextMenu)window.FindName("GroupCard")).IsOpen = false;
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             }
             bool Selected(string path)
             {
                 host.ShowGroupCard(path, 0, target, false);
-                bool selected = ((ToggleButton)window.FindName(role)).IsChecked == true;
+                bool selected = CardTileHelper.Checked((ContextMenu)window.FindName("GroupCard"), role);
                 ((ContextMenu)window.FindName("GroupCard")).IsOpen = false;
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
                 return selected;

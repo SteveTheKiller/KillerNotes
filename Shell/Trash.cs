@@ -111,20 +111,6 @@ namespace KillerNotes.Shell
 
         // ---- Menu (NotesContextMenu_Opened, Tags.cs) ----
 
-        /// <summary>Swaps the shared note menu between its ordinary rows and the two trash rows.
-        /// The ListBox owns one ContextMenu for every row, so the swap is a visibility pass over
-        /// its items rather than a second menu.</summary>
-        private void ApplyTrashMenuMode(bool trash)
-        {
-            if (NotesList.ContextMenu is not ContextMenu menu) return;
-            foreach (var obj in menu.Items)
-            {
-                if (obj is not UIElement el) continue;
-                bool trashRow = ReferenceEquals(el, RestoreItem) || ReferenceEquals(el, DeleteForeverItem);
-                el.Visibility = trashRow == trash ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
         private List<Note> SelectedTrashNotes() =>
             [.. NotesList.SelectedItems.OfType<Note>().Where(n => n.IsDeleted)];
 

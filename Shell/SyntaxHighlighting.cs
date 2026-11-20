@@ -176,7 +176,6 @@ namespace KillerNotes.Shell
 
         private void SyncSyntaxButton()
         {
-            SyntaxToggle?.IsChecked = _syntaxHighlight;
         }
 
         private void QueueSyntaxHighlighting()

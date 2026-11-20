@@ -50,8 +50,11 @@ namespace KillerNotes.Tests
             };
             try
             {
+                var card = (ContextMenu)window.FindName("NoteCard");
+                card.IsOpen = true;
+                Drain(window);
                 timer.Start();
-                ((MenuItem)window.FindName("CardDeleteItem")).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                CardTileHelper.HeaderDelete(card).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 Drain(window);
                 Assert.True(prompted);
                 Assert.Equal(confirm ? count : 0, NoteStore.ListTrash().Count);

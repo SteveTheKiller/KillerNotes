@@ -232,10 +232,6 @@ namespace KillerNotes.Shell
         /// One is always shown as picked so the picker never looks empty.</summary>
         private void SyncPreviewMenuChecks()
         {
-            if (PreviewSourceSeg == null) return;   // defensive - InitializeComponent may not have run
-            PreviewSourceSeg.IsChecked   = _previewMode == PreviewMode.Source;
-            PreviewRenderedSeg.IsChecked = _previewMode == PreviewMode.Rendered;
-            PreviewSplitSeg.IsChecked    = _previewMode == PreviewMode.Split;
             _syncingPreviewPickers = true;
             try
             {

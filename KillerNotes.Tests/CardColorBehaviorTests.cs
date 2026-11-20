@@ -28,7 +28,6 @@ namespace KillerNotes.Tests
             var targetWindow = new Window { Content = target, Width = 160, Height = 80, ShowInTaskbar = false };
             targetWindow.Show();
             var menu = (ContextMenu)window.FindName(group ? "GroupCard" : "NoteCard");
-            var row = (SwatchRow)window.FindName(group ? "GroupCardSwatches" : "CardSwatches");
             void Open()
             {
                 if (group) host.ShowGroupCard("Work", 0, target, false);
@@ -43,7 +42,8 @@ namespace KillerNotes.Tests
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
                 LocaleManager.Apply(Locale.De);
                 Open();
-                var buttons = row.Children.OfType<Button>().ToList();
+                // 1.7.1: each open builds the palette afresh in the card's Color flyout.
+                var buttons = CardTileHelper.Swatches(menu).Children.OfType<Button>().ToList();
                 Assert.Equal("Keine Farbe", AutomationProperties.GetName(buttons.First()));
                 Assert.StartsWith("Weitere Farben", AutomationProperties.GetName(buttons.Last()));
             }
@@ -71,7 +71,7 @@ namespace KillerNotes.Tests
             targetWindow.Show();
             host.ShowNoteCard(new[] { cardId }, target, false);
             window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-            var row = (SwatchRow)window.FindName("CardSwatches");
+            var row = CardTileHelper.Swatches((ContextMenu)window.FindName("NoteCard"));
             Color? initial = null;
             var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(20) };
             timer.Tick += (_, _) =>
@@ -117,6 +117,10 @@ namespace KillerNotes.Tests
                     root.Opacity = 0;
                 }
                 window?.Close();
+                // The motif memo (finished layers, pieces) is static and every shell test shares one dispatcher, so a
+                // later test that opens a window at the same size painted finished layers at once instead of waiting
+                // on the disk decode. Each shell test starts with no motif state.
+                KillerNotes.Controls.ThemeMotif.ReleaseAll();
                 MainWindow.DemoMode = previousDemo;
                 app.Resources.MergedDictionaries.Clear();
                 foreach (var resource in saved) app.Resources.MergedDictionaries.Add(resource);

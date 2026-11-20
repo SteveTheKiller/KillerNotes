@@ -1324,4 +1324,15 @@
     <sys:String x:Key="Str_FD_FolderTooLong">Бұл атау тым ұзын. Ең көбі 255 таңба пайдаланыңыз.</sys:String>
     <sys:String x:Key="Str_FD_FolderExists">Мұнда мұндай атаумен қалта немесе файл бұрыннан бар.</sys:String>
     <sys:String x:Key="Str_FD_FolderFailed">Қалтаны жасау мүмкін болмады:</sys:String>
+    <!-- Customizable cards (KillerUI CardEdit) -->
+    <sys:String x:Key="Str_Card_Quick">Жылдам әрекеттер</sys:String>
+    <sys:String x:Key="Str_Card_Edit">Бұл картаны баптау</sys:String>
+    <sys:String x:Key="Str_Card_EditDone">Дайын</sys:String>
+    <sys:String x:Key="Str_Card_EditReset">Әдепкіге қайтару</sys:String>
+    <sys:String x:Key="Str_Card_EditResetShort">Қалпына келтіру</sys:String>
+    <sys:String x:Key="Str_Card_Hidden">Жасырын</sys:String>
+    <sys:String x:Key="Str_Card_HiddenHint">Жасыру үшін тақтаны осында сүйреңіз</sys:String>
+    <sys:String x:Key="Str_Card_AlwaysShown">Әрқашан көрсетіледі</sys:String>
+    <sys:String x:Key="Str_Card_Import">Импорт</sys:String>
+    <sys:String x:Key="Str_Card_Code">Код</sys:String>
 </ResourceDictionary>

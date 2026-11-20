@@ -20,9 +20,26 @@ namespace KillerNotes.Tests
         [Fact]
         public void CardSubmenusExposeTheirActionNames() => CardColorBehaviorTests.WithShell((window, host) =>
         {
-            Assert.Equal("Tags", AutomationProperties.GetName((MenuItem)window.FindName("TagsMenu")));
-            Assert.Equal("Group", AutomationProperties.GetName((MenuItem)window.FindName("GroupMenu")));
-            Assert.Equal("Parent", AutomationProperties.GetName((MenuItem)window.FindName("GroupParentMenu")));
+            // 1.7.1: the lists are flyout tiles, each named for its action.
+            long id = NoteStore.Create("Named note");
+            NoteStore.AddGroup("Named group");
+            var target = new Button();
+            var owner = new Window { Content = target, ShowInTaskbar = false };
+            owner.Show();
+            var noteCard = (ContextMenu)window.FindName("NoteCard");
+            var groupCard = (ContextMenu)window.FindName("GroupCard");
+            try
+            {
+                host.ShowNoteCard(new[] { id }, target, false);
+                window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                Assert.Equal("Tags", AutomationProperties.GetName(CardTileHelper.Tile(noteCard, "tags")));
+                Assert.Equal("Group", AutomationProperties.GetName(CardTileHelper.Tile(noteCard, "group")));
+                noteCard.IsOpen = false;
+                host.ShowGroupCard("Named group", 0, target, false);
+                window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                Assert.Equal("Parent", AutomationProperties.GetName(CardTileHelper.Tile(groupCard, "parent")));
+            }
+            finally { noteCard.IsOpen = false; groupCard.IsOpen = false; owner.Close(); }
         });
 
         [Fact]
@@ -37,7 +54,7 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(new[] { id }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                Assert.Equal("Unpin", AutomationProperties.GetName((Button)window.FindName("CardPinBtn")));
+                Assert.Equal("Unpin", AutomationProperties.GetName(CardTileHelper.Tile((ContextMenu)window.FindName("NoteCard"), "pin")));
             }
             finally { ((ContextMenu)window.FindName("NoteCard")).IsOpen = false; owner.Close(); }
         });
@@ -54,7 +71,7 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(new[] { source }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                ((Button)window.FindName("CardDuplicateBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                CardTileHelper.Click((ContextMenu)window.FindName("NoteCard"), "duplicate");
                 long copy = NoteStore.List().Single(n => n.Id != source).Id;
                 ((TextBox)window.FindName("TitleBox")).Text = "Edited copy";
                 ((TextBox)window.FindName("SearchBox")).Text = "Edited copy";
@@ -77,7 +94,7 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(new[] { source }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                ((MenuItem)window.FindName("CardSaveTemplateItem")).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                CardTileHelper.Run((ContextMenu)window.FindName("NoteCard"), "template");
                 Assert.Contains(NoteStore.ListGroups(), g => g.Name == "Templates");
                 Assert.True(host.Undo());
                 Assert.DoesNotContain(NoteStore.ListGroups(), g => g.Name == "Templates");

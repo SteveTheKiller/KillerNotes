@@ -16,11 +16,12 @@ namespace KillerNotes.Tests
             window.UpdateLayout();
         }
 
-        private static MenuItem PlacementRow(MainWindow window)
+        /// <summary>The bar card's Docked or Floating tile (1.7.1: the bar's own right-click is a tile card).</summary>
+        private static Button PlacementTile(MainWindow window)
         {
             var bar = (Border)window.FindName("FormatBar");
             bar.RaiseEvent(new ContextMenuEventArgsShim(bar).Args);
-            return bar.ContextMenu!.Items.OfType<MenuItem>().Single(i => i.Tag as string == "toolmenu");
+            return Assert.IsType<Button>(NoteCards.Tile(bar.ContextMenu!, "toolmenu"));
         }
 
         [Fact]
@@ -32,9 +33,9 @@ namespace KillerNotes.Tests
             var title = (TextBox)window.FindName("TitleBox");
             Assert.False(MainWindow.FormatBarDocked);
             Assert.False(dock.Docked);
-            Assert.Equal("Docked toolbar", PlacementRow(window).Header);
+            Assert.Equal("Docked toolbar", System.Windows.Automation.AutomationProperties.GetName(PlacementTile(window)));
 
-            PlacementRow(window).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+            PlacementTile(window).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             window.UpdateLayout();
             Assert.True(MainWindow.FormatBarDocked);
             Assert.Equal("1", App.GetSetting("FmtBarDocked"));
@@ -43,7 +44,7 @@ namespace KillerNotes.Tests
             Assert.Null(bar.Effect);
             Assert.Equal(12, title.Margin.Left);
             Assert.Equal(12, title.Margin.Right);
-            Assert.Equal("Floating toolbar", PlacementRow(window).Header);
+            Assert.Equal("Floating toolbar", System.Windows.Automation.AutomationProperties.GetName(PlacementTile(window)));
 
             window.ToggleFormatBarPlacement();
             window.UpdateLayout();

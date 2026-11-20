@@ -63,8 +63,11 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(new[] { id }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                var tags = (ItemsControl)window.FindName("CardTagChips");
-                Assert.Contains(tags.Items.OfType<TagChip>(), chip => chip.Name == "Release");
+                // 1.7.1: the note's tags are the checked rows of the card's Tags flyout.
+                var rows = CardTileHelper.Items((ContextMenu)window.FindName("NoteCard"), "tags");
+                Assert.Contains(rows, row => row.Header is Grid head
+                    && head.Children.OfType<TextBlock>().Any(t => t.Text == "Release")
+                    && head.Children.OfType<TextBlock>().Any(t => t.Text == "✓"));
             }
             finally { ((ContextMenu)window.FindName("NoteCard")).IsOpen = false; owner.Close(); }
         });
@@ -88,8 +91,10 @@ namespace KillerNotes.Tests
             try
             {
                 host.ShowGroupCard(child, 1, target, false);
-                ((ToggleButton)window.FindName("GroupCardTemplatesToggle")).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-                ((ToggleButton)window.FindName("GroupCardDailyToggle")).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var groupCard = (ContextMenu)window.FindName("GroupCard");
+                CardTileHelper.Run(groupCard, "templates");
+                host.ShowGroupCard(child, 1, target, false);
+                CardTileHelper.Run(groupCard, "daily");
                 ((ContextMenu)window.FindName("GroupCard")).IsOpen = false;
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
                 var expected = NoteStore.ListGroupTree();
@@ -113,8 +118,8 @@ namespace KillerNotes.Tests
                 Assert.Equal(expected, NoteStore.ListGroupTree());
                 Assert.Equal(child, NoteStore.List().Single(n => n.Id == id).Notebook);
                 host.ShowGroupCard(child, 1, target, false);
-                Assert.True(((ToggleButton)window.FindName("GroupCardTemplatesToggle")).IsChecked);
-                Assert.True(((ToggleButton)window.FindName("GroupCardDailyToggle")).IsChecked);
+                Assert.True(CardTileHelper.Checked(groupCard, "templates"));
+                Assert.True(CardTileHelper.Checked(groupCard, "daily"));
                 ((ContextMenu)window.FindName("GroupCard")).IsOpen = false;
                 string? renderDirectory = Environment.GetEnvironmentVariable("KN_MANAGER_RENDER_DIR");
                 if (!string.IsNullOrEmpty(renderDirectory))
@@ -185,7 +190,7 @@ namespace KillerNotes.Tests
             {
                 host.ShowNoteCard(new[] { original }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                ((Button)window.FindName("CardDuplicateBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                CardTileHelper.Click((ContextMenu)window.FindName("NoteCard"), "duplicate");
                 long copy = NoteStore.List().Single(n => n.Id != original).Id;
                 ((TextBox)window.FindName("TitleBox")).Text = "Unsaved copy edit";
                 NoteStore.Close();

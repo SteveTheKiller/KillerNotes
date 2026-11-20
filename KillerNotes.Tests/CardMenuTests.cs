@@ -40,14 +40,13 @@ namespace KillerNotes.Tests
         [InlineData("PreviewDetectGlobal_Click")]
         public void TheNoteCardCarriesOnlyNoteActions(string handler)
         {
+            // 1.7.1: the note card is a KillerUI tile card built in NoteCard.cs, and the XAML element is empty.
             var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            Assert.DoesNotContain(handler, Clicks(Named(doc, "NoteCard")));
+            Assert.Empty(Clicks(Named(doc, "NoteCard")));
+            Assert.DoesNotContain(handler, File.ReadAllText(Path.Combine(Root(), "Shell", "NoteCard.cs")));
         }
 
         [Theory]
-        [InlineData("NewMenu", "NewCardMarkdown_Click")]
-        [InlineData("NewMenu", "NewCardToday_Click")]
-        [InlineData("NewMenu", "ImportFolder_Click")]
         [InlineData("LibraryRailBtn", "ExportVault_Click")]
         [InlineData("AboutDetectMarkdown", "AboutDetectMarkdown_Click")]
         public void EvictedActionsHaveANewHome(string home, string handler)
@@ -57,12 +56,25 @@ namespace KillerNotes.Tests
             Assert.Contains(handler, Clicks(scope).Concat([(string?)scope.Attribute("Click") ?? ""]));
         }
 
+        /// <summary>The new-note card (a tile card built in NewMenu.cs) is the one home of Markdown note,
+        /// Today's note and Import.</summary>
+        [Theory]
+        [InlineData("NewMarkdownNote_Click")]
+        [InlineData("TodayNote_Click")]
+        [InlineData("ImportFolder_Click")]
+        public void TheNewMenuCardIsTheHomeOf(string handler)
+        {
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs"));
+            int open = src.IndexOf("private void NewMenu_Opened", StringComparison.Ordinal);
+            Assert.Contains(handler, src.Substring(open));
+        }
+
         [Fact]
         public void TheNewMenuOffersANoteInAnyGroup()
         {
-            var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            Assert.Contains(Named(doc, "NewMenu").Descendants(), e => (string?)e.Attribute(X + "Name") == "NewInGroupMenu");
-            Assert.Contains("BuildNewInGroupMenu", File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs")));
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs"));
+            Assert.Contains("BuildNewInGroupMenu", src);
+            Assert.Contains("id: \"ingroup\"", src);
         }
 
         /// <summary>The note card's Group list ends with Manage groups, the way the Tags list ends
@@ -90,8 +102,9 @@ namespace KillerNotes.Tests
         [Fact]
         public void TheTemplateListMovedToTheNewMenu()
         {
-            var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            Assert.Contains(Named(doc, "NewMenu").Descendants(), e => (string?)e.Attribute(X + "Name") == "TemplateMenu");
+            string src = File.ReadAllText(Path.Combine(Root(), "Shell", "NewMenu.cs"));
+            Assert.Contains("TemplateMenu.Items", src);
+            Assert.Contains("id: \"template\"", src);
         }
 
         [Fact]
@@ -110,10 +123,11 @@ namespace KillerNotes.Tests
             var doc = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
             var keys = XDocument.Load(Path.Combine(Root(), "Strings", "en-US.xaml")).Root!.Elements()
                 .Select(e => (string?)e.Attribute(X + "Key")).OfType<string>().ToHashSet();
-            var used = Named(doc, "NoteCard").DescendantsAndSelf().Concat(Named(doc, "GroupCard").DescendantsAndSelf())
-                .SelectMany(e => e.Attributes()).Select(a => a.Value)
-                .Where(v => v.StartsWith("{DynamicResource Str_", StringComparison.Ordinal))
-                .Select(v => v.Substring("{DynamicResource ".Length).TrimEnd('}'));
+            // The cards are built in code (1.7.1): every Str_ key their builders name must exist.
+            var used = new[] { "NoteCard.cs", "GroupCard.cs", "EditorCard.cs", "NewMenu.cs" }
+                .SelectMany(f => System.Text.RegularExpressions.Regex.Matches(File.ReadAllText(Path.Combine(Root(), "Shell", f)), "\"(Str_[A-Za-z0-9_]+)\"")
+                    .Cast<System.Text.RegularExpressions.Match>().Select(m => m.Groups[1].Value)).Where(k => !k.EndsWith("_", StringComparison.Ordinal)).Distinct().ToList();
+            Assert.NotEmpty(used);
             Assert.All(used, key => Assert.Contains(key, keys));
         }
 

@@ -71,7 +71,7 @@ namespace KillerNotes.Tests
             try
             {
                 timer.Start();
-                ((RadioButton)window.FindName("CardMarkdownSeg")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                CardTileHelper.Click((ContextMenu)window.FindName("NoteCard"), "markdown");
             }
             finally { timer.Stop(); }
             Assert.True(confirmed);

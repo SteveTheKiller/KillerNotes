@@ -36,7 +36,7 @@ namespace KillerNotes.Tests
         public void ViewPickerFitsItsLabelsAndGrowsWhenTheLanguageNeedsMoreRoom() => CardColorBehaviorTests.WithShell((window, _) =>
         {
             MarkdownAuthoringTests.Ready(window);
-            ((Button)window.FindName("NewMarkdownQuickBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            CardTileHelper.ClickNewTile(window, "markdown");
             var picker = (ComboBox)window.FindName("PreviewModeBtn");
             var locale = LocaleManager.Current;
             try

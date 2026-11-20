@@ -18,15 +18,13 @@ namespace KillerNotes.Tests
             window.Show();
             window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             int count = NoteStore.List().Count;
-            ((Button)window.FindName("NewMenuBtn")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-            var menu = (ContextMenu)window.FindName("NewMenu");
+            var menu = CardTileHelper.OpenNewMenu(window);
             try
             {
                 Assert.True(menu.IsOpen);
                 Assert.Same(Application.Current.FindResource("CardMenu"), menu.Style);
-                var action = Assert.IsType<Button>(window.FindName(markdown ? "NewMarkdownQuickBtn" : "NewRichQuickBtn"));
-                Assert.Same(Application.Current.FindResource("CardQuickButton"), action.Style);
+                // 1.7.1: the card is a KillerUI tile grid; each kind is a tile found by its Id.
+                var action = CardTileHelper.Tile(menu, markdown ? "markdown" : "rich");
                 action.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 Assert.False(menu.IsOpen);
                 Assert.Equal(count+1, NoteStore.List().Count);

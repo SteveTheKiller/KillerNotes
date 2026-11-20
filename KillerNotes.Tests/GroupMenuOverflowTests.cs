@@ -25,16 +25,15 @@ namespace KillerNotes.Tests
             var target = new Button { Content = "Group card target" };
             var owner = new Window { Content = target, Width = 240, Height = 120, ShowInTaskbar = false };
             var card = (ContextMenu)window.FindName("NoteCard");
-            var menu = (MenuItem)window.FindName("GroupMenu");
+            ContextMenu? menu = null;
             try
             {
                 owner.Show();
                 host.ShowNoteCard(new[] { id }, target, false);
                 window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                menu.IsSubmenuOpen = true;
-                window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
-                var popup = Assert.IsType<Popup>(menu.Template.FindName("PART_Popup", menu));
-                var root = Assert.IsAssignableFrom<FrameworkElement>(popup.Child);
+                // 1.7.1: the group list is the Group tile's flyout beside the note card.
+                menu = CardTileHelper.OpenFlyout(card, "group");
+                FrameworkElement root = menu;
                 root.UpdateLayout();
                 var scroll = Elements(root).OfType<ScrollViewer>().Single();
                 Assert.True(root.ActualHeight <= SystemParameters.WorkArea.Height,
@@ -50,7 +49,7 @@ namespace KillerNotes.Tests
                 Assert.True(bounds.Bottom <= scroll.ActualHeight + 1 && bounds.Top >= -1,
                     "The final action must scroll into the visible list.");
             }
-            finally { menu.IsSubmenuOpen = false; card.IsOpen = false; owner.Close(); }
+            finally { if (menu != null) menu.IsOpen = false; card.IsOpen = false; owner.Close(); }
         });
 
         private static IEnumerable<DependencyObject> Elements(DependencyObject root)
