@@ -63,19 +63,31 @@ namespace KillerNotes.Shell
                 _previewViewer.AddHandler(Hyperlink.RequestNavigateEvent,
                     new System.Windows.Navigation.RequestNavigateEventHandler(PreviewLink_RequestNavigate));
                 _previewViewer.PreviewKeyDown += PreviewViewer_PreviewKeyDown;
-                var menu = new ContextMenu();
-                foreach (var (command, label, gesture, glyph) in new[]
+                // The preview's card: Copy and Select all as tiles (Shell/NoteCards.cs, the KillerUI card
+                // rules). Copy keeps its spot and dims while nothing is selected; the text editor opens
+                // this menu itself, so its state is set as the card opens.
+                var viewer = _previewViewer;
+                ContextMenu PreviewCard()
                 {
-                    (ApplicationCommands.Copy, "Str_Ctx_Copy", "Ctrl+C", "\uE8C8"),
-                    (ApplicationCommands.SelectAll, "Str_Ctx_SelectAll", "Ctrl+A", "\uE8B3"),
-                })
-                {
-                    var item = new MenuItem { Command = command, CommandTarget = _previewViewer,
-                        InputGestureText = gesture, Icon = glyph };
-                    item.SetResourceReference(HeaderedItemsControl.HeaderProperty, label);
-                    menu.Items.Add(item);
+                    string copyName = Loc("Str_Ctx_Copy");
+                    var menu = NoteCards.Build(null, new[]
+                    {
+                        new KillerFamily.Controls.CardTile("", copyName, "Ctrl+C",
+                            () => ApplicationCommands.Copy.Execute(null, viewer)),
+                        new KillerFamily.Controls.CardTile("", Loc("Str_Ctx_SelectAll"), "Ctrl+A",
+                            () => ApplicationCommands.SelectAll.Execute(null, viewer)),
+                    });
+                    menu.Opened += (_, _) =>
+                    {
+                        foreach (var tile in NoteCards.Tiles(menu))
+                            if (System.Windows.Automation.AutomationProperties.GetName(tile) == copyName)
+                                tile.IsEnabled = viewer.Selection is { IsEmpty: false };
+                    };
+                    return menu;
                 }
-                _previewViewer.ContextMenu = menu;
+                _previewViewer.ContextMenu = PreviewCard();
+                // The tiles carry their captions as text, so a language switch builds the card again.
+                LocaleManager.LocaleChanged += () => viewer.ContextMenu = PreviewCard();
 
                 // The same film grain every other surface carries, behind the text.
                 var grain = new Border { IsHitTestVisible = false };

@@ -122,21 +122,14 @@ namespace KillerNotes.Shell
                  node = node is Visual ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node))
                 if (node is ButtonBase) return;
 
-            var menu = new ContextMenu();
-            menu.Items.Add(new MenuItem { Header = Loc("Str_Sidebar"), IsEnabled = false });
-            foreach (bool right in new[] { false, true })
+            // The rail's side card (Shell/NoteCards.cs): one checked tile per side, the kit's side glyphs.
+            var menu = NoteCards.Build(Loc("Str_Sidebar"), new[] { false, true }.Select(right =>
             {
-                var item = new MenuItem
-                {
-                    Header = Loc(right ? "Str_Sidebar_Right" : "Str_Sidebar_Left"),
-                    IsCheckable = true,
-                    IsChecked = right == _sidebarRight,
-                    InputGestureText = right ? "Alt+Shift+Right" : "Alt+Shift+Left",
-                    Icon = PaneSideIcon(right ? Dock.Right : Dock.Left),
-                };
-                item.Click += (_, _) => SelectSidebarSide(right);
-                menu.Items.Add(item);
-            }
+                var side = right ? SidebarSide.Right : SidebarSide.Left;
+                return new KillerFamily.Controls.CardTile(side.TileGlyph(), Loc(side.StringKey()),
+                    right ? "Alt+Shift+Right" : "Alt+Shift+Left", () => SelectSidebarSide(right))
+                    { Checked = right == _sidebarRight };
+            }));
             menu.PlacementTarget = (UIElement)sender;
             menu.IsOpen = true;
             e.Handled = true;

@@ -1303,4 +1303,14 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Změněno</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Štítky</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Nejsou zde žádné poznámky</sys:String>
+    <!-- File dialog New folder (Controls/FileDialog.NewFolder.cs). -->
+    <sys:String x:Key="Str_TT_NewFolder">Nová složka (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_FD_NewFolder">Nová složka</sys:String>
+    <sys:String x:Key="Str_FD_FolderEmpty">Zadejte název složky.</sys:String>
+    <sys:String x:Key="Str_FD_FolderInvalid">Název složky nesmí obsahovat žádný z těchto znaků: \ / : * ? " &lt; &gt; |</sys:String>
+    <sys:String x:Key="Str_FD_FolderReserved">Tento název je ve Windows vyhrazený. Zvolte jiný.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTrailing">Název složky nesmí končit tečkou ani mezerou.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTooLong">Tento název je příliš dlouhý. Použijte nejvýše 255 znaků.</sys:String>
+    <sys:String x:Key="Str_FD_FolderExists">Složka nebo soubor s tímto názvem už tady existuje.</sys:String>
+    <sys:String x:Key="Str_FD_FolderFailed">Složku se nepodařilo vytvořit:</sys:String>
 </ResourceDictionary>

@@ -366,17 +366,19 @@ namespace KillerNotes.Shell
             if (!NoteStore.IsOpen) return;
             if (!NoteStore.HasPassword) { _security.ToggleLock(); return; }
 
-            var menu = new ContextMenu();
+            // The lock card (Shell/NoteCards.cs): Lock now and Change password as tiles.
+            var menu = NoteCards.Build(null, new[]
+            {
+                new KillerFamily.Controls.CardTile("\uE72E", Loc("Str_Lock_Now"), "Ctrl+Shift+U", () => LockNow(automatic: false)),
+                new KillerFamily.Controls.CardTile("\uE8D7", Loc("Str_Pw_ChangeHead"), null, () => _security.ToggleLock()),
+            });
             FlyoutPlacement.UsePane(ContentPane);
             FlyoutPlacement.AttachTopRight(menu);   // the pane's top-right corner, 8px in
-            var lockItem = new MenuItem { Header = Loc("Str_Lock_Now"), Icon = "\uE72E", InputGestureText = "Ctrl+Shift+U" };
-            lockItem.Click += (_, _) => LockNow(automatic: false);
-            var passwordItem = new MenuItem { Header = Loc("Str_Pw_ChangeHead"), Icon = "\uE8D7" };
-            passwordItem.Click += (_, _) => _security.ToggleLock();
-            menu.Items.Add(lockItem);
-            menu.Items.Add(passwordItem);
-            menu.Opened += (_, _) => menu.Dispatcher.BeginInvoke(new Action(() => { if (menu.IsOpen) lockItem.Focus(); }),
-                DispatcherPriority.Input);
+            menu.Opened += (_, _) => menu.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!menu.IsOpen) return;
+                NoteCards.Tiles(menu).FirstOrDefault(t => t.IsEnabled)?.Focus();
+            }), DispatcherPriority.Input);
             menu.IsOpen = true;
         }
 

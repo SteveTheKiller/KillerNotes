@@ -69,6 +69,13 @@ namespace KillerNotes
             }
 
             base.OnStartup(e);
+            // The motif cache builder: a windowless child the main window starts at idle priority
+            // (Controls/ThemeMotif.cs). It renders the Trash Polka ink to the disk cache and exits.
+            if (Controls.ThemeMotif.TryRunCacheBuilder(e.Args, Services.AppInfo.DisplayName) is int builderExit)
+            {
+                Shutdown(builderExit);
+                return;
+            }
             // Every window (dialogs, pads, pickers) takes the family UI face from the active theme
             // unless it sets its own, so no dialog falls back to the system Segoe UI.
             EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler((s, _) =>
@@ -217,6 +224,9 @@ namespace KillerNotes
             if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args) || PendingQuickNote)
                 KillerFamily.Deployment.StartupRegistration.StartMinimized(MainWindow);
             MainWindow.Show();
+            // Fills the motif disk cache in the background so a first switch to Trash Polka decodes
+            // instead of rendering.
+            Controls.ThemeMotif.PrewarmWhenIdle(MainWindow);
             // A demo session holds scratch notes only, and it would fight a normal copy for the one
             // pipe name or take the CLI's writes meant for the real notes.
             if (!KillerNotes.Shell.MainWindow.DemoMode) StartMcpPipeServer();

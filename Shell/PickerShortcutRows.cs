@@ -30,6 +30,7 @@ namespace KillerNotes.Shell
             yield return new("Alt+2", "Str_Col_Size", "File", []);
             yield return new("Alt+3", "Str_Col_Modified", "File", []);
             yield return new("F5", "Str_KS_PickerRefresh", "File", []);
+            yield return new("Ctrl+Shift+N", "Str_FD_NewFolder", "File", []);
             yield return new("Alt+B", "Str_Menu_PinPlace", "File", []);
             yield return new("Alt+Shift+B", "Str_Menu_UnpinPlace", "File", []);
             yield return new("Alt+Q, Ctrl+Shift+Up/Down", "Str_Menu_PinPlace", "File", []);

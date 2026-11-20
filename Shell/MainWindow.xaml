@@ -1361,13 +1361,10 @@
                                         Focusable="True" KeyDown="SidebarHeader_KeyDown" AutomationProperties.AcceleratorKey="Space / Enter"
                                         MouseLeftButtonDown="TrashHeader_Press"
                                         MouseLeftButtonUp="TrashHeader_Click"
-                                        >
+                                        ContextMenuOpening="TrashHeader_ContextMenuOpening">
                                     <Border.ToolTip><StackPanel><TextBlock Text="{DynamicResource Str_TT_Trash}"/><TextBlock Text="Space / Enter"/></StackPanel></Border.ToolTip>
-                                    <Border.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem InputGestureText="Ctrl+F11" Header="{DynamicResource Str_Ctx_EmptyTrash}" Icon="&#xE74D;" Click="EmptyTrash_Click"/>
-                                        </ContextMenu>
-                                    </Border.ContextMenu>
+                                    <!-- No ContextMenu here: TrashHeader_ContextMenuOpening hands this header
+                                         its tile card (Trash.cs). -->
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <a11y:Glyph Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14"
                                                    VerticalAlignment="Center" Margin="0,0,8,0"

@@ -127,12 +127,20 @@ namespace KillerNotes.Tests
             FrameworkElement content = Host(win, dpi);
             var style = Application.Current.TryFindResource("OverlayCloseButton");
             var close = Descendants(content).OfType<Button>().First(b => ReferenceEquals(b.Style, style));
-            var text = Descendants(close).OfType<TextBlock>().First();
-            var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-                new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black,
-                null, TextOptions.GetTextFormattingMode(text), VisualTreeHelper.GetDpi(text).PixelsPerDip);
-            Point origin = text.TransformToAncestor(close).Transform(new Point(0, 0));
-            Rect ink = ft.BuildGeometry(origin).Bounds;
+            Rect ink;
+            // A flat theme draws Win98's pixel X as a Path (CaptionDrawnGlyphVisibility) instead of the font glyph.
+            var drawn = Descendants(close).OfType<System.Windows.Shapes.Path>().FirstOrDefault(p => p.Visibility == Visibility.Visible);
+            if (drawn is not null)
+                ink = drawn.TransformToAncestor(close).TransformBounds(new Rect(0, 0, drawn.ActualWidth, drawn.ActualHeight));
+            else
+            {
+                var text = Descendants(close).OfType<TextBlock>().First(t => t.Visibility == Visibility.Visible);
+                var ft = new FormattedText(text.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                    new Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, Brushes.Black,
+                    null, TextOptions.GetTextFormattingMode(text), VisualTreeHelper.GetDpi(text).PixelsPerDip);
+                Point origin = text.TransformToAncestor(close).Transform(new Point(0, 0));
+                ink = ft.BuildGeometry(origin).Bounds;
+            }
             double w = close.ActualWidth, h = close.ActualHeight;
 
             Assert.InRange(ink.Left + ink.Width / 2 - w / 2, -0.5, 0.5);

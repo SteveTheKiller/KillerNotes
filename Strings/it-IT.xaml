@@ -1314,4 +1314,14 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Modificata</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Tag</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Nessuna nota qui</sys:String>
+    <!-- File dialog New folder (Controls/FileDialog.NewFolder.cs). -->
+    <sys:String x:Key="Str_TT_NewFolder">Nuova cartella (Ctrl+Maiusc+N)</sys:String>
+    <sys:String x:Key="Str_FD_NewFolder">Nuova cartella</sys:String>
+    <sys:String x:Key="Str_FD_FolderEmpty">Digita un nome per la cartella.</sys:String>
+    <sys:String x:Key="Str_FD_FolderInvalid">Il nome di una cartella non può contenere nessuno di questi caratteri: \ / : * ? " &lt; &gt; |</sys:String>
+    <sys:String x:Key="Str_FD_FolderReserved">Windows riserva questo nome. Scegline un altro.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTrailing">Il nome di una cartella non può terminare con un punto o uno spazio.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTooLong">Il nome è troppo lungo. Usa al massimo 255 caratteri.</sys:String>
+    <sys:String x:Key="Str_FD_FolderExists">Qui esiste già una cartella o un file con questo nome.</sys:String>
+    <sys:String x:Key="Str_FD_FolderFailed">Non è stato possibile creare la cartella:</sys:String>
 </ResourceDictionary>

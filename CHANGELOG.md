@@ -6,6 +6,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.7.1] - Unreleased
 
+1.7.1 adds the Trash Polka theme, a docked format bar and a New folder button in the pickers, takes the latest KillerUI cards and menus, and tightens update and signature checks.
+
 ### Security
 
 - Update and signature checks read the publisher from the signature Windows verified, never from the file a second time, and the installer's lock can only be opened by the current user, administrators and the system.
@@ -15,6 +17,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The Mourning theme highlights selections in its original peach with dark text again, instead of pink.
 - A second Enter in the file dialog's name box waits for a slow folder check instead of running twice.
 - A translation file that fails to load reports through the app's own dialog.
+- Chinese and Japanese interface text draws in that language's own Windows font (Microsoft YaHei UI, Yu Gothic UI) instead of a Traditional Chinese face.
+- On the 98SE theme the dialog close buttons draw the Win98 pixel X, and the System menu's Close glyph stays readable on the Light and 98SE menus.
 
 - Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
 - On the 98SE theme the format bar's raised frame runs along its top edge too, so it is framed on all four sides.
@@ -23,9 +27,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 - The encrypted database engine is updated to SQLCipher 4.20.0 (SQLite 3.54.1). Existing databases and passwords open unchanged.
 - Backing up the database right away moved from Alt+B to Shift+F6.
+- Menus and cards draw their text in the full text color in Dark, Black, Light and Trash Polka, keep an even 8 px edge, and show tile shortcuts on a second line. The theme and language rows center their content, and dialog captions match ConfirmDialog's.
+- The preview's right-click menu, the lock button's menu, the Trash header's menu and the sidebar side menu are KillerUI tile cards, with each tile's shortcut under its caption.
+- Trash Polka's ink is kept in a disk cache per screen size, so the first switch to it decodes in about a second instead of rendering. A background builder at idle priority fills the cache after startup, and the ink is released when another theme is chosen.
 
 ### Added
 
+- The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
 - Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. Under a Windows high contrast theme the ink steps aside for the system colors.
 - The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
 

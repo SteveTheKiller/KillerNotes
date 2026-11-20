@@ -1306,4 +1306,14 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Mgr_ColModified">Değiştirilme</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Etiketler</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Burada not yok</sys:String>
+    <!-- File dialog New folder (Controls/FileDialog.NewFolder.cs). -->
+    <sys:String x:Key="Str_TT_NewFolder">Yeni klasör (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_FD_NewFolder">Yeni klasör</sys:String>
+    <sys:String x:Key="Str_FD_FolderEmpty">Klasör için bir ad yazın.</sys:String>
+    <sys:String x:Key="Str_FD_FolderInvalid">Klasör adı şu karakterlerden hiçbirini içeremez: \ / : * ? " &lt; &gt; |</sys:String>
+    <sys:String x:Key="Str_FD_FolderReserved">Bu ad Windows tarafından ayrılmıştır. Başka bir ad seçin.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTrailing">Klasör adı nokta veya boşlukla bitemez.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTooLong">Bu ad çok uzun. En fazla 255 karakter kullanın.</sys:String>
+    <sys:String x:Key="Str_FD_FolderExists">Burada bu adda bir klasör veya dosya zaten var.</sys:String>
+    <sys:String x:Key="Str_FD_FolderFailed">Klasör oluşturulamadı:</sys:String>
 </ResourceDictionary>

@@ -30,12 +30,9 @@ namespace KillerNotes.Tests
             var viewer = Elements((Border)window.FindName("PreviewPane")).OfType<FlowDocumentScrollViewer>().Single();
             Assert.NotNull(viewer.ContextMenu);
             var menu = viewer.ContextMenu;
-            var rows = menu.Items.OfType<MenuItem>().ToArray();
-            Assert.Equal(2, rows.Length);
-            Assert.Equal(window.FindResource("Str_Ctx_Copy"), rows[0].Header);
-            Assert.Equal(window.FindResource("Str_Ctx_SelectAll"), rows[1].Header);
-            Assert.Equal(new[] { "Ctrl+C", "Ctrl+A" }, rows.Select(r => r.InputGestureText));
-            Assert.All(rows, row => Assert.Same(viewer, row.CommandTarget));
+            // The preview's card (Shell/NoteCards.cs): two tiles, and Copy follows the selection as the card opens.
+            Button[] Tiles() => menu.Items.OfType<MenuItem>().SelectMany(i => Logical(i.Header as DependencyObject))
+                .OfType<Button>().Where(b => b.Tag is string).ToArray();
             string? copied = null;
             DataObjectCopyingEventHandler copying = (_, e) => { copied = e.DataObject.GetData(DataFormats.UnicodeText) as string; e.CancelCommand(); };
             DataObject.AddCopyingHandler(viewer, copying);
@@ -43,14 +40,20 @@ namespace KillerNotes.Tests
             {
                 viewer.Focus();
                 Open();
-                Assert.False(rows[0].IsEnabled);
-                Invoke(rows[1]);
+                var tiles = Tiles();
+                Assert.Equal(2, tiles.Length);
+                Assert.Equal(window.FindResource("Str_Ctx_Copy"), System.Windows.Automation.AutomationProperties.GetName(tiles[0]));
+                Assert.Equal(window.FindResource("Str_Ctx_SelectAll"), System.Windows.Automation.AutomationProperties.GetName(tiles[1]));
+                Assert.Equal(new[] { "Ctrl+C", "Ctrl+A" }, tiles.Select(System.Windows.Automation.AutomationProperties.GetAcceleratorKey));
+                Assert.False(tiles[0].IsEnabled);
+                Invoke(tiles[1]);
                 Assert.Contains("Rendered heading", viewer.Selection.Text);
                 Assert.Contains("Rendered body", viewer.Selection.Text);
                 Assert.DoesNotContain("#", viewer.Selection.Text);
                 Open();
-                Assert.True(rows[0].IsEnabled);
-                Invoke(rows[0]);
+                tiles = Tiles();
+                Assert.True(tiles[0].IsEnabled);
+                Invoke(tiles[0]);
                 Assert.Contains("Rendered heading", copied);
                 Assert.DoesNotContain("#", copied);
             }
@@ -58,17 +61,26 @@ namespace KillerNotes.Tests
 
             void Open()
             {
+                menu.IsOpen = false;
                 menu.PlacementTarget = viewer;
                 menu.IsOpen = true;
                 CommandManager.InvalidateRequerySuggested();
                 viewer.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             }
-            void Invoke(MenuItem row)
+            void Invoke(Button tile)
             {
-                ((IInvokeProvider)new MenuItemAutomationPeer(row).GetPattern(PatternInterface.Invoke)).Invoke();
+                tile.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
                 viewer.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             }
         });
+
+        private static IEnumerable<DependencyObject> Logical(DependencyObject? root)
+        {
+            if (root == null) yield break;
+            yield return root;
+            foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+                foreach (var d in Logical(child)) yield return d;
+        }
 
         private static IEnumerable<DependencyObject> Elements(DependencyObject root)
         {

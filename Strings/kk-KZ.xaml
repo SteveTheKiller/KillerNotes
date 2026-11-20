@@ -1314,4 +1314,14 @@
     <sys:String x:Key="Str_Mgr_ColModified">Өзгертілген</sys:String>
     <sys:String x:Key="Str_Mgr_ColTags">Тегтер</sys:String>
     <sys:String x:Key="Str_Mgr_Empty">Мұнда жазбалар жоқ</sys:String>
+    <!-- File dialog New folder (Controls/FileDialog.NewFolder.cs). -->
+    <sys:String x:Key="Str_TT_NewFolder">Жаңа қалта (Ctrl+Shift+N)</sys:String>
+    <sys:String x:Key="Str_FD_NewFolder">Жаңа қалта</sys:String>
+    <sys:String x:Key="Str_FD_FolderEmpty">Қалтаның атауын енгізіңіз.</sys:String>
+    <sys:String x:Key="Str_FD_FolderInvalid">Қалта атауында мына таңбалардың ешқайсысы болмауы керек: \ / : * ? " &lt; &gt; |</sys:String>
+    <sys:String x:Key="Str_FD_FolderReserved">Бұл атауды Windows сақтап қойған. Басқасын таңдаңыз.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTrailing">Қалта атауы нүктемен немесе бос орынмен аяқталмауы керек.</sys:String>
+    <sys:String x:Key="Str_FD_FolderTooLong">Бұл атау тым ұзын. Ең көбі 255 таңба пайдаланыңыз.</sys:String>
+    <sys:String x:Key="Str_FD_FolderExists">Мұнда мұндай атаумен қалта немесе файл бұрыннан бар.</sys:String>
+    <sys:String x:Key="Str_FD_FolderFailed">Қалтаны жасау мүмкін болмады:</sys:String>
 </ResourceDictionary>

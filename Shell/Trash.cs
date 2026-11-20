@@ -175,6 +175,17 @@ namespace KillerNotes.Shell
             OpenStartupNote();   // never drop back to the empty screen
         }
 
+        // The Trash header's card (Shell/NoteCards.cs): Empty trash as a tile, built as it opens.
+        private void TrashHeader_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (sender is not FrameworkElement header) return;
+            header.ContextMenu = NoteCards.Build(null, new[]
+            {
+                new KillerFamily.Controls.CardTile("\uE74D", Loc("Str_Ctx_EmptyTrash"), "Ctrl+F11",
+                    () => EmptyTrash_Click(this, new RoutedEventArgs())),
+            });
+        }
+
         private void EmptyTrash_Click(object sender, RoutedEventArgs e)
         {
             if (_trashNotes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs

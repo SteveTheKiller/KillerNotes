@@ -165,7 +165,7 @@ namespace KillerNotes.Tests
         /// fits, in every language, at the card's own width. "Column right" wrapped to two lines
         /// beside one-line neighbours, which read as a mistake.</summary>
         [Fact]
-        public void EveryCaptionFitsOnOneLineInEveryLanguage() => Sta.RunApplication(() =>
+        public void EveryCaptionFitsItsTileInEveryLanguage() => Sta.RunApplication(() =>
         {
             if (Application.ResourceAssembly == null) Application.ResourceAssembly = typeof(App).Assembly;
             var app = Application.Current ?? new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
@@ -197,9 +197,16 @@ namespace KillerNotes.Tests
                     if (lang == "en-US" && host.ActualWidth > minWidth + 0.5)
                         problems.Add($"en-US: the card grew to {host.ActualWidth:0} past its {minWidth:0}");
 
+                    // The kit caps a tile caption's width so a long one wraps inside its tile instead of widening
+                    // the card (KillerUI card rule 1); it must still fit the two lines the caption shows.
                     foreach (var caption in Descendants(host).OfType<TextBlock>().Where(t => t.Name == "Caption"))
-                        if (caption.ActualHeight > caption.FontSize * 1.8)
-                            problems.Add($"{lang}: caption '{caption.Text}' wraps");
+                    {
+                        var ft = new FormattedText(caption.Text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                            new Typeface(caption.FontFamily, caption.FontStyle, caption.FontWeight, caption.FontStretch), caption.FontSize,
+                            Brushes.Black, null, TextFormattingMode.Ideal, 1.0) { MaxTextWidth = Math.Max(1, caption.ActualWidth) };
+                        if (ft.Height > caption.MaxHeight + 0.5)
+                            problems.Add($"{lang}: caption '{caption.Text}' needs more than two lines");
+                    }
                     foreach (var slot in panel.Children.OfType<MenuItem>())
                         if (slot.Header is FrameworkElement header && header.DesiredSize.Width - header.Margin.Left - header.Margin.Right > header.ActualWidth + 0.5)
                             problems.Add($"{lang}: row '{System.Windows.Automation.AutomationProperties.GetName(slot)}' runs past the card");
