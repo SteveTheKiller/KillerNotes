@@ -37,7 +37,9 @@ namespace KillerNotes.Shell
         private Theme _stripFamily = Theme.Dark;
         private bool _stripOpen;
         private CheckBox? _filmGrainCheck;
-        private const double AccentStripWidth = 39;
+        // 7 gap from the divider, the 26px pill and its 2px right margin, with no slack, so the
+        // pill's right edge lands 8px inside the card.
+        private const double AccentStripWidth = 35;
         private const double AccentStripSlideMs = 180;
 
         private void RailMenu_Opening(object sender, ContextMenuEventArgs e)
@@ -71,10 +73,11 @@ namespace KillerNotes.Shell
             ThemeMenu.Items.Clear();
             _themeRadios.Clear();
             _accentStripDots.Clear();
-            // Hover rows sit 4px in from both menu edges: 12 left less the row's -8, and 2 right
-            // plus the row's own 2. The theme column fills the menu (*), so when the Fonts row
+            // Every hover row and accent pill sits 8px in from the card's outer edge (family rule):
+            // the card's 1px border, then 15 left less the row's -8, 7 on top, and 5 right plus the
+            // row's or pill's own 2. The theme column fills the menu (*), so when the Fonts row
             // makes the menu wider the hover still reaches across instead of stopping short.
-            var picker = new Grid { Margin = new Thickness(12,10,2,2) };
+            var picker = new Grid { Margin = new Thickness(15,7,5,2) };
             picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             picker.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             picker.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -178,10 +181,10 @@ namespace KillerNotes.Shell
             {
                 Content = row,
                 Style = (Style)FindResource("MenuRowButton"),
-                // Same inset as a ThemeRadio row (picker margin 12, row margin -8, padding 10), so
-                // the glyph and label line up with the rings and names above, plus room under it.
+                // Its hover lines up with the ThemeRadio rows above, 8px in from the card's left,
+                // right and bottom edges with the card's 1px border.
                 Padding = new Thickness(10, 5, 10, 5),
-                Margin = new Thickness(4, 0, 4, 6),
+                Margin = new Thickness(7, 0, 7, 7),
             };
             var shortcut = new TextBlock { Text = "Alt+X", Margin = new Thickness(16, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
             shortcut.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding(nameof(KillerFamily.Layout.ShortcutHints.MenuVisibility))
@@ -211,7 +214,7 @@ namespace KillerNotes.Shell
             };
             divider.SetResourceReference(Border.BackgroundProperty, "MenuBorderBrush");
             _accentStripHost.Children.Add(divider);
-            _accentStrip = new Grid { Margin = new Thickness(7, 6, 2, 6) };
+            _accentStrip = new Grid { Margin = new Thickness(7, 0, 2, 6) };
             for (int i = 0; i < 8; i++)
             {
                 _accentStrip.RowDefinitions.Add(new RowDefinition());

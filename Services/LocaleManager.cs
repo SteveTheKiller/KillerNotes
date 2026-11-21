@@ -45,9 +45,10 @@ namespace KillerNotes.Services
         private static ResourceDictionary? _override;
 
         /// <summary>Localized string for a Str_ key. Falls back to the key itself when it is
-        /// missing, so a translation gap shows up as itself instead of as blank UI.</summary>
+        /// missing, so a translation gap shows up as itself instead of as blank UI. With no
+        /// Application at all (a headless export), every key falls back the same way.</summary>
         public static string Loc(string key) =>
-            Application.Current.TryFindResource(key) as string ?? key;
+            Application.Current?.TryFindResource(key) as string ?? key;
 
         // ---- Translator test mode (KillerPDF #211) ----
         // --lang-file <path> reads an external translation file into the override slot, winning
@@ -66,6 +67,7 @@ namespace KillerNotes.Services
         private static FileSystemWatcher? _watcher;
         private static System.Windows.Threading.DispatcherTimer? _reloadDebounce;
         private static bool _externalLoadedOnce;
+        private static ResourceDictionary? _lastExternal;
 
         /// <summary>Call once at startup, after ThemeManager.Initialize, to restore the saved locale,
         /// or on first run the one matching the Windows display language.</summary>
@@ -82,6 +84,17 @@ namespace KillerNotes.Services
             }
             ApplyInternal(_current);
         }
+
+        /// <summary>Setup and uninstall: apply the saved language, else the Windows display
+        /// language, without saving a choice. The first normal start saves it.</summary>
+        internal static void InitializeForSetup()
+        {
+            _current = SetupLocale(ThemeManager.GetSetting("Locale"), CultureInfo.CurrentUICulture);
+            ApplyInternal(_current);
+        }
+
+        internal static Locale SetupLocale(string? saved, CultureInfo culture)
+            => ParseSaved(saved) ?? LocaleForCulture(culture);
 
         /// <summary>
         /// The saved "Locale" setting, including names an app stored before the enum was unified:
@@ -231,6 +244,9 @@ namespace KillerNotes.Services
             if (ExternalFile is not null)
             {
                 if (TryApplyExternal()) { EnsureWatcher(); return; }
+                // Unreadable for a moment (mid-save): the last good file stays applied, as it
+                // does on a live reload, and the watcher picks up the finished save.
+                if (_lastExternal is not null) { SetOverride(_lastExternal); EnsureWatcher(); return; }
                 if (!_externalLoadedOnce) ShowExternalFailure();
                 // Fall through to the normal locale so the app still comes up usable.
             }
@@ -322,6 +338,7 @@ namespace KillerNotes.Services
                         && (entry.Value is not string text || FitsFormat((string)english, text)))
                         rd[entry.Key] = entry.Value;
                 SetOverride(rd);
+                _lastExternal = rd;
                 _externalLoadedOnce = true;
                 return true;
             }

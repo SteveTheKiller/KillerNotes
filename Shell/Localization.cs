@@ -56,14 +56,15 @@ namespace KillerNotes.Shell
         {
             menu.Items.Clear();
             var current = Services.LocaleManager.Current;
-            var columns = new StackPanel { Orientation = Orientation.Horizontal,
-                                           Margin = new Thickness(10, 10, 10, 10) };
+            // KillerUI's language menu: each hover row sits 8px from the card's outer edge, and the
+            // divider sits 8px from the hover boxes on both sides.
+            var columns = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(15, 7, 5, 7) };
             var left = new StackPanel { Width = 200 };
             var right = new StackPanel { Width = 200 };
             var divider = new Border
             {
                 Width = 1,
-                Margin = new Thickness(6, 8, 7, 8),
+                Margin = new Thickness(6, 8, 16, 8),
                 Opacity = 0.18,
                 IsHitTestVisible = false,
                 OpacityMask = new LinearGradientBrush
@@ -115,7 +116,18 @@ namespace KillerNotes.Shell
                 item.Checked += Lang_Click;
                 (index++ < half ? left : right).Children.Add(item);
             }
-            menu.Items.Add(columns);
+            // The rows' 8px gap is for between rows; under the last one it would double the bottom edge.
+            foreach (var column in new[] { left, right })
+                if (column.Children.Count > 0 && column.Children[column.Children.Count - 1] is FrameworkElement last)
+                    last.Margin = new Thickness(last.Margin.Left, last.Margin.Top, last.Margin.Right, 0);
+
+            // PanelMenuItem is the gutter-free container for custom menu panels, as in KillerUI.
+            menu.Items.Add(new MenuItem
+            {
+                Header = columns,
+                StaysOpenOnClick = true,
+                Style = (Style)FindResource("PanelMenuItem"),
+            });
         }
 
         private void Lang_Click(object sender, RoutedEventArgs e)
