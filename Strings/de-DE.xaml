@@ -1325,6 +1325,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Card_Hidden">Ausgeblendet</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Kachel hierher ziehen, um sie auszublenden</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Immer sichtbar</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, Position {1} von {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Importieren</sys:String>
     <sys:String x:Key="Str_Card_Code">Code</sys:String>
 </ResourceDictionary>

@@ -1376,6 +1376,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Card_Hidden">Đã ẩn</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Kéo một ô vào đây để ẩn</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Luôn hiển thị</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, vị trí {1} trên {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Nhập</sys:String>
     <sys:String x:Key="Str_Card_Code">Mã</sys:String>
 </ResourceDictionary>

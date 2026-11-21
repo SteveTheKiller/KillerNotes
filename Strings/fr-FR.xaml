@@ -1326,6 +1326,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Card_Hidden">Masqués</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Faites glisser une tuile ici pour la masquer</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Toujours affiché</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, position {1} sur {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Importer</sys:String>
     <sys:String x:Key="Str_Card_Code">Code</sys:String>
 </ResourceDictionary>

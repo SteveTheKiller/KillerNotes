@@ -1372,6 +1372,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Card_Hidden">Ocultos</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Arraste um bloco para cá para ocultá-lo</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Sempre exibido</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, posição {1} de {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Importar</sys:String>
     <sys:String x:Key="Str_Card_Code">Código</sys:String>
 </ResourceDictionary>

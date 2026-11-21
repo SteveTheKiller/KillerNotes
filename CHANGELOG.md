@@ -23,6 +23,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Pasting rich text that contains links, such as a draft copied from the Claude desktop app or a browser, keeps its headings, bulleted and numbered lists, code blocks, inline code, and the spacing between paragraphs. Code blocks keep every line and their indentation in a monospace font, and links still work.
 - On the 98SE theme the format bar's raised frame runs along its top edge too, so it is framed on all four sides.
 - The note card's Tags tile lists tags that are assigned to the note but no longer defined, in gray, so they can still be seen and removed.
+- Switching Trash Polka accents waits at most one second in total for the ink, even when several pieces are slow.
 
 ### Changed
 
@@ -31,10 +32,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - Menus and cards draw their text in the full text color in Dark, Black, Light and Trash Polka, keep an even 8 px edge, and show tile shortcuts on a second line. The theme and language rows center their content, and dialog captions match ConfirmDialog's.
 - The preview's right-click menu, the lock button's menu, the Trash header's menu and the sidebar side menu are KillerUI tile cards, with each tile's shortcut under its caption.
 - The note, group and editor right-click menus, the New note menu and the format bar's own menu are KillerUI tile cards too, each tile showing its shortcut. The note, group and editor cards can be customized: tiles you seldom use move into the card's drawer.
+- The rule flyout's choices and the calculator keys draw the film grain over their hover fill, as menu rows and card tiles do.
+- On Trash Polka, check boxes and radio wells are solid black, so the ink never shows inside them.
 - Trash Polka's ink is kept in a disk cache per screen size, so the first switch to it decodes in about a second instead of rendering. A background builder at idle priority fills the cache after startup, and the ink is released when another theme is chosen.
 
 ### Added
 
+- While customizing a card, Alt+arrow keys move the focused tile one place or one row, and a screen reader hears its new position.
 - The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
 - Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. Under a Windows high contrast theme the ink steps aside for the system colors.
 - The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.

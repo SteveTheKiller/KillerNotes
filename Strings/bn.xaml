@@ -1325,6 +1325,7 @@
     <sys:String x:Key="Str_Card_Hidden">লুকানো</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">লুকাতে একটি টাইল এখানে টেনে আনুন</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">সবসময় দেখানো হয়</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, {2}টির মধ্যে {1} নম্বর অবস্থানে</sys:String>
     <sys:String x:Key="Str_Card_Import">ইমপোর্ট</sys:String>
     <sys:String x:Key="Str_Card_Code">কোড</sys:String>
 </ResourceDictionary>

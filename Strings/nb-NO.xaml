@@ -1370,6 +1370,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Card_Hidden">Skjult</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Dra en flis hit for å skjule den</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Vises alltid</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, plass {1} av {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Importer</sys:String>
     <sys:String x:Key="Str_Card_Code">Kode</sys:String>
 </ResourceDictionary>

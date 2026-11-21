@@ -1232,6 +1232,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Card_Hidden">Skrito</sys:String>
     <sys:String x:Key="Str_Card_HiddenHint">Povlecite ploščico sem, da jo skrijete</sys:String>
     <sys:String x:Key="Str_Card_AlwaysShown">Vedno prikazano</sys:String>
+    <sys:String x:Key="Str_Card_TileMoved">{0}, mesto {1} od {2}</sys:String>
     <sys:String x:Key="Str_Card_Import">Uvozi</sys:String>
     <sys:String x:Key="Str_Card_Code">Koda</sys:String>
 </ResourceDictionary>
