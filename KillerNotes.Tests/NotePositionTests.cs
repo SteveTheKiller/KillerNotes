@@ -110,6 +110,18 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void UndoingADeleteKeepsAMarkdownNoteMarkdown()
+        {
+            long id = NoteStore.Create("Markdown", format: 1);
+            var row = NoteStore.CaptureRow(id)!;
+            NoteStore.Delete(id);
+
+            NoteStore.RestoreRow(row);
+
+            Assert.Equal(1, NoteStore.GetFormat(id));
+        }
+
+        [Fact]
         public void DeletingForeverForgetsThePosition()
         {
             long id = NoteStore.Create("Gone");

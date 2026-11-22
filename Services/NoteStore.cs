@@ -1557,8 +1557,9 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
         {
             if (_db == null || IsReadOnly) return;
             using var cmd = _db.CreateCommand();
-            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted) " +
-                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp, $sy, $pn, $dl)";
+            cmd.CommandText = "INSERT INTO notes(id, title, notebook, tags, created, modified, plain, content, title_color, spellcheck, sort_order, caret_pos, scroll_pos, syntax, pinned, deleted, format) " +
+                              "VALUES($id, $t, $nb, $tg, $cr, $md, $pl, $ct, $tc, $sp, $so, $cp, $scp, $sy, $pn, $dl, $fm)";
+            cmd.Parameters.AddWithValue("$fm", n.Format);
             cmd.Parameters.AddWithValue("$pn", n.Pinned ? 1 : 0);
             cmd.Parameters.AddWithValue("$dl", n.Deleted);
             cmd.Parameters.AddWithValue("$id", n.Id);
