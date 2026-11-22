@@ -1616,8 +1616,10 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             if (_db == null || IsReadOnly) return;
             string now = Ts(DateTime.Now);
             var list = updates.ToList();
-            foreach (var (id, _, _) in list) Snapshot(id, force: true);   // a replace touches many notes at once; every one keeps its text
             using var tx = _db.BeginTransaction();
+            // A replace touches many notes at once, so every one keeps its text, and those versions
+            // ride in the same transaction: a replace that fails leaves no stray version behind.
+            foreach (var (id, _, _) in list) Snapshot(id, force: true, tx);
             foreach (var (id, content, plain) in list)
             {
                 using var cmd = _db.CreateCommand();
@@ -1629,6 +1631,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 cmd.Parameters.AddWithValue("$id", id);
                 cmd.ExecuteNonQuery();
             }
+            SweepAttachments(tx);   // the snapshots may have pruned the only version holding a payload
             tx.Commit();
         }
 
