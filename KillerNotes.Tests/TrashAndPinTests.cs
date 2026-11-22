@@ -149,6 +149,35 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
+        public void EmptyTrashDeletesOnlyTheNotesTheUserConfirmed()
+        {
+            using var _ = new TempStore();
+            long shown = NoteStore.Create("Shown in the dialog");
+            NoteStore.Trash(shown);
+            var confirmed = NoteStore.ListTrash().Select(n => n.Id).ToList();
+            long late = NoteStore.Create("Trashed after the dialog opened");
+            NoteStore.Trash(late);
+
+            Assert.Equal(1, NoteStore.EmptyTrash(confirmed));
+
+            Assert.Null(NoteStore.CaptureRow(shown));
+            Assert.Equal([late], NoteStore.ListTrash().Select(n => n.Id));
+        }
+
+        [Fact]
+        public void EmptyTrashNeverDeletesAConfirmedNoteThatWasRestored()
+        {
+            using var _ = new TempStore();
+            long id = NoteStore.Create("Restored meanwhile");
+            NoteStore.Trash(id);
+            var confirmed = NoteStore.ListTrash().Select(n => n.Id).ToList();
+            NoteStore.Restore(id);
+
+            Assert.Equal(0, NoteStore.EmptyTrash(confirmed));
+            Assert.NotNull(NoteStore.CaptureRow(id));
+        }
+
+        [Fact]
         public void CaptureAndRestoreRowCarryTheTrashStamp()
         {
             using var _ = new TempStore();

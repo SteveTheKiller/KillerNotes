@@ -175,15 +175,18 @@ namespace KillerNotes.Shell
         private void EmptyTrash_Click(object sender, RoutedEventArgs e)
         {
             if (_trashNotes.Count == 0 || RefuseReadOnly()) return;   // Notes.Document.cs
+            // The dialog counts this list, so only these notes are deleted: one trashed meanwhile
+            // (from MCP, say) was never shown to the user.
+            var confirmed = _trashNotes.Select(n => n.Id).ToList();
             var dlg = new ConfirmDialog(
                 Loc("Str_Dlg_EmptyTrashHead"),
-                string.Format(Loc("Str_Dlg_EmptyTrashBody"), _trashNotes.Count),
+                string.Format(Loc("Str_Dlg_EmptyTrashBody"), confirmed.Count),
                 Loc("Str_Btn_Delete")) { Owner = this };
             dlg.ShowDialog();
             if (!dlg.Confirmed) return;
 
             bool openOneGone = _trashNotes.Any(n => n.Id == _currentId);
-            int gone = NoteStore.EmptyTrash();
+            int gone = NoteStore.EmptyTrash(confirmed);
             if (openOneGone) CloseCurrentNote();
             RefreshList(preserveScroll: true);
             FlashStatus(string.Format(Loc("Str_St_TrashEmptied"), gone));

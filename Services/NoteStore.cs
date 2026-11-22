@@ -819,38 +819,66 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
 
         /// <summary>Drops a note for good, payloads included. Unlike Delete this is not meant to
         /// be undone, so the sketches, recordings and links keyed on the id go with it.</summary>
-        public static void DeleteForever(long id)
+        public static void DeleteForever(long id) => DeleteForever(new[] { id }, onlyTrashed: false);
+
+        /// <summary>Drops a set of notes for good in one transaction, with one sweep of orphaned
+        /// attachments at the end rather than a full-table sweep per note. With onlyTrashed, a note
+        /// that has left the trash since the caller listed it is skipped. Returns how many went.</summary>
+        private static int DeleteForever(IEnumerable<long> ids, bool onlyTrashed)
         {
-            if (_db == null || IsReadOnly) return;
+            if (_db == null || IsReadOnly) return 0;
+            int gone = 0;
             using var tx = _db.BeginTransaction();
-            foreach (string sql in new[]
-                     {
-                         "DELETE FROM sketches WHERE note_id = $id",
-                         "DELETE FROM recordings WHERE note_id = $id",
-                         "DELETE FROM note_links WHERE src = $id",
-                         "DELETE FROM note_history WHERE note_id = $id",
-                         "DELETE FROM note_positions WHERE note_id = $id",
-                         "DELETE FROM notes WHERE id = $id",
-                         "DELETE FROM attachment_refs WHERE owner = 'n:' || $id",
-                         "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)",
-                     })
+            foreach (long id in ids.Distinct())
             {
-                using var cmd = _db.CreateCommand();
-                cmd.Transaction = tx;
-                cmd.CommandText = sql;
-                cmd.Parameters.AddWithValue("$id", id);
-                cmd.ExecuteNonQuery();
+                using (var check = _db.CreateCommand())
+                {
+                    check.Transaction = tx;
+                    check.CommandText = onlyTrashed
+                        ? "SELECT 1 FROM notes WHERE id = $id AND deleted <> ''"
+                        : "SELECT 1 FROM notes WHERE id = $id";
+                    check.Parameters.AddWithValue("$id", id);
+                    bool exists = check.ExecuteScalar() != null;
+                    if (onlyTrashed && !exists) continue;
+                    if (exists) gone++;
+                }
+                foreach (string sql in new[]
+                         {
+                             "DELETE FROM sketches WHERE note_id = $id",
+                             "DELETE FROM recordings WHERE note_id = $id",
+                             "DELETE FROM note_links WHERE src = $id",
+                             "DELETE FROM note_history WHERE note_id = $id",
+                             "DELETE FROM note_positions WHERE note_id = $id",
+                             "DELETE FROM notes WHERE id = $id",
+                             "DELETE FROM attachment_refs WHERE owner = 'n:' || $id",
+                         })
+                {
+                    using var cmd = _db.CreateCommand();
+                    cmd.Transaction = tx;
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("$id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            using (var sweep = _db.CreateCommand())
+            {
+                sweep.Transaction = tx;
+                sweep.CommandText = "DELETE FROM attachments WHERE hash NOT IN (SELECT hash FROM attachment_refs)";
+                sweep.ExecuteNonQuery();
             }
             tx.Commit();
+            return gone;
         }
 
         /// <summary>Permanently deletes every trashed note. Returns how many went.</summary>
-        public static int EmptyTrash()
+        public static int EmptyTrash() => EmptyTrash(ListTrash().Select(n => n.Id).ToList());
+
+        /// <summary>Permanently deletes the trashed notes a confirmation was shown for. A note
+        /// trashed after the dialog counted the trash, or restored since, is left alone.</summary>
+        public static int EmptyTrash(IReadOnlyCollection<long> confirmed)
         {
-            if (_db == null || IsReadOnly) return 0;
-            var ids = ListTrash().Select(n => n.Id).ToList();
-            foreach (long id in ids) DeleteForever(id);
-            return ids.Count;
+            if (_db == null || IsReadOnly || confirmed.Count == 0) return 0;
+            return DeleteForever(confirmed, onlyTrashed: true);
         }
 
         /// <summary>Permanently deletes trashed notes older than the given number of days.
@@ -867,8 +895,7 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
                 using var r = cmd.ExecuteReader();
                 while (r.Read()) ids.Add(r.GetInt64(0));
             }
-            foreach (long id in ids) DeleteForever(id);
-            return ids.Count;
+            return ids.Count == 0 ? 0 : DeleteForever(ids, onlyTrashed: true);
         }
 
         // ---- Pinned notes (1.3.1) ----
