@@ -467,6 +467,7 @@ namespace KillerNotes.Services
                     if (body.Trim().Length == 0) { sb.Append('\n'); break; }
                     // A checkbox line goes out in task-list syntax, so Obsidian and GitHub draw
                     // a real box for it and the glyph never reaches the file.
+                    body = string.Join("\n", body.Split('\n').Select(EscapeLineStart));
                     sb.Append(indent).Append(Checklist.ToMarkdownLine(body)).Append("\n\n");
                     break;
                 }
@@ -731,6 +732,40 @@ namespace KillerNotes.Services
                 sb.Append(c);
             }
             return sb.ToString();
+        }
+
+        // Escapes a marker that would turn a plain line into a heading, list item, quote or rule
+        // when it is read back: "# 3 tickets", "- x", "> x", "1. x", "---". Only the first
+        // character needs it, and only when the rest of the line makes it a marker.
+        internal static string EscapeLineStart(string line)
+        {
+            int i = 0;
+            while (i < line.Length && line[i] == ' ') i++;
+            if (i >= line.Length) return line;
+            string rest = line.Substring(i);
+            bool spaceAfter(int at) => at >= rest.Length || rest[at] is ' ' or '\t';
+            char c = rest[0];
+            bool marker = c switch
+            {
+                '#' => spaceAfter(rest.TakeWhile(ch => ch == '#').Count()),
+                '>' => true,
+                '-' or '+' or '*' or '_' or '=' => spaceAfter(1) || IsRule(rest),
+                _ => false,
+            };
+            if (!marker && char.IsDigit(c))
+            {
+                int d = 0;
+                while (d < rest.Length && d < 9 && char.IsDigit(rest[d])) d++;
+                if (d < rest.Length && rest[d] is '.' or ')' && spaceAfter(d + 1))
+                    return line.Substring(0, i) + rest.Substring(0, d) + "\\" + rest.Substring(d);
+            }
+            return marker ? line.Substring(0, i) + "\\" + rest : line;
+        }
+
+        private static bool IsRule(string s)
+        {
+            string t = s.Replace(" ", "").Replace("\t", "");
+            return t.Length >= 3 && t.All(ch => ch == t[0]);
         }
 
         // The end of a [[target]] or [[target|label]] that starts at i, or -1. The same shape

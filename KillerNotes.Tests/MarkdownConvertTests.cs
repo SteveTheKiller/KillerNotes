@@ -21,6 +21,19 @@ namespace KillerNotes.Tests
     {
         private const double Base = 14;
 
+        [Fact]
+        public void APlainLineThatLooksLikeMarkdownStructureStaysPlainText() => Sta.Run(() =>
+        {
+            string[] lines = ["# 3 tickets", "- x", "+ y", "* z", "> quoted", "1. first", "2) second", "---", "***"];
+            var doc = new FlowDocument();
+            foreach (string line in lines) doc.Blocks.Add(new Paragraph(new Run(line)));
+
+            var back = MarkdownConvert.ToDocument(MarkdownConvert.FromDocument(doc), Base);
+
+            Assert.Equal(lines, back.Blocks.Select(b => Assert.IsType<Paragraph>(b)).Select(TextOf).ToArray());
+            Assert.All(back.Blocks.OfType<Paragraph>(), p => Assert.True(p.FontSize <= Base || double.IsNaN(p.FontSize)));
+        });
+
         // ---- Markdown -> FlowDocument ----
 
         [Fact]
