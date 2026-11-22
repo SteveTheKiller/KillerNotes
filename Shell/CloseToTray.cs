@@ -49,7 +49,7 @@ using System.Windows.Interop;
 //                RefreshIcon after that option changes and once after attaching.
 //      openKeys  the app's global show-window shortcut, shown under the Open tile.
 //   7. The icon's right-click card follows the family card rules (CardBuilder.TileGroups): the
-//      app's name over three-across tiles, Open first, the app's tiles, then Exit on its own row.
+//      app's name over one full row of tiles, Open first, the app's tiles, then Exit last.
 // ============================================================
 namespace KillerFamily.Shell
 {
@@ -313,20 +313,22 @@ namespace KillerFamily.Shell
             menu.IsOpen = true;
         }
 
-        /// <summary>The tray card, on the family card rules (CardBuilder.TileGroups): the app's name over three-across
-        /// tiles, Open first with its global shortcut, then the app's own tiles, and Exit alone on the last row.</summary>
+        /// <summary>The tray card, on the family card rules (CardBuilder.TileGroups): the app's name over full rows of
+        /// tiles, Open first with its global shortcut, then the app's own tiles, and Exit last. A row is never left half
+        /// empty: up to three tiles share one row, four go two by two.</summary>
         internal System.Windows.Controls.ContextMenu BuildMenu()
         {
             var menu = KillerFamily.Controls.CardBuilder.Menu(TrayCardWidth);
             menu.Items.Add(KillerFamily.Controls.CardBuilder.Header(_appName));
-            var main = new List<KillerFamily.Controls.CardTile>
+            var tiles = new List<KillerFamily.Controls.CardTile>
             {
                 new("", string.Format(_loc("Str_Tray_Open"), _appName), _openKeys?.Invoke(), ShowWindow),
             };
             foreach (var item in _items)
-                main.Add(new KillerFamily.Controls.CardTile(item.Glyph, item.Header(), item.Keys?.Invoke(), item.Run));
-            var quit = new List<KillerFamily.Controls.CardTile> { new("", _loc("Str_Tray_Exit"), null, Exit) };
-            var strip = KillerFamily.Controls.CardBuilder.TileGroups(menu, _appName, [main, quit]);
+                tiles.Add(new KillerFamily.Controls.CardTile(item.Glyph, item.Header(), item.Keys?.Invoke(), item.Run));
+            tiles.Add(new("", _loc("Str_Tray_Exit"), null, Exit));
+            int columns = tiles.Count switch { <= 3 => tiles.Count, 4 => 2, _ => 3 };
+            var strip = KillerFamily.Controls.CardBuilder.TileGroups(menu, _appName, [tiles], columns);
             menu.Items.Add(KillerFamily.Controls.CardBuilder.Slot(strip, new Thickness(0)));
             return menu;
         }

@@ -100,6 +100,69 @@ namespace KillerNotes.Tests
             finally { if (sort.ContextMenu != null) sort.ContextMenu.IsOpen = false; }
         });
 
+        // Replays the UI's own triggers: the ContextMenuOpening each element raises on a right-click, and the tray
+        // icon's own ShowMenu. Each one has to leave a tile card on the element with the expected tiles.
+        [Fact]
+        public void EveryRightClickTriggerHandsOutItsTileCard() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            var dialog = new PasswordDialog("Unlock", "", "Unlock", extraText: "New database", extra2Text: "Open database");
+            dialog.UseUnlockLayout("Demo");
+            var title = (TextBox)window.FindName("TitleBox");
+            title.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right) { RoutedEvent = UIElement.PreviewMouseRightButtonDownEvent });
+            var triggers = new (FrameworkElement Element, string[] Tiles)[]
+            {
+                ((FrameworkElement)window.FindName("SortBtn"), ["created", "title", "custom", "reverse"]),
+                ((FrameworkElement)window.FindName("SearchIconButton"), ["searchbar"]),
+                ((FrameworkElement)window.FindName("DictationRailBtn"), ["speechmodel"]),
+                ((FrameworkElement)window.FindName("BacklinkBar"), ["hidementions"]),
+                (title, ["cut", "copy", "paste", "selectall"]),
+                ((FrameworkElement)dialog.FindName("OtherDbButton"), ["newdb", "opendb"]),
+            };
+            foreach (var (element, ids) in triggers)
+            {
+                element.RaiseEvent(OpeningArgs(element));
+                var card = element.ContextMenu;
+                try
+                {
+                    Assert.True(card != null, element.Name + " has no card after its right-click");
+                    Assert.DoesNotContain(card!.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+                    foreach (string id in ids) Assert.True(NoteCards.Tile(card, id) != null, $"{element.Name} card is missing {id}");
+                }
+                finally { if (card != null) card.IsOpen = false; }
+            }
+
+            var tray = typeof(MainWindow).GetField("_tray", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(window)!;
+            tray.GetType().GetMethod("ShowMenu", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.Invoke(tray, null);
+            window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+            var open = PresentationSource.CurrentSources.OfType<System.Windows.Interop.HwndSource>().Select(s => s.RootVisual)
+                .SelectMany(Descendants).OfType<ContextMenu>().FirstOrDefault(m => m.IsOpen);
+            try
+            {
+                Assert.True(open != null, "The tray icon's ShowMenu opened no card");
+                Assert.Equal(3, NoteCards.Tiles(open!).Count());
+                Assert.DoesNotContain(open!.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+            }
+            finally { if (open != null) open.IsOpen = false; }
+        });
+
+        private static ContextMenuEventArgs OpeningArgs(FrameworkElement source)
+        {
+            var args = (ContextMenuEventArgs)Activator.CreateInstance(typeof(ContextMenuEventArgs),
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null, [source, true], null)!;
+            args.RoutedEvent = FrameworkElement.ContextMenuOpeningEvent;
+            args.Source = source;
+            return args;
+        }
+
+        private static IEnumerable<DependencyObject> Descendants(Visual? root)
+        {
+            if (root == null) yield break;
+            yield return root;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+                if (VisualTreeHelper.GetChild(root, i) is Visual child)
+                    foreach (var d in Descendants(child)) yield return d;
+        }
+
         [Fact]
         public void ATextBoxRightClickGetsTheTextCardAndItsTilesAct() => CardColorBehaviorTests.WithShell((window, _) =>
         {

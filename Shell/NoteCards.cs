@@ -163,7 +163,10 @@ namespace KillerNotes.Shell
                 if (!byName.ContainsKey(Trimmed(tile.Caption))) byName[Trimmed(tile.Caption)] = tile;
             card.SetValue(TilesProperty, byName);
             string name = Loc("Str_Card_Quick");
-            var strip = CardBuilder.TileGroups(card, name, tiles.Count > 0 ? new[] { tiles } : new List<CardTile>[0], edit, Columns);
+            // A fixed small card never leaves a row half empty: one to three tiles take that many columns, four go two
+            // by two. A customizable card keeps three across, since its tiles come and go.
+            int columns = edit != null ? Columns : BalancedColumns(tiles.Count);
+            var strip = CardBuilder.TileGroups(card, name, tiles.Count > 0 ? new[] { tiles } : new List<CardTile>[0], edit, columns);
             var slot = CardBuilder.Slot(strip, new Thickness(0));
             AutomationProperties.SetName(slot, name);
             // A tile with an Id carries it as its button's Uid, the command name the tests read.
@@ -171,6 +174,9 @@ namespace KillerNotes.Shell
                 if (byName.TryGetValue(Trimmed(AutomationProperties.GetName(button) ?? ""), out var t) && t.Id is { } id) button.Uid = id;
             return slot;
         }
+
+        /// <summary>Columns that fill every row of a fixed card: 1 to 3 tiles in one row, 4 as two by two, more three across.</summary>
+        internal static int BalancedColumns(int tiles) => tiles switch { <= 0 => 1, <= Columns => tiles, 4 => 2, _ => Columns };
 
         private static string Trimmed(string caption) => caption.TrimEnd('.', '…').TrimEnd();
 
