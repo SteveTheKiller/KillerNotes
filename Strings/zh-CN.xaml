@@ -131,6 +131,7 @@
     <sys:String x:Key="Str_St_PwMismatch">两次密码不一致 - 未做任何更改</sys:String>
     <sys:String x:Key="Str_St_Encrypted">数据库已加密</sys:String>
     <sys:String x:Key="Str_St_PwChanged">密码已更改</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">密码已更改。{0} 个较早的备份仍使用以前的密码打开</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">密码已移除 - 数据库不再加密</sys:String>
     <sys:String x:Key="Str_St_PwFailed">密码更改失败: {0}</sys:String>
 

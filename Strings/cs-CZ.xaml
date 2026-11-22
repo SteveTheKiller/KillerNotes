@@ -203,6 +203,7 @@ Neztraťte je - obnova není možná.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Hesla se neshodují - nic se nezměnilo</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Databáze zašifrována</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Heslo změněno</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Heslo změněno. Starší zálohy ({0}) se stále otevírají dřívějším heslem</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Heslo odebráno - databáze již není zašifrována</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Změna hesla selhala: {0}</sys:String>
 

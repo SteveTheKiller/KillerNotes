@@ -312,6 +312,7 @@ Ne veszítse el - nincs helyreállítás.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">A jelszavak nem egyeztek - semmi sem változott</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Az adatbázis titkosítva</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Jelszó megváltozott</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Jelszó megváltozott. {0} régebbi biztonsági mentés még egy korábbi jelszóval nyílik</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Jelszó eltávolítva - az adatbázis már nincs titkosítva</sys:String>
     <sys:String x:Key="Str_St_PwFailed">A jelszómódosítás sikertelen: {0}</sys:String>
 

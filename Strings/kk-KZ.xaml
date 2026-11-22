@@ -325,6 +325,7 @@
     <sys:String x:Key="Str_St_PwMismatch">Құпия сөздер сәйкес келмеді - ештеңе өзгермеді</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Дерекқор шифрланды</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Құпия сөз өзгертілді</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Құпия сөз өзгертілді. {0} ескі сақтық көшірме әлі бұрынғы құпия сөзбен ашылады</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Құпия сөз алынды - дерекқор бұдан былай шифрланбаған</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Құпия сөзді өзгерту сәтсіз аяқталды: {0}</sys:String>
 

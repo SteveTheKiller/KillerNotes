@@ -325,6 +325,7 @@
     <sys:String x:Key="Str_St_PwMismatch">Пароли не совпали - ничего не изменено</sys:String>
     <sys:String x:Key="Str_St_Encrypted">База зашифрована</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Пароль изменён</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Пароль изменён. Старые резервные копии ({0}) по-прежнему открываются прежним паролем</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Пароль убран - база больше не зашифрована</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Не удалось изменить пароль: {0}</sys:String>
 

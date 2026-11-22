@@ -300,6 +300,72 @@ namespace KillerNotes.Services
             return dest;
         }
 
+        /// <summary>How many backups a password change re-keyed, and how many it left alone because
+        /// they did not open with the password being replaced.</summary>
+        public readonly record struct RekeyResult(int Rekeyed, int Skipped);
+
+        /// <summary>Rewrites every backup of dbFile in folder under the new password, the way
+        /// SetPassword rewrites the database: sqlcipher_export into a staged copy, a check that the
+        /// copy opens with the new key, then a swap. A backup that does not open with the old
+        /// password was taken under an even earlier one and is left as it is, and counted.</summary>
+        public static RekeyResult RekeyBackups(string folder, string dbFile, string? oldPassword, string? newPassword)
+        {
+            if (string.IsNullOrEmpty(oldPassword)) oldPassword = null;
+            if (string.IsNullOrEmpty(newPassword)) newPassword = null;
+            int rekeyed = 0, skipped = 0;
+            foreach (var backup in ListBackups(folder, dbFile))
+            {
+                string path = backup.FullName;
+                string staged = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                try
+                {
+                    DateTime written = backup.LastWriteTimeUtc;
+                    if (!ExportWithKey(path, oldPassword, staged, newPassword)) { skipped++; continue; }
+                    VerifyCopy(staged, newPassword);
+                    File.Replace(staged, path, null);
+                    File.SetLastWriteTimeUtc(path, written);   // the backup list and pruning keep their order
+                    rekeyed++;
+                }
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is SqliteException)
+                {
+                    skipped++;
+                }
+                finally
+                {
+                    SqliteConnection.ClearAllPools();
+                    try { if (File.Exists(staged)) File.Delete(staged); }
+                    catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException) { /* swept later as an old pending file */ }
+                }
+            }
+            return new RekeyResult(rekeyed, skipped);
+        }
+
+        // False when the source does not open with sourcePassword.
+        private static bool ExportWithKey(string source, string? sourcePassword, string dest, string? destPassword)
+        {
+            // An attached database inherits the connection's open flags, and the export has to
+            // create it, so read-write-create. The source is listed, so it exists, and is only read.
+            var csb = new SqliteConnectionStringBuilder { DataSource = source, Mode = SqliteOpenMode.ReadWriteCreate, Pooling = false };
+            if (sourcePassword != null) csb.Password = sourcePassword;
+            using var db = new SqliteConnection(csb.ConnectionString);
+            try
+            {
+                db.Open();
+                Scalar(db, "SELECT count(*) FROM sqlite_master");   // forces the key check
+            }
+            catch (SqliteException) { return false; }
+            using (var cmd = db.CreateCommand())
+            {
+                cmd.CommandText = "ATTACH DATABASE $file AS rekeyed KEY $key";
+                cmd.Parameters.AddWithValue("$file", dest);
+                cmd.Parameters.AddWithValue("$key", destPassword ?? "");
+                cmd.ExecuteNonQuery();
+            }
+            try { Scalar(db, "SELECT sqlcipher_export('rekeyed')"); }
+            finally { try { Scalar(db, "DETACH DATABASE rekeyed"); } catch (SqliteException) { /* not attached */ } }
+            return true;
+        }
+
         private static bool SameBytes(string a, string b)
         {
             using var sha = SHA256.Create();

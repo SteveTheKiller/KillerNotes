@@ -345,6 +345,7 @@ Ikke mist det - det finnes ingen gjenoppretting.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Passordene var ikke like - ingenting ble endret</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Databasen er kryptert</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Passordet er endret</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Passordet er endret. {0} eldre sikkerhetskopier åpnes fortsatt med et tidligere passord</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Passordet er fjernet - databasen er ikke lenger kryptert</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Passordendringen mislyktes: {0}</sys:String>
 

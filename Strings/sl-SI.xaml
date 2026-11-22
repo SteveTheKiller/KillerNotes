@@ -284,6 +284,7 @@ Gesla ne izgubite, ker obnovitev ni mogoča.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Gesli se ne ujemata. Nič ni spremenjeno</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Zbirka podatkov je šifrirana</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Geslo je spremenjeno</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Geslo je spremenjeno. Starejše varnostne kopije ({0}) se še odprejo s prejšnjim geslom</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Geslo je odstranjeno. Zbirka podatkov ni več šifrirana</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Sprememba gesla ni uspela: {0}</sys:String>
     <sys:String x:Key="Str_Dlg_AddDbHead">Dodam zbirko podatkov »{0}«?</sys:String>

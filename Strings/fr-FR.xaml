@@ -132,6 +132,7 @@ Ne le perdez pas - aucune récupération possible.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Les mots de passe ne correspondent pas - rien n'a changé</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Base de données chiffrée</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Mot de passe modifié</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Mot de passe modifié. {0} sauvegardes plus anciennes s’ouvrent encore avec un mot de passe précédent</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Mot de passe supprimé - la base n'est plus chiffrée</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Échec du changement de mot de passe : {0}</sys:String>
 

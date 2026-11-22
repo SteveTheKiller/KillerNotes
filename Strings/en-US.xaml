@@ -347,6 +347,7 @@ Do not lose it - there is no recovery.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Passwords did not match - nothing changed</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Database encrypted</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Password changed</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Password changed. {0} older backups still open with an earlier password</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Password removed - database is no longer encrypted</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Password change failed: {0}</sys:String>
 

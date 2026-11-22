@@ -131,6 +131,7 @@
     <sys:String x:Key="Str_St_PwMismatch">パスワードが一致しません - 変更はありません</sys:String>
     <sys:String x:Key="Str_St_Encrypted">データベースを暗号化しました</sys:String>
     <sys:String x:Key="Str_St_PwChanged">パスワードを変更しました</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">パスワードを変更しました。古いバックアップ {0} 件は以前のパスワードのままです</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">パスワードを削除しました - データベースは暗号化されていません</sys:String>
     <sys:String x:Key="Str_St_PwFailed">パスワードの変更に失敗しました: {0}</sys:String>
 

@@ -132,6 +132,7 @@ No la pierda - no hay recuperación posible.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Las contraseñas no coinciden - no se cambió nada</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Base de datos cifrada</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Contraseña cambiada</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Contraseña cambiada. {0} copias de seguridad antiguas aún se abren con una contraseña anterior</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Contraseña eliminada - la base de datos ya no está cifrada</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Error al cambiar la contraseña: {0}</sys:String>
 

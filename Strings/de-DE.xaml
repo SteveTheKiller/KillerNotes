@@ -132,6 +132,7 @@ Nicht verlieren - es gibt keine Wiederherstellung.</sys:String>
     <sys:String x:Key="Str_St_PwMismatch">Passwörter stimmten nicht überein - nichts geändert</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Datenbank verschlüsselt</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Passwort geändert</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotRekeyed">Passwort geändert. {0} ältere Sicherungen öffnen sich weiter mit einem früheren Passwort</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Passwort entfernt - Datenbank ist nicht mehr verschlüsselt</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Passwortänderung fehlgeschlagen: {0}</sys:String>
 

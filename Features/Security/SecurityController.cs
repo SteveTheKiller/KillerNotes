@@ -357,9 +357,13 @@ namespace KillerNotes.Features.Security
                         _host.SetStatus(_host.Loc("Str_St_PwMismatch"));
                         return;
                     }
+                    string? before = NoteStore.CaptureBackupSource()?.Password;
                     NoteStore.SetPassword(dlg.Password);
                     _dbPassword = dlg.Password;
-                    _host.SetStatus(_host.Loc("Str_St_Encrypted"));
+                    int left = RekeyBackups(before, dlg.Password);
+                    _host.SetStatus(left > 0
+                        ? string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), left)
+                        : _host.Loc("Str_St_Encrypted"));
                 }
                 else
                 {
@@ -374,9 +378,13 @@ namespace KillerNotes.Features.Security
                         _host.SetStatus(_host.Loc("Str_St_PwMismatch"));
                         return;
                     }
+                    string? before = NoteStore.CaptureBackupSource()?.Password;
                     NoteStore.SetPassword(string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password);
                     _dbPassword = string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password;
-                    _host.SetStatus(_host.Loc(NoteStore.HasPassword ? "Str_St_PwChanged" : "Str_St_PwRemoved"));
+                    int left = RekeyBackups(before, _dbPassword);
+                    _host.SetStatus(left > 0
+                        ? string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), left)
+                        : _host.Loc(NoteStore.HasPassword ? "Str_St_PwChanged" : "Str_St_PwRemoved"));
                 }
             }
             catch (Exception ex)
@@ -384,6 +392,15 @@ namespace KillerNotes.Features.Security
                 _host.SetStatus(string.Format(_host.Loc("Str_St_PwFailed"), ex.Message));
             }
             _host.ShowLockState(NoteStore.HasPassword);
+        }
+
+        // Backups taken before the change would otherwise keep the old password, or none, so a
+        // password changed after a leak would not protect history. Returns how many were left
+        // under an even earlier password.
+        private static int RekeyBackups(string? oldPassword, string? newPassword)
+        {
+            if (BackupService.Folder is not string folder) return 0;
+            return BackupService.RekeyBackups(folder, NoteStore.ActiveDbFile, oldPassword, newPassword).Skipped;
         }
     }
 }
