@@ -61,7 +61,7 @@ namespace KillerNotes.Tests
                 Assert.NotNull(canvas.ContextMenu);
                 Assert.True(canvas.ContextMenu.IsOpen);
                 Assert.IsType<Button>(Keyboard.FocusedElement);
-                var clear = canvas.ContextMenu.Items.OfType<MenuItem>().Single(m => m.Header as string == "Clear all");
+                var clear = Assert.IsType<Button>(KillerNotes.Shell.NoteCards.Tile(canvas.ContextMenu, "clearall"));
                 Assert.True(clear.Focus());
                 Send(clear, Key.Enter, Keyboard.KeyDownEvent);
                 pad.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
