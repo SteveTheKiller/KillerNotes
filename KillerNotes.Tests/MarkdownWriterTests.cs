@@ -21,6 +21,45 @@ namespace KillerNotes.Tests
             MarkdownWriter.FromDocument(doc, Path.Combine(Path.GetTempPath(), "kn-writer-test.md"), null).Markdown;
 
         [Fact]
+        public void AConsolasContentFontDoesNotTurnEveryParagraphIntoCode() => Sta.Run(() =>
+        {
+            var doc = new FlowDocument(new Paragraph(new Run("plain words"))) { FontFamily = new FontFamily("Consolas") };
+
+            string md = Md(doc);
+
+            Assert.Contains("plain words", md);
+            Assert.DoesNotContain("`", md);
+        });
+
+        [Fact]
+        public void ATableInsideAListItemIsWrittenOut() => Sta.Run(() =>
+        {
+            var table = new Table();
+            var group = new TableRowGroup();
+            var row = new TableRow();
+            row.Cells.Add(new TableCell(new Paragraph(new Run("cellvalue"))));
+            group.Rows.Add(row);
+            table.RowGroups.Add(group);
+            var item = new ListItem(new Paragraph(new Run("item")));
+            item.Blocks.Add(table);
+            var list = new List(item);
+
+            Assert.Contains("cellvalue", Md(new FlowDocument(list)));
+        });
+
+        [Fact]
+        public void AQuoteKeepsItsMarkersAndCodeWithBackticksGetsALongerFence() => Sta.Run(() =>
+        {
+            var quote = new Section(new Paragraph(new Run("said so"))) { BorderThickness = new Thickness(3, 0, 0, 0) };
+            var code = new Paragraph(new Run("a ``` b") { FontFamily = new FontFamily("Consolas") });
+
+            string md = Md(new FlowDocument(quote) { Blocks = { code } });
+
+            Assert.Contains("> said so", md);
+            Assert.Contains("````\r\na ``` b\r\n````", md);
+        });
+
+        [Fact]
         public void BoldTextKeepsItsTrailingSpaceOutsideTheMarkers() => Sta.Run(() =>
         {
             var p = new Paragraph();

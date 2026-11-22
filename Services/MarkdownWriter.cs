@@ -99,6 +99,17 @@ namespace KillerNotes.Services
                 case Table t:
                     AppendTable(t);
                     break;
+                case Section s when s.BorderThickness.Left > 0:   // a quote (MarkdownConvert's left rule)
+                {
+                    int start = _sb.Length;
+                    foreach (var b in s.Blocks) AppendBlock(b);
+                    string inner = _sb.ToString(start, _sb.Length - start).TrimEnd();
+                    _sb.Length = start;
+                    foreach (string line in inner.Split(["\r\n"], StringSplitOptions.None))
+                        _sb.Append(line.Length == 0 ? ">" : "> " + line).Append("\r\n");
+                    _sb.Append("\r\n");
+                    break;
+                }
                 case Section s:
                     foreach (var b in s.Blocks) AppendBlock(b);
                     break;
@@ -118,9 +129,11 @@ namespace KillerNotes.Services
             // Fenced-code shortcut when every meaningful inline is Consolas.
             if (IsAllMonospace(p.Inlines))
             {
-                _sb.Append("```\r\n");
+                int codeStart = _sb.Length;
                 foreach (var i in p.Inlines) AppendPlain(i);
-                _sb.Append("\r\n```\r\n\r\n");
+                string fence = Fence(_sb.ToString(codeStart, _sb.Length - codeStart));
+                _sb.Insert(codeStart, fence + "\r\n");
+                _sb.Append("\r\n").Append(fence).Append("\r\n\r\n");
                 return;
             }
             // A heading (Headings.cs) goes out as its marker plus plain words: the bold is the
@@ -152,15 +165,34 @@ namespace KillerNotes.Services
                 {
                     case Run r:
                         sawText = true;
-                        string? src = r.FontFamily?.Source;
-                        if (src == null || src.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) < 0)
-                            return false;
+                        if (!IsMono(r)) return false;
                         break;
                     case LineBreak: break;
                     default: return false;
                 }
             }
             return sawText;
+        }
+
+        /// <summary>Code is Consolas set on the run or on what holds it, up to its paragraph. The
+        /// font a run inherits from the document or the editor is the user's content font, not code.</summary>
+        private static bool IsMono(Run r)
+        {
+            for (DependencyObject? e = r; e is TextElement te; e = te.Parent)
+            {
+                if (te.ReadLocalValue(TextElement.FontFamilyProperty) is FontFamily f)
+                    return f.Source.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
+                if (te is Block) break;
+            }
+            return false;
+        }
+
+        /// <summary>A fence longer than any run of backticks in the code, so the code cannot close it.</summary>
+        private static string Fence(string code)
+        {
+            int longest = 0, run = 0;
+            foreach (char c in code) { run = c == '`' ? run + 1 : 0; longest = Math.Max(longest, run); }
+            return new string('`', Math.Max(3, longest + 1));
         }
 
         // ---- Inlines ----
@@ -229,7 +261,7 @@ namespace KillerNotes.Services
 
             bool bold   = r.FontWeight.ToOpenTypeWeight() >= 600;
             bool italic = r.FontStyle == FontStyles.Italic;
-            bool mono   = r.FontFamily?.Source?.IndexOf("Consolas", StringComparison.OrdinalIgnoreCase) >= 0;
+            bool mono   = IsMono(r);
             bool under  = underlined, strike = struck;
             if (r.TextDecorations != null)
             {
@@ -301,6 +333,13 @@ namespace KillerNotes.Services
                     else if (b is List nested)
                     {
                         AppendList(nested, inner);
+                    }
+                    else
+                    {
+                        // A table, picture or section in an item: written as its own block so
+                        // nothing in the item is dropped.
+                        _sb.Append("\r\n");
+                        AppendBlock(b);
                     }
                     firstBlock = false;
                 }
