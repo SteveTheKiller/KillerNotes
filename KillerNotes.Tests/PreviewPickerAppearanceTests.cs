@@ -14,8 +14,10 @@ namespace KillerNotes.Tests
         [InlineData(Theme.Black)]
         [InlineData(Theme.Light)]
         [InlineData(Theme.Sepulchre)]
-        public void ViewSelectorsLetTheirSurroundingSurfaceShowThrough(Theme theme) => CardColorBehaviorTests.WithShell((window, _) =>
+        [InlineData(Theme.TrashPolka)]
+        public void ViewSelectorsUseTheKitDropdownField(Theme theme) => CardColorBehaviorTests.WithShell((window, _) =>
         {
+            // Steve, 2026-11-21: back to the normal KillerUI dropdown, the darker field, not see-through.
             var previous = ThemeManager.Current;
             try
             {
@@ -25,8 +27,10 @@ namespace KillerNotes.Tests
                     var picker = (ComboBox)window.FindName(name);
                     picker.ApplyTemplate();
                     var face = (Border)picker.Template.FindName("border", picker);
-                    var brush = Assert.IsType<SolidColorBrush>(face.Background);
-                    Assert.Equal(0, brush.Color.A);
+                    var field = (SolidColorBrush)picker.FindResource("ComboFieldBrush");
+                    // Trash Polka may lay the window's ink over the field; anywhere else it is the plain field color.
+                    if (face.Background is SolidColorBrush solid) Assert.Equal(field.Color, solid.Color);
+                    else Assert.Equal(Theme.TrashPolka, theme);
                 }
             }
             finally { ThemeManager.Apply(previous); }

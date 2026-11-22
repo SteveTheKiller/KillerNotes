@@ -223,6 +223,23 @@ namespace KillerNotes.Tests
             Assert.Equal("Win+Alt+Q", QuickNoteHotkey.Effective("Win+Alt+Q"));
         }
 
+        [Theory]
+        [InlineData("Win+Alt+O", true)]
+        [InlineData("Win+Alt+L", true)]
+        [InlineData("Win+Alt+N", false)]    // the quick note's
+        [InlineData("Win+Alt+K", false)]
+        [InlineData("junk", false)]
+        public void TheShowShortcutOffersItsOwnKeys(string stored, bool valid) =>
+            Assert.Equal(valid, ShowWindowHotkey.TryParse(stored, out _, out _));
+
+        [Fact]
+        public void TheShowShortcutIsWinAltOAndNeverAQuickNoteKey()
+        {
+            Assert.Equal("Win+Alt+O", ShowWindowHotkey.Effective(null));
+            Assert.Equal("", ShowWindowHotkey.Effective(""));
+            Assert.Empty(ShowWindowHotkey.Choices.Intersect(QuickNoteHotkey.Choices));
+        }
+
         [Fact]
         public void QuickNoteLaunchesAreRecognizedAndForwarded()
         {

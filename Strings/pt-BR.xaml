@@ -1184,7 +1184,11 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Caixa de entrada</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Manter um ícone na bandeja do sistema</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">O menu do ícone tem Nota rápida, e ele fica enquanto a janela está aberta.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Tinta da página da nota</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: a intensidade da tinta na nota e na visualização renderizada.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Atalho da nota rápida:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Atalho para mostrar o KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Mostrar o KillerNotes, também da bandeja</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Desligado</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} já é usado por outro app, então o atalho fica desligado.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (em uso)</sys:String>

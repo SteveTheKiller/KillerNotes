@@ -148,6 +148,7 @@ namespace KillerNotes.Shell
             .. ActionShortcutRows(),
             // Global: works from any app, so it is list-only (no Win key on the drawn keyboard).
             new("Win+Alt+N", "Str_Quick_Title", "File", []),
+            new("Win+Alt+O", "Str_KS_ShowWindow", "File", []),
 
             // ---- OTHER WINDOWS ----
             //

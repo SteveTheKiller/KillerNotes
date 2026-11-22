@@ -1664,7 +1664,7 @@
             <!-- Trash Polka: the note card carries the pane's ink (Part Window), the same as KillerPDF's
                  document card; the editor is transparent over it. -->
             <Border x:Name="ContentPane" Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
-                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"
+                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush" controls:ThemeMotif.Page="True"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="9"/>
             <!-- NOTHING CASTS ONTO THE FOOTER. KillerScan and KillerPDF are the family baseline
@@ -1698,7 +1698,7 @@
                     BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
             <!-- The note pane's face. It sits over ContentPane, so it carries the Trash Polka ink itself. -->
             <Border x:Name="NotePaneFace" Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
-                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"
+                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush" controls:ThemeMotif.Page="True"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="10">
             <Grid>
@@ -1747,7 +1747,6 @@
                 </TextBox>
                 <!-- The view selector stays available when the format bar is hidden. -->
                 <ComboBox x:Name="PreviewTitleBtn" Grid.Column="1" Style="{StaticResource {x:Type ComboBox}}" Visibility="Collapsed"
-                          Background="Transparent"
                           Width="Auto" HorizontalAlignment="Right" Margin="0,10,12,4" VerticalAlignment="Center" FontFamily="{DynamicResource UiFont}" FontSize="11"
                           SelectedValuePath="Tag" SelectionChanged="PreviewMode_SelectionChanged"
                           ToolTip="{DynamicResource Str_TT_Preview}" ToolTipOpening="PreviewPicker_ToolTipOpening"
@@ -2061,7 +2060,6 @@
                         </Viewbox>
                     </Button>
                     <ComboBox x:Name="PreviewModeBtn" Style="{StaticResource {x:Type ComboBox}}" Visibility="Collapsed"
-                              Background="Transparent"
                               Width="Auto" HorizontalAlignment="Left" FontFamily="{DynamicResource UiFont}" FontSize="11"
                               SelectedValuePath="Tag" SelectionChanged="PreviewMode_SelectionChanged"
                               ToolTip="{DynamicResource Str_TT_Preview}" ToolTipOpening="PreviewPicker_ToolTipOpening"
@@ -2165,7 +2163,7 @@
                         <Grid>
                             <!-- The pane's own pinned ink under Trash Polka, so the fade blends into it. -->
                             <Border Background="{DynamicResource ContentPaneBrush}"
-                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"/>
+                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush" controls:ThemeMotif.Page="True"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
                         </Grid>
                     </Border>
@@ -2179,7 +2177,7 @@
                         </Border.OpacityMask>
                         <Grid>
                             <Border Background="{DynamicResource ContentPaneBrush}"
-                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"/>
+                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush" controls:ThemeMotif.Page="True"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
                         </Grid>
                     </Border>
@@ -2191,7 +2189,7 @@
                     <!-- -3 top: up to the title's rule (its 3px bottom margin), not stopping below it. -->
                     <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
-                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush"
+                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush" controls:ThemeMotif.Page="True"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Padding="0" Margin="0,-3,0,0"/>
                     <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
@@ -3093,6 +3091,22 @@
                                 </Grid>
                                 <TextBlock x:Name="AboutQuickHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
                                            TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
+                                <!-- The shortcut that brings the window forward, from the tray included. Win+Alt+O
+                                     by default, from keys the quick note never offers. -->
+                                <Grid MinHeight="24" Margin="0,4,0,0" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="AboutShowHotkeyLabel" Text="{DynamicResource Str_About_ShowHotkey}" FontSize="11" TextWrapping="Wrap"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                                    <ComboBox x:Name="AboutShowHotkeyCombo" Grid.Column="1" Style="{StaticResource KnCombo}" ItemContainerStyle="{StaticResource KnComboItem}"
+                                              Height="24" MinWidth="96" Margin="8,0,0,0" FontSize="11"
+                                              SelectionChanged="AboutShowHotkey_Changed" DropDownOpened="AboutQuickHotkey_DropDownOpened"
+                                              AutomationProperties.LabeledBy="{Binding ElementName=AboutShowHotkeyLabel}"/>
+                                </Grid>
+                                <TextBlock x:Name="AboutShowHotkeyNote" Visibility="Collapsed" FontSize="10.5" Margin="0,4,0,0"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource DimTextBrush}" AutomationProperties.LiveSetting="Polite"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2">
                                 <CheckBox x:Name="AboutShowShortcutsInMenus" MinHeight="24" FontSize="11"
@@ -3126,6 +3140,19 @@
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
                                 </Grid>
+                                <!-- Trash Polka only (PageInk.cs): how strongly the ink shows on the note and its
+                                     rendered view, one value for both. -->
+                                <StackPanel x:Name="AboutPageInkRow" Margin="0,4,0,0" Visibility="Collapsed">
+                                    <Grid>
+                                        <TextBlock x:Name="AboutPageInkLabel" Text="{DynamicResource Str_About_PageInk}" FontSize="11" TextWrapping="Wrap"
+                                                   Margin="0,0,40,0" Foreground="{DynamicResource TextBrush}"/>
+                                        <TextBlock x:Name="AboutPageInkValue" HorizontalAlignment="Right" FontSize="11"
+                                                   FontFamily="{DynamicResource UiFont}" Foreground="{DynamicResource TextBrush}"/>
+                                    </Grid>
+                                    <Slider x:Name="AboutPageInkSlider" Minimum="0" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"
+                                            Margin="0,4,0,0" ToolTip="{DynamicResource Str_About_PageInkHint}" ValueChanged="AboutPageInk_Changed"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=AboutPageInkLabel}"/>
+                                </StackPanel>
                                 </StackPanel>
                             </Grid>
 

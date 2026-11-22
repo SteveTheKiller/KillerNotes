@@ -155,14 +155,30 @@ namespace KillerNotes.Services
 
         private const uint ModAlt = 0x0001, ModWin = 0x0008, ModNoRepeat = 0x4000;
 
-        public static bool TryParse(string? stored, out uint modifiers, out uint key)
+        public static bool TryParse(string? stored, out uint modifiers, out uint key) => Parse(Choices, stored, out modifiers, out key);
+
+        internal static bool Parse(string[] choices, string? stored, out uint modifiers, out uint key)
         {
             modifiers = 0;
             key = 0;
-            if (stored == null || Array.IndexOf(Choices, stored) < 0) return false;
+            if (stored == null || Array.IndexOf(choices, stored) < 0) return false;
             modifiers = ModWin | ModAlt | ModNoRepeat;
             key = stored[stored.Length - 1];   // a letter is its own virtual-key code
             return true;
         }
+    }
+
+    /// <summary>The global shortcut that brings the main window forward, from the tray included
+    /// (Steve, 2026-11-21: a second launch to get it back is too slow). Win+Alt+O by default, from
+    /// keys the quick note never offers, under the same rules as QuickNoteHotkey.</summary>
+    internal static class ShowWindowHotkey
+    {
+        public const string Setting = "ShowWindowHotkey";
+        public static readonly string[] Choices = ["Win+Alt+O", "Win+Alt+S", "Win+Alt+L", "Win+Alt+M", "Win+Alt+X"];
+
+        /// <summary>The shortcut in force: never set means the default, an empty value means off.</summary>
+        public static string Effective(string? stored) => stored ?? Choices[0];
+
+        public static bool TryParse(string? stored, out uint modifiers, out uint key) => QuickNoteHotkey.Parse(Choices, stored, out modifiers, out key);
     }
 }

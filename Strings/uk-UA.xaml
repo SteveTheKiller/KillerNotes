@@ -1184,7 +1184,11 @@
     <sys:String x:Key="Str_Grp_Inbox">Вхідні</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Тримати значок в області сповіщень</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">У меню значка є «Швидка нотатка», і значок лишається, поки вікно відкрите.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Чорнило на сторінці нотатки</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: наскільки помітне чорнило на нотатці та її відображеному вигляді.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Сполучення для швидкої нотатки:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Сполучення для показу KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Показати KillerNotes, зокрема з трею</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Вимк.</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} вже використовує інший застосунок, тому сполучення залишиться вимкненим.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (зайнято)</sys:String>

@@ -17,6 +17,7 @@ namespace KillerNotes.Tests
             int result = RegOverridePredefKey(CurrentUser, _key.Handle.DangerousGetHandle());
             if (result != 0) throw new System.ComponentModel.Win32Exception(result);
             App.SetSetting("QuickNoteHotkey", "");
+            App.SetSetting("ShowWindowHotkey", "");
         }
 
         public void Dispose()

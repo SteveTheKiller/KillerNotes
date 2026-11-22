@@ -1145,7 +1145,11 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">In arrivo</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Tieni un'icona nell'area di notifica</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Il menu dell'icona ha Nota rapida, e l'icona resta mentre la finestra è aperta.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Inchiostro della pagina della nota</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: quanto si vede l'inchiostro sulla nota e sulla sua vista renderizzata.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Scorciatoia per la nota rapida:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Scorciatoia per mostrare KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Mostra KillerNotes, anche dall'area di notifica</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Disattivata</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} è già usata da un'altra app, quindi la scorciatoia resta disattivata.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (in uso)</sys:String>

@@ -1135,7 +1135,11 @@
     <sys:String x:Key="Str_Grp_Inbox">受信トレイ</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">通知領域にアイコンを残す</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">アイコンのメニューにクイックノートがあり、ウィンドウを開いている間もアイコンが残ります。</sys:String>
+    <sys:String x:Key="Str_About_PageInk">ノートページのインク</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: ノートとそのレンダリング表示でインクをどれだけ濃く見せるか。</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">クイックノートのショートカット：</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">KillerNotes を表示するショートカット：</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">KillerNotes を表示（通知領域からも）</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">オフ</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} はほかのアプリが使用しているため、ショートカットはオフのままです。</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0}（使用中）</sys:String>

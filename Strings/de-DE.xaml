@@ -1137,7 +1137,11 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Eingang</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Symbol im Infobereich behalten</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Das Menü des Symbols enthält Schnellnotiz, und es bleibt, während das Fenster offen ist.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Tinte auf der Notizseite</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: wie stark die Tinte auf der Notiz und ihrer gerenderten Ansicht zu sehen ist.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Tastenkürzel für Schnellnotiz:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Tastenkürzel zum Anzeigen von KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">KillerNotes anzeigen, auch aus dem Infobereich</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Aus</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} wird schon von einer anderen App benutzt, deshalb bleibt das Tastenkürzel aus.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (belegt)</sys:String>

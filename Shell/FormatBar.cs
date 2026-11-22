@@ -100,8 +100,7 @@ namespace KillerNotes.Shell
         private void EnableFmtBarSlide(FrameworkElement grip, bool emptySpaceOnly = false)
         {
             bool dragging = false;   // true only after real movement (per-grip closure state)
-            // The whole bar keeps its controls' own cursors; only the dedicated grips show the hand.
-            if (!emptySpaceOnly) grip.Cursor = DragCursors.Open;
+            // No hand over the bar or its grips (Steve, 2026-11-21): the arrow stays until a drag starts.
             // A capture lost to an alt-tab or a dialog never reaches the button-up handler, which
             // would strand the closed hand on screen for the rest of the session.
             grip.LostMouseCapture += (_, _) => DragCursors.EndDrag();

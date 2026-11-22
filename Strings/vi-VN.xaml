@@ -1188,7 +1188,11 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Grp_Inbox">Hộp thư đến</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Giữ biểu tượng trong khay hệ thống</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Menu của biểu tượng có Ghi chú nhanh, và biểu tượng vẫn ở đó khi cửa sổ đang mở.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Mực trên trang ghi chú</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: mực hiện đậm đến mức nào trên ghi chú và chế độ xem đã kết xuất.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Phím tắt ghi chú nhanh:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Phím tắt hiện KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Hiện KillerNotes, kể cả từ khay hệ thống</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Tắt</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} đã được ứng dụng khác dùng, nên phím tắt vẫn tắt.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (đang dùng)</sys:String>

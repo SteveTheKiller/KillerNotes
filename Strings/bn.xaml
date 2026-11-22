@@ -1137,7 +1137,11 @@
     <sys:String x:Key="Str_Grp_Inbox">ইনবক্স</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">সিস্টেম ট্রেতে একটি আইকন রাখুন</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">আইকনের মেনুতে দ্রুত নোট আছে, আর উইন্ডো খোলা থাকলেও আইকনটি থাকে।</sys:String>
+    <sys:String x:Key="Str_About_PageInk">নোট পাতার কালি</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: নোট ও তার রেন্ডার করা ভিউতে কালি কতটা স্পষ্ট দেখাবে।</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">দ্রুত নোটের শর্টকাট:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">KillerNotes দেখানোর শর্টকাট:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">KillerNotes দেখান, সিস্টেম ট্রে থেকেও</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">বন্ধ</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} অন্য একটি অ্যাপ ব্যবহার করছে, তাই শর্টকাটটি বন্ধ থাকবে।</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (ব্যবহৃত)</sys:String>

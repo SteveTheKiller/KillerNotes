@@ -98,6 +98,17 @@ namespace KillerNotes.Controls
         public static bool GetCell(DependencyObject element) => (bool)element.GetValue(CellProperty);
         public static void SetCell(DependencyObject element, bool value) => element.SetValue(CellProperty, value);
 
+        /// <summary>
+        /// The page a document is read and written on (a note, its rendered preview): the element keeps its part's place
+        /// and piece, but shows it at TrashPolkaInk.PageOpacity, one value for every page so they match. Takes precedence
+        /// over the part's own opacity, Screen and Cell.
+        /// </summary>
+        public static readonly DependencyProperty PageProperty = DependencyProperty.RegisterAttached(
+            "Page", typeof(bool), typeof(ThemeMotif), new PropertyMetadata(false, OnBaseBrushChanged));
+
+        public static bool GetPage(DependencyObject element) => (bool)element.GetValue(PageProperty);
+        public static void SetPage(DependencyObject element, bool value) => element.SetValue(PageProperty, value);
+
         private static readonly Dictionary<MotifPart, (Color Accent, Size Size, Drawing Piece)> Pieces = [];
 
         // The bitmap pieces, one per set of layers, tinted for the current accent only. A new accent is composed on a
@@ -699,6 +710,7 @@ namespace KillerNotes.Controls
 
             double opacity = part switch
             {
+                _ when GetPage(element) => TrashPolkaInk.PageOpacity,
                 MotifPart.Chrome => TrashPolkaInk.BackgroundOpacity,
                 MotifPart.Popup => TrashPolkaInk.PopupOpacity,
                 _ when GetCell(element) => TrashPolkaInk.CellOpacity,

@@ -215,6 +215,7 @@ namespace KillerNotes.Shell
 
         private HwndSource? _hotkeySource;
         private const int HotkeyId = 0x4B4E;   // "KN"
+        private const int ShowHotkeyId = HotkeyId + 2;   // HotkeyId + 1 is the probe
         private const int WM_HOTKEY = 0x0312;
 
         private void InitQuickNote()
@@ -225,14 +226,18 @@ namespace KillerNotes.Shell
                 if (_hotkeySource != null)
                 {
                     UnregisterHotKey(_hotkeySource.Handle, HotkeyId);
+                    UnregisterHotKey(_hotkeySource.Handle, ShowHotkeyId);
                     _hotkeySource.Dispose();
                 }
                 _quickNote?.Close();
             };
             string saved = QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting));
             string? taken = RegisterQuickHotkey(saved);
+            string savedShow = ShowWindowHotkey.Effective(App.GetSetting(ShowWindowHotkey.Setting));
+            string? showTaken = RegisterShowHotkey(savedShow);
             // Taken since last time (another app started first): the choice stays, the card says so.
-            InitQuickNoteOptions(taken == null ? null : string.Format(taken, saved));
+            InitQuickNoteOptions(taken == null ? null : string.Format(taken, saved),
+                showTaken == null ? null : string.Format(showTaken, savedShow));
             _tray.RefreshIcon();
         }
 
@@ -267,6 +272,14 @@ namespace KillerNotes.Shell
             return RegisterHotKey(HotkeySource().Handle, HotkeyId, modifiers, key) ? null : Loc("Str_About_HotkeyTaken");
         }
 
+        /// <summary>The same for the shortcut that brings the main window forward.</summary>
+        private string? RegisterShowHotkey(string? choice)
+        {
+            if (_hotkeySource != null) UnregisterHotKey(_hotkeySource.Handle, ShowHotkeyId);
+            if (!ShowWindowHotkey.TryParse(choice, out uint modifiers, out uint key)) return null;
+            return RegisterHotKey(HotkeySource().Handle, ShowHotkeyId, modifiers, key) ? null : Loc("Str_About_HotkeyTaken");
+        }
+
         /// <summary>Its own hidden window, so the shortcut works while the main one is in the tray.</summary>
         private HwndSource HotkeySource()
         {
@@ -276,6 +289,7 @@ namespace KillerNotes.Shell
                 _hotkeySource.AddHook((IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
                 {
                     if (msg == WM_HOTKEY && wParam.ToInt32() == HotkeyId) { ShowQuickNote(); handled = true; }
+                    else if (msg == WM_HOTKEY && wParam.ToInt32() == ShowHotkeyId) { ShowFromTray(); handled = true; }
                     return IntPtr.Zero;
                 });
             }
@@ -287,7 +301,9 @@ namespace KillerNotes.Shell
         private bool HotkeyHeldElsewhere(string choice)
         {
             if (choice == QuickNoteHotkey.Effective(App.GetSetting(QuickNoteHotkey.Setting))
-                || !QuickNoteHotkey.TryParse(choice, out uint modifiers, out uint key)) return false;
+                || choice == ShowWindowHotkey.Effective(App.GetSetting(ShowWindowHotkey.Setting))) return false;
+            if (!QuickNoteHotkey.TryParse(choice, out uint modifiers, out uint key)
+                && !ShowWindowHotkey.TryParse(choice, out modifiers, out key)) return false;
             const int ProbeId = HotkeyId + 1;
             if (!RegisterHotKey(HotkeySource().Handle, ProbeId, modifiers, key)) return true;
             UnregisterHotKey(HotkeySource().Handle, ProbeId);
@@ -298,7 +314,7 @@ namespace KillerNotes.Shell
 
         private bool _initializingQuickOptions;
 
-        private void InitQuickNoteOptions(string? hotkeyNote = null)
+        private void InitQuickNoteOptions(string? hotkeyNote = null, string? showNote = null)
         {
             _initializingQuickOptions = true;
             AboutKeepTrayIcon.IsChecked = KeepTrayIcon;
@@ -311,14 +327,22 @@ namespace KillerNotes.Shell
                 AboutQuickHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = choice, Tag = choice });
             AboutQuickHotkeyCombo.SelectedIndex = Math.Max(0, Array.IndexOf(QuickNoteHotkey.Choices, current) + 1);
             if (hotkeyNote != null) SetHotkeyNote(hotkeyNote);
+            string currentShow = ShowWindowHotkey.Effective(App.GetSetting(ShowWindowHotkey.Setting));
+            AboutShowHotkeyCombo.Items.Clear();
+            AboutShowHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = Loc("Str_About_HotkeyOff"), Tag = "" });
+            foreach (string choice in ShowWindowHotkey.Choices)
+                AboutShowHotkeyCombo.Items.Add(new System.Windows.Controls.ComboBoxItem { Content = choice, Tag = choice });
+            AboutShowHotkeyCombo.SelectedIndex = Math.Max(0, Array.IndexOf(ShowWindowHotkey.Choices, currentShow) + 1);
+            if (showNote != null) SetShowHotkeyNote(showNote);
             _initializingQuickOptions = false;
         }
 
-        /// <summary>Greys out the shortcuts another app holds each time the list opens, since
+        /// <summary>Greys out the shortcuts another app holds each time a list opens, since
         /// other apps come and go while KillerNotes runs.</summary>
         private void AboutQuickHotkey_DropDownOpened(object sender, EventArgs e)
         {
-            foreach (var item in AboutQuickHotkeyCombo.Items.OfType<System.Windows.Controls.ComboBoxItem>())
+            if (sender is not System.Windows.Controls.ComboBox combo) return;
+            foreach (var item in combo.Items.OfType<System.Windows.Controls.ComboBoxItem>())
             {
                 if (item.Tag is not string choice || choice.Length == 0) continue;
                 bool held = HotkeyHeldElsewhere(choice);
@@ -356,6 +380,30 @@ namespace KillerNotes.Shell
             }
             App.SetSetting(QuickNoteHotkey.Setting, choice);
             SetHotkeyNote(null);
+        }
+
+        private void SetShowHotkeyNote(string? note)
+        {
+            AboutShowHotkeyNote.Text = note ?? "";
+            AboutShowHotkeyNote.Visibility = note == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void AboutShowHotkey_Changed(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (_initializingQuickOptions || AboutShowHotkeyCombo.SelectedItem is not System.Windows.Controls.ComboBoxItem { Tag: string choice }) return;
+            string? taken = RegisterShowHotkey(choice);
+            if (taken != null)
+            {
+                RegisterShowHotkey(null);
+                App.SetSetting(ShowWindowHotkey.Setting, "");
+                _initializingQuickOptions = true;
+                AboutShowHotkeyCombo.SelectedIndex = 0;
+                _initializingQuickOptions = false;
+                SetShowHotkeyNote(string.Format(taken, choice));
+                return;
+            }
+            App.SetSetting(ShowWindowHotkey.Setting, choice);
+            SetShowHotkeyNote(null);
         }
 
         [DllImport("user32.dll", SetLastError = true)] private static extern bool RegisterHotKey(IntPtr hwnd, int id, uint modifiers, uint key);

@@ -47,6 +47,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The rule flyout's choices and the calculator keys draw the film grain over their hover fill, as menu rows and card tiles do.
 - On Trash Polka, check boxes and radio wells are solid black, so the ink never shows inside them.
 - Trash Polka's ink is kept in a disk cache per screen size, so the first switch to it decodes in about a second instead of rendering. A background builder at idle priority fills the cache after startup, and the ink is released when another theme is chosen.
+- The preview's view and title pickers draw on the KillerUI dropdown field again.
+- The format bar and its grips keep the arrow pointer. The grab hand shows only while dragging.
 
 ### Added
 
@@ -55,6 +57,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
 - Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. The ink runs through the note pane, the About and Keyboard shortcuts cards, the calculator readout, dropdown lists, flyouts, the format, find and mention bars, and the preview and outline panes. Under a Windows high contrast theme the ink steps aside for the system colors.
 - The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
+- On Trash Polka, the About card's Note page ink slider sets how strongly the ink shows on the note and its rendered preview.
+- A global shortcut brings KillerNotes forward, from the tray too. It is Win+Alt+O by default, and the About card can change it to one of four other Win+Alt keys or turn it off.
 
 ## [1.7.0] - 2026-11-14
 

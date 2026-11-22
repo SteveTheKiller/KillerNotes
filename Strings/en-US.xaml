@@ -1184,7 +1184,11 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Inbox</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Keep an icon in the system tray</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">The icon's menu has Quick note, and it stays while the window is open.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Note page ink</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: how strongly the ink shows on the note and its rendered view.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Quick note shortcut:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Show KillerNotes shortcut:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Show KillerNotes, from the tray too</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Off</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} is already used by another app, so the shortcut stays off.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (in use)</sys:String>

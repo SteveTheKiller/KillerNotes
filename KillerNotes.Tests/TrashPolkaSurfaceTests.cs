@@ -45,6 +45,18 @@ namespace KillerNotes.Tests
             }
 
             Check("NotePane", (FrameworkElement)window.FindName("NotePaneFace"));
+
+            // The About card's page ink slider sets the note's ink and repaints it (PageInk.cs).
+            var noteFace = (Border)window.FindName("NotePaneFace");
+            var inkBefore = noteFace.Background;
+            var pageInk = (Slider)window.FindName("AboutPageInkSlider");
+            double inkWas = pageInk.Value;
+            pageInk.Value = 12;
+            Settle(window);
+            Assert.Equal(0.12, Controls.TrashPolkaInk.PageOpacity, 3);
+            Assert.NotSame(inkBefore, noteFace.Background);
+            pageInk.Value = inkWas;
+            Settle(window);
             Check("FormatBar", (FrameworkElement)window.FindName("FormatBar"));
             if (shots != null) Save((FrameworkElement)window.Content, System.IO.Path.Combine(shots, "ink-Window.png"));
 

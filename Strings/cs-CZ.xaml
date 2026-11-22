@@ -1134,7 +1134,11 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Doručené</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Ponechat ikonu v oznamovací oblasti</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Nabídka ikony obsahuje Rychlou poznámku a ikona zůstane i při otevřeném okně.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Inkoust na stránce poznámky</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: jak výrazně je inkoust vidět na poznámce a jejím vykresleném zobrazení.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Zkratka rychlé poznámky:</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Zkratka pro zobrazení KillerNotes:</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Zobrazit KillerNotes, i z oznamovací oblasti</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Vypnuto</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} už používá jiná aplikace, proto zkratka zůstane vypnutá.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (používá se)</sys:String>

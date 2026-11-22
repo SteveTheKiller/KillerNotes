@@ -1138,7 +1138,11 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Boîte de réception</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Garder une icône dans la zone de notification</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Le menu de l'icône contient Note rapide, et l'icône reste quand la fenêtre est ouverte.</sys:String>
+    <sys:String x:Key="Str_About_PageInk">Encre de la page de note</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka : intensité de l'encre sur la note et sur son rendu.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Raccourci de note rapide :</sys:String>
+    <sys:String x:Key="Str_About_ShowHotkey">Raccourci pour afficher KillerNotes :</sys:String>
+    <sys:String x:Key="Str_KS_ShowWindow">Afficher KillerNotes, même depuis la zone de notification</sys:String>
     <sys:String x:Key="Str_About_HotkeyOff">Désactivé</sys:String>
     <sys:String x:Key="Str_About_HotkeyTaken">{0} est déjà utilisé par une autre application, le raccourci reste donc désactivé.</sys:String>
     <sys:String x:Key="Str_About_HotkeyInUse">{0} (utilisé)</sys:String>
