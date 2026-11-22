@@ -14,8 +14,9 @@ namespace KillerNotes.Controls
     /// The bottom buttons' menus sit in the pane's corner, eight pixels in from the rail and from
     /// the pane's foot. A menu opened from a button higher up rises with it: its visible bottom
     /// edge lines up with the button's bottom, so a one-item menu sits beside its button instead
-    /// of stranded down in the corner. It never drops below the corner and
-    /// never rises past the pane's top. With the sidebar on the right the same rule mirrors; on
+    /// of stranded down in the corner. It never drops below the corner and never rises past the
+    /// pane's top, except a menu taller than the pane: that one keeps its foot in the corner and
+    /// rises as high as it needs, bounded only by the window. With the sidebar on the right the same rule mirrors; on
     /// the top or bottom the menu takes the pane's near corner, as before.
     ///
     /// Why the pane and not the button or a built-in mode: a Popup is its own top-level window and
@@ -113,7 +114,29 @@ namespace KillerNotes.Controls
             menu.HorizontalOffset = menu.VerticalOffset = 0;
             menu.ApplyTemplate();
             Thickness halo = menu.Template?.FindName("MenuRoot", menu) is FrameworkElement card ? card.Margin : DefaultCardHalo;
+            FitWindow(menu, halo);
             menu.CustomPopupPlacementCallback = (popupSize, _, _) => Place(menu, popupSize, halo, anchor);
+        }
+
+        /// <summary>
+        /// Only a window too short for the whole menu makes it scroll. The menu's room runs from
+        /// eight pixels inside the window's top down to the pane's corner, eight pixels above the
+        /// pane's foot, so its foot stays in the corner; the template's ScrollViewer scrolls the
+        /// rest. The pane's top never limits it, since a tall menu rises above the pane.
+        /// Measured in the unscaled root's DIPs, the units the menu itself lays out in.
+        /// </summary>
+        private static void FitWindow(ContextMenu menu, Thickness halo)
+        {
+            var root = Root;
+            if (root == null || root.ActualHeight <= 0)
+            {
+                menu.ClearValue(FrameworkElement.MaxHeightProperty);
+                return;
+            }
+            double foot = root.ActualHeight;
+            if (_side != SidebarSide.Top && _pane != null && _pane.IsDescendantOf(root) && _pane.ActualHeight > 0)
+                foot = Math.Min(foot, _pane.TransformToAncestor(root).TransformBounds(new Rect(_pane.RenderSize)).Bottom);
+            menu.MaxHeight = Math.Max(0, foot - 2 * Inset) + halo.Top + halo.Bottom;
         }
 
         /// <summary>
@@ -158,9 +181,17 @@ namespace KillerNotes.Controls
                 double highest = topLeft.Y + inY - halo.Top * fy;
                 y = System.Math.Max(highest, System.Math.Min(cornerY, level));
             }
-            // A flyout taller than the pane pins to its top rather than running over the toolbar.
-            if (popupSize.Height - (halo.Top + halo.Bottom) * fy > bottomRight.Y - topLeft.Y)
-                y = topLeft.Y - halo.Top * fy;
+            // A flyout taller than the pane keeps its foot in the corner and rises above the pane as
+            // far as it needs. Only the window bounds it: never below the corner, and never above
+            // eight pixels inside the window's top (2026-11-21: pinning it to the pane's top ran
+            // the theme menu off the window's bottom, and holding it to the pane cut it off).
+            if (_side != SidebarSide.Top)
+            {
+                var rootSize = Device(new Point(root.ActualWidth, root.ActualHeight));
+                double windowTop = inY - halo.Top * fy;
+                double windowFoot = rootSize.Y - inY - popupSize.Height + halo.Bottom * fy;
+                y = System.Math.Max(windowTop, System.Math.Min(y, System.Math.Min(cornerY, windowFoot)));
+            }
             return [new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None)];
         }
 
