@@ -186,10 +186,7 @@ namespace KillerNotes.Services
                     // A task list is checkbox lines, not bullets: each item becomes a plain
                     // paragraph opening with the box glyph, which ConvertInline makes from the
                     // marker. A bullet in front of a box would be two markers for one thing.
-                    foreach (var item in list.OfType<ListItemBlock>())
-                        foreach (var child in item)
-                            foreach (var b in ConvertBlock(child, base_, tables))
-                                yield return b;
+                    foreach (var b in TaskItems(list, 0, base_, tables)) yield return b;
                     break;
                 }
 
@@ -290,6 +287,32 @@ namespace KillerNotes.Services
         }
 
         /// <summary>True when every item of a list opens with a task-list marker.</summary>
+        /// <summary>Step of left margin per level of a nested task list. The writer reads it back
+        /// as two spaces of indent per step.</summary>
+        internal const double TaskIndent = 24;
+
+        /// <summary>The checkbox paragraphs of a task list. A task list nested inside an item
+        /// stays nested: its paragraphs carry one more TaskIndent of left margin per level, so
+        /// the box lines still read as a hierarchy and go back out indented.</summary>
+        private static IEnumerable<WpfBlock> TaskItems(ListBlock list, int level, double base_, bool tables)
+        {
+            foreach (var item in list.OfType<ListItemBlock>())
+                foreach (var child in item)
+                {
+                    if (child is ListBlock nested && IsTaskList(nested))
+                    {
+                        foreach (var b in TaskItems(nested, level + 1, base_, tables)) yield return b;
+                        continue;
+                    }
+                    foreach (var b in ConvertBlock(child, base_, tables))
+                    {
+                        if (level > 0 && b is Paragraph p)
+                            p.Margin = new Thickness(p.Margin.Left + level * TaskIndent, p.Margin.Top, p.Margin.Right, p.Margin.Bottom);
+                        yield return b;
+                    }
+                }
+        }
+
         private static bool IsTaskList(ListBlock list)
         {
             bool any = false;
@@ -468,7 +491,12 @@ namespace KillerNotes.Services
                     // A checkbox line goes out in task-list syntax, so Obsidian and GitHub draw
                     // a real box for it and the glyph never reaches the file.
                     body = string.Join("\n", body.Split('\n').Select(EscapeLineStart));
-                    sb.Append(indent).Append(Checklist.ToMarkdownLine(body)).Append("\n\n");
+                    string line = Checklist.ToMarkdownLine(body);
+                    // A box line from a nested task list carries its depth as left margin
+                    // (TaskItems); two spaces per level put it back under its parent item.
+                    string nest = Checklist.Of(line, true) != Checklist.State.None && p.Margin.Left >= TaskIndent
+                        ? new string(' ', (int)Math.Round(p.Margin.Left / TaskIndent) * 2) : "";
+                    sb.Append(indent).Append(nest).Append(line).Append("\n\n");
                     break;
                 }
 
@@ -498,6 +526,10 @@ namespace KillerNotes.Services
                                 string first = lines[i].TrimStart();
                                 if (!ordered && Checklist.Of(first, true) != Checklist.State.None)
                                     sb.Append(indent).Append(first).Append('\n');
+                                else if (ordered && Checklist.Of(first, true) != Checklist.State.None && first.StartsWith("- ", StringComparison.Ordinal))
+                                    // A numbered task item: the number is the marker, so the
+                                    // box goes in without the bullet ("1. [ ] x").
+                                    sb.Append(indent).Append(marker).Append(first, 2, first.Length - 2).Append('\n');
                                 else
                                     sb.Append(indent).Append(marker).Append(first).Append('\n');
                             }

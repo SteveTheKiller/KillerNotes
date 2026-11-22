@@ -84,8 +84,18 @@ namespace KillerNotes.Services
                     sb.Append("</p>");
                     break;
                 case List list:
-                    string tag = list.MarkerStyle == TextMarkerStyle.Decimal ? "ol" : "ul";
+                    // Lettered and roman lists are ordered too; type= keeps their numbering.
+                    string? type = list.MarkerStyle switch
+                    {
+                        TextMarkerStyle.LowerLatin => "a",
+                        TextMarkerStyle.UpperLatin => "A",
+                        TextMarkerStyle.LowerRoman => "i",
+                        TextMarkerStyle.UpperRoman => "I",
+                        _ => null,
+                    };
+                    string tag = list.MarkerStyle == TextMarkerStyle.Decimal || type != null ? "ol" : "ul";
                     sb.Append('<').Append(tag);
+                    if (type != null) sb.Append(" type=\"").Append(type).Append('"');
                     if (tag == "ol" && list.StartIndex > 1) sb.Append(" start=\"").Append(list.StartIndex).Append('"');
                     sb.Append('>');
                     foreach (var li in list.ListItems)
@@ -120,7 +130,21 @@ namespace KillerNotes.Services
                 case BlockUIContainer bc when bc.Child is Image img:
                     AppendImage(sb, img);
                     break;
+                case BlockUIContainer bc when KillerNotes.Shell.RecordingRef.From((bc.Child as Border)?.Tag) is { } chip:
+                    sb.Append("<p>");
+                    AppendRecording(sb, chip);
+                    sb.Append("</p>");
+                    break;
             }
+        }
+
+        /// <summary>A live recording chip has no picture to write, so it leaves its name and
+        /// length where it stood rather than vanishing.</summary>
+        private static void AppendRecording(StringBuilder sb, KillerNotes.Shell.RecordingRef chip)
+        {
+            string label = Application.Current?.TryFindResource("Str_Dict_Chip") as string ?? "Recording";
+            string length = TimeSpan.FromMilliseconds(Math.Max(0, chip.DurationMs)).ToString(@"m\:ss", System.Globalization.CultureInfo.InvariantCulture);
+            sb.Append("[").Append(Html(label)).Append(' ').Append(length).Append(']');
         }
 
         /// <summary>The blocks of a list item or table cell. A lone paragraph is written bare; with
@@ -157,6 +181,17 @@ namespace KillerNotes.Services
                     break;
                 case InlineUIContainer iu when iu.Child is Image img:
                     AppendImage(sb, img);
+                    break;
+                case InlineUIContainer iu when KillerNotes.Shell.RecordingRef.From((iu.Child as Border)?.Tag) is { } chip:
+                    AppendRecording(sb, chip);
+                    break;
+                case AnchoredBlock anchored:
+                    // A Floater or Figure: a floated picture, sketch or chip and the blocks
+                    // around it. Its blocks are written in place, floated the same way.
+                    string side = anchored is Floater { HorizontalAlignment: HorizontalAlignment.Right } ? "right" : "left";
+                    sb.Append("<div style=\"float:").Append(side).Append("\">");
+                    foreach (var b in anchored.Blocks) AppendBlock(sb, b, colors);
+                    sb.Append("</div>");
                     break;
                 case Hyperlink h when LinkPolicy.AllowedHref(h.NavigateUri) is string href:   // real anchors (Links.cs, 1.1.3)
                     sb.Append("<a href=\"").Append(Attribute(href))

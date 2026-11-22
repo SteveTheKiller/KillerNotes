@@ -161,12 +161,20 @@ namespace KillerNotes.Services
             return (full.ToLowerInvariant(), Hex(File.ReadAllBytes(full)));
         }
 
+        /// <summary>A file's text by its byte order mark: UTF-16 and UTF-32 files (Notepad's
+        /// Unicode, PowerShell 5's Out-File) decode as such, anything without a mark as UTF-8.</summary>
+        private static string Decode(byte[] bytes)
+        {
+            using var reader = new StreamReader(new MemoryStream(bytes), new UTF8Encoding(false), detectEncodingFromByteOrderMarks: true);
+            return reader.ReadToEnd();
+        }
+
         private static void PlanNote(string path, string rel, bool plainText, ImportState state, ImportPlan plan, long maxBytes, HashSet<string> used)
         {
             if (new FileInfo(path).Length > maxBytes) { plan.Skipped.Add(new ImportSkip(rel, "large")); return; }
 
             byte[] bytes = File.ReadAllBytes(path);
-            string text = Encoding.UTF8.GetString(bytes).TrimStart('﻿').Replace("\r\n", "\n");
+            string text = Decode(bytes).TrimStart('﻿').Replace("\r\n", "\n");
             string hash = Hex(bytes);
             string key = path.ToLowerInvariant();
             var (front, body) = plainText ? (new Dictionary<string, object>(), text) : SplitFrontMatter(text);

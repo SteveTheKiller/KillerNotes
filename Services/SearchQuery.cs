@@ -195,7 +195,8 @@ namespace KillerNotes.Services
             parts.AddRange(Groups.Select(g => "group:" + Quote(g)));
             parts.AddRange(TitleWords.Select(t => "title:" + Quote(t)));
             if (After is DateTime after) parts.Add("after:" + after.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-            if (Before is DateTime before) parts.Add("before:" + before.AddDays(-1).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+            // NextDay keeps the last representable day as MaxValue, so that one is shown as is.
+            if (Before is DateTime before) parts.Add("before:" + (before == DateTime.MaxValue ? before.Date : before.AddDays(-1)).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
             if (Created != null) parts.Add("created:" + _createdText);
             parts.Add(loc(InTrash ? "Str_Search_ScopeTrash" : "Str_Search_ScopeNoTrash"));
             return string.Join(" · ", parts);

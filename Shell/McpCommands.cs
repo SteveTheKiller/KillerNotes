@@ -124,8 +124,19 @@ namespace KillerNotes.Shell
                 case "import-image":
                     {
                         string path = ValidateInputFile(Take(values, "--path", true)!, [".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".tif", ".tiff"], 32 * 1024 * 1024);
-                        string? group = Take(values, "--group"); RequireEmpty(values);
-                        long id = ImportImage(path); if (!string.IsNullOrEmpty(group)) NoteStore.SetNoteGroup(id, group!);
+                        string group = Take(values, "--group") ?? ""; RequireEmpty(values);
+                        if (group.Length > 0) ValidateText(group, "group", 240);
+                        long id = ImportImage(path);
+                        if (group.Length > 0)
+                        {
+                            try { NoteStore.SetNoteGroup(id, group); }
+                            catch
+                            {
+                                // The picture is already a note. A failed group must not leave it behind, or a retry stacks another.
+                                try { NoteStore.Delete(id); } catch { /* the group failure is the one to report */ }
+                                throw;
+                            }
+                        }
                         RefreshList(); result = new McpCommandResult { Id = id, Title = Path.GetFileNameWithoutExtension(path) }; break;
                     }
                 case "export":

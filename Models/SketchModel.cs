@@ -48,6 +48,18 @@ namespace KillerNotes.Models
         internal string? DecodedFrom;
         internal BitmapImage? Decoded;
 
+        // The serializer builds objects without running the initializers above, so a payload
+        // that leaves a member out (a hand-made or foreign .knote, a clipboard envelope) would
+        // carry null points or a zero width. Fill those in with the defaults a new object has.
+        [OnDeserialized]
+        private void FillMissing(StreamingContext _)
+        {
+            Pts ??= [];
+            Color ??= "#FF50AEE8";
+            if (!(Width > 0)) Width = 3;
+            if (!(FontSize > 0)) FontSize = 24;
+        }
+
         public SketchObject Clone() => new()
         {
             Kind = Kind, Color = Color, Width = Width, Fill = Fill, Pts = [..Pts],
@@ -83,7 +95,9 @@ namespace KillerNotes.Models
                 try
                 {
                     using var ms = new MemoryStream(payload);
-                    return (List<SketchObject>?)Ser.ReadObject(ms) ?? [];
+                    var objs = (List<SketchObject>?)Ser.ReadObject(ms) ?? [];
+                    objs.RemoveAll(o => o == null);   // a null entry in the array has nothing to draw
+                    return objs;
                 }
                 catch { /* corrupt JSON - fall through and try ISF */ }
             }

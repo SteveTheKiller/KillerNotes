@@ -220,9 +220,16 @@ namespace KillerNotes.Shell
 
             try
             {
-                var doc = saved ? LoadNoteDocument(n.Id) : Editor.Document;
+                string ext = Path.GetExtension(dlg.FileName).ToLowerInvariant();
+                // .rtf and .html are rendered formats: a markdown note goes out converted from its
+                // source, the same as the MCP export, never as its per-line source view.
+                FlowDocument doc = ext is ".rtf" or ".html"
+                    ? saved ? LoadExportDocument(n.Id)
+                      : CurrentIsMarkdown ? MarkdownConvert.ToDocument(new TextRange(Editor.Document.ContentStart, Editor.Document.ContentEnd).Text.Replace("\r\n", "\n"), 14)
+                      : Editor.Document
+                    : saved ? LoadNoteDocument(n.Id) : Editor.Document;
                 bool imagesSkipped = false;
-                switch (Path.GetExtension(dlg.FileName).ToLowerInvariant())
+                switch (ext)
                 {
                     // Every format writes through AtomicFile: a failure partway (a full disk, a
                     // locked file) leaves whatever was already at that name untouched.
@@ -271,6 +278,15 @@ namespace KillerNotes.Shell
                     : string.Format(Loc("Str_St_ExportedTo"), dlg.FileName);
             }
             catch (Exception ex) { StatusText.Text = string.Format(Loc("Str_St_ExportFailed"), ex.Message); }
+        }
+
+        /// <summary>A saved note as the .html and .rtf exports render it. A markdown note is
+        /// converted from its source, as the MCP export does, rather than loaded as the
+        /// per-line source view (which a legacy raw markdown blob cannot even load as).</summary>
+        internal static FlowDocument LoadExportDocument(long id)
+        {
+            if (NoteStore.GetFormat(id) != Note.FormatMarkdown) return LoadNoteDocument(id);
+            return MarkdownConvert.ToDocument(MarkdownBlob.Decode(NoteStore.LoadContent(id) ?? []), 14);
         }
 
         private static FlowDocument LoadNoteDocument(long id)

@@ -463,7 +463,11 @@ namespace KillerNotes.Services
             string stem = name.Split('.')[0].ToUpperInvariant();
             if (ReservedNames.Contains(stem)) name = "_" + name;
             // Leave headroom under MAX_PATH for the directory, the extension and a dedupe suffix.
-            return name.Length > 80 ? name[..80].TrimEnd('.', ' ') : name;
+            if (name.Length <= 80) return name;
+            // Never end on the first half of a surrogate pair: the lone half would not survive
+            // the UTF-8 links other notes carry to this file.
+            int cut = char.IsHighSurrogate(name[79]) ? 79 : 80;
+            return name[..cut].TrimEnd('.', ' ');
         }
 
         private static readonly HashSet<string> ReservedNames = new(StringComparer.OrdinalIgnoreCase)
