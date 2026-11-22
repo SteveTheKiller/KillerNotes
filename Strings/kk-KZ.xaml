@@ -1041,7 +1041,8 @@
     <sys:String x:Key="Str_St_SaveFailed">Сақтау сәтсіз аяқталды: {0}. Өзгерістеріңіз әлі ашық тұр. Қайталап көру үшін Ctrl+S, ал мәтін немесе RTF пішімінде экспорттау үшін F8 пернесін басыңыз.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes орнату қақтығысы</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes екі рет орнатылған. Осы пайдаланушыға арналған екінші көшірмені қазір жою керек пе?&#10;&#10;Жазбаларыңыз бен баптауларыңыз жойылмайды.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes екі рет орнатылған. Барлық пайдаланушыларға арналған екінші көшірмені қазір жою керек пе?&#10;&#10;Жазбаларыңыз бен баптауларыңыз жойылмайды.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes екі рет орнатылған. Осы пайдаланушыға арналған осы көшірмені жойып, барлық пайдаланушыларға арналған көшірмеге ауысу керек пе?&#10;&#10;Жазбаларыңыз бен баптауларыңыз жойылмайды.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes бұл компьютерде барлық пайдаланушылар үшін орнатылып қойған. Оның орнына сол көшірме ашылады.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Орнату сәтсіз аяқталды:&#10;{0}</sys:String>

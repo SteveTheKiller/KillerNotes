@@ -1033,7 +1033,8 @@
     <sys:String x:Key="Str_St_SaveFailed">সংরক্ষণ ব্যর্থ: {0}। আপনার সম্পাদনাগুলো এখনও খোলা আছে। আবার চেষ্টা করতে Ctrl+S চাপুন, অথবা টেক্সট বা RTF হিসেবে রপ্তানি করতে F8 চাপুন।</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes ইনস্টলেশনে দ্বন্দ্ব</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes দুবার ইনস্টল করা আছে। অন্য শুধু-এই-ব্যবহারকারীর কপিটি এখন সরাবেন?&#10;&#10;আপনার নোট ও সেটিংস সরানো হবে না।</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes দুবার ইনস্টল করা আছে। অন্য সব-ব্যবহারকারীর কপিটি এখন সরাবেন?&#10;&#10;আপনার নোট ও সেটিংস সরানো হবে না।</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes দুবার ইনস্টল করা আছে। এই শুধু-এই-ব্যবহারকারীর কপিটি সরিয়ে সব-ব্যবহারকারীর কপিতে যাবেন?&#10;&#10;আপনার নোট ও সেটিংস সরানো হবে না।</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes এই পিসিতে সব ব্যবহারকারীর জন্য আগেই ইনস্টল করা আছে। তার বদলে সেই কপিটি খুলবে।</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">ইনস্টলেশন ব্যর্থ হয়েছে:&#10;{0}</sys:String>

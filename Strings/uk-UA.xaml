@@ -1080,7 +1080,8 @@
     <sys:String x:Key="Str_St_SaveFailed">Не вдалося зберегти: {0}. Ваші зміни досі відкриті. Натисніть Ctrl+S, щоб повторити спробу, або F8 для експорту в текстовий формат чи RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Конфлікт інсталяцій KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes інстальовано двічі. Видалити зараз іншу копію для цього користувача?&#10;&#10;Ваші нотатки й налаштування не буде видалено.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes інстальовано двічі. Видалити зараз іншу копію для всіх користувачів?&#10;&#10;Ваші нотатки й налаштування не буде видалено.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes інстальовано двічі. Видалити цю копію для цього користувача й перейти на копію для всіх користувачів?&#10;&#10;Ваші нотатки й налаштування не буде видалено.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes уже інстальовано для всіх користувачів цього комп'ютера. Натомість відкриється та копія.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Не вдалося інсталювати:&#10;{0}</sys:String>

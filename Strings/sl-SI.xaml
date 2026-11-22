@@ -940,7 +940,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Shranjevanje ni uspelo: {0}. Spremembe so še odprte. Pritisnite Ctrl+S za ponovni poskus ali F8 za izvoz v besedilo ali RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Spor med namestitvama KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes je nameščen dvakrat. Odstranim drugo kopijo za uporabnika?&#10;&#10;Vaši zapiski in nastavitve se ne bodo odstranili.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes je nameščen dvakrat. Odstranim drugo kopijo za vse uporabnike?&#10;&#10;Vaši zapiski in nastavitve se ne bodo odstranili.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes je nameščen dvakrat. Odstranim to kopijo za uporabnika in preklopim na kopijo za vse uporabnike?&#10;&#10;Vaši zapiski in nastavitve se ne bodo odstranili.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes je v tem računalniku že nameščen za vse uporabnike. Namesto tega se odpre ta kopija.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Da</sys:String>
     <sys:String x:Key="Str_Btn_No">Ne</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Namestitev ni uspela:&#10;{0}</sys:String>

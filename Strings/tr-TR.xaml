@@ -1033,7 +1033,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Kaydedilemedi: {0}. Düzenlemeleriniz hâlâ açık. Yeniden denemek için Ctrl+S, metin veya RTF olarak dışa aktarmak için F8 tuşuna basın.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes kurulum çakışması</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes iki kez kurulu. Bu kullanıcıya ait diğer kopya şimdi kaldırılsın mı?&#10;&#10;Notlarınız ve ayarlarınız kaldırılmaz.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes iki kez kurulu. Tüm kullanıcılara ait diğer kopya şimdi kaldırılsın mı?&#10;&#10;Notlarınız ve ayarlarınız kaldırılmaz.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes iki kez kurulu. Bu kullanıcıya ait bu kopya kaldırılıp tüm kullanıcılara ait kopyaya geçilsin mi?&#10;&#10;Notlarınız ve ayarlarınız kaldırılmaz.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes bu bilgisayarda tüm kullanıcılar için zaten kurulu. Bunun yerine o kopya açılacak.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Kurulum başarısız oldu:&#10;{0}</sys:String>

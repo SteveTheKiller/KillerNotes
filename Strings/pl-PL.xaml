@@ -960,7 +960,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Nie udało się zapisać: {0}. Twoje zmiany są nadal otwarte. Naciśnij Ctrl+S, aby spróbować ponownie, lub F8, aby wyeksportować jako tekst lub RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Konflikt instalacji KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes jest zainstalowany dwukrotnie. Usunąć teraz drugą kopię dla tego użytkownika?&#10;&#10;Twoje notatki i ustawienia nie zostaną usunięte.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes jest zainstalowany dwukrotnie. Usunąć teraz drugą kopię dla wszystkich użytkowników?&#10;&#10;Twoje notatki i ustawienia nie zostaną usunięte.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes jest zainstalowany dwukrotnie. Usunąć tę kopię dla tego użytkownika i przejść na kopię dla wszystkich użytkowników?&#10;&#10;Twoje notatki i ustawienia nie zostaną usunięte.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes jest już zainstalowany dla wszystkich użytkowników tego komputera. Zamiast tego otworzy się tamta kopia.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Instalacja nie powiodła się:&#10;{0}</sys:String>

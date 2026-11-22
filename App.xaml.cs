@@ -113,14 +113,9 @@ namespace KillerNotes
                 return;
             }
 
-            // Elevated half of the dual-install repair below: removes the machine-wide copy.
-            if (e.Args.Length > 0 &&
-                string.Equals(e.Args[0], "/remove-machine-conflict", StringComparison.OrdinalIgnoreCase))
-            {
-                RemoveMachineInstallConflict();
-                Shutdown(0);
-                return;
-            }
+            // The all-users copy's half of the dual-install repair below: the per-user copy handed
+            // over and is exiting. Removing it waits for that, then this copy starts as the app.
+            if (HandOverParent(e.Args) is int handedOver) FinishHandOver(handedOver);
 
             // Syntax audit: --syntaxcheck (or /syntaxcheck) makes the highlighter verify its own
             // work after every paint and write what it finds to syntax-audit.log. Off by default
@@ -200,7 +195,7 @@ namespace KillerNotes
 
             Services.ThemeManager.InitializeInstaller();
             Services.LocaleManager.Initialize();
-            OfferInstallConflictRepair();
+            if (OfferInstallConflictRepair()) return;
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
             // drop shadows are recomputed on the CPU under software rendering, which made
@@ -520,38 +515,92 @@ namespace KillerNotes
                 && !string.Equals(currentExe, MachineExe, StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>Repairs a machine that carries BOTH a per-user and a machine-wide install -
-        /// the state where each Add/Remove Programs entry describes the other copy's version and
-        /// launching gets whichever exe the shell resolves first. Detected at startup; offers to
-        /// remove whichever copy is NOT running. Removing the machine copy needs elevation, so
-        /// that path re-runs this exe with /remove-machine-conflict under UAC.</summary>
-        private static void OfferInstallConflictRepair()
+        // ============================================================
+        // One installation per account. The all-users copy in Program Files wins over a
+        // per-user copy: an administrator or an RMM put it there, and only administrators can
+        // write to its folder. Nothing here elevates the per-user exe, whose folder any program
+        // running as the user can write to (SEC-102).
+        // ============================================================
+
+        internal enum InstallPlan { Install, OpenAllUsersCopy, InstallThenRemoveUserCopy }
+        internal enum ConflictRepair { None, RemoveUserCopy, SwitchToAllUsersCopy }
+
+        private const string HandOverArgument = "--remove-user-copy";
+
+        /// <summary>What an install does about the copy in the other scope.</summary>
+        internal static InstallPlan PlanInstall(bool machine, bool userCopyExists, bool machineCopyExists)
         {
-            if (!File.Exists(InstallExe) || !File.Exists(MachineExe)) return;
+            if (machine) return userCopyExists ? InstallPlan.InstallThenRemoveUserCopy : InstallPlan.Install;
+            return machineCopyExists ? InstallPlan.OpenAllUsersCopy : InstallPlan.Install;
+        }
+
+        /// <summary>What startup does when both installations exist. A portable copy leaves them alone.</summary>
+        internal static ConflictRepair PlanConflictRepair(string current, string userExe, string machineExe, bool userExists, bool machineExists)
+        {
+            if (!userExists || !machineExists) return ConflictRepair.None;
+            if (string.Equals(current, machineExe, StringComparison.OrdinalIgnoreCase)) return ConflictRepair.RemoveUserCopy;
+            if (string.Equals(current, userExe, StringComparison.OrdinalIgnoreCase)) return ConflictRepair.SwitchToAllUsersCopy;
+            return ConflictRepair.None;
+        }
+
+        /// <summary>The per-user copy cannot delete its own running exe, so it starts the all-users
+        /// copy as the same user, without elevation, and exits. That copy waits for it, removes it,
+        /// and carries on as the app.</summary>
+        internal static ProcessStartInfo HandOverToAllUsersCopy(string machineExe, int parent) =>
+            new(machineExe, HandOverArgument + " " + parent.ToString(System.Globalization.CultureInfo.InvariantCulture))
+            {
+                UseShellExecute = false,
+                WorkingDirectory = Path.GetDirectoryName(machineExe) ?? "",
+            };
+
+        /// <summary>The process id of the per-user copy that handed over, or null for any other command line.</summary>
+        internal static int? HandOverParent(string[] args) =>
+            args.Length == 2 && string.Equals(args[0], HandOverArgument, StringComparison.OrdinalIgnoreCase)
+                && int.TryParse(args[1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int id)
+                && id > 0 ? id : null;
+
+        /// <summary>The all-users copy's half of the hand-over: wait for the per-user copy to exit,
+        /// then remove it. Only the Program Files exe acts on this.</summary>
+        private static void FinishHandOver(int parent)
+        {
+            if (!string.Equals(Process.GetCurrentProcess().MainModule?.FileName, MachineExe, StringComparison.OrdinalIgnoreCase)) return;
+            try { using var p = Process.GetProcessById(parent); p.WaitForExit(30000); }
+            catch (ArgumentException) { /* already gone */ }
+            catch (InvalidOperationException) { /* already gone */ }
+            if (!IsRunningElsewhere(InstallExe)) RemovePerUserInstall();
+        }
+
+        /// <summary>Repairs an account that carries BOTH a per-user and an all-users install, the
+        /// state where each Add/Remove Programs entry describes the other copy's version and
+        /// launching gets whichever exe the shell resolves first. The per-user copy always goes.
+        /// True when this copy handed over to the all-users copy and is shutting down.</summary>
+        private static bool OfferInstallConflictRepair()
+        {
             string current = Process.GetCurrentProcess().MainModule?.FileName ?? "";
-            bool runningMachine = string.Equals(current, MachineExe, StringComparison.OrdinalIgnoreCase);
-            bool runningUser = string.Equals(current, InstallExe, StringComparison.OrdinalIgnoreCase);
-            if (!runningMachine && !runningUser) return;
+            var repair = PlanConflictRepair(current, InstallExe, MachineExe, File.Exists(InstallExe), File.Exists(MachineExe));
+            if (repair == ConflictRepair.None) return false;
 
             var confirm = new Controls.ConfirmDialog(
                 (string)Current.FindResource("Str_Dlg_InstallConflict"),
-                (string)Current.FindResource(runningMachine ? "Str_Dlg_InstalledTwiceUser" : "Str_Dlg_InstalledTwiceMachine"),
+                (string)Current.FindResource(repair == ConflictRepair.RemoveUserCopy ? "Str_Dlg_InstalledTwiceUser" : "Str_Dlg_InstalledTwiceSwitch"),
                 (string)Current.FindResource("Str_Btn_Yes"),
                 (string)Current.FindResource("Str_Btn_No")) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
             confirm.ShowDialog();
-            if (!confirm.Confirmed) return;
+            if (!confirm.Confirmed) return false;
 
-            if (runningMachine) RemovePerUserInstall();
-            else
+            if (repair == ConflictRepair.RemoveUserCopy)
             {
-                try
-                {
-                    using var p = Process.Start(new ProcessStartInfo(current, "/remove-machine-conflict")
-                    { UseShellExecute = true, Verb = "runas" });
-                    p?.WaitForExit();
-                }
-                catch { /* declining UAC leaves both copies in place */ }
+                if (!IsRunningElsewhere(InstallExe)) RemovePerUserInstall();
+                return false;
             }
+            try
+            {
+                using var p = Process.Start(HandOverToAllUsersCopy(MachineExe, Process.GetCurrentProcess().Id));
+                if (p == null) return false;
+            }
+            catch { return false; /* this copy keeps running and both stay */ }
+            Current.Shutdown();
+            return true;
         }
 
         /// <summary>Remove a per-user install: files, shortcuts and the HKCU install markers.
@@ -581,24 +630,19 @@ namespace KillerNotes
             UnregisterFileAssociations(Registry.CurrentUser);
         }
 
-        private static void RemoveMachineInstallConflict()
-        {
-            string common = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), AppName);
-            try { Registry.LocalMachine.DeleteSubKeyTree(@"Software\KillerNotes", false); } catch { }
-            try { Registry.LocalMachine.DeleteSubKeyTree(
-                @"Software\Microsoft\Windows\CurrentVersion\Uninstall\KillerNotes", false); } catch { }
-            UnregisterFileAssociations(Registry.LocalMachine);
-            try { File.Delete(Path.Combine(common, $"{AppName}.lnk")); } catch { }
-            try { if (Directory.Exists(common)) Directory.Delete(common, false); } catch { }
-            KillerFamily.Deployment.InstalledFileCleanup.Remove(MachineDir, FilesToRemove(MachineDir));
-            Services.CommandLinePath.Unregister(MachineDir, machine: true);
-        }
-
         /// <summary>Installs KillerNotes, then relaunches from the installed location. False when the
         /// install failed or the installed copy could not be started; the user has been told, and this
-        /// copy keeps running.</summary>
+        /// copy keeps running. With an all-users copy already in Program Files nothing is installed,
+        /// and that copy opens instead.</summary>
         internal static bool InstallAndRelaunch(bool wantDesktop)
         {
+            if (PlanInstall(machine: false, File.Exists(InstallExe), File.Exists(MachineExe)) == InstallPlan.OpenAllUsersCopy)
+            {
+                ShowInstallError((string)Current.FindResource("Str_Dlg_InstalledForAllUsers"));
+                if (new Services.InstallRelaunch().StartInstalled(MachineExe, () => Current.Shutdown())) return true;
+                ShowInstallError(string.Format((string)Current.FindResource("Str_Dlg_InstallFailed"), "The installed copy could not be started."));
+                return false;
+            }
             if (!DoInstall(wantDesktop)) return false;
 
             if (new Services.InstallRelaunch().StartInstalled(InstallExe, () => Current.Shutdown())) return true;
@@ -630,8 +674,16 @@ namespace KillerNotes
 
                 // Without admin rights, as the Microsoft Store runs installers, this is the normal
                 // per-user install with no prompt. The app never needs admin rights.
+                var plan = PlanInstall(machine, File.Exists(InstallExe), File.Exists(MachineExe));
                 if (!machine)
                 {
+                    // The all-users copy already serves this account; a second, per-user one is how
+                    // a machine ends up running one version while Add/Remove Programs shows another.
+                    if (plan == InstallPlan.OpenAllUsersCopy)
+                    {
+                        Console.Error.WriteLine($"KillerNotes is already installed for all users in {MachineDir}. Nothing was installed.");
+                        return KillerFamily.Deployment.InstallerExitCodes.Success;
+                    }
                     InstallForCurrentUser(wantDesktop: false);
                     return KillerFamily.Deployment.InstallerExitCodes.Success;
                 }
@@ -676,6 +728,11 @@ namespace KillerNotes
                 // accounts can read them. This pass runs elevated by definition.
                 RegisterFileAssociations(Registry.LocalMachine, installExe,
                     Path.Combine(installDir, "icons"));
+                // Elevated through UAC, this is the same account, and its per-user copy would now
+                // sit beside the one just installed. Run as SYSTEM (an RMM) it sees no user's copy;
+                // those are removed by the startup repair the first time that user opens the app.
+                if (plan == InstallPlan.InstallThenRemoveUserCopy && !IsRunningElsewhere(InstallExe))
+                    RemovePerUserInstall();
                 return KillerFamily.Deployment.InstallerExitCodes.Success;
             }
             catch (Exception ex)

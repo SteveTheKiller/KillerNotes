@@ -1078,7 +1078,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Lagring mislyktes: {0}. Endringene dine er fortsatt åpne. Trykk Ctrl+S for å prøve igjen, eller F8 for å eksportere som tekst eller RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Installasjonskonflikt for KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes er installert to ganger. Fjerne den andre kopien for denne brukeren nå?&#10;&#10;Notatene og innstillingene dine blir ikke fjernet.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes er installert to ganger. Fjerne den andre kopien for alle brukere nå?&#10;&#10;Notatene og innstillingene dine blir ikke fjernet.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes er installert to ganger. Fjerne denne kopien for denne brukeren og bytte til kopien for alle brukere?&#10;&#10;Notatene og innstillingene dine blir ikke fjernet.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes er allerede installert for alle brukere på denne PC-en. Den kopien åpnes i stedet.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installasjonen mislyktes:&#10;{0}</sys:String>

@@ -6,11 +6,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ## [1.7.1] - Unreleased
 
-1.7.1 adds the Trash Polka theme, a docked format bar and a New folder button in the pickers, takes the latest KillerUI cards and menus, and tightens update and signature checks.
+1.7.1 adds the Trash Polka theme, a docked format bar and a New folder button in the pickers, takes the latest KillerUI cards and menus, keeps one installation per account, re-encrypts backups with the password, and tightens update, signature and pipe checks.
 
 ### Security
 
 - Update and signature checks read the publisher from the signature Windows verified, never from the file a second time, and the installer's lock can only be opened by the current user, administrators and the system.
+- KillerNotes no longer installs a per-user copy beside an all-users one. The repair for a PC that already has both keeps the all-users copy and never asks for admin rights, so the per-user exe is never run elevated.
+- The app's pipes accept only the account running KillerNotes, and the command line refuses to send anything to a copy running as another account.
+- The uninstall cleanup runs Windows' own cmd from System32 and calls its commands by full path.
+- Backups are re-encrypted when the password is set, changed or removed. A backup that the previous password can't open is left alone, and the status line says how many.
 
 ### Fixed
 
@@ -26,6 +30,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - On the 98SE theme the format bar's raised frame runs along its top edge too, so it is framed on all four sides.
 - The note card's Tags tile lists tags that are assigned to the note but no longer defined, in gray, so they can still be seen and removed.
 - Switching Trash Polka accents waits at most one second in total for the ink, even when several pieces are slow.
+- Markdown notes export rendered. Lettered and Roman lists export as numbered lists, and floated content and recordings reach the HTML.
+- Nested checklists stay nested on export, and a numbered checklist item keeps a single marker.
+- UTF-16 text files import with their front matter, and a sketch with missing parts still opens.
+- Importing an image through MCP checks the group before it adds a note.
+- A crash is logged once, and trimming the crash log keeps the newest entry.
+- A tag whose stored color is unreadable falls back to the default color.
 
 ### Changed
 
@@ -40,6 +50,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 
 ### Added
 
+- The calendar's month buttons have tooltips.
 - While customizing a card, Alt+arrow keys move the focused tile one place or one row, and a screen reader hears its new position.
 - The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
 - Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. Under a Windows high contrast theme the ink steps aside for the system colors.

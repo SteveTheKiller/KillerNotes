@@ -1084,7 +1084,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_St_SaveFailed">Lưu thất bại: {0}. Nội dung chỉnh sửa của bạn vẫn đang mở. Nhấn Ctrl+S để thử lại hoặc F8 để xuất dưới dạng văn bản hoặc RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Xung đột cài đặt KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes đang được cài hai lần. Gỡ bản sao còn lại cho người dùng này ngay bây giờ?&#10;&#10;Ghi chú và cài đặt của bạn sẽ không bị xóa.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes đang được cài hai lần. Gỡ bản sao còn lại cho mọi người dùng ngay bây giờ?&#10;&#10;Ghi chú và cài đặt của bạn sẽ không bị xóa.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes đang được cài hai lần. Gỡ bản sao này của người dùng này và chuyển sang bản sao cho mọi người dùng?&#10;&#10;Ghi chú và cài đặt của bạn sẽ không bị xóa.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes đã được cài cho mọi người dùng trên máy này. Bản sao đó sẽ được mở thay thế.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Cài đặt thất bại:&#10;{0}</sys:String>

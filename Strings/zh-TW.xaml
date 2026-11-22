@@ -1033,7 +1033,8 @@
     <sys:String x:Key="Str_St_SaveFailed">儲存失敗：{0}。您的編輯內容仍保持開啟狀態。按 Ctrl+S 重試，或按 F8 匯出為文字或 RTF。</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes 安裝衝突</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes 安裝了兩份。現在移除目前使用者的另一份副本嗎？&#10;&#10;你的筆記和設定不會被移除。</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes 安裝了兩份。現在移除所有使用者的另一份副本嗎？&#10;&#10;你的筆記和設定不會被移除。</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes 安裝了兩份。移除目前使用者的這份副本並改用所有使用者的副本嗎？&#10;&#10;你的筆記和設定不會被移除。</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes 已為這台電腦的所有使用者安裝。將改為開啟那份副本。</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">安裝失敗：&#10;{0}</sys:String>

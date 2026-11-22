@@ -1034,7 +1034,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Error al guardar: {0}. Sus cambios siguen abiertos. Pulse Ctrl+S para reintentar o F8 para exportar como texto o RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">Conflicto de instalación de KillerNotes</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes está instalado dos veces. ¿Quitar ahora la otra copia de este usuario?&#10;&#10;Tus notas y ajustes no se eliminarán.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes está instalado dos veces. ¿Quitar ahora la otra copia para todos los usuarios?&#10;&#10;Tus notas y ajustes no se eliminarán.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes está instalado dos veces. ¿Quitar esta copia de este usuario y cambiar a la copia para todos los usuarios?&#10;&#10;Tus notas y ajustes no se eliminarán.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes ya está instalado para todos los usuarios en este equipo. Se abrirá esa copia en su lugar.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">La instalación falló:&#10;{0}</sys:String>

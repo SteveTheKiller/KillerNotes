@@ -1059,7 +1059,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_St_SaveFailed">Sikertelen mentés: {0}. A módosításai továbbra is nyitva vannak. Az újrapróbálkozáshoz nyomja meg a Ctrl+S, a szöveges vagy RTF formátumú exportáláshoz az F8 billentyűt.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes telepítési ütközés</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">A KillerNotes kétszer van telepítve. Eltávolítja most a másik, csak ehhez a felhasználóhoz tartozó példányt?&#10;&#10;A jegyzetei és beállításai megmaradnak.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">A KillerNotes kétszer van telepítve. Eltávolítja most a másik, minden felhasználóhoz tartozó példányt?&#10;&#10;A jegyzetei és beállításai megmaradnak.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">A KillerNotes kétszer van telepítve. Eltávolítja ezt a csak ehhez a felhasználóhoz tartozó példányt, és átvált a minden felhasználóhoz tartozóra?&#10;&#10;A jegyzetei és beállításai megmaradnak.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">A KillerNotes ezen a gépen már telepítve van minden felhasználó számára. Helyette az a példány nyílik meg.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">A telepítés nem sikerült:&#10;{0}</sys:String>

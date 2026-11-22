@@ -1080,7 +1080,8 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_St_SaveFailed">Save failed: {0}. Your edits are still open. Press Ctrl+S to retry, or F8 to export text or RTF.</sys:String>
     <sys:String x:Key="Str_Dlg_InstallConflict">KillerNotes installation conflict</sys:String>
     <sys:String x:Key="Str_Dlg_InstalledTwiceUser" xml:space="preserve">KillerNotes is installed twice. Remove the other per-user copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
-    <sys:String x:Key="Str_Dlg_InstalledTwiceMachine" xml:space="preserve">KillerNotes is installed twice. Remove the other all-users copy now?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledTwiceSwitch" xml:space="preserve">KillerNotes is installed twice. Remove this per-user copy and switch to the all-users copy?&#10;&#10;Your notes and settings will not be removed.</sys:String>
+    <sys:String x:Key="Str_Dlg_InstalledForAllUsers">KillerNotes is already installed for all users on this PC. That copy will open instead.</sys:String>
     <sys:String x:Key="Str_Btn_Yes">Yes</sys:String>
     <sys:String x:Key="Str_Btn_No">No</sys:String>
     <sys:String x:Key="Str_Dlg_InstallFailed" xml:space="preserve">Installation failed:&#10;{0}</sys:String>
