@@ -28,7 +28,8 @@ namespace KillerNotes.Controls
             base.OnClosing(e);
         }
 
-        private string _newColor = "#50AEE8";   // default pick for the add row
+        private const string DefaultTagColor = "#50AEE8";
+        private string _newColor = DefaultTagColor;   // default pick for the add row
 
         /// <summary>Raised after every add/rename/recolor/delete so the owner can refresh
         /// the sidebar chips LIVE, without waiting for the dialog to close.</summary>
@@ -240,7 +241,7 @@ namespace KillerNotes.Controls
         private void RecolorTag(string name)
         {
             string cur = NoteStore.ListTags().FirstOrDefault(t =>
-                string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)).Color ?? "#50AEE8";
+                string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)).Color ?? DefaultTagColor;
             var dlg = new ColorPickerDialog(this, PickerStartColor(cur)) { Owner = this };
             dlg.ShowDialog();
             if (dlg.Confirmed) SetTagColor(name, HexFromColor(dlg.SelectedColor));
@@ -354,7 +355,7 @@ namespace KillerNotes.Controls
             try { if (!string.IsNullOrWhiteSpace(hex)) return ColorFromHex(hex!); }
             catch (FormatException) { }
             catch (NotSupportedException) { }
-            return Color.FromRgb(0x50, 0xAE, 0xE8);
+            return ColorFromHex(DefaultTagColor);
         }
 
         private static string HexFromColor(Color c) =>
