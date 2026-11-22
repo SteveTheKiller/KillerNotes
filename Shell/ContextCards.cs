@@ -39,7 +39,7 @@ namespace KillerNotes.Shell
             new(glyph, Loc(caption), keys, () => SetSort(field, defaultAsc: DefaultAscending(field)))
             { Id = field, Checked = _sortField == field };
 
-        private void SortBtn_ContextMenuOpening(object sender, ContextMenuEventArgs e) => FillSortCard(SortBtn.ContextMenu);
+        private void SortBtn_ContextMenuOpening(object sender, ContextMenuEventArgs e) => PlaceSortCard(FillSortCard(SortBtn.ContextMenu));   // Notes.Sort.cs
 
         /// <summary>The search icon's card: show or hide the search bar (Alt+F3).</summary>
         internal ContextMenu BuildSearchIconCard() => FillSearchIconCard(NoteCards.Menu());

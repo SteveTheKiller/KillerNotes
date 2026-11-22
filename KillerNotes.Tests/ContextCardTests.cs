@@ -154,6 +154,91 @@ namespace KillerNotes.Tests
             finally { if (open != null) open.IsOpen = false; }
         });
 
+        // Real input on a shown window, not a raised ContextMenuOpening: each button takes the Apps key through WPF's
+        // InputManager, and the mentions strip (a Border, so it takes no focus) a right-button release. WPF's own
+        // popup service then decides whether a card opens, so a card handed over too late opens nothing on the first try.
+        [Fact]
+        public void TheFirstAppsKeyOrRightClickOpensEachCard() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            window.Show();
+            window.Activate();
+            Idle(window);
+            var opened = new List<ContextMenu>();
+            try
+            {
+                foreach (var (name, ids) in new (string, string[])[]
+                {
+                    ("SortBtn", ["created", "title", "custom", "reverse"]),
+                    ("SearchIconButton", ["searchbar"]),
+                    ("DictationRailBtn", ["speechmodel"]),
+                })
+                {
+                    var button = (FrameworkElement)window.FindName(name);
+                    Assert.True(button.Focus(), name + " cannot take keyboard focus");
+                    InputManager.Current.ProcessInput(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(button), 0, Key.Apps)
+                        { RoutedEvent = Keyboard.KeyUpEvent, Source = button });
+                    Idle(window);
+                    var card = button.ContextMenu;
+                    if (card != null) opened.Add(card);
+                    Assert.True(card?.IsOpen == true, name + ": the first Apps key opened no card");
+                    foreach (string id in ids) Assert.True(NoteCards.Tile(card!, id) != null, $"{name} card is missing {id}");
+                    card!.IsOpen = false;
+                    Idle(window);
+                }
+
+                // A real right-click from the OS: WPF opens a card on a right-button release over the element the
+                // pointer is really over, which a synthetic event cannot move.
+                var bar = (FrameworkElement)window.FindName("BacklinkBar");
+                bar.Visibility = Visibility.Visible;
+                bar.MinWidth = 160;
+                bar.MinHeight = 28;
+                window.Topmost = true;
+                window.Activate();
+                Idle(window);
+                Assert.True(bar.IsVisible && bar.ActualWidth > 0 && bar.ActualHeight > 0, "The mentions strip did not lay out");
+                var centre = bar.PointToScreen(new Point(bar.ActualWidth / 2, bar.ActualHeight / 2));
+                Assert.True(SetCursorPos((int)centre.X, (int)centre.Y));
+                mouse_event(0x0008, 0, 0, 0, IntPtr.Zero);   // right button down
+                mouse_event(0x0010, 0, 0, 0, IntPtr.Zero);   // right button up
+                for (int i = 0; i < 40 && bar.ContextMenu?.IsOpen != true; i++)
+                {
+                    Idle(window);
+                    System.Threading.Thread.Sleep(50);
+                }
+                Idle(window);
+                if (bar.ContextMenu != null) opened.Add(bar.ContextMenu);
+                Assert.True(bar.ContextMenu?.IsOpen == true, "The first right-click on the mentions strip opened no card");
+                Assert.NotNull(NoteCards.Tile(bar.ContextMenu!, "hidementions"));
+            }
+            finally { foreach (var card in opened) card.IsOpen = false; }
+        });
+
+        // The sort card opens under its button from a right-click too, before and after the button's own click.
+        [Fact]
+        public void TheSortCardOpensUnderTheButtonFromARightClick() => CardColorBehaviorTests.WithShell((window, _) =>
+        {
+            var sort = (Button)window.FindName("SortBtn");
+            sort.RaiseEvent(OpeningArgs(sort));
+            Assert.Equal(System.Windows.Controls.Primitives.PlacementMode.Custom, sort.ContextMenu!.Placement);
+            Assert.Same(sort, sort.ContextMenu.PlacementTarget);
+            sort.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            sort.ContextMenu!.IsOpen = false;
+            var afterClick = sort.ContextMenu.CustomPopupPlacementCallback;
+            sort.RaiseEvent(OpeningArgs(sort));
+            Assert.Equal(System.Windows.Controls.Primitives.PlacementMode.Custom, sort.ContextMenu.Placement);
+            Assert.Same(sort, sort.ContextMenu.PlacementTarget);
+            Assert.NotNull(sort.ContextMenu.CustomPopupPlacementCallback);
+            Assert.NotSame(afterClick, sort.ContextMenu.CustomPopupPlacementCallback);   // placed again, not left from the click
+        });
+
+        private static void Idle(Window window) => window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int x, int y);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern void mouse_event(uint flags, uint dx, uint dy, uint data, IntPtr extra);
+
         // WPF hands Shift+F10 to a text box as Key.System with F10 in SystemKey; a check on Key.F10 alone never
         // fired, so the box showed WPF's stock menu instead of its card.
         [Fact]

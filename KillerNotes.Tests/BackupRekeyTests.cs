@@ -88,6 +88,26 @@ namespace KillerNotes.Tests
             Assert.Equal(1, CountNotes(older, "first"));
         }
 
+        // The re-key runs in the background, so a scheduled backup can land after the password
+        // changed and before the folder is listed. That backup already opens with the new key.
+        [Fact]
+        public void ABackupTakenUnderTheNewPasswordIsNotCountedAsLeftBehind()
+        {
+            using var store = new TempStore("old");
+            NoteStore.Create("Note");
+            string file = NoteStore.ActiveDbFile;
+            string folder = Path.Combine(_dir, "b");
+            BackupService.BackupNow(folder, file, new DateTime(2026, 9, 1, 10, 0, 0), 5);
+            NoteStore.SetPassword("new");
+            string landed = BackupService.BackupNow(folder, file, new DateTime(2026, 9, 1, 11, 0, 0), 5);
+
+            var result = BackupService.RekeyBackups(folder, file, "old", "new");
+
+            Assert.Equal(1, result.Rekeyed);
+            Assert.Equal(0, result.Skipped);
+            Assert.Equal(1, CountNotes(landed, "new"));
+        }
+
         [Fact]
         public void RemovingThePasswordLeavesTheBackupsReadableWithoutOne()
         {

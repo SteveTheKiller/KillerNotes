@@ -324,7 +324,11 @@ namespace KillerNotes.Services
                 try
                 {
                     DateTime written = backup.LastWriteTimeUtc;
-                    if (!ExportWithKey(path, oldPassword, staged, newPassword)) { skipped++; continue; }
+                    if (!ExportWithKey(path, oldPassword, staged, newPassword))
+                    {
+                        if (!OpensWith(path, newPassword)) skipped++;   // taken after the change: already on the new key
+                        continue;
+                    }
                     VerifyCopy(staged, newPassword);
                     File.Replace(staged, path, null);
                     File.SetLastWriteTimeUtc(path, written);   // the backup list and pruning keep their order
@@ -368,6 +372,17 @@ namespace KillerNotes.Services
             try { Scalar(db, "SELECT sqlcipher_export('rekeyed')"); }
             finally { try { Scalar(db, "DETACH DATABASE rekeyed"); } catch (SqliteException) { /* not attached */ } }
             return true;
+        }
+
+        private static bool OpensWith(string path, string? password)
+        {
+            try
+            {
+                using var db = OpenCopy(path, password);
+                Scalar(db, "SELECT count(*) FROM sqlite_master");   // forces the key check
+                return true;
+            }
+            catch (SqliteException) { return false; }
         }
 
         private static bool SameBytes(string a, string b)

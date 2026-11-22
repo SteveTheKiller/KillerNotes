@@ -182,6 +182,7 @@ namespace KillerNotes.Shell
                 return;
             }
             CloseGroupManager();
+            _security.FinishRekey();   // SecurityController - backups finish moving to the new password
             NoteStore.Close();
             base.OnClosing(e);
         }

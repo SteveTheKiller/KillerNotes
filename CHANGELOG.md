@@ -14,7 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - KillerNotes no longer installs a per-user copy beside an all-users one. The repair for a PC that has both keeps the all-users copy without admin rights, and that copy still opens the file or quick note the launch asked for.
 - The app's pipes accept only the account running KillerNotes, and the command line refuses to send anything to a copy running as another account.
 - The uninstall cleanup runs Windows' own cmd from System32 and calls its commands by full path.
-- Backups are re-encrypted in the background when the password is set, changed or removed. The status line says how many backups the previous password couldn't open, or that the backup folder couldn't be read.
+- Backups are re-encrypted in the background when the password is set, changed or removed, and quitting waits for that to finish. The status line says how many backups the previous password couldn't open, or that the backup folder couldn't be read.
 
 ### Fixed
 

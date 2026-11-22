@@ -414,5 +414,10 @@ namespace KillerNotes.Features.Security
                     : string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), result.Skipped))));
             }, System.Threading.Tasks.TaskScheduler.Default);
         }
+
+        /// <summary>Waits for a re-key still running. Pool threads die with the process, so
+        /// quitting right after a password change would otherwise leave backups on the old
+        /// password without a word. The main window calls this as it closes.</summary>
+        internal void FinishRekey() => _rekey.Wait();
     }
 }

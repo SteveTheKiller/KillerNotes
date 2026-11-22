@@ -47,6 +47,14 @@ namespace KillerNotes.Shell
         private void SortBtn_Click(object sender, RoutedEventArgs e)
         {
             var menu = SortBtn.ContextMenu = BuildSortCard();   // ContextCards.cs
+            PlaceSortCard(menu);
+            menu.IsOpen = true;
+        }
+
+        /// <summary>Puts the sort card under the button. The click and the right-click both call it,
+        /// so the card opens in the same spot whichever one opened it first.</summary>
+        private void PlaceSortCard(ContextMenu menu)
+        {
             FlyoutPlacement.AttachBelowRight(menu, SortBtn);
             var below = menu.CustomPopupPlacementCallback;
             menu.CustomPopupPlacementCallback = (popup, target, offset) =>
@@ -59,7 +67,6 @@ namespace KillerNotes.Shell
                 var p = placed[0].Point;
                 return [new CustomPopupPlacement(new Point(Math.Max(minX, p.X), p.Y), placed[0].PrimaryAxis)];
             };
-            menu.IsOpen = true;
         }
 
         /// <summary>The direction a sort mode starts in when it is picked: newest first for time,

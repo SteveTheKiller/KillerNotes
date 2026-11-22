@@ -94,6 +94,25 @@ namespace KillerNotes.Tests
             Assert.Contains(" 1:05:00]", HtmlExport.FragmentFromDocument(doc));
         });
 
+        // ---- BF-602 follow-up ----
+
+        // The re-key runs on a pool thread, which dies with the process. Closing waits for it,
+        // so quitting right after a password change still moves every backup to the new key.
+        [Fact]
+        public void ClosingWaitsForARekeyStillRunning()
+        {
+            var controller = new KillerNotes.Features.Security.SecurityController(null!);
+            bool finished = false;
+            var running = System.Threading.Tasks.Task.Run(() => { System.Threading.Thread.Sleep(300); finished = true; });
+            typeof(KillerNotes.Features.Security.SecurityController)
+                .GetField("_rekey", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+                .SetValue(controller, running);
+
+            controller.FinishRekey();
+
+            Assert.True(finished);
+        }
+
         // ---- BF-303 ----
 
         [Fact]
