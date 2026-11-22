@@ -182,7 +182,9 @@ namespace KillerNotes.Shell
             return false;
         }
 
-        private static Note RequireNote(long id) => NoteStore.List().FirstOrDefault(n => n.Id == id) ?? throw new InvalidOperationException("The note was not found");
+        // One row by id, not the whole list: a live note is one that is not in the trash, the
+        // same rule List() applies with no search.
+        private static Note RequireNote(long id) => NoteStore.GetNote(id) is { Deleted: null } note ? note : throw new InvalidOperationException("The note was not found");
         private static string DocumentText(FlowDocument document) => new TextRange(document.ContentStart, document.ContentEnd).Text;
         private static long TakeId(List<string> values) => long.TryParse(Take(values, "--id", true), NumberStyles.None, CultureInfo.InvariantCulture, out long id) && id > 0 ? id : throw new ArgumentException("Invalid note id");
         /// <summary>Removes one option and its value. Arguments are read as option/value pairs
