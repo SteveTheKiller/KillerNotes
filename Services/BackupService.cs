@@ -76,7 +76,11 @@ namespace KillerNotes.Services
 
         public static string? Folder => Settings.Get(FolderSetting) is string f && f.Length > 0 ? f : null;
 
-        public static int Hours => int.TryParse(Settings.Get(HoursSetting), out int h) && h > 0 ? h : 0;
+        /// <summary>Longest schedule honored: ten years. A larger value (a hand-edited registry
+        /// entry) would overflow TimeSpan and break the launch and quarter-hour checks.</summary>
+        public const int MaxHours = 24 * 365 * 10;
+
+        public static int Hours => int.TryParse(Settings.Get(HoursSetting), out int h) && h > 0 ? Math.Min(h, MaxHours) : 0;
 
         public static int Keep => int.TryParse(Settings.Get(KeepSetting), out int k) && k > 0 ? k : DefaultKeep;
 
@@ -128,7 +132,7 @@ namespace KillerNotes.Services
         {
             if (hours <= 0 || !folder) return BackupState.Off;
             if (failed is DateTime f && (last == null || f > last.Value)) return BackupState.Failing;
-            if (last is DateTime l && now - l > TimeSpan.FromHours(hours * 2)) return BackupState.Overdue;
+            if (last is DateTime l && now - l > TimeSpan.FromHours(2.0 * Math.Min(hours, MaxHours))) return BackupState.Overdue;
             return BackupState.Ok;
         }
 
@@ -141,7 +145,7 @@ namespace KillerNotes.Services
         /// <summary>The pure schedule rule: due when never backed up, or the last one is at
         /// least `hours` old.</summary>
         public static bool IsDue(DateTime? last, int hours, DateTime now) =>
-            hours > 0 && (last == null || now - last.Value >= TimeSpan.FromHours(hours));
+            hours > 0 && (last == null || now - last.Value >= TimeSpan.FromHours(Math.Min(hours, MaxHours)));
 
         // ---- Names ----
 

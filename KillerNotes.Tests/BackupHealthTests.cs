@@ -73,6 +73,16 @@ namespace KillerNotes.Tests
             Assert.Equal(expected, BackupService.StateOf(hours, folder, last, failed, When).ToString());
         }
 
+        [Theory]
+        [InlineData(300_000_000)]     // past TimeSpan's range in hours
+        [InlineData(int.MaxValue)]    // hours * 2 wraps negative in int
+        public void AHugeIntervalReadsAsAHealthyScheduleThatIsNotDue(int hours)
+        {
+            DateTime last = When.AddDays(-30);
+            Assert.Equal(BackupState.Ok, BackupService.StateOf(hours, true, last, null, When));
+            Assert.False(BackupService.IsDue(last, hours, When));
+        }
+
         [Fact]
         public void AFailedBackupIsRememberedWithItsReasonUntilOneSucceeds()
         {
