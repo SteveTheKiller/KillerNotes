@@ -14,8 +14,8 @@ using Xunit;
 namespace KillerNotes.Tests
 {
     // 1.7.1: the menus that were still plain text rows (the tray icon, sort, search icon, dictation, mentions strip,
-    // every text box and the unlock dialog's "Use another database") are tile cards on the family card rules: tiles
-    // only, no text rows or separators. Set KN_INK_SHOTS to a folder to keep a render of each card.
+    // every text box, the unlock dialog's "Use another database", and the Databases and Tags dialogs' row cards) are
+    // tile cards on the family card rules: tiles only, no text rows or separators. Set KN_INK_SHOTS to a folder to keep a render of each card.
     [Collection("Application resources")]
     public sealed class ContextCardTests
     {
@@ -40,6 +40,9 @@ namespace KillerNotes.Tests
                 ("Mentions", window.BuildMentionsCard(), ["hidementions"]),
                 ("TextBox", TextFieldCard.Fill(new ContextMenu(), title), ["cut", "copy", "paste", "selectall"]),
                 ("OtherDb", dialog.FillOtherDbCard(), ["newdb", "opendb"]),
+                ("Databases", DbCard(), ["rename", "copyfile", "export", "showfile"]),
+                ("Tag", TagsDialog.BuildTagCard("work", "#50AEE8", ColorPickerDialog.UserSwatches(),
+                    () => { }, () => { }, _ => { }, () => { }), ["rename"]),
             };
             string? shots = Environment.GetEnvironmentVariable("KN_INK_SHOTS");
             foreach (var (name, card, ids) in cards)
@@ -144,6 +147,14 @@ namespace KillerNotes.Tests
             }
             finally { if (open != null) open.IsOpen = false; }
         });
+
+        private static ContextMenu DbCard()
+        {
+            var rows = Enumerable.Range(0, 5).Select(_ => new MenuItem()).ToArray();
+            var card = DatabasesDialog.BuildDbCard(rows[0], rows[1], rows[2], rows[3], rows[4]);
+            DatabasesDialog.SetDbCardHeader(card, "Main.db", "48 KB, changed today");
+            return card;
+        }
 
         private static ContextMenuEventArgs OpeningArgs(FrameworkElement source)
         {

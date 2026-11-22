@@ -8,7 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using KillerNotes.Services;
-using CardAction = KillerFamily.Controls.CardAction;
+using CardTile = KillerFamily.Controls.CardTile;
 using CardBuilder = KillerFamily.Controls.CardBuilder;
 
 namespace KillerNotes.Controls
@@ -38,10 +38,10 @@ namespace KillerNotes.Controls
         private static string Loc(string key) =>
             Application.Current.TryFindResource(key) as string ?? key;
 
-        // The card's five actions as menu rows. Delete is the card's bottom row; the other four
-        // are its quick buttons, and these rows stay off screen as the buttons' anchors. The
-        // window shortcuts, the card's own keys (RouteMenuKey) and a click on a quick button
-        // all raise the row's Click, so every route reaches one handler, as the old menu did.
+        // The card's five actions as menu rows that never show: Delete is the header's icon button
+        // and the other four are its tiles, and these rows are their anchors. The window shortcuts,
+        // the card's own keys (RouteMenuKey) and a click on a tile or on Delete all raise the
+        // row's Click, so every route reaches one handler, as the old menu did.
         private MenuItem RenameItem = null!, DeleteItem = null!, CopyItem = null!, ExportItem = null!, RevealItem = null!;
 
         public DatabasesDialog()
@@ -52,7 +52,6 @@ namespace KillerNotes.Controls
             ExportItem = MenuRow("Str_Ctx_ExportKndb", ExportMenu_Click);
             RevealItem = MenuRow("Str_Ctx_Reveal", RevealMenu_Click);
             DeleteItem = MenuRow("Str_Ctx_Delete", Delete_Click);
-            DeleteItem.Icon = "\uE74D";
             var card = BuildDbCard(RenameItem, CopyItem, ExportItem, RevealItem, DeleteItem);
             card.PreviewKeyDown += DbMenu_PreviewKeyDown;
             DbList.ContextMenu = card;
@@ -82,46 +81,42 @@ namespace KillerNotes.Controls
             return row;
         }
 
-        /// <summary>The list's right-click card (1.7.0): the database's name over its details,
-        /// Rename, Copy file, Export and Show file as quick buttons, and Delete as a row at the
-        /// bottom, apart from the rest. Each quick button raises its anchor row's Click. Built
-        /// from the rows alone, so a test can build it without a data folder.</summary>
+        /// <summary>The list's right-click card, on the family card rules (Shell/NoteCards.cs): the database's name over
+        /// its details with Delete as the header's icon button, then Rename, Copy file, Export and Show file as tiles, two
+        /// by two. Every tile and the Delete button raise their anchor row's Click. Built from the rows alone, so a test
+        /// can build it without a data folder.</summary>
         internal static ContextMenu BuildDbCard(MenuItem rename, MenuItem copy, MenuItem export, MenuItem reveal, MenuItem delete)
         {
-            var card = CardBuilder.Menu(320);
-            card.Items.Add(CardBuilder.Header(Loc("Str_Db_Title")));
-            var strip = CardBuilder.QuickStrip(Loc("Str_Card_Actions"),
-            [
-                Quick("\uE8AC", "Str_Card_Rename", "Str_Ctx_Rename", "F2", rename),
-                Quick("\uE8C8", "Str_Ctx_CopyFile", "Str_Ctx_CopyFile", "Alt+C", copy),
-                Quick("\uE74E", "Str_Card_Export", "Str_Ctx_ExportKndb", "Ctrl+E", export),
-                Quick("\uE838", "Str_Card_ShowFile", "Str_Ctx_Reveal", "Ctrl+R", reveal),
-            ]);
-            card.Items.Add(strip);
-            // Copy file and Export keep the explanation their old menu rows carried: the caption
-            // under the glyph already names the action, and what it does is the useful part.
-            var buttons = QuickButtons(card);
-            buttons[1].ToolTip = CardBuilder.Tip(Loc("Str_TT_CopyFile"), "Alt+C");
-            buttons[2].ToolTip = CardBuilder.Tip(Loc("Str_TT_ExportKndb"), "Ctrl+E");
-            card.Items.Add(new Separator());
-            card.Items.Add(delete);
+            var card = Shell.NoteCards.Menu();
+            card.Tag = delete;   // SetDbCardHeader rebuilds the header, Delete button included
+            card.Items.Add(DbHeader(card, Loc("Str_Db_Title"), null));
+            card.Items.Add(Shell.NoteCards.Grid(card, new[]
+            {
+                Tile("rename", "\uE8AC", "Str_Card_Rename", "F2", rename),
+                // Copy file and Export keep the explanation their old menu rows carried: the caption
+                // under the glyph already names the action, and what it does is the useful part.
+                Tile("copyfile", "\uE8C8", "Str_Ctx_CopyFile", "Alt+C", copy) with { Hint = CardBuilder.Tip(Loc("Str_TT_CopyFile"), "Alt+C") },
+                Tile("export", "\uE74E", "Str_Card_Export", "Ctrl+E", export) with { Hint = CardBuilder.Tip(Loc("Str_TT_ExportKndb"), "Ctrl+E") },
+                Tile("showfile", "\uE838", "Str_Card_ShowFile", "Ctrl+R", reveal),
+            }));
             return card;
         }
 
-        private static CardAction Quick(string glyph, string caption, string name, string gesture, MenuItem anchor) =>
-            new(glyph, Loc(caption), Loc(name), gesture, () => anchor.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, anchor)));
+        private static CardTile Tile(string id, string glyph, string caption, string keys, MenuItem anchor) =>
+            new(glyph, Loc(caption), keys, () => Click(anchor)) { Id = id };
 
-        /// <summary>The card's quick buttons, left to right.</summary>
-        internal static IReadOnlyList<Button> QuickButtons(ContextMenu card) =>
-            card.Items.OfType<MenuItem>()
-                .Select(slot => slot.Header).OfType<Border>()
-                .Select(rule => rule.Child).OfType<UniformGrid>()
-                .SelectMany(grid => grid.Children.OfType<Button>())
-                .ToList();
+        private static void Click(MenuItem anchor) => anchor.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, anchor));
+
+        private static MenuItem DbHeader(ContextMenu card, string title, string? meta) =>
+            Shell.NoteCards.Header(card, title, meta, Loc("Str_Ctx_Delete"), "Ctrl+D",
+                card.Tag is MenuItem delete ? () => Click(delete) : null);
+
+        /// <summary>The card's tiles, left to right and top to bottom.</summary>
+        internal static IReadOnlyList<Button> QuickButtons(ContextMenu card) => Shell.NoteCards.Tiles(card).ToList();
 
         /// <summary>Puts a database's name and its details line in the card's header.</summary>
         internal static void SetDbCardHeader(ContextMenu card, string title, string? meta) =>
-            card.Items[0] = CardBuilder.Header(title, meta);
+            card.Items[0] = DbHeader(card, title, meta);
 
         // The header names the row under the pointer: the right-click selected it a moment ago
         // (DbList_PreviewMouseRightButtonDown), and the Menu key acts on the selection anyway.

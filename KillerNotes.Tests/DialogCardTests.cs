@@ -51,20 +51,27 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
-        public void TheDatabaseCardHasAHeaderFourQuickButtonsAndDeleteLast() => WithTheme(() =>
+        public void TheDatabaseCardHasAHeaderWithDeleteAndFourTilesTwoByTwo() => WithTheme(() =>
         {
-            var (card, rows, _) = DatabaseCard();
+            var (card, _, clicks) = DatabaseCard();
             DatabasesDialog.SetDbCardHeader(card, "notes.db", "16 KB");
 
-            Assert.Equal(320 + 44, card.MaxWidth);
+            Assert.Equal(KillerNotes.Shell.NoteCards.Width + 44, card.MaxWidth);
             Assert.Same(Application.Current.TryFindResource("CardMenu"), card.Style);
-            var header = (StackPanel)((MenuItem)card.Items[0]).Header;
-            Assert.Equal(new[] { "notes.db", "16 KB" }, header.Children.OfType<TextBlock>().Select(t => t.Text));
+            Assert.Equal(new[] { "notes.db", "16 KB" }, HeaderTexts(card));
 
             var buttons = DatabasesDialog.QuickButtons(card);
             Assert.Equal(new[] { "Rename", "Copy file", "Export", "Show file" }, buttons.Select(b => (string)b.Tag));
-            Assert.IsType<Separator>(card.Items[card.Items.Count - 2]);
-            Assert.Same(rows[4], card.Items[card.Items.Count - 1]);
+            // Tiles only: no text rows or separators, and four tiles sit two by two.
+            Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+            Assert.Equal(new[] { 0, 1, 0, 1 }, buttons.Select(Grid.GetColumn));
+            Assert.Equal(new[] { 0, 0, 1, 1 }, buttons.Select(Grid.GetRow));
+
+            // Delete is the header's icon button, with its shortcut, and reaches the Delete row.
+            var delete = CardTileHelper.HeaderDelete(card);
+            Assert.Equal("Ctrl+D", AutomationProperties.GetAcceleratorKey(delete));
+            delete.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, delete));
+            Assert.Equal(new[] { 0, 0, 0, 0, 1 }, clicks);
         });
 
         [Fact]
@@ -120,14 +127,14 @@ namespace KillerNotes.Tests
                 var list = (ListBox)dialog.FindName("DbList");
                 var card = list.ContextMenu!;
                 var delete = (MenuItem)typeof(DatabasesDialog).GetField("DeleteItem", Any)!.GetValue(dialog)!;
-                Assert.Same(delete, card.Items[card.Items.Count - 1]);
-                Assert.Equal("\uE74D", delete.Icon);
+                Assert.Same(delete, card.Tag);   // the header's Delete button raises this row
 
-                // The header names the selected database over its details line.
+                // The header names the selected database over its details line, and keeps its Delete.
                 typeof(DatabasesDialog).GetMethod("DbList_ContextMenuOpening", Any)!.Invoke(dialog, [list, null]);
-                var header = ((StackPanel)((MenuItem)card.Items[0]).Header).Children.OfType<TextBlock>().ToList();
-                Assert.Equal("one.db", header[0].Text);
-                Assert.Contains("KB", header[1].Text);
+                var header = HeaderTexts(card);
+                Assert.Equal("one.db", header[0]);
+                Assert.Contains("KB", header[1]);
+                Assert.NotNull(KillerNotes.Shell.NoteCards.HeaderDelete(card));
 
                 // Rename is the one handler safe to run here: it swaps the row's name for a box.
                 var rename = DatabasesDialog.QuickButtons(card)[0];
@@ -154,28 +161,32 @@ namespace KillerNotes.Tests
             return (card, calls);
         }
 
-        private static SwatchRow Swatches(ContextMenu card) =>
-            card.Items.OfType<MenuItem>().Select(i => i.Header).OfType<DockPanel>()
-                .SelectMany(d => d.Children.OfType<SwatchRow>()).Single();
+        private static SwatchRow Swatches(ContextMenu card) => CardTileHelper.Swatches(card);
 
         [Fact]
-        public void TheTagCardHasItsNameAColorRowAndRenameAndDeleteRows() => WithTheme(() =>
+        public void TheTagCardHasItsNameAndDeleteAColorRowAndARenameTile() => WithTheme(() =>
         {
             var (card, _) = TagCard();
 
-            Assert.Equal(360 + 44, card.MaxWidth);
+            Assert.Equal(KillerNotes.Shell.NoteCards.Width + 44, card.MaxWidth);
             var head = (DockPanel)((MenuItem)card.Items[0]).Header;
             Assert.Equal(Color.FromRgb(0x50, 0xAE, 0xE8), ((SolidColorBrush)head.Children.OfType<Ellipse>().Single().Fill).Color);
             Assert.Equal("work", head.Children.OfType<StackPanel>().Single().Children.OfType<TextBlock>().First().Text);
+            // The dot sits before the name, which fills what is left of the row.
+            Assert.True(head.Children.IndexOf(head.Children.OfType<Ellipse>().Single()) < head.Children.IndexOf(head.Children.OfType<StackPanel>().Single()));
 
             var swatches = Swatches(card);
             Assert.Equal(Visibility.Collapsed, swatches.Children[0].Visibility);   // no "no color" for a tag
             Assert.Equal("on", ((Button)swatches.Children[6]).Tag);                // the tag's own color is ringed
 
-            var rows = card.Items.OfType<MenuItem>().Where(i => i.Header is string).ToList();
-            Assert.Equal(new[] { "Rename", "Delete tag" }, rows.Select(r => (string)r.Header));
-            Assert.Equal(new[] { "F2", "Ctrl+D" }, rows.Select(r => r.InputGestureText));
-            Assert.Equal(new[] { "F2", "Ctrl+D" }, rows.Select(AutomationProperties.GetAcceleratorKey));
+            Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+            Assert.Equal(new[] { "Rename", "Color" }, KillerNotes.Shell.NoteCards.Tiles(card).Select(b => (string)b.Tag));
+            var rename = CardTileHelper.Tile(card, "rename");
+            Assert.Equal("Rename", rename.Tag);
+            Assert.Equal("F2", AutomationProperties.GetAcceleratorKey(rename));
+            var delete = CardTileHelper.HeaderDelete(card);
+            Assert.Equal("Delete tag", AutomationProperties.GetName(delete));
+            Assert.Equal("Ctrl+D", AutomationProperties.GetAcceleratorKey(delete));
         });
 
         [Fact]
@@ -198,20 +209,36 @@ namespace KillerNotes.Tests
             swatch.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, swatch));
             Assert.Equal("#E85050", calls.Color);
 
-            foreach (var row in card.Items.OfType<MenuItem>().Where(i => i.Header is string))
-                row.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, row));
+            CardTileHelper.Click(card, "rename");
+            var delete = CardTileHelper.HeaderDelete(card);
+            delete.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, delete));
             Assert.Equal((1, 1, 0), (calls.Rename, calls.Delete, calls.Recolor));
         });
 
         [Fact]
         public void TheTagCardSwatchRowFitsOnOneLine() => WithTheme(() =>
         {
+            // Opened for real: the card over a small shown host, then its Color tile's flyout.
             var (card, _) = TagCard();
-            Lay(card);
-            var buttons = Swatches(card).Children.OfType<Button>().Where(b => b.Visibility == Visibility.Visible).ToList();
-            double top = buttons[0].TranslatePoint(new Point(), card).Y;
-            Assert.All(buttons, b => Assert.Equal(top + buttons[0].ActualHeight / 2,
-                b.TranslatePoint(new Point(), card).Y + b.ActualHeight / 2, 1));
+            var host = new Window { Content = new Border(), Width = 200, Height = 120, Left = 0, Top = 0,
+                ShowInTaskbar = false, ShowActivated = false, WindowStyle = WindowStyle.None };
+            host.Show();
+            try
+            {
+                card.PlacementTarget = (FrameworkElement)host.Content;
+                card.Placement = PlacementMode.Relative;
+                card.IsOpen = true;
+                card.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                var flyout = CardTileHelper.OpenFlyout(card, "color");
+                flyout.UpdateLayout();
+                var buttons = Swatches(card).Children.OfType<Button>().Where(b => b.Visibility == Visibility.Visible).ToList();
+                Assert.True(buttons[0].ActualHeight > 0, "The color flyout did not lay out");
+                double top = buttons[0].TranslatePoint(new Point(), flyout).Y;
+                Assert.All(buttons, b => Assert.Equal(top + buttons[0].ActualHeight / 2,
+                    b.TranslatePoint(new Point(), flyout).Y + b.ActualHeight / 2, 1));
+                flyout.IsOpen = false;
+            }
+            finally { card.IsOpen = false; host.Close(); }
         });
 
         [Fact]
@@ -232,6 +259,11 @@ namespace KillerNotes.Tests
         });
 
         // ---- harness ----
+
+        /// <summary>The header's title and details lines (a NoteCards header: Delete docked right, then the text).</summary>
+        private static List<string> HeaderTexts(ContextMenu card) =>
+            ((DockPanel)((MenuItem)card.Items[0]).Header).Children.OfType<StackPanel>().Single()
+                .Children.OfType<TextBlock>().Select(t => t.Text).ToList();
 
         /// <summary>Lays a card out at its own width without opening it. A ContextMenu refuses any
         /// parent but its popup, so it is laid out as a root of its own.</summary>

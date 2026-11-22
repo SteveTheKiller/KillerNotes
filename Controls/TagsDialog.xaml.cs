@@ -116,7 +116,7 @@ namespace KillerNotes.Controls
                 BeginRename(grid, label, name);
             };
 
-            // Right-click card (1.7.0): the tag over its color row, then Rename and Delete.
+            // Right-click card: the tag and its Delete over Rename and Color tiles.
             row.ContextMenu = BuildTagCard(name, colorHex, palette,
                 rename: () => BeginRename(grid, label, name),
                 recolor: () => RecolorTag(name),
@@ -125,32 +125,27 @@ namespace KillerNotes.Controls
             return row;
         }
 
-        /// <summary>A tag's right-click card: its name beside its color, a Color row whose
-        /// swatches recolor it in one click and whose picker does what Change color (Alt+C) does,
-        /// then Rename and Delete as rows with their shortcuts. A strip holding Rename alone would
-        /// be a lone button, so both stay rows. Built from plain values, so a test can build it
+        /// <summary>A tag's right-click card on the family card rules (Shell/NoteCards.cs): its name beside its color
+        /// with Delete as the header's icon button, then Rename and Color tiles. Color opens the swatch row, whose swatches
+        /// recolor the tag in one click and whose picker does what Change color (Alt+C) does. Built from plain values, so a test can build it
         /// without a database.</summary>
         internal static ContextMenu BuildTagCard(string name, string colorHex, IEnumerable<Color> palette,
             Action rename, Action recolor, Action<string> setColor, Action delete)
         {
-            var card = CardBuilder.Menu(360);
+            var card = Shell.NoteCards.Menu();
 
-            // The header's dot is the note card's CardColorDot: the tag's color before its name.
-            var header = CardBuilder.Header(name);
-            var text = (StackPanel)header.Header;
-            header.Header = null;
+            // The family header (Shell/NoteCards.cs): the tag's name with Delete as its icon button. The dot is the
+            // note card's CardColorDot, the tag's color before its name.
+            var header = Shell.NoteCards.Header(card, name, null, Loc("Str_TT_TagDelete"), "Ctrl+D", delete);
+            var head = TagHeaderDock(header);
             var dot = new System.Windows.Shapes.Ellipse
             {
                 Width = 10, Height = 10, Margin = new Thickness(0, 0, 10, 0), StrokeThickness = 1,
                 VerticalAlignment = VerticalAlignment.Center, Fill = BrushFromHex(colorHex),
             };
             dot.SetResourceReference(System.Windows.Shapes.Shape.StrokeProperty, "MenuBorderBrush");
-            var head = new DockPanel { Margin = text.Margin };
-            text.Margin = new Thickness(0);
             DockPanel.SetDock(dot, Dock.Left);
-            head.Children.Add(dot);
-            head.Children.Add(text);
-            header.Header = head;
+            head.Children.Insert(head.Children.Count - 1, dot);   // before the name, which fills what is left
             card.Items.Add(header);
 
             var swatches = new SwatchRow { PickerName = CardBuilder.Tip(Loc("Str_TT_TagRecolor"), "Alt+C") };
@@ -168,16 +163,27 @@ namespace KillerNotes.Controls
                 CardBuilder.Close(swatches);
                 recolor();
             };
-            card.Items.Add(CardBuilder.Labeled(Loc("Str_Card_Color"), swatches));
-
-            card.Items.Add(new Separator());
-            var miRename = CardBuilder.Row(Loc("Str_TT_TagRename"), "F2", "\uE8AC", rename);
-            DialogShortcuts.Describe(miRename, "F2");
-            var miDelete = CardBuilder.Row(Loc("Str_TT_TagDelete"), "Ctrl+D", "\uE74D", delete);
-            DialogShortcuts.Describe(miDelete, "Ctrl+D");
-            card.Items.Add(miRename);
-            card.Items.Add(miDelete);
+            // Rename and Color side by side; Color opens the swatch row beside the card, as on the note and group cards.
+            card.Items.Add(Shell.NoteCards.Grid(card, new[]
+            {
+                new KillerFamily.Controls.CardTile("\uE8AC", Loc("Str_TT_TagRename"), "F2", rename) { Id = "rename" },
+                Shell.NoteCards.Flyout("\uE790", Loc("Str_Card_Color"), null, new object[] { CardBuilder.Slot(swatches, new Thickness(0)) }, id: "color"),
+            }));
             return card;
+        }
+
+        /// <summary>The DockPanel inside a NoteCards header: the Delete button docked right, then the title.</summary>
+        internal static DockPanel TagHeaderDock(MenuItem header)
+        {
+            var queue = new Queue<object>([header.Header]);
+            while (queue.Count > 0)
+            {
+                object at = queue.Dequeue();
+                if (at is DockPanel dock) return dock;
+                if (at is DependencyObject node)
+                    foreach (object child in LogicalTreeHelper.GetChildren(node)) queue.Enqueue(child);
+            }
+            throw new InvalidOperationException("The card header has no DockPanel");
         }
 
         private void InvokeSelectedRow(int index)
