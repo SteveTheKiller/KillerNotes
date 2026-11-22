@@ -3091,7 +3091,8 @@ WHERE notebook = $op OR notebook LIKE $like ESCAPE '\'";
                     ins.Parameters.AddWithValue("$g", r.GetString(2));
                     ins.Parameters.AddWithValue("$c", r.GetString(3));
                     ins.Parameters.AddWithValue("$m", r.GetString(4));
-                    ins.Parameters.AddWithValue("$b", r.GetValue(5));
+                    // Someone else's file: a picture that names a share or web address goes before it is stored.
+                    ins.Parameters.AddWithValue("$b", r.GetValue(5) is byte[] content ? PackageSanitizer.WithoutOutsideReferences(content) : r.GetValue(5));
                     ins.Parameters.AddWithValue("$p", r.GetString(6));
                     ins.Parameters.AddWithValue("$tc", r.IsDBNull(7) ? "" : r.GetString(7));
                     ins.Parameters.AddWithValue("$sc", r.IsDBNull(8) ? 0 : r.GetInt64(8));

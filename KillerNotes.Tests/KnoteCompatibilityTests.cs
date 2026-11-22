@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -185,6 +186,62 @@ namespace KillerNotes.Tests
             }
             finally { try { File.Delete(knote); } catch { /* best effort */ } }
         });
+
+        [Fact]
+        public void AnImportedNoteCannotPointAPictureOutsideItsOwnPackage() => Sta.Run(() =>
+        {
+            string knote = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".knote");
+            const string external = @"\\127.0.0.1\kn-sec003\probe.png";
+            try
+            {
+                using (new TempStore())
+                {
+                    long id = NoteStore.Create("lure");
+                    NoteStore.Save(id, "lure", PictureBlobPointingAt(external), "lure");
+                    NoteStore.ExportNote(id, knote, password: null);
+                }
+
+                using (new TempStore())
+                {
+                    Assert.Equal(1, NoteStore.ImportNotes(knote, password: null));
+                    byte[] blob = NoteStore.LoadContent(Assert.Single(NoteStore.List()).Id)!;
+
+                    Assert.DoesNotContain("kn-sec003", DocumentXaml(blob), StringComparison.OrdinalIgnoreCase);
+                    Assert.Contains("lure", OldLoader(blob));
+                }
+            }
+            finally { try { File.Delete(knote); } catch { /* best effort */ } }
+        });
+
+        /// <summary>A real picture note whose package XAML is then hand-edited to load its image
+        /// from somewhere else, the way a crafted file would.</summary>
+        private static byte[] PictureBlobPointingAt(string source)
+        {
+            var bmp = System.Windows.Media.Imaging.BitmapSource.Create(1, 1, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, new byte[4], 4);
+            var doc = new FlowDocument(new Paragraph(new Run("lure")));
+            doc.Blocks.Add(new BlockUIContainer(new System.Windows.Controls.Image { Source = bmp }));
+            var ms = new MemoryStream();
+            new TextRange(doc.ContentStart, doc.ContentEnd).Save(ms, DataFormats.XamlPackage);
+            using (var pkg = System.IO.Packaging.Package.Open(ms, FileMode.Open, FileAccess.ReadWrite))
+            {
+                var part = pkg.GetParts().First(p => p.Uri.OriginalString.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase));
+                string xaml;
+                using (var reader = new StreamReader(part.GetStream())) xaml = reader.ReadToEnd();
+                xaml = System.Text.RegularExpressions.Regex.Replace(xaml, "UriSource=\"[^\"]*\"", "UriSource=\"" + source + "\"");
+                Assert.Contains(source, xaml);
+                using var w = new StreamWriter(part.GetStream(FileMode.Create));
+                w.Write(xaml);
+            }
+            return ms.ToArray();
+        }
+
+        private static string DocumentXaml(byte[] blob)
+        {
+            using var pkg = System.IO.Packaging.Package.Open(new MemoryStream(blob), FileMode.Open, FileAccess.Read);
+            var part = pkg.GetParts().First(p => p.Uri.OriginalString.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase));
+            using var reader = new StreamReader(part.GetStream());
+            return reader.ReadToEnd();
+        }
 
         private static byte[] RichBlob(string text)
         {
