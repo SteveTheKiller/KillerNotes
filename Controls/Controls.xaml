@@ -450,7 +450,10 @@
                                Placement="Bottom" AllowsTransparency="True" PopupAnimation="Fade">
                             <!-- ComboPopupBrush: MenuBackgroundBrush everywhere, WHITE on 98SE -
                                  a Win98 dropdown list is a white well with the navy highlight. -->
+                            <!-- Marked here, not left to ThemeMotif's popup pass: WPF only sends Loaded into a subtree
+                                 that has an instance handler, so the open list was never found and stayed flat. -->
                             <Border MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    kui:ThemeMotif.Part="Popup" kui:ThemeMotif.BaseBrush="ComboPopupBrush"
                                     Background="{DynamicResource ComboPopupBrush}" BorderBrush="{DynamicResource MenuBorderBrush}"
                                     BorderThickness="1" CornerRadius="{DynamicResource MenuCornerRadius}" Margin="6"
                                     Effect="{DynamicResource ComboPopupShadow}">
@@ -3457,8 +3460,10 @@
                                IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False"
                                PopupAnimation="Fade" Placement="Bottom">
                             <!-- ComboPopupBrush (the menu surface), not PaneBrush: ThemeMotif paints ComboPopupBrush with the
-                                 popup piece, so an open list under Trash Polka carries the art like a menu does. -->
+                                 popup piece, so an open list under Trash Polka carries the art like a menu does. Marked
+                                 here: WPF never sends Loaded into the list, so the popup pass could not find it. -->
                             <Border x:Name="PopupBd" Background="{DynamicResource ComboPopupBrush}"
+                                    kui:ThemeMotif.Part="Popup" kui:ThemeMotif.BaseBrush="ComboPopupBrush"
                                     BorderBrush="{DynamicResource MenuBorderBrush}" BorderThickness="1"
                                     CornerRadius="{DynamicResource SmallCornerRadius}" Padding="2" Margin="0,2,6,6"
                                     MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"

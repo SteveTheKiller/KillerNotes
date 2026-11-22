@@ -53,7 +53,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The calendar's month buttons have tooltips.
 - While customizing a card, Alt+arrow keys move the focused tile one place or one row, and a screen reader hears its new position.
 - The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
-- Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. Under a Windows high contrast theme the ink steps aside for the system colors.
+- Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. The ink runs through the note pane, the About and Keyboard shortcuts cards, the calculator readout, dropdown lists, flyouts, the format, find and mention bars, and the preview and outline panes. Under a Windows high contrast theme the ink steps aside for the system colors.
 - The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
 
 ## [1.7.0] - 2026-11-14

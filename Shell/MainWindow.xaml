@@ -303,6 +303,7 @@
                         MaxWidth="{Binding ActualWidth, ElementName=TitleSearchSlot}"
                         HorizontalAlignment="Left" VerticalAlignment="Top"
                         Visibility="Collapsed" Opacity="0"
+                        controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="MenuBackgroundBrush"
                         Background="{DynamicResource MenuBackgroundBrush}" BorderBrush="{DynamicResource MenuBorderBrush}"
                         BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True">
@@ -1553,6 +1554,7 @@
                                          the same color as the keys around it. PaneBrush is the white client
                                          surface there and the content pane color everywhere else. -->
                                     <Border x:Name="KalcReadout" Grid.Row="0" Background="{DynamicResource PaneBrush}" BorderBrush="{DynamicResource InputBorderBrush}"
+                                            controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="PaneBrush" controls:ThemeMotif.Screen="True"
                                             BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" MinHeight="54" Margin="3,0,3,8">
                                         <Grid>
                                             <TextBlock x:Name="KalcDisplay" Text="0" FontFamily="Consolas" FontSize="30"
@@ -1694,7 +1696,9 @@
                     BorderBrush="{DynamicResource PaneBevelDark2Brush}" BorderThickness="{DynamicResource PaneBevel2LightThickness}"/>
             <Border Grid.Column="2" Margin="{DynamicResource ContentPaneInnerMargin}" Panel.ZIndex="11" IsHitTestVisible="False"
                     BorderBrush="{DynamicResource PaneBevelLight2Brush}" BorderThickness="{DynamicResource PaneBevel2DarkThickness}"/>
-            <Border Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
+            <!-- The note pane's face. It sits over ContentPane, so it carries the Trash Polka ink itself. -->
+            <Border x:Name="NotePaneFace" Grid.Column="2" Background="{DynamicResource ContentPaneBrush}"
+                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"
                     BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                     CornerRadius="{DynamicResource PanelCornerRadius}" Margin="{DynamicResource ContentPaneMargin}" Panel.ZIndex="10">
             <Grid>
@@ -1765,6 +1769,7 @@
                         VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,8,0"
                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
                         Background="{DynamicResource BgFlyout}"
+                        controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="BgFlyout"
                         BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="{DynamicResource BarEdgeThickness}"
                         CornerRadius="{DynamicResource FlyoutCornerRadius}" Padding="{DynamicResource BarPadding}"
                         Effect="{StaticResource ShadowBar}">
@@ -1972,6 +1977,7 @@
                     <Popup x:Name="RulePopup" PlacementTarget="{Binding ElementName=FmtRuleBtn}"
                            Placement="Bottom" StaysOpen="True" AllowsTransparency="True" VerticalOffset="4">
                         <Border x:Name="RuleFlyoutCard" Background="{DynamicResource MenuBackgroundBrush}"
+                                controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="MenuBackgroundBrush"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
@@ -2002,6 +2008,7 @@
                     <Popup x:Name="TableSizePopup" PlacementTarget="{Binding ElementName=TableBtn}"
                            Placement="Bottom" StaysOpen="True" AllowsTransparency="True" VerticalOffset="4">
                         <Border Background="{DynamicResource MenuBackgroundBrush}"
+                                controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="MenuBackgroundBrush"
                                 BorderBrush="{DynamicResource MenuBorderBrush}"
                                 BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}" Padding="10,8" Margin="12">
                             <Border.Effect><DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="3" Direction="270" Opacity="0.55"/></Border.Effect>
@@ -2156,7 +2163,9 @@
                             </LinearGradientBrush>
                         </Border.OpacityMask>
                         <Grid>
-                            <Border Background="{DynamicResource ContentPaneBrush}"/>
+                            <!-- The pane's own pinned ink under Trash Polka, so the fade blends into it. -->
+                            <Border Background="{DynamicResource ContentPaneBrush}"
+                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
                         </Grid>
                     </Border>
@@ -2169,7 +2178,8 @@
                             </LinearGradientBrush>
                         </Border.OpacityMask>
                         <Grid>
-                            <Border Background="{DynamicResource ContentPaneBrush}"/>
+                            <Border Background="{DynamicResource ContentPaneBrush}"
+                                    controls:ThemeMotif.Part="Window" controls:ThemeMotif.BaseBrush="ContentPaneBrush"/>
                             <Border Background="{DynamicResource GrainTileBrush}" Opacity="0.20" Visibility="{DynamicResource FilmGrainVisibility}"/>
                         </Grid>
                     </Border>
@@ -2181,6 +2191,7 @@
                     <!-- -3 top: up to the title's rule (its 3px bottom margin), not stopping below it. -->
                     <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
+                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Padding="0" Margin="0,-3,0,0"/>
                     <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
@@ -2200,6 +2211,7 @@
                          Rows are built in code (RefreshOutline) with the OutlineRow style below. -->
                     <Border x:Name="OutlinePane" Grid.Column="4" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
+                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Margin="0,-3,0,0">
                         <Border.Resources>
@@ -2322,6 +2334,7 @@
                 <Border x:Name="BacklinkBar" Visibility="Collapsed"
                         HorizontalAlignment="Right" VerticalAlignment="Bottom"
                         Background="{DynamicResource BgFlyout}"
+                        controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="BgFlyout"
                         BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="1,1,0,0"
                         CornerRadius="{DynamicResource MentionsCornerRadius}"
                         ClipToBounds="True">
@@ -2390,6 +2403,7 @@
                         Visibility="Collapsed" Opacity="0"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0"
                         Background="{DynamicResource BgFlyout}"
+                        controls:ThemeMotif.Part="Popup" controls:ThemeMotif.BaseBrush="BgFlyout"
                         BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1"
                         CornerRadius="{DynamicResource ControlCornerRadius}">
                     <Border.Effect>
@@ -2879,7 +2893,8 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <Border Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
+                <Border x:Name="AboutCardFace" Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
+                        controls:ThemeMotif.Part="Split" controls:ThemeMotif.BaseBrush="OverlayWindowBrush"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -3291,7 +3306,8 @@
                         <DropShadowEffect Color="Black" BlurRadius="26" ShadowDepth="5" Direction="270" Opacity="{DynamicResource FlyoutShadowOpacity}"/>
                     </Border.Effect>
                 </Border>
-                <icons:PickerBorder Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
+                <icons:PickerBorder x:Name="ShortcutsCardFace" Background="{DynamicResource OverlayWindowBrush}" BorderBrush="{DynamicResource OverlayEdgeBrush}"
+                        controls:ThemeMotif.Part="Split" controls:ThemeMotif.BaseBrush="OverlayWindowBrush"
                         BorderThickness="1" CornerRadius="{DynamicResource PanelCornerRadius}">
                     <Grid>
                         <Border IsHitTestVisible="False" CornerRadius="{DynamicResource PanelCornerRadius}"
