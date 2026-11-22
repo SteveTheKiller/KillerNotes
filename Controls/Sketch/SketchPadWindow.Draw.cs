@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -131,9 +132,24 @@ namespace KillerNotes.Controls.Sketch
             RenderCanvas();
         }
 
+        /// <summary>The drawing as it was when the eraser went down, pushed as the undo step by the
+        /// first EraseStep that removes something and then dropped.</summary>
+        private List<SketchObject>? _eraseSnapshot;
+
         private void EraseStep(Point p)
         {
             var res = SketchModel.EraseAt(_objects, p, EraseRadius);
+            // EraseAt re-emits an untouched freehand stroke as a copy, so a change is judged by
+            // what is left (objects and points), never by reference.
+            bool erased = res.Count != _objects.Count || res.Sum(o => o.Pts.Count) != _objects.Sum(o => o.Pts.Count);
+            if (!erased) return;
+            if (_eraseSnapshot != null)
+            {
+                _undo.Push(_eraseSnapshot);
+                _redo.Clear();
+                UpdateUndoButtons();
+                _eraseSnapshot = null;
+            }
             _objects.Clear();
             _objects.AddRange(res);
             RenderCanvas();

@@ -190,14 +190,13 @@ namespace KillerNotes.Controls.Dictation
             // the user anywhere on disk.
             _playTick?.Stop();
             _scrubTick?.Stop();
-            DictationPlayer.Stop();
+            DictationPlayer.StopFor(this);   // a chip playing in the note keeps playing
             _wav = null;
             if (Anim.FadeOutAndClose(this, ref _closeFaded)) { e.Cancel = true; return; }
             base.OnClosing(e);
         }
 
-        private static string Format(long ms) =>
-            TimeSpan.FromMilliseconds(ms).ToString(ms >= 3600000 ? @"h\:mm\:ss" : @"m\:ss");
+        private static string Format(long ms) => DurationText.Format(ms);
 
         private static string L(string key, string fallback) =>
             Application.Current.TryFindResource(key) as string ?? fallback;
@@ -643,6 +642,9 @@ namespace KillerNotes.Controls.Dictation
             // speaker feeds the old audio into the new recording, and the leftovers would act on
             // audio they were never made for.
             StopPlayback();
+            // A chip playing in the note would be recorded too, so a new take silences it as well.
+            // The chip's own timer sees the player close and puts its glyph back at rest.
+            DictationPlayer.Stop();
             _undo = null;
             _wave.ClearCuts();
             _playBtn.IsEnabled = _embedBtn.IsEnabled = _transcribeBtn.IsEnabled = false;
@@ -870,7 +872,9 @@ namespace KillerNotes.Controls.Dictation
             if (DictationRecorder.IsRecording) { TogglePauseRecording(); return; }
             if (_wav == null) return;
 
-            if (DictationPlayer.IsOpen && !DictationPlayer.IsFinished)
+            // Only the pad's own take: a chip playing in the note shares the player, and pressing
+            // Play here means play this take, not pause that one.
+            if (DictationPlayer.IsOpenFor(this) && !DictationPlayer.IsFinished)
             {
                 if (DictationPlayer.IsPaused) DictationPlayer.Resume();
                 else DictationPlayer.Pause();
@@ -878,7 +882,7 @@ namespace KillerNotes.Controls.Dictation
                 return;
             }
 
-            if (!DictationPlayer.Play(_wav))
+            if (!DictationPlayer.Play(_wav, 0, this))
             {
                 _status.Text = DictationPlayer.LastError ?? L("Str_Dict_Failed", "Playback failed.");
                 return;
@@ -898,11 +902,12 @@ namespace KillerNotes.Controls.Dictation
                 _playTick.Tag = "wired";
                 _playTick.Tick += (_, _) =>
                 {
-                    if (DictationPlayer.IsFinished) { StopPlayback(); return; }
+                    // A chip in the note took the player over: put the pad back at rest.
+                    if (!DictationPlayer.IsOpenFor(this) || DictationPlayer.IsFinished) { StopPlayback(); return; }
                     int total = DictationPlayer.DurationMs;
                     if (total <= 0) return;
                     _wave.Progress = Math.Min(1, DictationPlayer.PositionMs / (double)total);
-                    _elapsed.Text = TimeSpan.FromMilliseconds(DictationPlayer.PositionMs).ToString(@"m\:ss");
+                    _elapsed.Text = Format(DictationPlayer.PositionMs);
                 };
             }
             _playTick.Start();
@@ -911,9 +916,9 @@ namespace KillerNotes.Controls.Dictation
         private void StopPlayback()
         {
             _playTick?.Stop();
-            DictationPlayer.Stop();
+            DictationPlayer.StopFor(this);
             _wave.Progress = -1;
-            if (_wav != null) _elapsed.Text = TimeSpan.FromMilliseconds(_durationMs).ToString(@"m\:ss");
+            if (_wav != null) _elapsed.Text = Format(_durationMs);
             SyncPlayButton();
         }
 
@@ -943,7 +948,7 @@ namespace KillerNotes.Controls.Dictation
                     DictationRecorder.IsPaused ? L("Str_Dict_Resume", "Resume") : L("Str_Dict_Pause", "Pause"));
                 return;
             }
-            bool playing = DictationPlayer.IsOpen && !DictationPlayer.IsPaused && !DictationPlayer.IsFinished;
+            bool playing = DictationPlayer.IsOpenFor(this) && !DictationPlayer.IsPaused && !DictationPlayer.IsFinished;
             SetButtonFace(_playBtn, playing ? 0xE769 : 0xE768,
                 playing ? L("Str_Dict_Pause", "Pause") : L("Str_Dict_Play", "Play"));
         }
@@ -956,9 +961,9 @@ namespace KillerNotes.Controls.Dictation
 
             // Seeking something that has finished, or was never started, begins playback there
             // rather than doing nothing - which is what clicking into a waveform implies.
-            if (!DictationPlayer.IsOpen || DictationPlayer.IsFinished)
+            if (!DictationPlayer.IsOpenFor(this) || DictationPlayer.IsFinished)
             {
-                if (!DictationPlayer.Play(_wav, (int)(fraction * _durationMs))) return;
+                if (!DictationPlayer.Play(_wav, (int)(fraction * _durationMs), this)) return;
                 StartPlayTick();
             }
             else DictationPlayer.Seek((int)(fraction * DictationPlayer.DurationMs));

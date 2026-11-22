@@ -156,15 +156,27 @@ namespace KillerNotes.Services
         // ---- decode ----
 
         /// <summary>Decodes FLAC back to a 16-bit PCM WAV, or null if it cannot.</summary>
-        internal static byte[]? ToWav(byte[] flac)
+        internal static byte[]? ToWav(byte[] flac) => ToWav(flac, MaxPcmBytes);
+
+        internal const long MaxPcmBytes = 512L * 1024 * 1024;
+
+        internal static byte[]? ToWav(byte[] flac, long maxPcmBytes)
         {
             LastError = null;
             if (!Available) { LastError = "FLAC support is not installed."; return null; }
             if (flac == null || flac.Length < 8) return null;
 
+            // A recording can arrive in an imported note, so the stream is untrusted. A few bytes of
+            // FLAC can declare hours of multichannel audio; refuse what STREAMINFO claims up front,
+            // and cap what the write callback buffers in case the header understated it.
+            if (DeclaredPcmBytes(flac) is long declared && declared > maxPcmBytes)
+            { LastError = "That recording is too long to open."; return null; }
+
             IntPtr dec = IntPtr.Zero;
-            var pcm = new MemoryStream(flac.Length * 2);
+            var pcm = new MemoryStream((int)Math.Min(flac.Length * 2L, maxPcmBytes));
             int rate = 0, channels = 1;
+            int firstRate = 0, firstChannels = 0;
+            bool tooLong = false;
             int read = 0;
 
             // `ref` on an implicitly typed lambda parameter, which reads the same as the two
@@ -192,6 +204,12 @@ namespace KillerNotes.Services
                 channels = Marshal.ReadInt32(frame, 8);
                 int bits = Marshal.ReadInt32(frame, 16);   // the stream's own depth, not always 16
                 if (blockSize <= 0 || channels <= 0 || bits <= 0 || bits > 32) return 0;
+
+                // Never throw out of this callback: it runs inside libFLAC. Return ABORT instead
+                // when a frame changes shape midstream or the audio passes the cap.
+                if (firstChannels == 0) { firstRate = rate; firstChannels = channels; }
+                else if (channels != firstChannels || rate != firstRate) return 1;   // WRITE_STATUS_ABORT
+                if (pcm.Length + (long)blockSize * channels * 2 > maxPcmBytes) { tooLong = true; return 1; }
 
                 // buffers is a const int32* const* - one planar array per channel, which has to be
                 // interleaved back for a WAV.
@@ -232,11 +250,31 @@ namespace KillerNotes.Services
                 FLAC__stream_decoder_finish(dec);
                 GC.KeepAlive(onRead); GC.KeepAlive(onWrite); GC.KeepAlive(onError);
 
+                if (tooLong) { LastError = "That recording is too long to open."; return null; }
                 if (rate <= 0 || pcm.Length == 0) { LastError = "That recording could not be decoded."; return null; }
                 return BuildWav(pcm.ToArray(), rate, channels);
             }
             catch (Exception ex) { LastError = ex.Message; return null; }
             finally { if (dec != IntPtr.Zero) FLAC__stream_decoder_delete(dec); }
+        }
+
+        /// <summary>The 16-bit PCM size STREAMINFO declares (total samples times channels times 2),
+        /// or null when the stream does not open with a STREAMINFO block or leaves the total unknown.</summary>
+        private static long? DeclaredPcmBytes(byte[] flac)
+        {
+            // "fLaC", then a 4-byte block header whose type (low 7 bits) is 0 for STREAMINFO, then a
+            // 34-byte body. Body bytes 12..17 hold rate (20 bits), channels-1 (3), bits-1 (5) and
+            // total samples (36).
+            if (flac.Length < 8 + 34) return null;
+            if (flac[0] != 'f' || flac[1] != 'L' || flac[2] != 'a' || flac[3] != 'C') return null;
+            if ((flac[4] & 0x7F) != 0) return null;
+            int b = 8;
+            int channels = ((flac[b + 12] >> 1) & 0x07) + 1;
+            long total = ((long)(flac[b + 13] & 0x0F) << 32)
+                       | ((long)flac[b + 14] << 24) | ((long)flac[b + 15] << 16)
+                       | ((long)flac[b + 16] << 8) | flac[b + 17];
+            if (total == 0) return null;   // 0 means unknown; the write callback's cap still holds
+            return total * channels * 2;
         }
 
         /// <summary>Canonical 44-byte 16-bit PCM header around decoded samples.</summary>

@@ -59,12 +59,25 @@ namespace KillerNotes.Services
         internal static void Seek(int ms)
         {
             if (_source == null) return;
-            bool wasPaused = IsPaused;
-            Play(_source, Math.Max(0, Math.Min(ms, DurationMs)));
-            if (wasPaused) Pause();   // a seek while paused must not start it playing
+            // A seek while paused must not start it playing, not even for the moment between
+            // handing the buffer over and pausing it, so the device is paused before the write.
+            Play(_source, Math.Max(0, Math.Min(ms, DurationMs)), _owner, startPaused: IsPaused);
+        }
+
+        /// <summary>True when the open audio was started by this owner. The pad and the note's
+        /// recording chips share this one player, so each checks it is acting on its own audio
+        /// before pausing, seeking or stopping it.</summary>
+        internal static bool IsOpenFor(object owner) => IsOpen && ReferenceEquals(_owner, owner);
+
+        /// <summary>Stops playback only when this owner started it, so closing the pad never cuts
+        /// off a chip playing in the note.</summary>
+        internal static void StopFor(object owner)
+        {
+            if (ReferenceEquals(_owner, owner)) Stop();
         }
 
         private static byte[]? _source;
+        private static object? _owner;
         private static int _startMs;
 
         /// <summary>
@@ -162,12 +175,13 @@ namespace KillerNotes.Services
         /// Starts playing a WAV held in memory. Any previous playback is stopped first - one
         /// recording at a time.
         /// </summary>
-        internal static bool Play(byte[] wav, int startMs = 0)
+        internal static bool Play(byte[] wav, int startMs = 0, object? owner = null, bool startPaused = false)
         {
             byte[]? keep = wav;      // Stop() clears _source; hold the reference across it
             Stop();
             LastError = null;
             _source = keep;
+            _owner = owner;
 
             if (waveOutGetNumDevs() == 0) { LastError = "No playback device is available."; return false; }
             if (!ParseWav(wav, out WAVEFORMATEX fmt, out int off, out int len))
@@ -214,6 +228,9 @@ namespace KillerNotes.Services
             Marshal.StructureToPtr(hdr, _hdr, false);
 
             if (!Ok(waveOutPrepareHeader(_hwo, _hdr, Marshal.SizeOf<WAVEHDR>()), "Preparing playback")) { Teardown(); return false; }
+            // Paused before the write, never after it: a device that has been handed a buffer starts
+            // playing at once, and pausing afterwards still lets a short burst out.
+            if (startPaused && Ok(waveOutPause(_hwo), "Pausing")) IsPaused = true;
             if (!Ok(waveOutWrite(_hwo, _hdr, Marshal.SizeOf<WAVEHDR>()), "Starting playback")) { Teardown(); return false; }
             return true;
         }
@@ -248,6 +265,7 @@ namespace KillerNotes.Services
             DurationMs = 0;
             _startMs = 0;
             _source = null;
+            _owner = null;
         }
 
         private static void Teardown()

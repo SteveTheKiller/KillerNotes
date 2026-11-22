@@ -479,8 +479,7 @@ namespace KillerNotes.Services
             var stored = _attachments?.Invoke(hash);
             string? audio = stored != null ? TrySaveAudio(stored) : null;
             if (audio == null) { Lost++; return null; }
-            var length = TimeSpan.FromMilliseconds(stored!.DurationMs);
-            return "[Recording " + length.ToString(@"m\:ss") + "](" + Destination(audio) + ")";
+            return "[Recording " + DurationText.Format(stored!.DurationMs) + "](" + Destination(audio) + ")";
         }
 
         /// <summary>A link destination with a space in it ("My note.assets/...") is not one in

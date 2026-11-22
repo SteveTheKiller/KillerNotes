@@ -47,7 +47,9 @@ namespace KillerNotes.Controls.Sketch
 
             if (_tool == Tool.Eraser)
             {
-                PushUndo();
+                // Snapshot now, push only once something is actually erased: a click on empty
+                // canvas must not add a no-op undo step or throw away the redo stack.
+                _eraseSnapshot = SketchModel.CloneList(_objects);
                 EraseStep(p);
             }
             else if (_tool == Tool.Pen)

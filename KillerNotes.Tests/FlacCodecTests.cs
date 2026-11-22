@@ -33,6 +33,32 @@ namespace KillerNotes.Tests
                 Assert.Equal(expected, BitConverter.ToInt16(wav, WavEdit.HeaderBytes + i * 2));
         }
 
+        [Fact]
+        public void DecodedAudioPastTheCapIsRefusedRatherThanBuffered()
+        {
+            Assert.True(FlacCodec.Available, "libFLAC must load for this test");
+            byte[] flac = Encode(16, 1234, 4096);   // 8192 bytes of PCM once decoded
+
+            Assert.NotNull(FlacCodec.ToWav(flac, 8192));
+            Assert.Null(FlacCodec.ToWav(flac, 4000));
+        }
+
+        [Fact]
+        public void AStreamInfoClaimingHoursOfAudioIsRefusedBeforeDecoding()
+        {
+            Assert.True(FlacCodec.Available, "libFLAC must load for this test");
+            byte[] flac = Encode(16, 1234, 4096);
+            // STREAMINFO body starts at byte 8 ("fLaC" + 4-byte block header). Total samples is the
+            // low 36 bits of body bytes 13..17; set them all, which claims about 68 billion samples.
+            Assert.Equal((byte)'f', flac[0]);
+            Assert.Equal(0, flac[4] & 0x7F);
+            flac[8 + 13] |= 0x0F;
+            for (int i = 14; i <= 17; i++) flac[8 + i] = 0xFF;
+
+            Assert.Null(FlacCodec.ToWav(flac, 1L << 30));
+            Assert.NotNull(FlacCodec.LastError);
+        }
+
         /// <summary>A mono 16 kHz FLAC stream of one repeated sample at the given depth.</summary>
         private static byte[] Encode(int bits, int sample, int count)
         {

@@ -541,7 +541,7 @@ namespace KillerNotes.Controls.Sketch
             SketchBind(copy, "Ctrl+C", Key.C, CopyToClipboard, ModifierKeys.Control);
             copy.Click += (_, _) => CopyToClipboard();
 
-            var print = new Button { Content = Label(0xE749, L("Str_Btn_CalcPrint", "Print to note")), Height = 28, IsDefault = true,
+            var print = new Button { Content = Label(0xE749, L("Str_Btn_CalcPrint", "Print to note")), Height = 28,
                 Padding = new Thickness(8, 0, 8, 0), Margin = new Thickness(0, 0, 0, 6),
                 RenderTransform = new TranslateTransform(0, 4), Style = Application.Current.TryFindResource("OutlineButton") as Style };
             Tip(print, L("Str_Sketch_Print", "Print to note (Ctrl+Enter)"));

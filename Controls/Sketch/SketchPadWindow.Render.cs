@@ -47,6 +47,14 @@ namespace KillerNotes.Controls.Sketch
             if (_tool == Tool.Eraser && _eraseCursor != null && _canvas.IsMouseOver && !_canvas.Children.Contains(_eraseCursor))
                 _canvas.Children.Add(_eraseCursor);
             _previewEl = null;   // cleared with the children; gesture handlers re-add if needed
+            // A polygon in progress outlives a render (undo, the opacity wheel, a resize), so its
+            // outline, rubber band and snap ring go back on top; without them the clicks land blind.
+            if (PolyActive)
+            {
+                if (_polyLine != null) _canvas.Children.Add(_polyLine);
+                if (_polyRubber != null) _canvas.Children.Add(_polyRubber);
+                if (_polySnap != null) _canvas.Children.Add(_polySnap);
+            }
         }
 
         private void AddHandle(double x, double y, int index, Cursor cursor)

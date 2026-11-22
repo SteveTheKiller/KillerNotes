@@ -25,9 +25,6 @@ namespace KillerNotes.Shell
         /// (NoteStore.DatabaseId). A lock holds the pad for this one (LockNow.cs).</summary>
         private string? _dictationOwner;
 
-        /// <summary>m:ss. A const so the format string is written once rather than repeated as an
-        /// escaped literal at each call site.</summary>
-        private const string DurationFormat = @"m\:ss";
 
         /// <summary>Chip waveform size. Named because the geometry, the track, the progress copy and
         /// its clip all have to agree, and a mismatch shows up as a progress bar that never reaches
@@ -279,12 +276,12 @@ namespace KillerNotes.Shell
             var label = new TextBlock
             {
                 Text = "  " + Loc("Str_Dict_Chip") + "  " +
-                       TimeSpan.FromMilliseconds(durationMs).ToString(@"m\:ss"),
+                       DurationText.Format(durationMs),
                 VerticalAlignment = VerticalAlignment.Center,
             };
             // Length readout, right of the waveform. The initializer's text is replaced here: the
             // "Recording" word is redundant now that the waveform shows what the chip is.
-            label.Text = TimeSpan.FromMilliseconds(durationMs).ToString(DurationFormat);
+            label.Text = DurationText.Format(durationMs);
             label.FontFamily = new FontFamily("Consolas");
             label.FontSize = 11;
             label.Margin = new Thickness(8, 0, 2, 0);
@@ -686,7 +683,7 @@ namespace KillerNotes.Shell
         /// never what was meant.</summary>
         private void ToggleEmbeddedRecording(string hash, Border chip)
         {
-            if (DictationPlayer.IsOpen && _recHash == hash && ReferenceEquals(_recChip, chip))
+            if (DictationPlayer.IsOpenFor(this) && _recHash == hash && ReferenceEquals(_recChip, chip))
             {
                 // MDL2 E768 Play / E769 Pause.
                 var (glyph, _, _) = ChipParts(chip);
@@ -719,7 +716,7 @@ namespace KillerNotes.Shell
 
             var (glyph, played, label) = ChipParts(chip);
 
-            if (!DictationPlayer.Play(wav))
+            if (!DictationPlayer.Play(wav, 0, this))
             {
                 StatusText.Text = DictationPlayer.LastError ?? Loc("Str_Dict_Missing");
                 return;
@@ -738,13 +735,14 @@ namespace KillerNotes.Shell
             };
             _recTimer.Tick += (_, _) =>
             {
-                if (DictationPlayer.IsFinished) { StopEmbeddedPlayback(); return; }
+                // The pad took the player over, or a new take closed it: the chip goes back to rest.
+                if (!DictationPlayer.IsOpenFor(this) || DictationPlayer.IsFinished) { StopEmbeddedPlayback(); return; }
                 int total = DictationPlayer.DurationMs;
                 if (total <= 0) return;
                 double frac = Math.Min(1, DictationPlayer.PositionMs / (double)total);
                 if (played?.Clip is RectangleGeometry rg)
                     rg.Rect = new Rect(0, 0, ChipWaveW * frac, ChipWaveH);
-                label?.Text = TimeSpan.FromMilliseconds(DictationPlayer.PositionMs).ToString(DurationFormat);
+                label?.Text = DurationText.Format(DictationPlayer.PositionMs);
             };
             _recTimer.Start();
         }
@@ -754,7 +752,7 @@ namespace KillerNotes.Shell
         {
             _recTimer?.Stop();
             _recTimer = null;
-            DictationPlayer.Stop();
+            DictationPlayer.StopFor(this);
 
             if (_recChip != null)
             {
