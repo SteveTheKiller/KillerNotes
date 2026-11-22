@@ -116,7 +116,7 @@ namespace KillerNotes.Tests
             {
                 ((Button)window.FindName("LangButton")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 var menu = (ContextMenu)window.FindName("LangMenu");
-                var columns = (StackPanel)menu.Items[0];
+                var columns = (StackPanel)((MenuItem)menu.Items[0]).Header;
                 columns.Children.OfType<StackPanel>().SelectMany(p => p.Children.OfType<RadioButton>())
                     .Single(r => (string)r.Tag == "De").IsChecked = true;
                 var sort = (Button)window.FindName("SortBtn");

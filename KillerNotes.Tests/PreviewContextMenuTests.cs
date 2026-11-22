@@ -25,7 +25,7 @@ namespace KillerNotes.Tests
             var editor = (RichTextBox)window.FindName("Editor");
             editor.Document.Blocks.Clear();
             editor.Document.Blocks.Add(new Paragraph(new Run("# Rendered heading\n\nRendered body")));
-            ((ButtonBase)window.FindName("PreviewRenderedSeg")).RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            ((ComboBox)window.FindName("PreviewModeBtn")).SelectedValue = "Rendered";
             window.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
             var viewer = Elements((Border)window.FindName("PreviewPane")).OfType<FlowDocumentScrollViewer>().Single();
             Assert.NotNull(viewer.ContextMenu);
