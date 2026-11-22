@@ -365,3 +365,32 @@
     Object.keys(captions[locale]).forEach(function (key) { I18N[locale][key] = captions[locale][key]; });
   });
 }());
+
+// Trash Polka captures at the top of the screenshot strip.
+(function () {
+  var captions = {
+  "it": ["Tema Trash Polka: una nota visiva con tabella, screenshot e note collegate.", "Tema Trash Polka in verde acqua: la scheda della nota aperta su una revisione trimestrale."],
+  "es": ["Tema Trash Polka: una nota visual con tabla, captura de pantalla y notas vinculadas.", "Tema Trash Polka en verde azulado: la tarjeta de la nota abierta sobre una revisión trimestral."],
+  "de": ["Trash-Polka-Theme: eine visuelle Notiz mit Tabelle, Screenshot und verknüpften Notizen.", "Trash-Polka-Theme in Petrol: die Notizkarte geöffnet über einer Quartalsübersicht."],
+  "fr": ["Thème Trash Polka : une note visuelle avec un tableau, une capture d'écran et des notes liées.", "Thème Trash Polka en sarcelle : la fiche de la note ouverte sur une revue trimestrielle."],
+  "pt": ["Tema Trash Polka: uma nota visual com tabela, captura de tela e notas vinculadas.", "Tema Trash Polka em verde-azulado: o cartão da nota aberto sobre uma revisão trimestral."],
+  "nb": ["Trash Polka-temaet: et visuelt notat med tabell, skjermbilde og koblede notater.", "Trash Polka-temaet i blågrønt: notatkortet åpent over en kvartalsgjennomgang."],
+  "sl": ["Tema Trash Polka: vizualni zapisek s tabelo, posnetkom zaslona in povezanimi zapiski.", "Tema Trash Polka v modrozeleni: kartica zapiska, odprta nad četrtletnim pregledom."],
+  "pl": ["Motyw Trash Polka: wizualna notatka z tabelą, zrzutem ekranu i powiązanymi notatkami.", "Motyw Trash Polka w kolorze morskim: karta notatki otwarta nad przeglądem kwartalnym."],
+  "cs": ["Motiv Trash Polka: vizuální poznámka s tabulkou, snímkem obrazovky a propojenými poznámkami.", "Motiv Trash Polka v modrozelené: karta poznámky otevřená nad čtvrtletním přehledem."],
+  "hu": ["Trash Polka téma: vizuális jegyzet táblázattal, képernyőképpel és kapcsolt jegyzetekkel.", "Trash Polka téma kékeszöldben: a jegyzetkártya egy negyedéves áttekintés fölött."],
+  "tr": ["Trash Polka teması: tablo, ekran görüntüsü ve bağlantılı notlar içeren görsel bir not.", "Camgöbeği Trash Polka teması: üç aylık bir değerlendirmenin üzerinde açık not kartı."],
+  "ru": ["Тема Trash Polka: визуальная заметка с таблицей, снимком экрана и связанными заметками.", "Тема Trash Polka в бирюзовом: карточка заметки открыта поверх квартального обзора."],
+  "uk": ["Тема Trash Polka: візуальна нотатка з таблицею, знімком екрана та пов'язаними нотатками.", "Тема Trash Polka в бірюзовому: картка нотатки відкрита над квартальним оглядом."],
+  "kk": ["Trash Polka тақырыбы: кестесі, скриншоты және байланысты жазбалары бар көрнекі жазба.", "Көкшіл-жасыл Trash Polka тақырыбы: тоқсандық шолудың үстінде ашылған жазба картасы."],
+  "vi": ["Chủ đề Trash Polka: một ghi chú trực quan với bảng, ảnh chụp màn hình và các ghi chú liên kết.", "Chủ đề Trash Polka màu xanh mòng két: thẻ ghi chú mở trên một bản đánh giá quý."],
+  "ja": ["Trash Polka テーマ：表、スクリーンショット、リンクされたノートを含むビジュアルノート。", "ティールの Trash Polka テーマ：四半期レビューの上に開いたノートカード。"],
+  "zh": ["Trash Polka 主題：含表格、螢幕擷取畫面及連結筆記的視覺筆記。", "藍綠色 Trash Polka 主題：在季度檢討上開啟的筆記卡片。"],
+  "zh-cn": ["Trash Polka 主题：含表格、屏幕截图和链接笔记的可视化笔记。", "蓝绿色 Trash Polka 主题：在季度回顾上打开的笔记卡片。"],
+  "bn": ["Trash Polka থিম: টেবিল, স্ক্রিনশট ও লিঙ্ক করা নোটসহ একটি ভিজ্যুয়াল নোট।", "টিল রঙের Trash Polka থিম: ত্রৈমাসিক পর্যালোচনার ওপর খোলা নোট কার্ড।"]
+};
+  Object.keys(captions).forEach(function (locale) {
+    I18N[locale].shot_tp_notebook = captions[locale][0];
+    I18N[locale].shot_tp_card = captions[locale][1];
+  });
+}());
