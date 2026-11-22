@@ -38,12 +38,12 @@ namespace KillerNotes.Tests
                 wave.AddCut(0.5);
                 wave.SelectedSegment = 0;
                 var card = pad.BuildWaveCard();
-                var delete = card.Items.OfType<MenuItem>().Single(m => m.Header as string == "Delete segment");
+                var delete = CardTileHelper.Tile(card, "deleteseg");
                 Assert.True(delete.IsEnabled);
 
                 Click(transcribe);
                 Assert.True(entered.Wait(TimeSpan.FromSeconds(5)), "The supplied recognizer must be running.");
-                delete.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                CardTileHelper.Click(delete);
                 release.Set();
                 WaitFor(() => transcribe.IsEnabled);
                 Click(Button(pad, "Alt+E"));

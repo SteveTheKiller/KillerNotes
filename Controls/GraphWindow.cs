@@ -43,6 +43,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using KillerNotes.Shell;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -284,18 +285,15 @@ namespace KillerNotes.Controls
             KeyDown += OnKey;
             DialogShortcuts.Bind(this, _miColor, "Y", Key.Y, ModifierKeys.None, () => Flip(_miColor, ApplyNodeColors));
             DialogShortcuts.Bind(this, _miGhosts, "H", Key.H, ModifierKeys.None, () => Flip(_miGhosts, ApplyGhostVisibility));
-            // The three Alt keys open the canvas card on the part they name: the Arrange strip,
-            // the Shape row, or the Forget list at the bottom.
+            // The three Alt keys open the canvas card on the tile they name: Alt+A on the first
+            // arrangement tile, Alt+S with the Shape list open, Alt+F with the Forget list open.
             DialogShortcuts.Bind(this, _miArrange, "Alt+A", Key.A, ModifierKeys.Alt,
-                () => OpenCanvasCard(card => FocusFirst<Button>(card, CardArrangeStrip)));
+                () => OpenCanvasCard(card => NoteCards.Tile(card, "connection")?.Focus()));
             DialogShortcuts.Bind(this, _miShape, "Alt+S", Key.S, ModifierKeys.Alt,
-                () => OpenCanvasCard(card => FocusShape(card)), () => _visualizer);
+                () => OpenCanvasCard(card => OpenTile(card, "shape")), () => _visualizer);
             DialogShortcuts.Bind(this, _canvas, "S", Key.S, ModifierKeys.None, SaveArrangementPrompt, () => SameDb && !NoteStore.IsReadOnly);
-            DialogShortcuts.Bind(this, _canvas, "Alt+F", Key.F, ModifierKeys.Alt, () => OpenCanvasCard(card =>
-            {
-                foreach (var row in card.Items.OfType<MenuItem>())
-                    if (Equals(row.Header, Str("Str_Ctx_GraphForget", "Forget arrangement"))) { row.Focus(); row.IsSubmenuOpen = true; }
-            }), () => SameDb && !NoteStore.IsReadOnly && NoteStore.ListGraphLayouts().Count > 0);
+            DialogShortcuts.Bind(this, _canvas, "Alt+F", Key.F, ModifierKeys.Alt, () => OpenCanvasCard(card => OpenTile(card, "forget")),
+                () => SameDb && !NoteStore.IsReadOnly && NoteStore.ListGraphLayouts().Count > 0);
         }
 
         // ── Chrome ───────────────────────────────────────────────────────────────────────
@@ -2275,16 +2273,8 @@ namespace KillerNotes.Controls
         // only sit in one menu.
         private MenuItem _miArrange = null!;
 
-        private const double NodeCardWidth = 360;
-        // Wider than the family's 360 for the Shape row: six segments that cannot wrap. At 360
-        // even the English names ran off the edge, and Russian, the longest, needs about 450.
-        private const double CanvasCardWidth = 470;
-
-        /// <summary>The canvas card's Arrange strip, by its automation name, which Alt+A focuses.</summary>
+        /// <summary>The hidden arrangement row's name, which Alt+A is described by.</summary>
         private static string CardArrangeStrip => Str("Str_Ctx_GraphArrange", "Arrange");
-
-        /// <summary>The canvas card's Shape row, by its automation name, which Alt+S focuses.</summary>
-        private static string CardShapeRow => Str("Str_Ctx_GraphShape", "Shape");
 
         private void BuildMenus()
         {
@@ -2332,25 +2322,12 @@ namespace KillerNotes.Controls
             };
         }
 
-        /// <summary>The node card: the note's title, a strip of Open (Create on a note not written
-        /// yet), Copy link, Links here and Distance, then Lock in place.</summary>
+        /// <summary>The node card: the note's title over five tiles, Open (Create on a note not
+        /// written yet), Copy link, Links here, Distance and Lock in place.</summary>
         private ContextMenu BuildNodeCard(Node n)
         {
-            var card = CardBuilder.Menu(NodeCardWidth);
-            card.Items.Add(CardBuilder.Header(n.Title, n.Ghost ? Str("Str_GraphCard_NotWritten", "Not written yet") : NodeMeta(n)));
-            card.Items.Add(CardBuilder.QuickStrip(Str("Str_Card_Actions", "Actions"),
-            [
-                n.Ghost
-                    ? new CardAction("\uE710", Str("Str_GraphCard_Create", "Create"), Str("Str_Ctx_GraphCreate", "Create this note"), "Enter", () => OpenNode(n))
-                    : new CardAction("\uE8E5", Str("Str_GraphCard_Open", "Open"), Str("Str_Ctx_GraphOpen", "Open note"), "Enter", () => OpenNode(n)),
-                new CardAction("\uE71B", Str("Str_GraphCard_CopyLink", "Copy link"), Str("Str_Ctx_GraphCopy", "Copy as [[link]]"), "Ctrl+C", CopyMenuNodeLink),
-                new CardAction("\uE71C", Str("Str_GraphCard_LinksHere", "Links here"), Str("Str_Ctx_GraphIsolate", "Show only what links here"), "F", IsolateMenuNode),
-                // "Arrange by distance" belongs HERE, on the note, not on the canvas card. It lays
-                // the graph out in rings by how many links each note is from ONE note - so it is
-                // meaningless without a note chosen, and on the canvas it had to be titled "Rings
-                // by distance from one note" just to explain which note it meant (2026-08-23).
-                new CardAction("\uE81D", Str("Str_GraphCard_Distance", "Distance"), Str("Str_Ctx_GraphDistance", "Arrange by distance"), "T", ArrangeOutward),
-            ]));
+            var card = NoteCards.Menu();
+            card.Items.Add(NoteCards.Header(card, n.Title, n.Ghost ? Str("Str_GraphCard_NotWritten", "Not written yet") : NodeMeta(n)));
 
             // LOCK, not "pin". The old pin row was an internal flag wearing a menu row - "may the
             // layout move this node" - so it needed the reader to know there was a physics
@@ -2363,15 +2340,33 @@ namespace KillerNotes.Controls
             // the chip reads off and one click locks the lot - which is the useful direction, and
             // what K does. A ghost has no note to remember a lock against, so the chip is
             // disabled rather than silently doing nothing that outlives the window.
+            //
+            // Five tiles on the family card rules (Shell/NoteCards.cs): Open, Copy link and Links
+            // here over Distance and Lock, two wider tiles so the row has no gap. Lock flips in
+            // place and the card stays open.
             var targets = LockTargets();
-            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Position", "Position"),
-            [
-                new CardChoice(Str("Str_Ctx_GraphLock", "Lock in place"),
-                               Str("Str_Ctx_GraphLockTip", "Nothing moves a locked note - not an arrangement, not its neighbors."),
-                               "K", targets.Count > 0 && targets.All(v => v.Locked), ToggleLock, targets.Count > 0),
-            ]));
+            card.Items.Add(NoteCards.Grid(card, new[]
+            {
+                n.Ghost
+                    ? Tile("create", "", Str("Str_GraphCard_Create", "Create"), Str("Str_Ctx_GraphCreate", "Create this note"), "Enter", () => OpenNode(n))
+                    : Tile("open", "", Str("Str_GraphCard_Open", "Open"), Str("Str_Ctx_GraphOpen", "Open note"), "Enter", () => OpenNode(n)),
+                Tile("copylink", "", Str("Str_GraphCard_CopyLink", "Copy link"), Str("Str_Ctx_GraphCopy", "Copy as [[link]]"), "Ctrl+C", CopyMenuNodeLink),
+                Tile("linkshere", "", Str("Str_GraphCard_LinksHere", "Links here"), Str("Str_Ctx_GraphIsolate", "Show only what links here"), "F", IsolateMenuNode),
+                // "Arrange by distance" belongs HERE, on the note, not on the canvas card. It lays
+                // the graph out in rings by how many links each note is from ONE note - so it is
+                // meaningless without a note chosen, and on the canvas it had to be titled "Rings
+                // by distance from one note" just to explain which note it meant (2026-08-23).
+                Tile("distance", "", Str("Str_GraphCard_Distance", "Distance"), Str("Str_Ctx_GraphDistance", "Arrange by distance"), "T", ArrangeOutward),
+                Tile("lock", "", Str("Str_Ctx_GraphLock", "Lock in place"),
+                     Str("Str_Ctx_GraphLockTip", "Nothing moves a locked note - not an arrangement, not its neighbors."), "K", ToggleLock, targets.Count > 0)
+                    with { Checked = targets.Count > 0 && targets.All(v => v.Locked), KeepsOpen = true },
+            }));
             return card;
         }
+
+        /// <summary>A graph card tile: its full name and key in the tooltip, its Id for the tests.</summary>
+        private static CardTile Tile(string id, string glyph, string caption, string tip, string? keys, Action run, bool enabled = true) =>
+            new(glyph, caption, keys, run, false, enabled) { Id = id, Hint = CardBuilder.Tip(tip, keys) };
 
         /// <summary>The dim line under a node card's title: its group, then how many links it has.</summary>
         private static string NodeMeta(Node n)
@@ -2382,74 +2377,89 @@ namespace KillerNotes.Controls
             return n.GroupLeaf.Length > 0 ? n.GroupLeaf + "  ·  " + links : links;
         }
 
-        /// <summary>The canvas card: the window's title, the Arrange strip with Show all, what is
-        /// shown, what moves, the Shape row while the visualizer runs, and the saved arrangements
-        /// as a short list at the bottom.</summary>
+        /// <summary>The canvas card on the family card rules (Shell/NoteCards.cs): the window's
+        /// title over five full rows of tiles. How to arrange, with Show all and Pin all; what is
+        /// shown; the visualizer with its Shape list and Next shape, dimmed while it is off; and
+        /// the saved arrangements, Save, and Forget last.</summary>
         private ContextMenu BuildCanvasCard()
         {
-            var card = CardBuilder.Menu(CanvasCardWidth);
+            var card = NoteCards.Menu();
             int shown = _nodes.Count(v => v.Dot.Visibility == Visibility.Visible);
-            card.Items.Add(CardBuilder.Header(Title, shown == 1
+            card.Items.Add(NoteCards.Header(card, Title, shown == 1
                 ? Str("Str_Card_OneNote", "1 note")
                 : string.Format(CultureInfo.CurrentCulture, Str("Str_Card_NotesCount", "{0} notes"), shown)));
 
             // ARRANGE, with real alternatives. Force-directed answers "what is the shape of this",
             // but it is bad at "read every title in order" - two questions, two layouts. Circle
             // and grid are deterministic, so they are also the way to get a graph back to
-            // something legible after it has been dragged into a mess. Show all sits on the end
-            // because it is the other way back to a readable graph.
-            var strip = CardBuilder.QuickStrip(CardArrangeStrip,
-            [
-                new CardAction("\uF003", Str("Str_GraphCard_Connection", "Connection"), Str("Str_Ctx_GraphArrangeForce", "By connection"), "R", ArrangeForce),
-                new CardAction("\uEA3A", Str("Str_GraphCard_Circle", "Circle"), Str("Str_Ctx_GraphArrangeCircle", "In a circle"), "C", ArrangeCircle),
-                new CardAction("\uE80A", Str("Str_GraphCard_Grid", "Grid"), Str("Str_Ctx_GraphArrangeGrid", "In a grid"), "G", ArrangeGrid),
-                new CardAction("\uE902", Str("Str_GraphCard_Groups", "Groups"), Str("Str_Ctx_GraphArrangeGroups", "By group"), "B", ArrangeByGroup),
-                new CardAction("\uE9A6", Str("Str_GraphCard_ShowAll", "Show all"), Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
-                               () => { ClearIsolation(); ClearSelection(); }),
-            ]);
-            System.Windows.Automation.AutomationProperties.SetAcceleratorKey(strip, "Alt+A");
-            card.Items.Add(strip);
-
-            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Show", "Show"),
-            [
-                new CardChoice(Str("Str_GraphCard_Labels", "Labels"), Str("Str_Ctx_GraphLabels", "Show labels"), "L",
-                               _miLabels.IsChecked, () => Flip(_miLabels, ApplyLabelVisibility)),
-                new CardChoice(Str("Str_GraphCard_Unwritten", "Unwritten"), Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), "H",
-                               _miGhosts.IsChecked, () => Flip(_miGhosts, ApplyGhostVisibility)),
-                new CardChoice(Str("Str_GraphCard_Colors", "Colors"), Str("Str_Ctx_GraphColor", "Color by group"), "Y",
-                               _miColor.IsChecked, () => Flip(_miColor, ApplyNodeColors)),
-            ]));
-            card.Items.Add(CardBuilder.ToggleRow(Str("Str_GraphCard_Motion", "Motion"),
-            [
-                new CardChoice(Str("Str_Ctx_GraphSpin", "Visualizer"), Str("Str_TT_GraphSpin", "Let the graph drift and turn on its own. Pinning is suspended while it runs."), "V",
-                               _visualizer, () => SetVisualizer(!_visualizer)),
-                new CardChoice(Str("Str_GraphCard_PinAll", "Pin all"), Str("Str_TT_GraphHold", "Keep every note where it is put. Off, dragging a note makes the notes it links to move out of the way."), "P",
-                               _hold, () => SetHold(!_hold)),
-            ]));
-
-            // The Shape row exists only while the visualizer runs. It is left out the rest of the
-            // time rather than disabled, because outside the visualizer there is no cycle for it
-            // to describe and a permanently grayed row is just clutter. The segment on is the
-            // shape on screen when the card opened; the timer moves on by itself, which is why
-            // the card is built at open time.
-            if (_visualizer)
+            // something legible after it has been dragged into a mess. Show all follows because it
+            // is the other way back to a readable graph, and Pin all, which holds what is there.
+            //
+            // The on/off tiles flip in place and the card stays open, except Visualizer: turning
+            // it on wakes the Shape tiles, so that one closes the card and the next card shows them.
+            // The Shape list and Next shape keep their places, dimmed, while the visualizer is off.
+            // The shape ticked is the one on screen when the card opened; the timer moves on by
+            // itself, which is why the card is built at open time.
+            bool canSave = SameDb && !NoteStore.IsReadOnly;
+            var saved = SameDb ? NoteStore.ListGraphLayouts() : new List<string>();
+            card.Items.Add(NoteCards.Grid(card, new[]
             {
-                string[] captions = ShapeCaptions(), names = ShapeNames();
-                var shapes = CardBuilder.SegmentRow(CardShapeRow, Enumerable.Range(0, ShapeCount).Select(i =>
-                    new CardChoice(captions[i], names[i], ShapeGesture(i), i == _shape, () => PickShape(i))));
-                System.Windows.Automation.AutomationProperties.SetAcceleratorKey(shapes, "Alt+S");
-                card.Items.Add(shapes);
-                card.Items.Add(new Separator());
-                card.Items.Add(CardRow(Str("Str_Ctx_GraphShapeNext", "Next shape"), "N", "\uE72A", NextShape));
-            }
-
-            var saved = ArrangementRows();
-            if (saved.Count > 0)
-            {
-                card.Items.Add(new Separator());
-                foreach (var row in saved) card.Items.Add(row);
-            }
+                Tile("connection", "\uF003", Str("Str_GraphCard_Connection", "Connection"), Str("Str_Ctx_GraphArrangeForce", "By connection"), "R", ArrangeForce),
+                Tile("circle", "\uEA3A", Str("Str_GraphCard_Circle", "Circle"), Str("Str_Ctx_GraphArrangeCircle", "In a circle"), "C", ArrangeCircle),
+                Tile("grid", "\uE80A", Str("Str_GraphCard_Grid", "Grid"), Str("Str_Ctx_GraphArrangeGrid", "In a grid"), "G", ArrangeGrid),
+                Tile("groups", "\uE902", Str("Str_GraphCard_Groups", "Groups"), Str("Str_Ctx_GraphArrangeGroups", "By group"), "B", ArrangeByGroup),
+                Tile("showall", "\uE9A6", Str("Str_GraphCard_ShowAll", "Show all"), Str("Str_Ctx_GraphShowAll", "Show everything"), "Esc",
+                     () => { ClearIsolation(); ClearSelection(); }),
+                Tile("pinall", "\uE718", Str("Str_GraphCard_PinAll", "Pin all"), Str("Str_TT_GraphHold", "Keep every note where it is put. Off, dragging a note makes the notes it links to move out of the way."), "P",
+                     () => SetHold(!_hold)) with { Checked = _hold, KeepsOpen = true },
+                Tile("labels", "\uE8EC", Str("Str_GraphCard_Labels", "Labels"), Str("Str_Ctx_GraphLabels", "Show labels"), "L",
+                     () => Flip(_miLabels, ApplyLabelVisibility)) with { Checked = _miLabels.IsChecked, KeepsOpen = true },
+                Tile("unwritten", "\uE7C3", Str("Str_GraphCard_Unwritten", "Unwritten"), Str("Str_Ctx_GraphGhosts", "Show notes not written yet"), "H",
+                     () => Flip(_miGhosts, ApplyGhostVisibility)) with { Checked = _miGhosts.IsChecked, KeepsOpen = true },
+                Tile("colors", "\uE790", Str("Str_GraphCard_Colors", "Colors"), Str("Str_Ctx_GraphColor", "Color by group"), "Y",
+                     () => Flip(_miColor, ApplyNodeColors)) with { Checked = _miColor.IsChecked, KeepsOpen = true },
+                Tile("visualizer", "\uE768", Str("Str_Ctx_GraphSpin", "Visualizer"), Str("Str_TT_GraphSpin", "Let the graph drift and turn on its own. Pinning is suspended while it runs."), "V",
+                     () => SetVisualizer(!_visualizer)) with { Checked = _visualizer },
+                NoteCards.Flyout("\uE81E", Str("Str_Ctx_GraphShape", "Shape"), "Alt+S", ShapeRows(), _visualizer, "shape"),
+                Tile("nextshape", "\uE72A", Str("Str_Ctx_GraphShapeNext", "Next shape"), Str("Str_Ctx_GraphShapeNext", "Next shape"), "N", NextShape, _visualizer),
+                NoteCards.Flyout("\uE8F1", Str("Str_St_Saved", "Saved"), null, SavedRows(saved, "Alt+A, \u2191/\u2193, Enter", pick => { if (ApplyLayout(pick)) FitAllIntoView(); }), id: "saved"),
+                Tile("save", "\uE74E", Str("Str_Btn_Save", "Save"), Str("Str_Ctx_GraphSaveArrange", "Save this arrangement..."), "S", SaveArrangementPrompt, canSave),
+                NoteCards.Flyout("\uE74D", Str("Str_Ctx_GraphForget", "Forget arrangement"), "Alt+F",
+                    SavedRows(saved, "Alt+F, \u2191/\u2193, Enter", ForgetArrangement), canSave, "forget"),
+            }));
             return card;
+        }
+
+        /// <summary>The Shape tile's list: the six shapes by their full names, the one on screen ticked.</summary>
+        private List<object> ShapeRows()
+        {
+            string[] names = ShapeNames();
+            var rows = new List<object>();
+            for (int i = 0; i < ShapeCount; i++)
+            {
+                int shape = i;   // captured per row, not the loop variable's final value
+                var row = new MenuItem { Header = names[i], IsCheckable = true, IsChecked = i == _shape, StaysOpenOnClick = false };
+                DialogShortcuts.Describe(row, ShapeGesture(i));
+                row.Click += (_, _) => PickShape(shape);
+                rows.Add(row);
+            }
+            return rows;
+        }
+
+        /// <summary>One row per saved arrangement for the Saved and Forget lists. Built fresh with
+        /// every card, because arrangements can be saved and forgotten while this window is up.</summary>
+        private static List<object> SavedRows(IEnumerable<string> saved, string keys, Action<string> run)
+        {
+            var rows = new List<object>();
+            foreach (string name in saved)
+            {
+                string pick = name;   // captured per iteration on purpose: the handler outlives this loop
+                var row = new MenuItem { Header = pick };
+                DialogShortcuts.Describe(row, keys);
+                row.Click += (_, _) => run(pick);
+                rows.Add(row);
+            }
+            return rows;
         }
 
         private static void Flip(MenuItem state, Action apply)
@@ -2466,15 +2476,6 @@ namespace KillerNotes.Controls
             if (lockable.Count > 0) LockMenuTarget(!lockable.All(v => v.Locked));
         }
 
-        /// <summary>An ordinary row at the bottom of a card, its key shown on the row, in its
-        /// tooltip and to screen readers.</summary>
-        private static MenuItem CardRow(string header, string gesture, string? glyph, Action run)
-        {
-            var row = CardBuilder.Row(header, gesture, glyph, run);
-            DialogShortcuts.Describe(row, gesture);
-            return row;
-        }
-
         /// <summary>Opens the canvas card from the keyboard and hands it to focus once it is up.
         /// The focus has to wait: until the popup has opened and laid out, nothing on the card can
         /// take focus.</summary>
@@ -2487,26 +2488,12 @@ namespace KillerNotes.Controls
             card.IsOpen = true;
         }
 
-        /// <summary>Focuses the first control of type T on the card row with this automation name
-        /// that pick accepts.</summary>
-        private static void FocusFirst<T>(ContextMenu card, string row, Func<T, bool>? pick = null) where T : UIElement
+        /// <summary>Focuses a flyout tile on an open card and clicks it, which opens its list.</summary>
+        private static void OpenTile(ContextMenu card, string id)
         {
-            var slot = card.Items.OfType<MenuItem>().FirstOrDefault(m => System.Windows.Automation.AutomationProperties.GetName(m) == row);
-            if (slot?.Header is not DependencyObject header) return;
-            LogicalDescendants(header).OfType<T>().FirstOrDefault(t => pick?.Invoke(t) ?? true)?.Focus();
-        }
-
-        private static void FocusShape(ContextMenu card) =>
-            FocusFirst<System.Windows.Controls.RadioButton>(card, CardShapeRow, r => r.IsChecked == true);
-
-        private static IEnumerable<DependencyObject> LogicalDescendants(DependencyObject root)
-        {
-            foreach (object child in LogicalTreeHelper.GetChildren(root))
-            {
-                if (child is not DependencyObject d) continue;
-                yield return d;
-                foreach (var below in LogicalDescendants(d)) yield return below;
-            }
+            if (NoteCards.Tile(card, id) is not { IsEnabled: true } tile) return;
+            tile.Focus();
+            tile.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
         }
 
         // ── Hold positions ───────────────────────────────────────────────────────────────

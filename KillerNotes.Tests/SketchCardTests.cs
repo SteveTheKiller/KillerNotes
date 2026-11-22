@@ -16,11 +16,12 @@ using Xunit;
 namespace KillerNotes.Tests
 {
     /// <summary>
-    /// The sketch pad's right-click card (1.7.0 card menus). An object's card names the object,
-    /// puts the verbs that keep it on a quick strip and Delete under a rule; the empty canvas's
-    /// card holds Add image and Paste image, with Clear all under the rule. The pad is built and
-    /// never shown, the clipboard is never read (the builder takes its answer), and each control
-    /// is checked against the shortcut the canvas binds for it.
+    /// The sketch pad's right-click card on the family card rules (Shell/NoteCards.cs). An object's
+    /// card names the object with Delete as the header's icon button, then what that kind can do and
+    /// Front, Back and Duplicate as tiles, every row full; the empty canvas's card is one row of Add
+    /// image, Paste image and Clear all. No text rows anywhere. The pad is built and never shown, the
+    /// clipboard is never read (the builder takes its answer), and each tile is checked against the
+    /// shortcut the canvas binds for it.
     /// </summary>
     [Collection("Application resources")]
     public sealed class SketchCardTests
@@ -54,35 +55,28 @@ namespace KillerNotes.Tests
         private static string HeaderOf(ContextMenu card) =>
             AutomationProperties.GetName((MenuItem)card.Items[0]);
 
-        private static List<Button> Quick(ContextMenu card)
-        {
-            var strip = card.Items.OfType<MenuItem>().Single(m => m.Header is Border { Child: UniformGrid });
-            return ((UniformGrid)((Border)strip.Header).Child).Children.OfType<Button>().ToList();
-        }
+        private static List<Button> Tiles(ContextMenu card) => KillerNotes.Shell.NoteCards.Tiles(card).ToList();
 
-        private static List<MenuItem> Rows(ContextMenu card) =>
-            card.Items.OfType<MenuItem>().Where(m => m.Header is string).ToList();
-
-        private static Button QuickNamed(ContextMenu card, string name) =>
-            Quick(card).Single(b => AutomationProperties.GetName(b) == name);
+        private static Button Tile(ContextMenu card, string id) => CardTileHelper.Tile(card, id);
 
         private static void Click(ButtonBase b) => b.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
 
-        private static void Click(MenuItem m) => m.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+        private static void NoTextRows(ContextMenu card) =>
+            Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
 
         [Fact]
-        public void ALineCardNamesItAndOffersArcBesideTheReorderButtons() => WithDark(() =>
+        public void ALineCardPutsArcFirstThenTheReorderTilesTwoByTwo() => WithDark(() =>
         {
             var pad = Pad(Line(arced: false));
             var card = pad.BuildCanvasCard(Placed(pad, 0), canPaste: false);
 
             Assert.Equal("Line", HeaderOf(card));
-            Assert.Equal(new[] { "Bring to front", "Send to back", "Duplicate", "Arc line" },
-                Quick(card).Select(b => AutomationProperties.GetName(b)));
-            Assert.Equal(new[] { "Front", "Back", "Duplicate", "Arc line" }, Quick(card).Select(b => (string)b.Tag));
-            Assert.Equal(new[] { "Bring to front (Ctrl+Shift+Up)", "Send to back (Ctrl+Shift+Down)", "Duplicate (Ctrl+D)", "Arc line (Ctrl+Shift+A)" },
-                Quick(card).Select(b => (string)b.ToolTip));
-            Assert.Equal(300 + 44, card.MaxWidth);
+            Assert.Equal(new[] { "Arc line", "Front", "Back", "Duplicate" }, Tiles(card).Select(b => (string)b.Tag));
+            Assert.Equal(new[] { "Arc line (Ctrl+Shift+A)", "Bring to front (Ctrl+Shift+Up)", "Send to back (Ctrl+Shift+Down)", "Duplicate (Ctrl+D)" },
+                Tiles(card).Select(b => (string)b.ToolTip));
+            Assert.Equal(new[] { "Ctrl+Shift+A", "Ctrl+Shift+Up", "Ctrl+Shift+Down", "Ctrl+D" }, Tiles(card).Select(AutomationProperties.GetAcceleratorKey));
+            Assert.Equal(KillerNotes.Shell.NoteCards.Width + 44, card.MaxWidth);
+            NoTextRows(card);
         });
 
         [Fact]
@@ -90,25 +84,24 @@ namespace KillerNotes.Tests
         {
             var pad = Pad(Line(arced: true));
             var card = pad.BuildCanvasCard(Placed(pad, 0), canPaste: false);
-            var straighten = QuickNamed(card, "Straighten line");
+            var straighten = Tile(card, "straighten");
             Assert.Equal("Straighten line (Ctrl+Shift+L)", straighten.ToolTip);
-            Assert.DoesNotContain(Quick(card), b => AutomationProperties.GetName(b) == "Arc line");
+            Assert.Null(KillerNotes.Shell.NoteCards.Tile(card, "arc"));
 
             Click(straighten);
             Assert.Equal(4, Placed(pad, 0).Pts.Count);   // the same Straighten the old row ran
         });
 
         [Fact]
-        public void DeleteIsAListRowUnderARuleWithItsShortcut() => WithDark(() =>
+        public void DeleteIsTheHeadersIconButtonWithItsShortcut() => WithDark(() =>
         {
             var pad = Pad(Line(arced: false), Label(bold: false));
             var card = pad.BuildCanvasCard(Placed(pad, 0), canPaste: false);
 
-            var delete = Assert.Single(Rows(card));
-            Assert.Equal("Delete", delete.Header);
-            Assert.Equal("Delete", delete.InputGestureText);
-            Assert.True(card.Items[card.Items.IndexOf(delete) - 1] is MenuItem { Header: Border { Child: UniformGrid } }, "The row should sit right under the strip, whose lower rule separates them.");
-            Assert.DoesNotContain(Quick(card), b => AutomationProperties.GetName(b) == "Delete");
+            var delete = CardTileHelper.HeaderDelete(card);
+            Assert.Equal("Delete", AutomationProperties.GetName(delete));
+            Assert.Equal("Delete", AutomationProperties.GetAcceleratorKey(delete));
+            Assert.DoesNotContain(Tiles(card), b => (string)b.Tag == "Delete");
 
             var keep = Placed(pad, 1);
             Click(delete);
@@ -116,23 +109,27 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void ATextCardCarriesEditAndBoldAndBoldNamesWhichWayItGoes() => WithDark(() =>
+        public void ATextCardIsFiveTilesWithEditAndBoldFirstAndBoldShowsWhetherItIsOn() => WithDark(() =>
         {
             var pad = Pad(Label(bold: false));
             var label = Placed(pad, 0);
             var card = pad.BuildCanvasCard(label, canPaste: false);
 
             Assert.Equal("Text", HeaderOf(card));
-            Assert.Equal(5, Quick(card).Count);
-            Assert.Equal("Edit text (F10)", QuickNamed(card, "Edit text").ToolTip);
-            var bold = QuickNamed(card, "Bold");
+            Assert.Equal(new[] { "Edit text", "Bold", "Front", "Back", "Duplicate" }, Tiles(card).Select(b => (string)b.Tag));
+            // Five tiles: a row of three, then a row of two wider ones, so no row has a gap.
+            Assert.Equal(new[] { 3, 2 }, KillerNotes.Shell.NoteCards.RowSizes(5));
+            Assert.Equal("Edit text (F10)", Tile(card, "edittext").ToolTip);
+            var bold = Tile(card, "bold");
             Assert.Equal("Bold (Ctrl+B)", bold.ToolTip);
+            Assert.False(CardTileHelper.Checked(card, "bold"));
             Click(bold);
             Assert.True(label.Bold);
 
             var again = pad.BuildCanvasCard(label, canPaste: false);
-            Assert.Equal("Remove bold (Ctrl+B)", QuickNamed(again, "Remove bold").ToolTip);
-            Assert.Equal("Bold", QuickNamed(again, "Remove bold").Tag);
+            Assert.Equal("Remove bold (Ctrl+B)", Tile(again, "bold").ToolTip);
+            Assert.Equal("Bold", Tile(again, "bold").Tag);
+            Assert.True(CardTileHelper.Checked(again, "bold"));
         });
 
         [Fact]
@@ -143,7 +140,8 @@ namespace KillerNotes.Tests
             var card = pad.BuildCanvasCard(image, canPaste: false);
 
             Assert.Equal("Image", HeaderOf(card));
-            var reset = QuickNamed(card, "Reset opacity");
+            Assert.Equal(new[] { "Reset opacity", "Front", "Back", "Duplicate" }, Tiles(card).Select(b => (string)b.Tag));
+            var reset = Tile(card, "resetopacity");
             Assert.Equal("Reset opacity (Ctrl+Shift+O)", reset.ToolTip);
             Click(reset);
             Assert.Equal(1, image.Opacity);
@@ -154,13 +152,13 @@ namespace KillerNotes.Tests
         {
             var pad = Pad(Line(arced: false), Label(bold: false));
             var line = Placed(pad, 0);
-            Click(QuickNamed(pad.BuildCanvasCard(line, canPaste: false), "Bring to front"));
+            Click(Tile(pad.BuildCanvasCard(line, canPaste: false), "front"));
             Assert.Same(line, Objects(pad).Last());
 
-            Click(QuickNamed(pad.BuildCanvasCard(line, canPaste: false), "Send to back"));
+            Click(Tile(pad.BuildCanvasCard(line, canPaste: false), "back"));
             Assert.Same(line, Objects(pad).First());
 
-            Click(QuickNamed(pad.BuildCanvasCard(line, canPaste: false), "Duplicate"));
+            Click(Tile(pad.BuildCanvasCard(line, canPaste: false), "duplicate"));
             Assert.Equal(3, Objects(pad).Count);
             Assert.Equal(SketchKind.Line, Objects(pad).Last().Kind);
             Assert.NotSame(line, Objects(pad).Last());
@@ -177,27 +175,27 @@ namespace KillerNotes.Tests
             var pad = Pad(new SketchObject { Kind = kind, Pts = [0, 0, 20, 20] });
             var card = pad.BuildCanvasCard(Placed(pad, 0), canPaste: false);
             Assert.Equal(name, HeaderOf(card));
-            Assert.InRange(Quick(card).Count, 3, 5);
+            Assert.InRange(Tiles(card).Count, 3, 5);
+            NoTextRows(card);
         });
 
         [Fact]
-        public void TheCanvasCardGreysPasteWithNoImageAndClearAllOnAnEmptyPad() => WithDark(() =>
+        public void TheCanvasCardDimsPasteWithNoImageAndClearAllOnAnEmptyPad() => WithDark(() =>
         {
             var pad = Pad();
             var card = pad.BuildCanvasCard(null, canPaste: false);
 
             Assert.Equal("SketchPad", HeaderOf(card));
-            Assert.Equal(new[] { "Add image...", "Paste image" }, Quick(card).Select(b => AutomationProperties.GetName(b)));
-            Assert.Equal("Add image... (I)", QuickNamed(card, "Add image...").ToolTip);
-            var paste = QuickNamed(card, "Paste image");
+            Assert.Equal(new[] { "Add image", "Paste image", "Clear all" }, Tiles(card).Select(b => (string)b.Tag));
+            Assert.Equal("Add image... (I)", Tile(card, "addimage").ToolTip);
+            var paste = Tile(card, "pasteimage");
             Assert.False(paste.IsEnabled);
             Assert.Equal("Paste image (Ctrl+V)", paste.ToolTip);
-
-            var clear = Assert.Single(Rows(card));
-            Assert.Equal("Clear all", clear.Header);
-            Assert.Equal("F8", clear.InputGestureText);
+            var clear = Tile(card, "clearall");
+            Assert.Equal("F8", AutomationProperties.GetAcceleratorKey(clear));
             Assert.False(clear.IsEnabled);
-            Assert.True(card.Items[card.Items.IndexOf(clear) - 1] is MenuItem { Header: Border { Child: UniformGrid } }, "The row should sit right under the strip, whose lower rule separates them.");
+            Assert.Null(KillerNotes.Shell.NoteCards.HeaderDelete(card));
+            NoTextRows(card);
         });
 
         [Fact]
@@ -205,8 +203,8 @@ namespace KillerNotes.Tests
         {
             var pad = Pad(Line(arced: false));
             var card = pad.BuildCanvasCard(null, canPaste: true);
-            Assert.True(QuickNamed(card, "Paste image").IsEnabled);
-            var clear = Assert.Single(Rows(card));
+            Assert.True(Tile(card, "pasteimage").IsEnabled);
+            var clear = Tile(card, "clearall");
             Assert.True(clear.IsEnabled);
             Click(clear);
             Assert.Empty(Objects(pad));

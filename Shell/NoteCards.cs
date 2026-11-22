@@ -163,10 +163,25 @@ namespace KillerNotes.Shell
                 if (!byName.ContainsKey(Trimmed(tile.Caption))) byName[Trimmed(tile.Caption)] = tile;
             card.SetValue(TilesProperty, byName);
             string name = Loc("Str_Card_Quick");
-            // A fixed small card never leaves a row half empty: one to three tiles take that many columns, four go two
-            // by two. A customizable card keeps three across, since its tiles come and go.
-            int columns = edit != null ? Columns : BalancedColumns(tiles.Count);
-            var strip = CardBuilder.TileGroups(card, name, tiles.Count > 0 ? new[] { tiles } : new List<CardTile>[0], edit, columns);
+            // A fixed card never leaves a gap in a row: rows of three, and where three do not come out even, the
+            // last row or two hold two wider tiles (RowSizes). A customizable card keeps three across, since its
+            // tiles come and go.
+            FrameworkElement strip;
+            var sizes = RowSizes(tiles.Count);
+            if (edit != null || sizes.Distinct().Count() == 1)
+                strip = CardBuilder.TileGroups(card, name, tiles.Count > 0 ? new[] { tiles } : new List<CardTile>[0], edit,
+                    edit != null ? Columns : Math.Max(1, sizes[0]));
+            else
+            {
+                var rows = new StackPanel();
+                int at = 0;
+                foreach (int size in sizes)
+                {
+                    rows.Children.Add(CardBuilder.TileGroups(card, name, new[] { tiles.GetRange(at, size) }, size));
+                    at += size;
+                }
+                strip = rows;
+            }
             var slot = CardBuilder.Slot(strip, new Thickness(0));
             AutomationProperties.SetName(slot, name);
             // A tile with an Id carries it as its button's Uid, the command name the tests read.
@@ -175,8 +190,16 @@ namespace KillerNotes.Shell
             return slot;
         }
 
-        /// <summary>Columns that fill every row of a fixed card: 1 to 3 tiles in one row, 4 as two by two, more three across.</summary>
-        internal static int BalancedColumns(int tiles) => tiles switch { <= 0 => 1, <= Columns => tiles, 4 => 2, _ => Columns };
+        /// <summary>The tiles in each row of a fixed card, every row full: up to three in one row, then rows of three
+        /// with the leftovers as rows of two (4 is 2+2, 5 is 3+2, 7 is 3+2+2, 8 is 3+3+2).</summary>
+        internal static IReadOnlyList<int> RowSizes(int tiles)
+        {
+            if (tiles <= Columns) return new[] { Math.Max(tiles, 0) };
+            int twos = (Columns - tiles % Columns) % Columns;   // 0, 1 or 2 rows of two
+            var rows = Enumerable.Repeat(Columns, (tiles - 2 * twos) / Columns).ToList();
+            rows.AddRange(Enumerable.Repeat(2, twos));
+            return rows;
+        }
 
         private static string Trimmed(string caption) => caption.TrimEnd('.', '…').TrimEnd();
 

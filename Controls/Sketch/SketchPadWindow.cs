@@ -174,7 +174,7 @@ namespace KillerNotes.Controls.Sketch
 
             // No fixed size: the canvas stretches to fill the frame, so resizing the window enlarges the
             // actual drawing area (1:1 pixels) rather than scaling a fixed canvas. _canvasW/H track it.
-            _canvas = new Canvas { Focusable = true, ContextMenu = CardBuilder.Menu(300) };
+            _canvas = new Canvas { Focusable = true, ContextMenu = KillerNotes.Shell.NoteCards.Menu() };
             System.Windows.Automation.AutomationProperties.SetName(_canvas, L("Str_Sketch_Title", "SketchPad"));
             _canvas.SetResourceReference(Panel.BackgroundProperty, "PaneBrush");   // DynamicResource so it follows a live theme change
             _canvas.MouseLeftButtonDown += CanvasDown;

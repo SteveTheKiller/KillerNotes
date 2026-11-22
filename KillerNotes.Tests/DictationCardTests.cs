@@ -6,18 +6,18 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using KillerNotes.Controls.Dictation;
 using KillerNotes.Services;
+using KillerNotes.Shell;
 using Xunit;
 
 namespace KillerNotes.Tests
 {
     /// <summary>
-    /// The dictation waveform's right-click card (1.7.0 card menus): Slice, Copy, Paste and Undo
-    /// on the quick strip, Delete segment and Clear slices as list rows under a rule. The pad is
-    /// built and never shown, and nothing here opens a microphone or speaker; every control is
-    /// checked against the Alt shortcut the waveform binds for it.
+    /// The dictation waveform's right-click card on the family card rules (Shell/NoteCards.cs): two full rows of
+    /// tiles, Slice, Copy and Paste over Undo, Clear slices and Delete segment, with no text rows. The pad is built
+    /// and never shown, and nothing here opens a microphone or speaker; every tile is checked against the Alt
+    /// shortcut the waveform binds for it.
     /// </summary>
     [Collection("Application resources")]
     public sealed class DictationCardTests
@@ -65,74 +65,62 @@ namespace KillerNotes.Tests
             return pad.BuildWaveCard();
         }
 
-        private static List<Button> Quick(ContextMenu card)
-        {
-            var strip = card.Items.OfType<MenuItem>().Single(m => m.Header is Border { Child: UniformGrid });
-            return ((UniformGrid)((Border)strip.Header).Child).Children.OfType<Button>().ToList();
-        }
-
-        private static Button QuickNamed(ContextMenu card, string name) =>
-            Quick(card).Single(b => AutomationProperties.GetName(b) == name);
-
-        private static List<MenuItem> Rows(ContextMenu card) =>
-            card.Items.OfType<MenuItem>().Where(m => m.Header is string).ToList();
-
-        private static void Click(ButtonBase b) => b.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+        private static List<Button> Tiles(ContextMenu card) => NoteCards.Tiles(card).ToList();
 
         [Fact]
-        public void TheStripHoldsSliceCopyPasteAndUndoWithTheirShortcuts() => WithDark(() =>
+        public void TheCardIsTwoFullRowsOfTilesWithTheirShortcutsAndNoTextRows() => WithDark(() =>
         {
             var card = CardAt(Pad(), 0.5);
 
             Assert.Equal("Recording", AutomationProperties.GetName((MenuItem)card.Items[0]));
-            Assert.Equal(new[] { "Slice here", "Copy segment", "Paste segment here", "Undo edit" },
-                Quick(card).Select(b => AutomationProperties.GetName(b)));
-            Assert.Equal(new[] { "Slice here", "Copy", "Paste", "Undo" }, Quick(card).Select(b => (string)b.Tag));
-            Assert.Equal(new[] { "Slice here (Alt+S)", "Copy segment (Alt+C)", "Paste segment here (Alt+V)", "Undo edit (Alt+Z)" },
-                Quick(card).Select(b => (string)b.ToolTip));
-            Assert.Equal(300 + 44, card.MaxWidth);
+            Assert.Equal(NoteCards.Width + 44, card.MaxWidth);
+            Assert.Equal(new[] { "Slice here", "Copy", "Paste", "Undo", "Clear slices", "Delete segment" },
+                Tiles(card).Select(b => (string)b.Tag));
+            Assert.Equal(new[] { "Alt+S", "Alt+C", "Alt+V", "Alt+Z", "Alt+L", "Alt+D" },
+                Tiles(card).Select(AutomationProperties.GetAcceleratorKey));
+            Assert.Equal("Copy segment (Alt+C)", CardTileHelper.Tile(card, "copy").ToolTip);
+            Assert.Equal(new[] { 3, 3 }, NoteCards.RowSizes(Tiles(card).Count));
+            Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
         });
 
         [Fact]
-        public void WithNoCutsDeleteIsGreyedClearIsHiddenAndPasteAndUndoWait() => WithDark(() =>
+        public void WithNoCutsDeleteAndClearAreDimmedInPlaceAndPasteAndUndoWait() => WithDark(() =>
         {
             var card = CardAt(Pad(), 0.5);
 
-            Assert.False(QuickNamed(card, "Paste segment here").IsEnabled);
-            Assert.False(QuickNamed(card, "Undo edit").IsEnabled);
-            var delete = Assert.Single(Rows(card));
-            Assert.Equal("Delete segment", delete.Header);
-            Assert.Equal("Alt+D", delete.InputGestureText);
-            Assert.False(delete.IsEnabled);
-            Assert.True(card.Items[card.Items.IndexOf(delete) - 1] is MenuItem { Header: Border { Child: UniformGrid } }, "The row should sit right under the strip, whose lower rule separates them.");
+            Assert.True(CardTileHelper.Tile(card, "slice").IsEnabled);
+            Assert.True(CardTileHelper.Tile(card, "copy").IsEnabled);
+            Assert.False(CardTileHelper.Tile(card, "paste").IsEnabled);
+            Assert.False(CardTileHelper.Tile(card, "undo").IsEnabled);
+            Assert.False(CardTileHelper.Tile(card, "clearcuts").IsEnabled);
+            Assert.False(CardTileHelper.Tile(card, "deleteseg").IsEnabled);
+            Assert.Equal(6, Tiles(card).Count);
         });
 
         [Fact]
         public void SliceThenCopyPasteAndUndoRunTheOldEdits() => WithDark(() =>
         {
             var pad = Pad();
-            Click(QuickNamed(CardAt(pad, 0.5), "Slice here"));
+            CardTileHelper.Click(CardAt(pad, 0.5), "slice");
             Assert.Equal(new[] { 0.5 }, Wave(pad).Cuts);
 
-            // With a cut the rows change: Delete segment wakes, Clear slices appears.
+            // With a cut, Delete segment and Clear slices wake up in the places they already held.
             var card = CardAt(pad, 0.25);
-            var rows = Rows(card);
-            Assert.Equal(new[] { "Delete segment", "Clear slices" }, rows.Select(r => (string)r.Header));
-            Assert.True(rows[0].IsEnabled);
-            Assert.Equal("Alt+L", rows[1].InputGestureText);
+            Assert.True(CardTileHelper.Tile(card, "deleteseg").IsEnabled);
+            Assert.True(CardTileHelper.Tile(card, "clearcuts").IsEnabled);
 
-            Click(QuickNamed(card, "Copy segment"));
+            CardTileHelper.Click(card, "copy");
             var clip = Assert.IsType<byte[]>(Get(pad, "_clip"));
             Assert.Equal(1000, WavEdit.DurationMs(clip));   // the first half, up to the cut
 
-            var paste = QuickNamed(CardAt(pad, 0.25), "Paste segment here");
+            var paste = CardTileHelper.Tile(CardAt(pad, 0.25), "paste");
             Assert.True(paste.IsEnabled);
-            Click(paste);
+            CardTileHelper.Click(paste);
             Assert.Equal(3000, WavEdit.DurationMs((byte[])Get(pad, "_wav")!));
 
-            var undo = QuickNamed(CardAt(pad, 0.25), "Undo edit");
+            var undo = CardTileHelper.Tile(CardAt(pad, 0.25), "undo");
             Assert.True(undo.IsEnabled);
-            Click(undo);
+            CardTileHelper.Click(undo);
             Assert.Equal(2000, WavEdit.DurationMs((byte[])Get(pad, "_wav")!));
         });
 
@@ -141,13 +129,11 @@ namespace KillerNotes.Tests
         {
             var pad = Pad();
             Wave(pad).AddCut(0.5);
-            var clear = Rows(CardAt(pad, 0.25)).Single(r => (string)r.Header == "Clear slices");
-            clear.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+            CardTileHelper.Click(CardAt(pad, 0.25), "clearcuts");
             Assert.Empty(Wave(pad).Cuts);
 
             Wave(pad).AddCut(0.5);
-            var delete = Rows(CardAt(pad, 0.25)).Single(r => (string)r.Header == "Delete segment");
-            delete.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+            CardTileHelper.Click(CardAt(pad, 0.25), "deleteseg");
             Assert.Equal(1000, WavEdit.DurationMs((byte[])Get(pad, "_wav")!));
         });
 

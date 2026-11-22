@@ -18,9 +18,10 @@ using Xunit;
 namespace KillerNotes.Tests
 {
     /// <summary>
-    /// The graph window's two right-click cards (1.7.0), built on a window that is never shown:
-    /// every control names its key, an unwritten note cannot be locked, each control runs what
-    /// its old menu row ran, and nothing on either card runs past its edge in any language.
+    /// The graph window's two right-click cards on the family card rules (Shell/NoteCards.cs), built
+    /// on a window that is never shown: every tile names its key, every row is full, an unwritten
+    /// note cannot be locked, each tile runs what its old row ran, and nothing on either card runs
+    /// past its edge in any language.
     /// </summary>
     [Collection(NoteStoreCollection.Name)]
     public sealed class GraphCardTests
@@ -33,8 +34,18 @@ namespace KillerNotes.Tests
             "nb-NO", "pl-PL", "pt-BR", "ru-RU", "sl-SI", "tr-TR", "uk-UA", "vi-VN", "zh-CN", "zh-TW",
         ];
 
+        private static List<Button> Tiles(ContextMenu card) => KillerNotes.Shell.NoteCards.Tiles(card).ToList();
+
+        private static Button Tile(ContextMenu card, string id) => CardTileHelper.Tile(card, id);
+
+        private static string? Keys(Button b) =>
+            System.Windows.Automation.AutomationProperties.GetAcceleratorKey(b) is { Length: > 0 } k ? k : null;
+
+        private static void NoTextRows(ContextMenu card) =>
+            Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+
         [Fact]
-        public void TheNodeCardNamesTheNoteAndEveryKey() => WithTheme("en-US", () =>
+        public void TheNodeCardIsFiveTilesThatNameTheirKeys() => WithTheme("en-US", () =>
         {
             using var store = new TempStore();
             var g = Graph(out _, out _);
@@ -42,18 +53,19 @@ namespace KillerNotes.Tests
             {
                 var card = NodeCard(g, "Alpha");
                 Assert.Equal("Alpha", System.Windows.Automation.AutomationProperties.GetName((MenuItem)card.Items[0]));
-                Assert.Contains("Alpha", Texts(card));
                 Assert.Contains("2 links", Texts(card));   // Beta and Missing
+                Assert.Equal(KillerNotes.Shell.NoteCards.Width + 44, card.MaxWidth);
 
+                Assert.Equal(new[] { "Open", "Copy link", "Links here", "Distance", "Lock in place" }, Tiles(card).Select(b => (string)b.Tag));
                 Assert.Equal(new[] { "Open note (Enter)", "Copy as [[link]] (Ctrl+C)", "Show only what links here (F)", "Arrange by distance (T)" },
-                             Find<Button>(card).Select(b => (string)b.ToolTip));
-                Assert.Equal(new[] { "Open", "Copy link", "Links here", "Distance" }, Find<Button>(card).Select(b => (string)b.Tag));
-
-                var lockChip = Find<ToggleButton>(card).Single(t => t is not RadioButton);
-                Assert.Equal("Lock in place", lockChip.Content);
-                Assert.EndsWith("(K)", (string)lockChip.ToolTip);
-                Assert.True(lockChip.IsEnabled);
-                Assert.False(lockChip.IsChecked);
+                             Tiles(card).Take(4).Select(b => (string)b.ToolTip));
+                Assert.EndsWith("(K)", (string)Tile(card, "lock").ToolTip);
+                Assert.Equal(new[] { "Enter", "Ctrl+C", "F", "T", "K" }, Tiles(card).Select(Keys));
+                // Five tiles: a row of three, then two wider ones, so neither row has a gap.
+                Assert.Equal(new[] { 3, 2 }, KillerNotes.Shell.NoteCards.RowSizes(Tiles(card).Count));
+                Assert.True(Tile(card, "lock").IsEnabled);
+                Assert.False(CardTileHelper.Checked(card, "lock"));
+                NoTextRows(card);
             }
             finally { StopTimers(g); }
         });
@@ -67,10 +79,11 @@ namespace KillerNotes.Tests
             {
                 var card = NodeCard(g, "Missing");
                 Assert.Contains("Not written yet", Texts(card));
-                var create = Find<Button>(card).First();
+                var create = Tile(card, "create");
                 Assert.Equal("Create this note (Enter)", create.ToolTip);
                 Assert.Equal("Create", create.Tag);
-                Assert.False(Find<ToggleButton>(card).Single().IsEnabled);
+                Assert.Null(KillerNotes.Shell.NoteCards.Tile(card, "open"));
+                Assert.False(Tile(card, "lock").IsEnabled);
             }
             finally { StopTimers(g); }
         });
@@ -82,29 +95,29 @@ namespace KillerNotes.Tests
             var g = Graph(out var opened, out var created);
             try
             {
-                Click(Find<Button>(NodeCard(g, "Alpha")).First());
+                CardTileHelper.Click(NodeCard(g, "Alpha"), "open");
                 Assert.Equal(new[] { Of<long>(Titled(g, "Alpha"), "Id") }, opened);
 
-                Click(Find<Button>(NodeCard(g, "Missing")).First());
+                CardTileHelper.Click(NodeCard(g, "Missing"), "create");
                 Assert.Equal(new[] { "Missing" }, created);
 
                 // Links here hides what does not touch Alpha; Gamma is two links away.
-                Click(Find<Button>(NodeCard(g, "Alpha")).Single(b => (string)b.Tag == "Links here"));
+                CardTileHelper.Click(NodeCard(g, "Alpha"), "linkshere");
                 Assert.Equal(Visibility.Collapsed, Of<FrameworkElement>(Titled(g, "Gamma"), "Dot").Visibility);
                 Assert.Equal(Visibility.Visible, Of<FrameworkElement>(Titled(g, "Beta"), "Dot").Visibility);
 
-                // The lock chip locks, as K does, and the next card shows it on.
-                Click(Find<ToggleButton>(NodeCard(g, "Beta")).Single());
+                // The lock tile locks, as K does, and the next card shows it on.
+                CardTileHelper.Click(NodeCard(g, "Beta"), "lock");
                 Assert.True(Of<bool>(Titled(g, "Beta"), "Locked"));
-                Assert.True(Find<ToggleButton>(NodeCard(g, "Beta")).Single().IsChecked);
-                Click(Find<ToggleButton>(NodeCard(g, "Beta")).Single());
+                Assert.True(CardTileHelper.Checked(NodeCard(g, "Beta"), "lock"));
+                CardTileHelper.Click(NodeCard(g, "Beta"), "lock");
                 Assert.False(Of<bool>(Titled(g, "Beta"), "Locked"));
             }
             finally { StopTimers(g); }
         });
 
         [Fact]
-        public void TheCanvasCardNamesEveryKey() => WithTheme("en-US", () =>
+        public void TheCanvasCardIsFiveFullRowsOfTilesThatNameTheirKeys() => WithTheme("en-US", () =>
         {
             using var store = new TempStore();
             var g = Graph(out _, out _);
@@ -112,28 +125,38 @@ namespace KillerNotes.Tests
             {
                 var card = CanvasCard(g);
                 Assert.Equal("Graph", System.Windows.Automation.AutomationProperties.GetName((MenuItem)card.Items[0]));
+                Assert.Equal(KillerNotes.Shell.NoteCards.Width + 44, card.MaxWidth);
+                Assert.Equal(new[]
+                {
+                    "Connection", "Circle", "Grid",
+                    "Groups", "Show all", "Pin all",
+                    "Labels", "Unwritten", "Colors",
+                    "Visualizer", "Shape", "Next shape",
+                    "Saved", "Save", "Forget arrangement",
+                }, Tiles(card).Select(b => (string)b.Tag));
+                Assert.Equal(new[] { "R", "C", "G", "B", "Esc", "P", "L", "H", "Y", "V", "Alt+S", "N", null, "S", "Alt+F" },
+                             Tiles(card).Select(Keys));
                 Assert.Equal(new[] { "By connection (R)", "In a circle (C)", "In a grid (G)", "By group (B)", "Show everything (Esc)" },
-                             Find<Button>(card).Select(b => (string)b.ToolTip));
-                var strip = card.Items.OfType<MenuItem>().Single(m => System.Windows.Automation.AutomationProperties.GetName(m) == "Arrange");
-                Assert.Equal("Alt+A", System.Windows.Automation.AutomationProperties.GetAcceleratorKey(strip));
+                             Tiles(card).Take(5).Select(b => (string)b.ToolTip));
+                Assert.Equal("Save this arrangement... (S)", Tile(card, "save").ToolTip);
+                Assert.Equal(new[] { 3, 3, 3, 3, 3 }, KillerNotes.Shell.NoteCards.RowSizes(Tiles(card).Count));
 
-                var chips = Find<ToggleButton>(card).ToList();
-                Assert.Equal(new[] { "Labels", "Unwritten", "Colors", "Visualizer", "Pin all" }, chips.Select(c => (string)c.Content));
-                Assert.Equal(new[] { "(L)", "(H)", "(Y)", "(V)", "(P)" }, chips.Select(c => ((string)c.ToolTip).Substring(((string)c.ToolTip).LastIndexOf('('))));
-                Assert.All(chips.Take(3), c => Assert.True(c.IsChecked));
-
-                // No Shape row and no Next shape while the visualizer is off.
-                Assert.Empty(Find<RadioButton>(card));
-                Assert.DoesNotContain(card.Items.OfType<MenuItem>(), m => Equals(m.Header, "Next shape"));
-                // A fresh notebook still offers to save the arrangement on screen.
-                var save = card.Items.OfType<MenuItem>().Single(m => Equals(m.Header, "Save this arrangement..."));
-                Assert.Equal("S", save.InputGestureText);
+                Assert.All(new[] { "labels", "unwritten", "colors" }, id => Assert.True(CardTileHelper.Checked(card, id)));
+                Assert.False(CardTileHelper.Checked(card, "visualizer"));
+                // The Shape list and Next shape keep their places, dimmed, while the visualizer is off.
+                Assert.False(Tile(card, "shape").IsEnabled);
+                Assert.False(Tile(card, "nextshape").IsEnabled);
+                // A fresh notebook has nothing saved or to forget, and still offers to save what is on screen.
+                Assert.False(Tile(card, "saved").IsEnabled);
+                Assert.False(Tile(card, "forget").IsEnabled);
+                Assert.True(Tile(card, "save").IsEnabled);
+                NoTextRows(card);
             }
             finally { StopTimers(g); }
         });
 
         [Fact]
-        public void TheShapeRowAndNextShapeAppearWhileTheVisualizerRuns() => WithTheme("en-US", () =>
+        public void TheShapeListAndNextShapeWakeUpWhileTheVisualizerRuns() => WithTheme("en-US", () =>
         {
             using var store = new TempStore();
             var g = Graph(out _, out _);
@@ -143,24 +166,55 @@ namespace KillerNotes.Tests
                 SetField(g, "_visualizer", true);
                 SetField(g, "_shape", 2);
                 var card = CanvasCard(g);
-                var shapes = Find<RadioButton>(card).ToList();
-                Assert.Equal(new[] { "Free", "Circle", "Grid", "Groups", "Spiral", "Wave" }, shapes.Select(r => (string)r.Content));
-                Assert.Equal(Enumerable.Range(1, 6).Select(i => "(Alt+" + i + ")"),
-                             shapes.Select(r => ((string)r.ToolTip).Substring(((string)r.ToolTip).LastIndexOf('('))));
-                Assert.Equal(2, shapes.FindIndex(r => r.IsChecked == true));
-                var row = card.Items.OfType<MenuItem>().Single(m => System.Windows.Automation.AutomationProperties.GetName(m) == "Shape");
-                Assert.Equal("Alt+S", System.Windows.Automation.AutomationProperties.GetAcceleratorKey(row));
-                Assert.True(Find<ToggleButton>(card).Single(t => (string)t.Content == "Visualizer").IsChecked);
+                Assert.True(CardTileHelper.Checked(card, "visualizer"));
+                Assert.True(Tile(card, "shape").IsEnabled);
+                Assert.Equal("Alt+S", Keys(Tile(card, "shape")));
 
-                var next = card.Items.OfType<MenuItem>().Single(m => Equals(m.Header, "Next shape"));
-                Assert.Equal("N", next.InputGestureText);
-                next.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                var shapes = CardTileHelper.Items(card, "shape");
+                Assert.Equal(6, shapes.Count);
+                Assert.Equal(Enumerable.Range(1, 6).Select(i => "Alt+" + i), shapes.Select(r => r.InputGestureText));
+                Assert.Equal(2, shapes.FindIndex(r => r.IsChecked));
+                Assert.All(shapes, r => Assert.False(string.IsNullOrWhiteSpace(r.Header as string)));
+
+                var next = Tile(card, "nextshape");
+                Assert.True(next.IsEnabled);
+                CardTileHelper.Click(next);
                 Assert.Equal(3, Of<int>(g, "_shape"));
 
-                Click(shapes[5]);
+                CardTileHelper.Items(CanvasCard(g), "shape")[5].RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
                 Assert.Equal(5, Of<int>(g, "_shape"));
             }
             finally { SetField(g, "_visualizer", false); StopTimers(g); }
+        });
+
+        [Fact]
+        public void AltSOpensTheShapeListOnTheCard() => WithTheme("en-US", () =>
+        {
+            using var store = new TempStore();
+            var g = Graph(out _, out _);
+            Window? host = null;
+            try
+            {
+                SetField(g, "_visualizer", true);
+                var card = CanvasCard(g);
+                var rows = CardTileHelper.Rows(card, "shape");
+                // A flyout opens beside a card that is up, so the card is opened on a host first.
+                host = new Window { Content = new Border(), Width = 200, Height = 120, Left = 0, Top = 0,
+                    ShowInTaskbar = false, ShowActivated = false, WindowStyle = WindowStyle.None };
+                host.Show();
+                card.PlacementTarget = (FrameworkElement)host.Content;
+                card.Placement = PlacementMode.Relative;
+                card.IsOpen = true;
+                card.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                // What Alt+S hands the card once it is up.
+                typeof(GraphWindow).GetMethod("OpenTile", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, new object[] { card, "shape" });
+                card.Dispatcher.Invoke(() => { }, DispatcherPriority.ContextIdle);
+                var flyout = Assert.IsType<ContextMenu>(((FrameworkElement)rows.First()).Parent);
+                Assert.True(flyout.IsOpen);
+                flyout.IsOpen = false;
+                card.IsOpen = false;
+            }
+            finally { SetField(g, "_visualizer", false); StopTimers(g); host?.Close(); }
         });
 
         [Fact]
@@ -170,33 +224,38 @@ namespace KillerNotes.Tests
             var g = Graph(out _, out _);
             try
             {
-                // Labels: the chip flips the same state L does, and the labels follow it.
-                Click(Find<ToggleButton>(CanvasCard(g)).Single(t => (string)t.Content == "Labels"));
+                // Labels: the tile flips the same state L does, and the labels follow it.
+                CardTileHelper.Click(CanvasCard(g), "labels");
                 Assert.False(((MenuItem)Field(g, "_miLabels")).IsChecked);
                 Assert.Equal(Visibility.Collapsed, Of<TextBlock>(Titled(g, "Alpha"), "Label").Visibility);
-                Assert.False(Find<ToggleButton>(CanvasCard(g)).Single(t => (string)t.Content == "Labels").IsChecked);
+                Assert.False(CardTileHelper.Checked(CanvasCard(g), "labels"));
 
-                Click(Find<ToggleButton>(CanvasCard(g)).Single(t => (string)t.Content == "Unwritten"));
+                CardTileHelper.Click(CanvasCard(g), "unwritten");
                 Assert.Equal(Visibility.Collapsed, Of<FrameworkElement>(Titled(g, "Missing"), "Dot").Visibility);
 
-                Click(Find<ToggleButton>(CanvasCard(g)).Single(t => (string)t.Content == "Colors"));
+                CardTileHelper.Click(CanvasCard(g), "colors");
                 Assert.False(((MenuItem)Field(g, "_miColor")).IsChecked);
+
+                bool held = (bool)Field(g, "_hold");
+                CardTileHelper.Click(CanvasCard(g), "pinall");
+                Assert.Equal(!held, (bool)Field(g, "_hold"));
+                Assert.Equal(!held, CardTileHelper.Checked(CanvasCard(g), "pinall"));
 
                 // Show all undoes Links here, as Esc does.
                 SetField(g, "_menuNode", Titled(g, "Alpha"));
                 Invoke(g, "IsolateMenuNode");
-                Click(Find<Button>(CanvasCard(g)).Single(b => (string)b.Tag == "Show all"));
+                CardTileHelper.Click(CanvasCard(g), "showall");
                 Assert.All(Nodes(g).Where(n => !Of<bool>(n, "Ghost")), n => Assert.Equal(Visibility.Visible, Of<FrameworkElement>(n, "Dot").Visibility));
 
                 // An arrangement eases the nodes to where it puts them.
-                Click(Find<Button>(CanvasCard(g)).Single(b => (string)b.Tag == "Grid"));
+                CardTileHelper.Click(CanvasCard(g), "grid");
                 Assert.True(((DispatcherTimer)Field(g, "_ease")).IsEnabled);
             }
             finally { StopTimers(g); }
         });
 
         [Fact]
-        public void SavedArrangementsAreTheShortListAtTheBottom() => WithTheme("en-US", () =>
+        public void SavedArrangementsSitInTheSavedAndForgetLists() => WithTheme("en-US", () =>
         {
             using var store = new TempStore();
             var g = GraphWithIds(out var ids);
@@ -204,13 +263,27 @@ namespace KillerNotes.Tests
             {
                 NoteStore.SaveGraphLayout("Desk", ids.Select((id, i) => new NoteStore.GraphNodePos(id, 100 + i * 50, 100, false)));
                 var card = CanvasCard(g);
-                var rows = card.Items.OfType<MenuItem>().Where(m => m.Header is string).ToList();
-                Assert.Equal(new[] { "Desk", "Save this arrangement...", "Forget arrangement" }, rows.Select(m => (string)m.Header));
-                Assert.StartsWith("Alt+A", rows[0].InputGestureText);
-                Assert.Equal("S", rows[1].InputGestureText);
-                Assert.Equal("Alt+F", rows[2].InputGestureText);
-                Assert.Equal("Desk", ((MenuItem)rows[2].Items[0]).Header);
-                Assert.IsType<Separator>(card.Items[card.Items.IndexOf(rows[0]) - 1]);
+                Assert.True(Tile(card, "saved").IsEnabled);
+                Assert.True(Tile(card, "forget").IsEnabled);
+
+                var saved = Assert.Single(CardTileHelper.Items(card, "saved"));
+                Assert.Equal("Desk", saved.Header);
+                Assert.StartsWith("Alt+A", saved.InputGestureText);
+                var forget = Assert.Single(CardTileHelper.Items(card, "forget"));
+                Assert.Equal("Desk", forget.Header);
+                Assert.StartsWith("Alt+F", forget.InputGestureText);
+
+                // Picking a saved arrangement puts every note where it was saved, then fits the
+                // lot to the window (the ease that follows starts from those saved places).
+                CardTileHelper.Click(CanvasCard(g), "grid");
+                saved.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                var placed = Nodes(g).Where(n => !Of<bool>(n, "Ghost")).ToDictionary(n => Of<long>(n, "Id"));
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    Assert.Equal(100 + i * 50, Of<double>(placed[ids[i]], "FromX"), 1);
+                    Assert.Equal(100, Of<double>(placed[ids[i]], "FromY"), 1);
+                }
+                NoTextRows(card);
             }
             finally { StopTimers(g); }
         });
@@ -222,10 +295,8 @@ namespace KillerNotes.Tests
             return data;
         }
 
-        // A segment row and a quick strip do not wrap, so a translation that is too long runs off
-        // the card's edge instead of onto a second line. Laid out in every language, with the
-        // visualizer's Shape row in, no control may end past its row, and no row label may be
-        // cut short by the label column.
+        // Laid out in every language, with the visualizer on so every tile is awake, no tile may
+        // end past its row, and no row label may be cut short by the label column.
         [Theory]
         [MemberData(nameof(AllLocales))]
         public void NothingOnEitherCardRunsPastItsEdge(string locale) => WithTheme(locale, () =>
@@ -311,8 +382,6 @@ namespace KillerNotes.Tests
         }
 
         private static ContextMenu CanvasCard(GraphWindow g) => (ContextMenu)Invoke(g, "BuildCanvasCard")!;
-
-        private static void Click(ButtonBase b) => b.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, b));
 
         /// <summary>Lays a card out on its own. A ContextMenu refuses any parent but its popup, and
         /// opening the popup would put a window on screen, so the card is measured as a root.</summary>
