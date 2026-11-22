@@ -1065,6 +1065,8 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Forankre eller flyt formateringslinjen</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Full veiledning &amp; fremgangsmåter på nett</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Rull opp</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Forrige måned</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Neste måned</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Rull ned</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Rull til venstre</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Rull til høyre</sys:String>

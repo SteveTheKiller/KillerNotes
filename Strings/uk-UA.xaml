@@ -1067,6 +1067,8 @@
     <sys:String x:Key="Str_KS_ToolMenu">Закріпити або відкріпити панель форматування</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Повний посібник &amp; настанови онлайн</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Прокрутити вгору</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Попередній місяць</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Наступний місяць</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Прокрутити вниз</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Прокрутити ліворуч</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Прокрутити праворуч</sys:String>

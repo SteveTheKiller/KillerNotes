@@ -947,6 +947,8 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Zadokuj lub odepnij pasek formatowania</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Pełny przewodnik &amp; poradniki online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Przewiń w górę</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Poprzedni miesiąc</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Następny miesiąc</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Przewiń w dół</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Przewiń w lewo</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Przewiń w prawo</sys:String>

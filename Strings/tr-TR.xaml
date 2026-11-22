@@ -1020,6 +1020,8 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Biçim çubuğunu sabitle veya yüzdür</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Tam kılavuz ve çevrimiçi rehber</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Yukarı kaydır</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Önceki ay</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Sonraki ay</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Aşağı kaydır</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Sola kaydır</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Sağa kaydır</sys:String>

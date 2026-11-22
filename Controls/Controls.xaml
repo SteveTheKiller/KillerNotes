@@ -609,7 +609,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="PART_PreviousButton" Grid.Column="0" Style="{StaticResource GrungeCalendarNavButton}" Content="&#xE76B;" Focusable="False"/>
+                                    <Button x:Name="PART_PreviousButton" Grid.Column="0" Style="{StaticResource GrungeCalendarNavButton}" Content="&#xE76B;" Focusable="False" ToolTip="{DynamicResource Str_Cal_PrevMonth}"/>
                                     <Button x:Name="PART_HeaderButton" Grid.Column="1" Focusable="False" Cursor="Hand"
                                             Background="Transparent" Foreground="{DynamicResource TextBrush}" FontFamily="{DynamicResource MonoFont}" FontSize="12" FontWeight="SemiBold">
                                         <Button.Template>
@@ -621,7 +621,7 @@
                                             </ControlTemplate>
                                         </Button.Template>
                                     </Button>
-                                    <Button x:Name="PART_NextButton" Grid.Column="2" Style="{StaticResource GrungeCalendarNavButton}" Content="&#xE76C;" Focusable="False"/>
+                                    <Button x:Name="PART_NextButton" Grid.Column="2" Style="{StaticResource GrungeCalendarNavButton}" Content="&#xE76C;" Focusable="False" ToolTip="{DynamicResource Str_Cal_NextMonth}"/>
                                 </Grid>
                                 <Grid Margin="0,2,0,0">
                                     <Grid x:Name="PART_MonthView" HorizontalAlignment="Center" Visibility="Visible">
@@ -2481,8 +2481,8 @@
         <GradientStop Color="#38000000" Offset="0.65"/>
         <GradientStop Color="#80000000" Offset="1"/>
     </LinearGradientBrush>
-    <!-- A list over a bottom tab strip hides this (FilePane.xaml.cs ApplyBottomTabShadow) while
-         the pane's TabScrollShadow overlay draws the same shadow on into the active tab. -->
+    <!-- An app whose list sits over a bottom tab strip hides this cue there, so the list and the
+         active tab join without a dark band. -->
     <Style x:Key="ScrollBottomCue" TargetType="Border" BasedOn="{StaticResource ScrollCueBase}">
         <Setter Property="Height" Value="28"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>

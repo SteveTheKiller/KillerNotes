@@ -1020,6 +1020,8 @@
     <sys:String x:Key="Str_KS_ToolMenu">ফরম্যাট বার ডক বা ভাসমান করুন</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">সম্পূর্ণ গাইড ও অনলাইন নির্দেশিকা</sys:String>
     <sys:String x:Key="Str_Scroll_Up">উপরে স্ক্রল করুন</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">আগের মাস</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">পরের মাস</sys:String>
     <sys:String x:Key="Str_Scroll_Down">নিচে স্ক্রল করুন</sys:String>
     <sys:String x:Key="Str_Scroll_Left">বাঁয়ে স্ক্রল করুন</sys:String>
     <sys:String x:Key="Str_Scroll_Right">ডানে স্ক্রল করুন</sys:String>

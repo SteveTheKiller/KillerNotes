@@ -1046,6 +1046,8 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_KS_ToolMenu">A formátumsáv rögzítése vagy lebegtetése</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Teljes útmutató és leírás online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Görgetés felfelé</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Előző hónap</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Következő hónap</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Görgetés lefelé</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Görgetés balra</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Görgetés jobbra</sys:String>

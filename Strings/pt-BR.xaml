@@ -1067,6 +1067,8 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Ancorar ou destacar a barra de formatação</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guia completo &amp; tutoriais online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Rolar para cima</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Mês anterior</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Próximo mês</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Rolar para baixo</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Rolar para a esquerda</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Rolar para a direita</sys:String>

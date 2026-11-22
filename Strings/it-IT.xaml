@@ -1028,6 +1028,8 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Ancora o sgancia la barra di formattazione</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guida online completa e come-fare</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Scorri verso l'alto</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Mese precedente</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Mese successivo</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Scorri verso il basso</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Scorri a sinistra</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Scorri a destra</sys:String>

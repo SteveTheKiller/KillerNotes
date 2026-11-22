@@ -1021,6 +1021,8 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Acoplar o desacoplar la barra de formato</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Guía completa y tutoriales en línea</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Desplazar hacia arriba</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Mes anterior</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Mes siguiente</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Desplazar hacia abajo</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Desplazar hacia la izquierda</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Desplazar hacia la derecha</sys:String>

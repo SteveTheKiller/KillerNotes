@@ -1020,6 +1020,8 @@
     <sys:String x:Key="Str_KS_ToolMenu">停靠或浮動格式列</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">完整指南與線上教學</sys:String>
     <sys:String x:Key="Str_Scroll_Up">向上捲動</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">上個月</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">下個月</sys:String>
     <sys:String x:Key="Str_Scroll_Down">向下捲動</sys:String>
     <sys:String x:Key="Str_Scroll_Left">向左捲動</sys:String>
     <sys:String x:Key="Str_Scroll_Right">向右捲動</sys:String>

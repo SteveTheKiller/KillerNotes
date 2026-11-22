@@ -1071,6 +1071,8 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_KS_ToolMenu">Gắn cố định hoặc thả nổi thanh định dạng</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Hướng dẫn đầy đủ &amp; cách sử dụng trực tuyến</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Cuộn lên</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Tháng trước</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Tháng sau</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Cuộn xuống</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Cuộn sang trái</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Cuộn sang phải</sys:String>

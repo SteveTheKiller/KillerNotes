@@ -927,6 +927,8 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Zasidraj ali odsidraj vrstico za oblikovanje</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Celoten vodnik in navodila na spletu</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Pomakni navzgor</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Prejšnji mesec</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Naslednji mesec</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Pomakni navzdol</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Pomakni levo</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Pomakni desno</sys:String>

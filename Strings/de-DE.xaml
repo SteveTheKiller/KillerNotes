@@ -1020,6 +1020,8 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_KS_ToolMenu">Formatleiste andocken oder schweben lassen</sys:String>
     <sys:String x:Key="Str_KS_OnlineHelp">Vollständige Anleitung &amp; Tutorials online</sys:String>
     <sys:String x:Key="Str_Scroll_Up">Nach oben scrollen</sys:String>
+    <sys:String x:Key="Str_Cal_PrevMonth">Vorheriger Monat</sys:String>
+    <sys:String x:Key="Str_Cal_NextMonth">Nächster Monat</sys:String>
     <sys:String x:Key="Str_Scroll_Down">Nach unten scrollen</sys:String>
     <sys:String x:Key="Str_Scroll_Left">Nach links scrollen</sys:String>
     <sys:String x:Key="Str_Scroll_Right">Nach rechts scrollen</sys:String>
