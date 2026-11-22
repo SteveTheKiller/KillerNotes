@@ -11,10 +11,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 ### Security
 
 - Update and signature checks read the publisher from the signature Windows verified, never from the file a second time, and the installer's lock can only be opened by the current user, administrators and the system.
-- KillerNotes no longer installs a per-user copy beside an all-users one. The repair for a PC that already has both keeps the all-users copy and never asks for admin rights, so the per-user exe is never run elevated.
+- KillerNotes no longer installs a per-user copy beside an all-users one. The repair for a PC that has both keeps the all-users copy without admin rights, and that copy still opens the file or quick note the launch asked for.
 - The app's pipes accept only the account running KillerNotes, and the command line refuses to send anything to a copy running as another account.
 - The uninstall cleanup runs Windows' own cmd from System32 and calls its commands by full path.
-- Backups are re-encrypted when the password is set, changed or removed. A backup that the previous password can't open is left alone, and the status line says how many.
+- Backups are re-encrypted in the background when the password is set, changed or removed. The status line says how many backups the previous password couldn't open, or that the backup folder couldn't be read.
 
 ### Fixed
 

@@ -34,12 +34,17 @@ namespace KillerNotes.Controls
                 EventManager.RegisterClassHandler(type, Keyboard.PreviewKeyDownEvent,
                     new KeyEventHandler((sender, e) =>
                     {
-                        if (e.Key == Key.Apps || e.Key == Key.F10 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0) Assign(sender);
+                        if (OpensCard(e.Key, e.SystemKey, Keyboard.Modifiers)) Assign(sender);
                     }), handledEventsToo: true);
                 EventManager.RegisterClassHandler(type, FrameworkElement.ContextMenuOpeningEvent,
                     new ContextMenuEventHandler((sender, _) => Fill(sender)), handledEventsToo: true);
             }
         }
+
+        /// <summary>The Apps key or Shift+F10. WPF reports F10 as Key.System with the F10 in SystemKey, so a check
+        /// on e.Key alone never saw Shift+F10 and the box got WPF's stock menu. Ctrl+Shift+F10 is Save as, not the card.</summary>
+        internal static bool OpensCard(Key key, Key systemKey, ModifierKeys modifiers) =>
+            key == Key.Apps || (key == Key.System ? systemKey : key) == Key.F10 && modifiers == ModifierKeys.Shift;
 
         private static void Assign(object sender)
         {

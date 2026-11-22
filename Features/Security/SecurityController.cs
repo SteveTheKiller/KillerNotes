@@ -360,10 +360,8 @@ namespace KillerNotes.Features.Security
                     string? before = NoteStore.CaptureBackupSource()?.Password;
                     NoteStore.SetPassword(dlg.Password);
                     _dbPassword = dlg.Password;
-                    int left = RekeyBackups(before, dlg.Password);
-                    _host.SetStatus(left > 0
-                        ? string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), left)
-                        : _host.Loc("Str_St_Encrypted"));
+                    _host.SetStatus(_host.Loc("Str_St_Encrypted"));
+                    RekeyBackups(before, dlg.Password);
                 }
                 else
                 {
@@ -381,10 +379,8 @@ namespace KillerNotes.Features.Security
                     string? before = NoteStore.CaptureBackupSource()?.Password;
                     NoteStore.SetPassword(string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password);
                     _dbPassword = string.IsNullOrEmpty(dlg.Password) ? null : dlg.Password;
-                    int left = RekeyBackups(before, _dbPassword);
-                    _host.SetStatus(left > 0
-                        ? string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), left)
-                        : _host.Loc(NoteStore.HasPassword ? "Str_St_PwChanged" : "Str_St_PwRemoved"));
+                    _host.SetStatus(_host.Loc(NoteStore.HasPassword ? "Str_St_PwChanged" : "Str_St_PwRemoved"));
+                    RekeyBackups(before, _dbPassword);
                 }
             }
             catch (Exception ex)
@@ -395,12 +391,28 @@ namespace KillerNotes.Features.Security
         }
 
         // Backups taken before the change would otherwise keep the old password, or none, so a
-        // password changed after a leak would not protect history. Returns how many were left
-        // under an even earlier password.
-        private static int RekeyBackups(string? oldPassword, string? newPassword)
+        // password changed after a leak would not protect history. The password has already
+        // changed and said so; this runs off the UI thread (a few key derivations per backup,
+        // maybe on a network folder, froze the window), one change after another so a second
+        // change re-keys from the first one's password. The status line only speaks up again
+        // when backups were left under an earlier password or the folder could not be listed.
+        private System.Threading.Tasks.Task _rekey = System.Threading.Tasks.Task.CompletedTask;
+
+        private void RekeyBackups(string? oldPassword, string? newPassword)
         {
-            if (BackupService.Folder is not string folder) return 0;
-            return BackupService.RekeyBackups(folder, NoteStore.ActiveDbFile, oldPassword, newPassword).Skipped;
+            if (BackupService.Folder is not string folder) return;
+            string dbFile = NoteStore.ActiveDbFile;
+            var ui = _host.Window.Dispatcher;
+            _rekey = _rekey.ContinueWith(_ =>
+            {
+                BackupService.RekeyResult result;
+                try { result = BackupService.RekeyBackups(folder, dbFile, oldPassword, newPassword); }
+                catch (Exception ex) { result = new BackupService.RekeyResult(0, 0, ex.Message); }
+                if (result.Error == null && result.Skipped == 0) return;
+                ui.BeginInvoke(new Action(() => _host.SetStatus(result.Error != null    // strings are UI-thread resources
+                    ? string.Format(_host.Loc("Str_St_BackupsNotReached"), result.Error)
+                    : string.Format(_host.Loc("Str_St_BackupsNotRekeyed"), result.Skipped))));
+            }, System.Threading.Tasks.TaskScheduler.Default);
         }
     }
 }

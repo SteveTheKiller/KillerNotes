@@ -207,6 +207,7 @@ Neztraťte je - obnova není možná.</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Databáze zašifrována</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Heslo změněno</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Heslo změněno. Starší zálohy ({0}) se stále otevírají dřívějším heslem</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Heslo změněno. Složku záloh nešlo přečíst, takže se zálohy stále otevírají dřívějším heslem: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Heslo odebráno - databáze již není zašifrována</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Změna hesla selhala: {0}</sys:String>
 

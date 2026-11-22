@@ -301,8 +301,9 @@ namespace KillerNotes.Services
         }
 
         /// <summary>How many backups a password change re-keyed, and how many it left alone because
-        /// they did not open with the password being replaced.</summary>
-        public readonly record struct RekeyResult(int Rekeyed, int Skipped);
+        /// they did not open with the password being replaced. Error is set, with nothing re-keyed,
+        /// when the folder is there but could not be listed.</summary>
+        public readonly record struct RekeyResult(int Rekeyed, int Skipped, string? Error = null);
 
         /// <summary>Rewrites every backup of dbFile in folder under the new password, the way
         /// SetPassword rewrites the database: sqlcipher_export into a staged copy, a check that the
@@ -313,7 +314,10 @@ namespace KillerNotes.Services
             if (string.IsNullOrEmpty(oldPassword)) oldPassword = null;
             if (string.IsNullOrEmpty(newPassword)) newPassword = null;
             int rekeyed = 0, skipped = 0;
-            foreach (var backup in ListBackups(folder, dbFile))
+            List<FileInfo> backups;
+            try { backups = ListBackups(folder, dbFile); }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException) { return new RekeyResult(0, 0, ex.Message); }
+            foreach (var backup in backups)
             {
                 string path = backup.FullName;
                 string staged = path + "." + Guid.NewGuid().ToString("N") + ".tmp";

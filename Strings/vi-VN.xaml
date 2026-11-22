@@ -352,6 +352,7 @@ Không được làm mất mật khẩu - không thể khôi phục.</sys:String
     <sys:String x:Key="Str_St_Encrypted">Đã mã hóa cơ sở dữ liệu</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Đã thay đổi mật khẩu</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Đã thay đổi mật khẩu. {0} bản sao lưu cũ vẫn mở bằng mật khẩu trước đó</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Đã thay đổi mật khẩu. Không đọc được thư mục sao lưu, nên các bản sao lưu vẫn mở bằng mật khẩu trước đó: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Đã xóa mật khẩu - cơ sở dữ liệu không còn được mã hóa</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Thay đổi mật khẩu thất bại: {0}</sys:String>
 

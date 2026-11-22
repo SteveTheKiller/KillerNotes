@@ -136,6 +136,7 @@ Kaybetmeyin - kurtarma yolu yoktur.</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Veritabanı şifrelendi</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Parola değiştirildi</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Parola değiştirildi. {0} eski yedek hâlâ önceki bir parolayla açılıyor</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Parola değiştirildi. Yedek klasörü okunamadı, bu yüzden yedekler hâlâ önceki parolayla açılıyor: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Parola kaldırıldı - veritabanı artık şifreli değil</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Parola değişikliği başarısız: {0}</sys:String>
 

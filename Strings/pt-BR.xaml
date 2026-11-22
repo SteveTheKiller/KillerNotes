@@ -351,6 +351,7 @@ Não a perca - não há recuperação.</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Banco de dados criptografado</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Senha alterada</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Senha alterada. {0} backups mais antigos ainda abrem com uma senha anterior</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Senha alterada. Não foi possível ler a pasta de backups, então seus backups ainda abrem com a senha anterior: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Senha removida - o banco de dados não está mais criptografado</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Falha ao alterar a senha: {0}</sys:String>
 

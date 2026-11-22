@@ -329,6 +329,7 @@ Non perderla - non c'è alcun recupero.</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Database cifrato</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Password cambiata</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Password cambiata. {0} backup meno recenti si aprono ancora con una password precedente</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Password cambiata. Impossibile leggere la cartella dei backup, quindi i suoi backup si aprono ancora con la password precedente: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Password rimossa - il database non è più cifrato</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Cambio password non riuscito: {0}</sys:String>
 

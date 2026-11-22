@@ -351,6 +351,7 @@
     <sys:String x:Key="Str_St_Encrypted">Базу зашифровано</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Пароль змінено</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Пароль змінено. Старі резервні копії ({0}) досі відкриваються попереднім паролем</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Пароль змінено. Не вдалося прочитати теку резервних копій, тому копії досі відкриваються попереднім паролем: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Пароль прибрано - база більше не зашифрована</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Не вдалося змінити пароль: {0}</sys:String>
 

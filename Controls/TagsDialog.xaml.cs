@@ -167,7 +167,8 @@ namespace KillerNotes.Controls
             // the card's bottom grows to show it, and a second click slides it back.
             swatches.HorizontalAlignment = HorizontalAlignment.Center;
             swatches.Margin = new Thickness(0, 4, 0, 2);
-            var drawer = new Border { Child = swatches, ClipToBounds = true, MaxHeight = 0 };
+            // Hidden while slid in, so Tab and a screen reader never land on a swatch nobody can see.
+            var drawer = new Border { Child = swatches, ClipToBounds = true, MaxHeight = 0, Visibility = Visibility.Hidden };
             card.Items.Add(Shell.NoteCards.Grid(card, new[]
             {
                 new KillerFamily.Controls.CardTile("\uE8AC", Loc("Str_TT_TagRename"), "F2", rename) { Id = "rename" },
@@ -190,6 +191,10 @@ namespace KillerNotes.Controls
             {
                 EasingFunction = new System.Windows.Media.Animation.CubicEase { EasingMode = System.Windows.Media.Animation.EasingMode.EaseOut },
             };
+            // The row shows as it starts out and hides once it is all the way back in; a click mid-slide
+            // flips Tag first, so a finished close never hides a drawer that is opening again.
+            if (opening) drawer.Visibility = Visibility.Visible;
+            else slide.Completed += (_, _) => { if (drawer.Tag is not true) drawer.Visibility = Visibility.Hidden; };
             drawer.BeginAnimation(FrameworkElement.MaxHeightProperty, slide);
         }
 

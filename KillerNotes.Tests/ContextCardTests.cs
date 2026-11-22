@@ -123,11 +123,17 @@ namespace KillerNotes.Tests
             };
             foreach (var (element, ids) in triggers)
             {
+                // WPF decides whether a right-click or Shift+F10 opens anything from the ContextMenu the element
+                // already has; one handed over inside ContextMenuOpening comes too late, so the first click opened
+                // nothing. Each trigger keeps a card from the start and fills that same card as it opens.
+                var before = element.ContextMenu;
+                Assert.True(before != null, element.Name + " has no card before its first right-click");
                 element.RaiseEvent(OpeningArgs(element));
                 var card = element.ContextMenu;
                 try
                 {
                     Assert.True(card != null, element.Name + " has no card after its right-click");
+                    Assert.Same(before, card);
                     Assert.DoesNotContain(card!.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
                     foreach (string id in ids) Assert.True(NoteCards.Tile(card, id) != null, $"{element.Name} card is missing {id}");
                 }
@@ -147,6 +153,17 @@ namespace KillerNotes.Tests
             }
             finally { if (open != null) open.IsOpen = false; }
         });
+
+        // WPF hands Shift+F10 to a text box as Key.System with F10 in SystemKey; a check on Key.F10 alone never
+        // fired, so the box showed WPF's stock menu instead of its card.
+        [Fact]
+        public void ShiftF10AndTheAppsKeyOpenATextBoxCard()
+        {
+            Assert.True(TextFieldCard.OpensCard(Key.System, Key.F10, ModifierKeys.Shift));
+            Assert.True(TextFieldCard.OpensCard(Key.Apps, Key.None, ModifierKeys.None));
+            Assert.False(TextFieldCard.OpensCard(Key.System, Key.F10, ModifierKeys.None));                          // the menu bar's key
+            Assert.False(TextFieldCard.OpensCard(Key.System, Key.F10, ModifierKeys.Control | ModifierKeys.Shift));  // Save as
+        }
 
         private static ContextMenu DbCard()
         {

@@ -104,5 +104,37 @@ namespace KillerNotes.Tests
             Assert.False(NoteStore.IsEncryptedFile(backup));
             Assert.Equal(1, CountNotes(backup, null));
         }
+
+        // The password has already changed when the backups are re-keyed. A backup folder that is there but cannot be
+        // listed (permissions, a dropped share) is reported as such, never thrown up to read as a failed password change.
+        [Fact]
+        public void ABackupFolderThatCannotBeListedIsReportedNotThrown()
+        {
+            using var store = new TempStore("old");
+            NoteStore.Create("Note");
+            string file = NoteStore.ActiveDbFile;
+            string folder = Path.Combine(_dir, "b");
+            BackupService.BackupNow(folder, file, new DateTime(2026, 9, 1, 10, 0, 0), 5);
+            var me = System.Security.Principal.WindowsIdentity.GetCurrent().User!;
+            var deny = new System.Security.AccessControl.FileSystemAccessRule(me,
+                System.Security.AccessControl.FileSystemRights.ListDirectory, System.Security.AccessControl.AccessControlType.Deny);
+            var acl = Directory.GetAccessControl(folder);
+            acl.AddAccessRule(deny);
+            Directory.SetAccessControl(folder, acl);
+            try
+            {
+                NoteStore.SetPassword("new");
+                var result = BackupService.RekeyBackups(folder, file, "old", "new");
+
+                Assert.Equal(0, result.Rekeyed);
+                Assert.False(string.IsNullOrEmpty(result.Error));
+            }
+            finally
+            {
+                acl = Directory.GetAccessControl(folder);
+                acl.RemoveAccessRule(deny);
+                Directory.SetAccessControl(folder, acl);
+            }
+        }
     }
 }

@@ -83,6 +83,17 @@ namespace KillerNotes.Tests
             Assert.Equal(2, html.Split(new[] { "1:05" }, StringSplitOptions.None).Length - 1);
         });
 
+        // ---- BF-607 ----
+
+        [Fact]
+        public void AnHourLongRecordingKeepsItsHoursInTheHtml() => Sta.Run(() =>
+        {
+            var doc = new FlowDocument();
+            doc.Blocks.Add(new BlockUIContainer(new Border { Child = new Grid(), Tag = new RecordingRef("abc", 3_900_000).ToTag() }));
+
+            Assert.Contains(" 1:05:00]", HtmlExport.FragmentFromDocument(doc));
+        });
+
         // ---- BF-303 ----
 
         [Fact]

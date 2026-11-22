@@ -143,7 +143,7 @@ namespace KillerNotes.Services
         private static void AppendRecording(StringBuilder sb, KillerNotes.Shell.RecordingRef chip)
         {
             string label = Application.Current?.TryFindResource("Str_Dict_Chip") as string ?? "Recording";
-            string length = TimeSpan.FromMilliseconds(Math.Max(0, chip.DurationMs)).ToString(@"m\:ss", System.Globalization.CultureInfo.InvariantCulture);
+            string length = DurationText.Format(chip.DurationMs);   // the chip's and Markdown's format, hours kept
             sb.Append("[").Append(Html(label)).Append(' ').Append(length).Append(']');
         }
 

@@ -333,8 +333,10 @@
                                             Foreground="{DynamicResource DimTextBrush}" Margin="2,0,0,0" VerticalAlignment="Center"
                                             AutomationProperties.Name="{DynamicResource Str_KS_Search}"
                                             ToolTip="{DynamicResource Str_SearchPlaceholder}" Click="SearchIcon_Click"
-                                            ContextMenuOpening="SearchIcon_ContextMenuOpening"/>
-                                    <!-- No ContextMenu: SearchIcon_ContextMenuOpening hands the icon its tile card (ContextCards.cs). -->
+                                            ContextMenuOpening="SearchIcon_ContextMenuOpening">
+                                        <!-- SearchIcon_ContextMenuOpening fills this card with its tile as it opens (ContextCards.cs). -->
+                                        <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
+                                    </Button>
                                     <Grid x:Name="SearchFieldContent" Grid.Column="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -665,7 +667,8 @@
                                  first time a transcription would otherwise use Windows' engine,
                                  and after that there was NO way back to it - so switching model,
                                  or adding a more accurate one later, was impossible. -->
-                            <!-- RailMenu_Opening builds the tile card as it opens (ContextCards.cs). -->
+                            <!-- RailMenu_Opening fills this card with its tile as it opens (ContextCards.cs). -->
+                            <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
                         </Button>
                         <!-- Find in THIS note (Ctrl+F, FindBar.cs). E721, the plain magnifier, against
                              the sidebar box's E773 global find: same family of action, different scope.
@@ -825,6 +828,8 @@
                                         <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="8"
                                                    Foreground="{DynamicResource DimTextBrush}" VerticalAlignment="Center" Margin="5,1,0,0"/>
                                     </StackPanel>
+                                    <!-- SortBtn_ContextMenuOpening fills this card with the sort tiles as it opens (ContextCards.cs). -->
+                                    <Button.ContextMenu><ContextMenu/></Button.ContextMenu>
                                 </Button>
                             </StackPanel>
                         </Grid>
@@ -2275,7 +2280,8 @@
                         BorderBrush="{DynamicResource BarEdgeBrush}" BorderThickness="1,1,0,0"
                         CornerRadius="{DynamicResource MentionsCornerRadius}"
                         ClipToBounds="True" ContextMenuOpening="BacklinkBar_ContextMenuOpening">
-                    <!-- No ContextMenu here: BacklinkBar_ContextMenuOpening hands the strip its tile card (ContextCards.cs). -->
+                    <!-- BacklinkBar_ContextMenuOpening fills this card with its tile as it opens (ContextCards.cs). -->
+                    <Border.ContextMenu><ContextMenu/></Border.ContextMenu>
                     <Grid>
                         <!-- ONE ROW, FILLED IN CODE, AND IT NEVER SCROLLS. A horizontal scrollbar
                              in a strip this short was more chrome than the content it carried, and

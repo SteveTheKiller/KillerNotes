@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -114,22 +116,28 @@ namespace KillerNotes
             }
 
             // The all-users copy's half of the dual-install repair below: the per-user copy handed
-            // over and is exiting. Removing it waits for that, then this copy starts as the app.
-            if (HandOverParent(e.Args) is int handedOver) FinishHandOver(handedOver);
+            // over and is exiting. Removing it waits for that, then this copy starts as the app with
+            // the command line the per-user copy was launched with; from here on that is the one read.
+            string[] args = e.Args;
+            if (HandOverParent(args) is { } handedOver)
+            {
+                FinishHandOver(handedOver);
+                args = handedOver.Rest;
+            }
 
             // Syntax audit: --syntaxcheck (or /syntaxcheck) makes the highlighter verify its own
             // work after every paint and write what it finds to syntax-audit.log. Off by default
             // and costly, because it re-reads each paragraph it just painted - this exists to
             // catch tokens landing on the wrong characters, which has been reported and
             // "fixed" more than once without the failing case ever being captured.
-            foreach (string a in e.Args)
+            foreach (string a in args)
                 if (a.Equals("--syntaxcheck", StringComparison.OrdinalIgnoreCase) ||
                     a.Equals("/syntaxcheck", StringComparison.OrdinalIgnoreCase))
                     KillerNotes.Shell.MainWindow.SyntaxAudit = true;
 
             // Screenshot / demo mode: --demo (or /demo) fills a scratch database with
             // fabricated notes (DemoMode.cs). The real notes.db is never touched.
-            foreach (string a in e.Args)
+            foreach (string a in args)
             {
                 if (!a.Equals("--demo", StringComparison.OrdinalIgnoreCase) &&
                     !a.Equals("/demo", StringComparison.OrdinalIgnoreCase)) continue;
@@ -152,9 +160,9 @@ namespace KillerNotes
             }
 
             // Double-clicked share file (association registered below).
-            if (OpenFileArgument(e.Args) is string openFile) PendingOpenFile = openFile;
+            if (OpenFileArgument(args) is string openFile) PendingOpenFile = openFile;
             // Taskbar jump list, tray-less shortcut or script: open the quick-note window.
-            PendingQuickNote = Services.QuickCapture.IsQuickNoteLaunch(e.Args);
+            PendingQuickNote = Services.QuickCapture.IsQuickNoteLaunch(args);
 
             // Single instance (per desktop session). Two instances sharing the same
             // notes.db is how the password-change file swap fails with "in use by
@@ -195,7 +203,7 @@ namespace KillerNotes
 
             Services.ThemeManager.InitializeInstaller();
             Services.LocaleManager.Initialize();
-            if (OfferInstallConflictRepair()) return;
+            if (OfferInstallConflictRepair(args)) return;
 
             // GPU rendering, like KillerPDF (no SoftwareOnly here): the format bar and pane
             // drop shadows are recomputed on the CPU under software rendering, which made
@@ -216,7 +224,7 @@ namespace KillerNotes
             // Started from the Run value: open minimized on the taskbar.
             // A --quick-note first launch keeps the main window out of the way too: the quick-note
             // window is what was asked for.
-            if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(e.Args) || PendingQuickNote)
+            if (KillerFamily.Deployment.StartupRegistration.HasMinimizedArgument(args) || PendingQuickNote)
                 KillerFamily.Deployment.StartupRegistration.StartMinimized(MainWindow);
             MainWindow.Show();
             // Fills the motif disk cache in the background so a first switch to Trash Polka decodes
@@ -543,30 +551,49 @@ namespace KillerNotes
             return ConflictRepair.None;
         }
 
+        /// <summary>The per-user copy that handed over: its process id and start time (a FILETIME, so a
+        /// reused PID is told apart, as InstallRelaunch does), and the command line it was started with.</summary>
+        internal sealed record HandOver(int Parent, long Created, string[] Rest);
+
         /// <summary>The per-user copy cannot delete its own running exe, so it starts the all-users
         /// copy as the same user, without elevation, and exits. That copy waits for it, removes it,
-        /// and carries on as the app.</summary>
-        internal static ProcessStartInfo HandOverToAllUsersCopy(string machineExe, int parent) =>
-            new(machineExe, HandOverArgument + " " + parent.ToString(System.Globalization.CultureInfo.InvariantCulture))
+        /// and carries on as the app with the command line the per-user copy was given (a file to
+        /// open, a quick note, starting minimized).</summary>
+        internal static ProcessStartInfo HandOverToAllUsersCopy(string machineExe, int parent, long created, IEnumerable<string> forward) =>
+            new(machineExe, string.Join(" ", new[]
+                {
+                    HandOverArgument,
+                    parent.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    created.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                }.Concat(forward.Select(Controls.ThemeMotif.QuoteArgument))))
             {
                 UseShellExecute = false,
                 WorkingDirectory = Path.GetDirectoryName(machineExe) ?? "",
             };
 
-        /// <summary>The process id of the per-user copy that handed over, or null for any other command line.</summary>
-        internal static int? HandOverParent(string[] args) =>
-            args.Length == 2 && string.Equals(args[0], HandOverArgument, StringComparison.OrdinalIgnoreCase)
-                && int.TryParse(args[1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int id)
-                && id > 0 ? id : null;
+        /// <summary>The per-user copy that handed over, or null for any other command line.</summary>
+        internal static HandOver? HandOverParent(string[] args) =>
+            args.Length >= 3 && string.Equals(args[0], HandOverArgument, StringComparison.OrdinalIgnoreCase)
+                && int.TryParse(args[1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int id) && id > 0
+                && long.TryParse(args[2], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out long created)
+                && created > 0 && created <= DateTime.MaxValue.ToFileTimeUtc()
+                ? new HandOver(id, created, args.Skip(3).ToArray()) : null;
 
         /// <summary>The all-users copy's half of the hand-over: wait for the per-user copy to exit,
-        /// then remove it. Only the Program Files exe acts on this.</summary>
-        private static void FinishHandOver(int parent)
+        /// then remove it. Only the Program Files exe acts on this. A PID whose start time differs
+        /// is a later process that reused it, so the per-user copy is already gone and nothing waits.</summary>
+        private static void FinishHandOver(HandOver handOver)
         {
             if (!string.Equals(Process.GetCurrentProcess().MainModule?.FileName, MachineExe, StringComparison.OrdinalIgnoreCase)) return;
-            try { using var p = Process.GetProcessById(parent); p.WaitForExit(30000); }
+            try
+            {
+                using var p = Process.GetProcessById(handOver.Parent);
+                _ = p.Handle;   // one handle before the identity check, so the wait cannot move to another process
+                if (p.StartTime.ToFileTimeUtc() == handOver.Created) p.WaitForExit(30000);
+            }
             catch (ArgumentException) { /* already gone */ }
             catch (InvalidOperationException) { /* already gone */ }
+            catch (System.ComponentModel.Win32Exception) { /* not ours to open: not the copy that handed over */ }
             if (!IsRunningElsewhere(InstallExe)) RemovePerUserInstall();
         }
 
@@ -574,7 +601,7 @@ namespace KillerNotes
         /// state where each Add/Remove Programs entry describes the other copy's version and
         /// launching gets whichever exe the shell resolves first. The per-user copy always goes.
         /// True when this copy handed over to the all-users copy and is shutting down.</summary>
-        private static bool OfferInstallConflictRepair()
+        private static bool OfferInstallConflictRepair(string[] args)
         {
             string current = Process.GetCurrentProcess().MainModule?.FileName ?? "";
             var repair = PlanConflictRepair(current, InstallExe, MachineExe, File.Exists(InstallExe), File.Exists(MachineExe));
@@ -595,7 +622,8 @@ namespace KillerNotes
             }
             try
             {
-                using var p = Process.Start(HandOverToAllUsersCopy(MachineExe, Process.GetCurrentProcess().Id));
+                using var self = Process.GetCurrentProcess();
+                using var p = Process.Start(HandOverToAllUsersCopy(MachineExe, self.Id, self.StartTime.ToFileTimeUtc(), args));
                 if (p == null) return false;
             }
             catch { return false; /* this copy keeps running and both stay */ }

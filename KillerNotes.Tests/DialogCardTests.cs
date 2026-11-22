@@ -251,11 +251,15 @@ namespace KillerNotes.Tests
                 double closed = card.ActualHeight;
                 Assert.True(closed > 0, "The tag card did not lay out");
                 Assert.Equal(0, drawer.ActualHeight);
+                // A slid-in row is out of reach too: Tab and a screen reader skip what nobody can see.
+                var swatch = (Button)Swatches(card).Children[1];
+                Assert.False(swatch.IsVisible, "A swatch in the closed drawer is still reachable");
 
                 var color = CardTileHelper.Tile(card, "color");
                 color.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, color));
                 Settle(400);
                 Assert.True(card.IsOpen);
+                Assert.True(swatch.IsVisible);
                 var swatches = Swatches(card);
                 Assert.Equal(swatches.ActualHeight + swatches.Margin.Top + swatches.Margin.Bottom, drawer.ActualHeight, 1);
                 Assert.Equal(closed + drawer.ActualHeight, card.ActualHeight, 1);
@@ -278,6 +282,7 @@ namespace KillerNotes.Tests
                 Settle(400);
                 Assert.Equal(0, drawer.ActualHeight);
                 Assert.Equal(closed, card.ActualHeight, 1);
+                Assert.False(swatch.IsVisible, "A swatch stays reachable after the drawer slides back in");
             }
             finally { card.IsOpen = false; host.Close(); }
         });

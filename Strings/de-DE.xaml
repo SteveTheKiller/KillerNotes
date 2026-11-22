@@ -136,6 +136,7 @@ Nicht verlieren - es gibt keine Wiederherstellung.</sys:String>
     <sys:String x:Key="Str_St_Encrypted">Datenbank verschlüsselt</sys:String>
     <sys:String x:Key="Str_St_PwChanged">Passwort geändert</sys:String>
     <sys:String x:Key="Str_St_BackupsNotRekeyed">Passwort geändert. {0} ältere Sicherungen öffnen sich weiter mit einem früheren Passwort</sys:String>
+    <sys:String x:Key="Str_St_BackupsNotReached">Passwort geändert. Der Sicherungsordner ließ sich nicht lesen, daher öffnen sich seine Sicherungen weiter mit dem früheren Passwort: {0}</sys:String>
     <sys:String x:Key="Str_St_PwRemoved">Passwort entfernt - Datenbank ist nicht mehr verschlüsselt</sys:String>
     <sys:String x:Key="Str_St_PwFailed">Passwortänderung fehlgeschlagen: {0}</sys:String>
 
