@@ -49,5 +49,17 @@ namespace KillerNotes.Tests
             Assert.Contains("if x < y and y > 3 then", text);
             Assert.Contains("or x < y and y > 3", text);
         });
+
+        [Fact]
+        public void AnEmbedWithNoClosingTagKeepsTheTextAfterIt() => Sta.Run(() =>
+        {
+            var doc = HtmlConvert.ToDocument("<p>before</p><embed src=\"x.swf\"><p>after</p><frame src=\"y\"><p>last</p>", 14);
+
+            string text = new TextRange(doc.ContentStart, doc.ContentEnd).Text;
+
+            Assert.Contains("before", text);
+            Assert.Contains("after", text);
+            Assert.Contains("last", text);
+        });
     }
 }

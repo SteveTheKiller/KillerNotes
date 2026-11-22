@@ -136,7 +136,8 @@ namespace KillerNotes.Services
 
                     if (!closing && SkipTags.Contains(name))
                     {
-                        if (tag.EndsWith("/")) continue;
+                        // Void elements have no closing tag; hunting for one would eat the rest of the page.
+                        if (tag.EndsWith("/") || name is "embed" or "frame") continue;
                         int end = html.IndexOf("</" + name, i, StringComparison.OrdinalIgnoreCase);
                         i = end < 0 ? html.Length : Math.Max(i, html.IndexOf('>', end) + 1);
                         if (i == 0) i = html.Length;
