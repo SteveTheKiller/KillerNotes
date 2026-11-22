@@ -1142,7 +1142,9 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Sistem tepsisinde simge bırak</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Simgenin menüsünde Hızlı not var ve simge pencere açıkken de kalır.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Not sayfası mürekkebi</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: mürekkebin notta ve işlenmiş görünümünde ne kadar belirgin olduğu.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: mürekkebin notta ne kadar belirgin olduğu.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Önizleme mürekkebi</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: mürekkebin işlenmiş görünümde ne kadar belirgin olduğu.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Hızlı not kısayolu:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">KillerNotes'u gösterme kısayolu:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">KillerNotes'u göster, sistem tepsisinden de</sys:String>

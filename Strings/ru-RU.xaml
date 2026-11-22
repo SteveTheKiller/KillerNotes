@@ -1150,7 +1150,9 @@
     <sys:String x:Key="Str_About_KeepTrayIcon">Оставлять значок в области уведомлений</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">В меню значка есть «Быстрая заметка», и значок остаётся, пока окно открыто.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Чернила на странице заметки</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: насколько заметны чернила на заметке и её отображённом виде.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: насколько заметны чернила на заметке.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Чернила в предпросмотре</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: насколько заметны чернила в отображённом виде.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Сочетание для быстрой заметки:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Сочетание для показа KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Показать KillerNotes, в том числе из трея</sys:String>

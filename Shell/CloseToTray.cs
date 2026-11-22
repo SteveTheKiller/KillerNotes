@@ -319,7 +319,7 @@ namespace KillerFamily.Shell
         internal System.Windows.Controls.ContextMenu BuildMenu()
         {
             var menu = KillerFamily.Controls.CardBuilder.Menu(TrayCardWidth);
-            menu.Items.Add(KillerFamily.Controls.CardBuilder.Header(_appName));
+            menu.Items.Add(NameLine());
             var tiles = new List<KillerFamily.Controls.CardTile>
             {
                 new("", string.Format(_loc("Str_Tray_Open"), _appName), _openKeys?.Invoke(), ShowWindow),
@@ -331,6 +331,21 @@ namespace KillerFamily.Shell
             var strip = KillerFamily.Controls.CardBuilder.TileGroups(menu, _appName, [tiles], columns);
             menu.Items.Add(KillerFamily.Controls.CardBuilder.Slot(strip, new Thickness(0)));
             return menu;
+        }
+
+        /// <summary>The app's name as one small dim line over the tiles. The card's 14px title took more room than a
+        /// three-tile menu needs (Steve, 2026-11-22), and Open already names the app.</summary>
+        private System.Windows.Controls.MenuItem NameLine()
+        {
+            var name = new System.Windows.Controls.TextBlock
+            {
+                Text = _appName, FontSize = 11, Margin = new Thickness(4, 0, 4, 0),
+                TextTrimming = TextTrimming.CharacterEllipsis,
+            };
+            name.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "DimTextBrush");
+            var slot = KillerFamily.Controls.CardBuilder.Slot(name, new Thickness(4, 1, 4, 3));
+            System.Windows.Automation.AutomationProperties.SetName(slot, _appName);
+            return slot;
         }
 
         /// <summary>Three tiles across, the family card width (the menu adds its 22px halo on each side).</summary>

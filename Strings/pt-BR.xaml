@@ -1189,7 +1189,9 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Manter um ícone na bandeja do sistema</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">O menu do ícone tem Nota rápida, e ele fica enquanto a janela está aberta.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Tinta da página da nota</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: a intensidade da tinta na nota e na visualização renderizada.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: a intensidade da tinta na nota.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Tinta da visualização</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: a intensidade da tinta na visualização renderizada.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Atalho da nota rápida:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Atalho para mostrar o KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Mostrar o KillerNotes, também da bandeja</sys:String>

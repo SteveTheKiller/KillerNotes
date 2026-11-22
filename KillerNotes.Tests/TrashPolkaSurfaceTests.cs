@@ -73,6 +73,19 @@ namespace KillerNotes.Tests
             Settle(window);
             Check("PreviewPane", (FrameworkElement)window.FindName("PreviewPane"));
             if (shots != null) Save((FrameworkElement)window.Content, System.IO.Path.Combine(shots, "ink-Split.png"));
+
+            // The rendered view has its own slider, and it leaves the note's value alone.
+            var preview = (Border)window.FindName("PreviewPane");
+            var previewBefore = preview.Background;
+            var previewInk = (Slider)window.FindName("AboutPreviewInkSlider");
+            double previewWas = previewInk.Value;
+            previewInk.Value = 17;
+            Settle(window);
+            Assert.Equal(0.17, Controls.TrashPolkaInk.PreviewOpacity, 3);
+            Assert.Equal(inkWas / 100.0, Controls.TrashPolkaInk.PageOpacity, 3);
+            Assert.NotSame(previewBefore, preview.Background);
+            previewInk.Value = previewWas;
+            Settle(window);
             picker.SelectedValue = "Source";
 
             foreach (string name in new[] { "RulePopup", "TableSizePopup" })

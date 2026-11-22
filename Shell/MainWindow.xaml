@@ -2133,7 +2133,7 @@
                     <!-- -3 top: up to the title's rule (its 3px bottom margin), not stopping below it. -->
                     <Border x:Name="PreviewPane" Grid.Column="3" Visibility="Collapsed"
                             Background="{DynamicResource SidePaneBrush}"
-                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush" controls:ThemeMotif.Page="True"
+                            controls:ThemeMotif.Part="Chrome" controls:ThemeMotif.BaseBrush="SidePaneBrush" controls:ThemeMotif.Preview="True"
                             BorderBrush="{DynamicResource PaneBorderBrush}" BorderThickness="1,0,0,0"
                             Padding="0" Margin="0,-3,0,0"/>
                     <!-- The divider has its own column so its hit area cannot overlap the viewer. -->
@@ -3079,8 +3079,8 @@
                                               ToolTip="{DynamicResource Str_About_LockHint}"
                                               AutomationProperties.LabeledBy="{Binding ElementName=AboutIdleLockLabel}"/>
                                 </Grid>
-                                <!-- Trash Polka only (PageInk.cs): how strongly the ink shows on the note and its
-                                     rendered view, one value for both. -->
+                                <!-- Trash Polka only (PageInk.cs): how strongly the ink shows on the note, and
+                                     on its rendered view, each with its own slider. -->
                                 <StackPanel x:Name="AboutPageInkRow" Margin="0,4,0,0" Visibility="Collapsed">
                                     <Grid>
                                         <TextBlock x:Name="AboutPageInkLabel" Text="{DynamicResource Str_About_PageInk}" FontSize="11" TextWrapping="Wrap"
@@ -3091,6 +3091,15 @@
                                     <Slider x:Name="AboutPageInkSlider" Minimum="0" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"
                                             Margin="0,4,0,0" ToolTip="{DynamicResource Str_About_PageInkHint}" ValueChanged="AboutPageInk_Changed"
                                             AutomationProperties.LabeledBy="{Binding ElementName=AboutPageInkLabel}"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <TextBlock x:Name="AboutPreviewInkLabel" Text="{DynamicResource Str_About_PreviewInk}" FontSize="11" TextWrapping="Wrap"
+                                                   Margin="0,0,40,0" Foreground="{DynamicResource TextBrush}"/>
+                                        <TextBlock x:Name="AboutPreviewInkValue" HorizontalAlignment="Right" FontSize="11"
+                                                   FontFamily="{DynamicResource UiFont}" Foreground="{DynamicResource TextBrush}"/>
+                                    </Grid>
+                                    <Slider x:Name="AboutPreviewInkSlider" Minimum="0" Maximum="60" TickFrequency="1" IsSnapToTickEnabled="True"
+                                            Margin="0,4,0,0" ToolTip="{DynamicResource Str_About_PreviewInkHint}" ValueChanged="AboutPreviewInk_Changed"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=AboutPreviewInkLabel}"/>
                                 </StackPanel>
                                 </StackPanel>
                             </Grid>

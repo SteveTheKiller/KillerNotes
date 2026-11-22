@@ -1189,7 +1189,9 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Keep an icon in the system tray</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">The icon's menu has Quick note, and it stays while the window is open.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Note page ink</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: how strongly the ink shows on the note and its rendered view.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: how strongly the ink shows on the note.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Preview page ink</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: how strongly the ink shows on the rendered view.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Quick note shortcut:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Show KillerNotes shortcut:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Show KillerNotes, from the tray too</sys:String>

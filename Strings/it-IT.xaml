@@ -1150,7 +1150,9 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Tieni un'icona nell'area di notifica</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Il menu dell'icona ha Nota rapida, e l'icona resta mentre la finestra è aperta.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Inchiostro della pagina della nota</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: quanto si vede l'inchiostro sulla nota e sulla sua vista renderizzata.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: quanto si vede l&apos;inchiostro sulla nota.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Inchiostro dell&apos;anteprima</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: quanto si vede l&apos;inchiostro sulla vista renderizzata.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Scorciatoia per la nota rapida:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Scorciatoia per mostrare KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Mostra KillerNotes, anche dall'area di notifica</sys:String>

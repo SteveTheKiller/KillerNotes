@@ -43,10 +43,13 @@ namespace KillerNotes.Controls
         /// inked page around them.</summary>
         internal static double CellOpacity { get; set; } = 0.14;
 
-        /// <summary>The page a document is read and written on (ThemeMotif.Page: a note, a rendered preview beside it),
-        /// one value for both so they match. Under a pane, over the background (Steve, 2026-11-21: the note screen
-        /// lower, the rendered view a bit more). An app can let the user set it and call ThemeMotif.Retune.</summary>
+        /// <summary>The page a document is written on (ThemeMotif.Page: the note). Under a pane, over the background. An
+        /// app can let the user set it and call ThemeMotif.Retune.</summary>
         internal static double PageOpacity { get; set; } = 0.32;
+
+        /// <summary>The rendered view beside the note (ThemeMotif.Preview), set apart from the note (Steve, 2026-11-21:
+        /// the note screen lower, the rendered view a bit more).</summary>
+        internal static double PreviewOpacity { get; set; } = 0.32;
 
         // Every accent-colored mark draws with one of these shared brushes, keyed by its alpha (in 5% steps) and whether
         // it is the darkened shade. Switching accents recolors these few brushes instead of redrawing the pieces, which

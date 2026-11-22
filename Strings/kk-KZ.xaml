@@ -1150,7 +1150,9 @@
     <sys:String x:Key="Str_About_KeepTrayIcon">Хабарландыру аймағында белгішені қалдыру</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Белгіше мәзірінде «Жылдам жазба» бар, ал белгіше терезе ашық кезде де қалады.</sys:String>
     <sys:String x:Key="Str_About_PageInk">Жазба бетінің сиясы</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: сия жазбада және оның көрсетілген көрінісінде қаншалықты анық көрінеді.</sys:String>
+    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: сия жазбада қаншалықты анық көрінеді.</sys:String>
+    <sys:String x:Key="Str_About_PreviewInk">Алдын ала қарау сиясы</sys:String>
+    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: сия көрсетілген көріністе қаншалықты анық көрінеді.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Жылдам жазба пернелер тіркесімі:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">KillerNotes көрсету пернелер тіркесімі:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">KillerNotes көрсету, хабарландыру аймағынан да</sys:String>

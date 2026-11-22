@@ -99,15 +99,22 @@ namespace KillerNotes.Controls
         public static void SetCell(DependencyObject element, bool value) => element.SetValue(CellProperty, value);
 
         /// <summary>
-        /// The page a document is read and written on (a note, its rendered preview): the element keeps its part's place
-        /// and piece, but shows it at TrashPolkaInk.PageOpacity, one value for every page so they match. Takes precedence
-        /// over the part's own opacity, Screen and Cell.
+        /// The page a document is written on (the note): the element keeps its part's place and piece, but shows it at
+        /// TrashPolkaInk.PageOpacity. Takes precedence over the part's own opacity, Screen and Cell.
         /// </summary>
         public static readonly DependencyProperty PageProperty = DependencyProperty.RegisterAttached(
             "Page", typeof(bool), typeof(ThemeMotif), new PropertyMetadata(false, OnBaseBrushChanged));
 
         public static bool GetPage(DependencyObject element) => (bool)element.GetValue(PageProperty);
         public static void SetPage(DependencyObject element, bool value) => element.SetValue(PageProperty, value);
+
+        /// <summary>The rendered view of a document, like Page but at TrashPolkaInk.PreviewOpacity, so the user can set
+        /// the two apart.</summary>
+        public static readonly DependencyProperty PreviewProperty = DependencyProperty.RegisterAttached(
+            "Preview", typeof(bool), typeof(ThemeMotif), new PropertyMetadata(false, OnBaseBrushChanged));
+
+        public static bool GetPreview(DependencyObject element) => (bool)element.GetValue(PreviewProperty);
+        public static void SetPreview(DependencyObject element, bool value) => element.SetValue(PreviewProperty, value);
 
         private static readonly Dictionary<MotifPart, (Color Accent, Size Size, Drawing Piece)> Pieces = [];
 
@@ -710,6 +717,7 @@ namespace KillerNotes.Controls
 
             double opacity = part switch
             {
+                _ when GetPreview(element) => TrashPolkaInk.PreviewOpacity,
                 _ when GetPage(element) => TrashPolkaInk.PageOpacity,
                 MotifPart.Chrome => TrashPolkaInk.BackgroundOpacity,
                 MotifPart.Popup => TrashPolkaInk.PopupOpacity,
