@@ -252,6 +252,8 @@ namespace KillerNotes
             {
                 using var pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
                 pipe.Connect(2000);
+                // A path goes only to a copy running as this user.
+                if (!KillerNotes.Cli.Program.ServerRunsAsCurrentUser(pipe)) return;
                 using var w = new StreamWriter(pipe) { AutoFlush = true };
                 w.WriteLine(path ?? "");
             }
@@ -271,24 +273,12 @@ namespace KillerNotes
         /// lifetime on a background thread; each message is dispatched to the UI thread.</summary>
         private void StartPipeServer()
         {
-            var thread = new Thread(() =>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        // Asynchronous, so the bounded read below can give up on a client that
-                        // stalls; disposing the server at the end of each pass drops it.
-                        using var server = new NamedPipeServerStream(
-                            PipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
-                        server.WaitForConnection();
-                        string? path = Services.LaunchMessage.ReadLine(server, TimeSpan.FromSeconds(5), 64 * 1024);
-                        if (path != null) Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path)));
-                    }
-                    catch (IOException) { /* client vanished mid-handshake - keep listening */ }
-                    catch (ObjectDisposedException) { return; }
-                }
-            })
+            // Asynchronous, so the bounded read can give up on a client that stalls; disposing the
+            // server at the end of each pass drops it.
+            var thread = new Thread(() => RunLaunchPipeLoop(
+                () => CreateOwnerOnlyPipe(PipeName, PipeDirection.In),
+                path => Dispatcher.BeginInvoke(new Action(() => OnForwardedLaunch(path))),
+                Thread.Sleep, CancellationToken.None))
             { IsBackground = true, Name = "KillerNotes single-instance pipe" };
             thread.Start();
         }
@@ -847,6 +837,20 @@ namespace KillerNotes
             return null;
         }
 
+        /// <summary>How the deferred cleanup script is started. It may run elevated, so cmd comes from
+        /// System32 by full path, /d skips the user's AutoRun, and the working folder is System32, so
+        /// nothing the signed-in user can write is searched first.</summary>
+        internal static ProcessStartInfo UninstallCleanupStart(string bat)
+        {
+            string system = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            return new ProcessStartInfo(Path.Combine(system, "cmd.exe"), $"/d /c \"{bat}\"")
+            {
+                WindowStyle      = ProcessWindowStyle.Hidden,
+                UseShellExecute  = true,
+                WorkingDirectory = system,
+            };
+        }
+
         internal static int RunElevatedUninstall(string exe, bool silent, int launcher, Func<ProcessStartInfo, int> run)
         {
             try
@@ -855,6 +859,7 @@ namespace KillerNotes
                 {
                     UseShellExecute = true,
                     Verb = "runas",
+                    WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.System),
                 });
             }
             catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
@@ -942,11 +947,7 @@ namespace KillerNotes
             // trying the exe until this copy has finished the removal below and exited.
             try
             {
-                Process.Start(new ProcessStartInfo("cmd.exe", $"/c \"{bat}\"")
-                {
-                    WindowStyle     = ProcessWindowStyle.Hidden,
-                    UseShellExecute = true
-                });
+                Process.Start(UninstallCleanupStart(bat));
             }
             catch (Exception ex)
             {

@@ -681,8 +681,14 @@ namespace KillerNotes.Shell
         {
             string repl = ReplaceBox.Text ?? "";
             if (!_findRegex) return repl;
-            var rx = TryBuildFindRegex();
-            if (rx == null) return repl;
+            return ReplacementFor(hit, TryBuildFindRegex());
+        }
+
+        /// <summary>As above with a regex built once by the caller, so Replace All does not build one per hit.</summary>
+        private string ReplacementFor((int Start, int Length) hit, System.Text.RegularExpressions.Regex? rx)
+        {
+            string repl = ReplaceBox.Text ?? "";
+            if (!_findRegex || rx == null) return repl;
             return DocumentReplacement.Substitute(rx, _findPlain, hit.Start, hit.Length, repl);
         }
 
@@ -741,7 +747,8 @@ namespace KillerNotes.Shell
             var repls = new List<string>(hits.Count);
             // Every substitution is evaluated before the first edit, so a pattern that hits its
             // deadline leaves the note exactly as it was.
-            try { foreach (var h in hits) repls.Add(ReplacementFor(h)); }
+            var rx = _findRegex ? TryBuildFindRegex() : null;
+            try { foreach (var h in hits) repls.Add(ReplacementFor(h, rx)); }
             catch (System.Text.RegularExpressions.RegexMatchTimeoutException)
             {
                 FlashStatus(Loc("Str_St_FindTooSlow"));

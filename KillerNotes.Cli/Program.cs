@@ -276,6 +276,11 @@ namespace KillerNotes.Cli
                 args = InlineContentFile(args);
                 using var pipe = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous);
                 pipe.Connect(3000);
+                if (!ServerRunsAsCurrentUser(pipe))
+                {
+                    Console.Error.WriteLine("The KillerNotes bridge is not running as you. Nothing was sent.");
+                    return 1;
+                }
                 byte[] request = Serialize(new McpRequest { Arguments = args });
                 // Escaping can grow the text past what the app reads, so a request the app would drop is refused here.
                 if (request.Length > MaxFrameBytes) throw new ArgumentException("--content-file is larger than a note can hold");
@@ -286,6 +291,54 @@ namespace KillerNotes.Cli
             catch (TimeoutException) { Console.Error.WriteLine("Open and unlock KillerNotes before using active-vault commands"); return 1; }
             catch (IOException ex) { Console.Error.WriteLine("KillerNotes bridge failed: " + ex.Message); return 1; }
         }
+
+        /// <summary>True when the process runs as the signed-in user.</summary>
+        /// Fails closed: a process that cannot be opened or read is not trusted.
+        internal static bool ProcessRunsAsCurrentUser(uint pid)
+        {
+            if (pid == 0) return false;
+            IntPtr process = OpenProcess(ProcessQueryLimitedInformation, false, pid);
+            if (process == IntPtr.Zero) return false;
+            try
+            {
+                if (!OpenProcessToken(process, TokenQuery, out IntPtr token)) return false;
+                try
+                {
+                    using var server = new System.Security.Principal.WindowsIdentity(token);
+                    using var me = System.Security.Principal.WindowsIdentity.GetCurrent();
+                    return server.User != null && server.User == me.User;
+                }
+                finally { CloseHandle(token); }
+            }
+            catch (Exception) { return false; }
+            finally { CloseHandle(process); }
+        }
+
+        /// <summary>True when the server end of a connected pipe runs as the signed-in user, so the CLI
+        /// never hands note content to a process another account started under KillerNotes' pipe name.</summary>
+        internal static bool ServerRunsAsCurrentUser(PipeStream pipe) =>
+            GetNamedPipeServerProcessId(pipe.SafePipeHandle, out uint pid) && ProcessRunsAsCurrentUser(pid);
+
+        private const uint ProcessQueryLimitedInformation = 0x1000, TokenQuery = 0x0008;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetNamedPipeServerProcessId(Microsoft.Win32.SafeHandles.SafePipeHandle pipe, out uint processId);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        private static extern IntPtr OpenProcess(uint access, bool inherit, uint processId);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool OpenProcessToken(IntPtr process, uint access, out IntPtr token);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CloseHandle(IntPtr handle);
 
         [DllImport("kernel32.dll", EntryPoint = "WaitNamedPipeW", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

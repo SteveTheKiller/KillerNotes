@@ -108,7 +108,12 @@ namespace KillerNotes.Controls
             var row = new ListBoxItem { Content = grid, Tag = name, HorizontalContentAlignment = HorizontalAlignment.Stretch };
             System.Windows.Automation.AutomationProperties.SetName(row, name);
             // Double-click the row to rename inline (as well as the rename button).
-            row.MouseDoubleClick += (_, _) => BeginRename(grid, label, name);
+            // A double-click inside the rename box selects a word; it must not start a second rename.
+            row.MouseDoubleClick += (_, e) =>
+            {
+                if (IsInsideTextBox(e.OriginalSource as DependencyObject)) return;
+                BeginRename(grid, label, name);
+            };
 
             // Right-click card (1.7.0): the tag over its color row, then Rename and Delete.
             row.ContextMenu = BuildTagCard(name, colorHex, palette,
@@ -236,7 +241,7 @@ namespace KillerNotes.Controls
         {
             string cur = NoteStore.ListTags().FirstOrDefault(t =>
                 string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase)).Color ?? "#50AEE8";
-            var dlg = new ColorPickerDialog(this, ColorFromHex(cur)) { Owner = this };
+            var dlg = new ColorPickerDialog(this, PickerStartColor(cur)) { Owner = this };
             dlg.ShowDialog();
             if (dlg.Confirmed) SetTagColor(name, HexFromColor(dlg.SelectedColor));
         }
@@ -252,6 +257,8 @@ namespace KillerNotes.Controls
         // databases). Commit on Enter or lost focus; Esc cancels.
         private void BeginRename(Grid grid, TextBlock label, string name)
         {
+            // F2 or a double-click while the row is already being renamed keeps the open box.
+            if (grid.Children.OfType<TextBox>().Any()) return;
             var box = CreateRenameBox(name);
             Grid.SetColumn(box, 1);
             label.Visibility = Visibility.Collapsed;
@@ -275,6 +282,14 @@ namespace KillerNotes.Controls
                 else if (e.Key == Key.Escape) { Commit(false); e.Handled = true; }
             };
             box.LostFocus += (_, _) => Commit(true);
+        }
+
+        private static bool IsInsideTextBox(DependencyObject? source)
+        {
+            for (var d = source; d != null;
+                 d = d is Visual || d is System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetParent(d) : LogicalTreeHelper.GetParent(d))
+                if (d is TextBox) return true;
+            return false;
         }
 
         private void CommitRename(string oldName, string raw)
@@ -331,6 +346,16 @@ namespace KillerNotes.Controls
 
         private static Color ColorFromHex(string hex) =>
             (Color)ColorConverter.ConvertFromString(hex);
+
+        /// <summary>The color the picker opens on for a stored hex value.</summary>
+        internal static Color PickerStartColor(string? hex)
+        {
+            // A stored value written by hand or by an MCP client may not be valid hex.
+            try { if (!string.IsNullOrWhiteSpace(hex)) return ColorFromHex(hex!); }
+            catch (FormatException) { }
+            catch (NotSupportedException) { }
+            return Color.FromRgb(0x50, 0xAE, 0xE8);
+        }
 
         private static string HexFromColor(Color c) =>
             $"#{c.R:X2}{c.G:X2}{c.B:X2}";

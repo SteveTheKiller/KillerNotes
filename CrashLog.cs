@@ -24,6 +24,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -53,10 +54,17 @@ namespace KillerNotes
                 WriteCrashLog("appdomain", e.ExceptionObject as Exception);
         }
 
-        private static void WriteCrashLog(string source, Exception? ex)
+        private static void WriteCrashLog(string source, Exception? ex) => WriteCrashLog(source, ex, CrashLogPath);
+
+        // The dispatcher handler leaves e.Handled false, so WPF rethrows and the AppDomain handler
+        // sees the same exception again. One failure gets one entry.
+        private static Exception? _lastCrashLogged;
+
+        internal static void WriteCrashLog(string source, Exception? ex, string path)
         {
             try
             {
+                if (ex != null && ReferenceEquals(ex, Interlocked.Exchange(ref _lastCrashLogged, ex))) return;
                 var sb = new StringBuilder();
                 sb.Append("=== ")
                   .Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture))
@@ -69,9 +77,8 @@ namespace KillerNotes
                 // stack, which is exactly what is wanted here.
                 sb.Append(ex?.ToString() ?? "(no exception object)").Append("\n\n");
 
-                string path = CrashLogPath;
                 Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-                TrimCrashLog(path);
+                TrimCrashLog(path, CrashLogMaxBytes);
                 File.AppendAllText(path, sb.ToString(), new UTF8Encoding(false));
             }
             catch { /* nothing useful is left to do at this point */ }
@@ -79,14 +86,17 @@ namespace KillerNotes
 
         /// <summary>Keeps the newest half when the file passes the cap. Cheap, and it cannot
         /// lose the entry about to be written, which is appended after this runs.</summary>
-        private static void TrimCrashLog(string path)
+        internal static void TrimCrashLog(string path, long cap)
         {
             try
             {
                 var fi = new FileInfo(path);
-                if (!fi.Exists || fi.Length <= CrashLogMaxBytes) return;
+                if (!fi.Exists || fi.Length <= cap) return;
                 string text = File.ReadAllText(path);
                 int cut = text.IndexOf("\n=== ", text.Length / 2, StringComparison.Ordinal);
+                // The newest entry alone is past the midpoint: keep it rather than wiping the file.
+                if (cut < 0) cut = text.LastIndexOf("\n=== ", text.Length / 2, StringComparison.Ordinal);
+                if (cut < 0 && text.StartsWith("=== ", StringComparison.Ordinal)) return;
                 File.WriteAllText(path, cut >= 0 ? text[(cut + 1)..] : "",
                                   new UTF8Encoding(false));
             }

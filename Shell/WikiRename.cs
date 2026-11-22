@@ -78,6 +78,13 @@ namespace KillerNotes.Shell
             _renameFrom = "";
             if (id < 0 || !NoteStore.IsOpen || NoteStore.IsReadOnly) return;
 
+            // The open note can be one of the sources (a self-link), and the rewrite reads the stored
+            // copy and reloads it, so typing since the last autosave must be on disk first. Same as
+            // GlobalReplace. The save can record the rename again; this flush already covers it.
+            if (!SaveCurrentNote(refreshList: false)) return;
+            _renameId = -1;
+            _renameFrom = "";
+
             string to = NoteStore.GetNote(id)?.Title ?? "";   // the store, not _notes: the note may have left the search results by being renamed
             if (to.Trim().Length == 0) return;
             // A pure change of case is not a rename here: targets resolve case-insensitively, so

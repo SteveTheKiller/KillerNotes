@@ -10,14 +10,18 @@ namespace KillerNotes.Services
     /// <summary>The deferred self-delete an uninstall hands to cmd, so the exe can exit first.</summary>
     internal static class UninstallScript
     {
+        private static string SystemFolder => Environment.GetFolderPath(Environment.SpecialFolder.System);
+
         /// <summary>With <paramref name="removeFolder"/> the script also removes the folder it sits in, on the
         /// same line that deletes the script, because cmd cannot read another line from a deleted file.</summary>
         internal static string Build(string directory, string[] files, int pings = 3, bool removeFolder = false) =>
             "@echo off\r\n" +
             // cmd reads this file in the console's code page, and the install path can hold any
             // character (a user name with an accent, say). The file is written as UTF-8.
-            "chcp 65001 >nul\r\n" +
-            "ping -n " + pings + " 127.0.0.1 >nul\r\n" +
+            // External commands by full path: the script can run elevated, and cmd searches the
+            // working folder before PATH.
+            "\"" + Path.Combine(SystemFolder, "chcp.com") + "\" 65001 >nul\r\n" +
+            "\"" + Path.Combine(SystemFolder, "PING.EXE") + "\" -n " + pings + " 127.0.0.1 >nul\r\n" +
             InstalledFileCleanup.RemovalBatch(directory, files) +
             (removeFolder ? "del \"%~f0\" >nul 2>&1 & rmdir \"%~dp0\" >nul 2>&1\r\n" : "del \"%~f0\"\r\n");
 

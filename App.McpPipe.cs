@@ -142,6 +142,8 @@ namespace KillerNotes
                 // wait before asking again instead of spinning, and never end the thread, which would end the process.
                 catch (IOException) { pause(McpPipeRetryDelay); continue; }
                 catch (UnauthorizedAccessException) { pause(McpPipeRetryDelay); continue; }
+                catch (ObjectDisposedException) { return; }
+                catch (Exception) { pause(McpPipeRetryDelay); continue; }
                 using (pipe)
                 {
                     try
@@ -151,17 +153,101 @@ namespace KillerNotes
                     }
                     catch (IOException) { }
                     catch (ObjectDisposedException) { return; }
+                    catch (Exception) { pause(McpPipeFailureDelay); }
                 }
             }
         }
 
         private static readonly TimeSpan McpPipeRetryDelay = TimeSpan.FromSeconds(1);
 
+        /// <summary>The server end of a KillerNotes pipe, one instance, asynchronous.</summary>
+        /// The descriptor grants the signed-in user alone, and the first-instance flag refuses a name
+        /// another process (another account on a shared PC, say) created first, so a client never
+        /// lands on an impostor that took the name. Remote clients are refused as well.
+        internal static NamedPipeServerStream CreateOwnerOnlyPipe(string name, PipeDirection direction)
+        {
+            var security = new PipeSecurity();
+            security.SetAccessRuleProtection(true, false);
+            security.AddAccessRule(new PipeAccessRule(System.Security.Principal.WindowsIdentity.GetCurrent().User!,
+                PipeAccessRights.FullControl, System.Security.AccessControl.AccessControlType.Allow));
+            byte[] descriptor = security.GetSecurityDescriptorBinaryForm();
+
+            uint access = direction == PipeDirection.In ? PipeAccessInbound
+                        : direction == PipeDirection.Out ? PipeAccessOutbound : PipeAccessDuplex;
+            var pinned = System.Runtime.InteropServices.GCHandle.Alloc(descriptor, System.Runtime.InteropServices.GCHandleType.Pinned);
+            try
+            {
+                var attributes = new SecurityAttributes
+                {
+                    Length = System.Runtime.InteropServices.Marshal.SizeOf(typeof(SecurityAttributes)),
+                    Descriptor = pinned.AddrOfPinnedObject(),
+                };
+                var handle = CreateNamedPipe(@"\\.\pipe\" + name, access | FileFlagOverlapped | FileFlagFirstPipeInstance,
+                    PipeRejectRemoteClients, 1, 0, 0, 0, ref attributes);
+                if (handle.IsInvalid)
+                {
+                    int error = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
+                    handle.Dispose();
+                    string message = new System.ComponentModel.Win32Exception(error).Message;
+                    if (error == 5) throw new UnauthorizedAccessException(message);
+                    throw new IOException(message, unchecked((int)0x80070000) | error);
+                }
+                return new NamedPipeServerStream(direction, isAsync: true, isConnected: false, handle);
+            }
+            finally { pinned.Free(); }
+        }
+
+        private const uint PipeAccessInbound = 0x1, PipeAccessOutbound = 0x2, PipeAccessDuplex = 0x3;
+        private const uint FileFlagOverlapped = 0x40000000, FileFlagFirstPipeInstance = 0x00080000;
+        private const uint PipeRejectRemoteClients = 0x8;
+
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        private struct SecurityAttributes
+        {
+            public int Length;
+            public IntPtr Descriptor;
+            public int InheritHandle;
+        }
+
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", EntryPoint = "CreateNamedPipeW",
+            CharSet = System.Runtime.InteropServices.CharSet.Unicode, SetLastError = true)]
+        [System.Runtime.InteropServices.DefaultDllImportSearchPaths(System.Runtime.InteropServices.DllImportSearchPath.System32)]
+        private static extern Microsoft.Win32.SafeHandles.SafePipeHandle CreateNamedPipe(string name, uint openMode,
+            uint pipeMode, uint maxInstances, uint outBuffer, uint inBuffer, uint defaultTimeout, ref SecurityAttributes attributes);
+
+        /// <summary>Serves forwarded launches until stopped. Like the MCP loop, a pipe that cannot be
+        /// made is retried after a pause, and no failure ends the thread, which would end the process.</summary>
+        internal static void RunLaunchPipeLoop(Func<NamedPipeServerStream> create, Action<string> deliver,
+            Action<TimeSpan> pause, CancellationToken stop)
+        {
+            while (!stop.IsCancellationRequested)
+            {
+                NamedPipeServerStream server;
+                try { server = create(); }
+                catch (ObjectDisposedException) { return; }
+                catch (Exception) { pause(McpPipeRetryDelay); continue; }
+                using (server)
+                {
+                    try
+                    {
+                        server.WaitForConnection();
+                        string? path = Services.LaunchMessage.ReadLine(server, TimeSpan.FromSeconds(5), 64 * 1024);
+                        if (path != null) deliver(path);
+                    }
+                    catch (IOException) { /* client vanished mid-handshake - keep listening */ }
+                    catch (ObjectDisposedException) { return; }
+                    catch (Exception) { pause(McpPipeFailureDelay); }
+                }
+            }
+        }
+
+        private static readonly TimeSpan McpPipeFailureDelay = TimeSpan.FromMilliseconds(500);
+
         private void StartMcpPipeServer()
         {
             var thread = new Thread(() => RunMcpPipeLoop(
                 // Asynchronous, so disposing the pipe cancels a read a stalled client left pending.
-                () => new NamedPipeServerStream(McpPipeName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous),
+                () => CreateOwnerOnlyPipe(McpPipeName, PipeDirection.InOut),
                 arguments => Dispatcher.Invoke(() => ((Shell.MainWindow)MainWindow).ExecuteMcpCommand(arguments)),
                 Thread.Sleep, CancellationToken.None))
             { IsBackground = true, Name = "KillerNotes MCP pipe" };
