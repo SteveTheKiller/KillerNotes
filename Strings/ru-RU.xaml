@@ -1113,6 +1113,7 @@
     <sys:String x:Key="Str_Imp_Why_large">больше 50 МБ</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[встраивания]] остаются текстом</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">файл не найден</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">за пределами импортируемой папки</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">формат звука не поддерживается</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ни одна заметка не ссылается</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">папка-ссылка, переход пропущен</sys:String>

@@ -1105,6 +1105,7 @@
     <sys:String x:Key="Str_Imp_Why_large">৫০ MB-এর বেশি</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[এমবেড]] লেখা হিসেবে থাকে</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">ফাইল পাওয়া যায়নি</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">আমদানি করা ফোল্ডারের বাইরে</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">অডিও ফরম্যাট সমর্থিত নয়</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">কোনো নোট এর লিংক দেয় না</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">লিংক করা ফোল্ডার, অনুসরণ করা হয়নি</sys:String>

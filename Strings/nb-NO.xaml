@@ -1150,6 +1150,7 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">over 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[innbygginger]] blir stående som tekst</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">fant ikke filen</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">utenfor den importerte mappen</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">lydformatet støttes ikke</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ingen notater lenker til den</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">lenket mappe, ikke fulgt</sys:String>

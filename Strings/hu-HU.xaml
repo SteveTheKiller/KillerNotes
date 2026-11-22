@@ -1131,6 +1131,7 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Imp_Why_large">50 MB felett</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">a ![[beágyazások]] szövegként maradnak</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">a fájl nem található</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">az importált mappán kívül van</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">nem támogatott hangformátum</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">egy jegyzet sem hivatkozik rá</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">hivatkozott mappa, nem követett</sys:String>

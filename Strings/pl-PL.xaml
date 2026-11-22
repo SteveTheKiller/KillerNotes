@@ -1032,6 +1032,7 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">ponad 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[osadzenia]] zostają tekstem</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">nie znaleziono pliku</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">poza importowanym folderem</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">nieobsługiwany format dźwięku</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">żadna notatka do niego nie linkuje</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">folder połączony linkiem, pominięty</sys:String>

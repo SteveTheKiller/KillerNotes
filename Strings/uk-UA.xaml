@@ -1152,6 +1152,7 @@
     <sys:String x:Key="Str_Imp_Why_large">понад 50 МБ</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[вбудовування]] лишаються текстом</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">файл не знайдено</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">поза імпортованою текою</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">формат звуку не підтримується</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">жодна нотатка не посилається</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">папка-посилання, перехід пропущено</sys:String>

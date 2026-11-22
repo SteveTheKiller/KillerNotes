@@ -1012,6 +1012,7 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">več kot 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[vdelave]] ostanejo besedilo</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">datoteke ni mogoče najti</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">zunaj uvožene mape</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">zvočna oblika ni podprta</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">nobena povezava ne kaže nanjo</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">povezana mapa, ni upoštevana</sys:String>

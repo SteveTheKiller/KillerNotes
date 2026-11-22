@@ -1102,6 +1102,7 @@ Nechte obě pole prázdná pro sdílení bez hesla.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">přes 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[vložení]] zůstanou textem</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">soubor nenalezen</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">mimo importovanou složku</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">nepodporovaný formát zvuku</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">neodkazuje na něj žádná poznámka</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">propojená složka, nesledována</sys:String>

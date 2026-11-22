@@ -1152,6 +1152,7 @@ Deixe as duas caixas vazias para compartilhar sem senha.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">mais de 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[incorporações]] ficam como texto</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">arquivo não encontrado</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">fora da pasta importada</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">formato de áudio não suportado</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">nenhuma nota tem link para ele</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">pasta vinculada, não seguida</sys:String>

@@ -1106,6 +1106,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">más de 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">los ![[incrustados]] quedan como texto</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">archivo no encontrado</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">fuera de la carpeta importada</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">formato de audio no compatible</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">ninguna nota lo enlaza</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">carpeta enlazada, no seguida</sys:String>

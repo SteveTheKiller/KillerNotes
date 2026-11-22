@@ -1113,6 +1113,7 @@ Lascia entrambe le caselle vuote per condividere senza.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">oltre 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">gli ![[incorporamenti]] restano testo</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">file non trovato</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">fuori dalla cartella importata</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">formato audio non supportato</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">non collegato da nessuna nota</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">cartella collegata, non seguita</sys:String>

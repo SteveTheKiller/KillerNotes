@@ -1156,6 +1156,7 @@ Cơ sở dữ liệu hiện tại vẫn có trong Quản lý cơ sở dữ liệ
     <sys:String x:Key="Str_Imp_Why_large">trên 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[nhúng]] được giữ dạng chữ</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">không tìm thấy tệp</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">nằm ngoài thư mục được nhập</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">định dạng âm thanh không được hỗ trợ</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">không ghi chú nào liên kết tới</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">thư mục liên kết, không đi theo</sys:String>

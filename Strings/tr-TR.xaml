@@ -1105,6 +1105,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">50 MB'tan büyük</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[gömmeler]] metin olarak kalır</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">dosya bulunamadı</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">içe aktarılan klasörün dışında</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">ses biçimi desteklenmiyor</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">hiçbir not bağlantı vermiyor</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">bağlantılı klasör, izlenmedi</sys:String>

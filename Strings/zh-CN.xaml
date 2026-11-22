@@ -1103,6 +1103,7 @@
     <sys:String x:Key="Str_Imp_Why_large">超过 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[嵌入]] 保留为文本</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">找不到文件</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">位于导入的文件夹之外</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">不支持的音频格式</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">没有笔记链接到它</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">链接的文件夹，未跟随</sys:String>

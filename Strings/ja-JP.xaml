@@ -1103,6 +1103,7 @@
     <sys:String x:Key="Str_Imp_Why_large">50 MB 超</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[埋め込み]] はテキストのまま</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">ファイルが見つからない</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">インポートしたフォルダーの外にある</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">対応していない音声形式</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">どのノートからもリンクされていない</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">リンクされたフォルダー、たどっていない</sys:String>

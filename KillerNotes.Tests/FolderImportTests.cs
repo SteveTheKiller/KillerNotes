@@ -83,6 +83,27 @@ namespace KillerNotes.Tests
             }
         }
 
+        [Fact]
+        public void AMediaLinkOutsideTheImportedFolderIsListedAndNeverBroughtIn()
+        {
+            string outsideDir = _dir + "-outside";
+            Directory.CreateDirectory(outsideDir);
+            try
+            {
+                string outside = Path.Combine(outsideDir, "secret.png");
+                File.WriteAllBytes(outside, new byte[] { 137, 80, 78, 71 });
+                string up = "../" + Path.GetFileName(outsideDir) + "/secret.png";
+                Write("note.md", $"![a]({up})\n\n![b](<{outside}>)\n\n![c](//server/share/x.png)");
+
+                var plan = FolderImporter.Plan(_dir, new ImportState(new(), new(), new()), CancellationToken.None);
+
+                Assert.Contains(plan.Skipped, s => s.File == "note.md: " + up && s.Reason == "outside");
+                Assert.Contains(plan.Skipped, s => s.File == "note.md: " + outside && s.Reason == "outside");
+                Assert.Contains(plan.Skipped, s => s.File == "note.md: //server/share/x.png" && s.Reason == "outside");
+            }
+            finally { try { Directory.Delete(outsideDir, true); } catch { } }
+        }
+
         private string Write(string rel, string text)
         {
             string path = Path.Combine(_dir, rel.Replace('/', '\\'));

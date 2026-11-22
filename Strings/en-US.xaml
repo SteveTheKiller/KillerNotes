@@ -1152,6 +1152,7 @@ Leave both boxes empty to share without one.</sys:String>
     <sys:String x:Key="Str_Imp_Why_large">over 50 MB</sys:String>
     <sys:String x:Key="Str_Imp_Why_embed">![[embeds]] stay as text</sys:String>
     <sys:String x:Key="Str_Imp_Why_missing">file not found</sys:String>
+    <sys:String x:Key="Str_Imp_Why_outside">outside the imported folder</sys:String>
     <sys:String x:Key="Str_Imp_Why_audio">audio format not supported</sys:String>
     <sys:String x:Key="Str_Imp_Why_unlinked">not linked from any note</sys:String>
     <sys:String x:Key="Str_Imp_Why_link">linked folder, not followed</sys:String>

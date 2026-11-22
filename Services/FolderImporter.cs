@@ -265,6 +265,8 @@ namespace KillerNotes.Services
                     if (report && OtherAudioExts.Contains(ext)) plan.Skipped.Add(new ImportSkip(rel + ": " + link.Destination, "audio"));
                     continue;
                 }
+                // Checked before the file is touched: a UNC link must never reach the network.
+                if (!Inside(local, plan.Folder)) { if (report) plan.Skipped.Add(new ImportSkip(rel + ": " + link.Destination, "outside")); continue; }
                 if (!File.Exists(local)) { if (report) plan.Skipped.Add(new ImportSkip(rel + ": " + link.Destination, "missing")); continue; }
                 if (new FileInfo(local).Length > maxBytes) { if (report) plan.Skipped.Add(new ImportSkip(rel + ": " + link.Destination, "large")); continue; }
                 yield return local;
@@ -296,6 +298,15 @@ namespace KillerNotes.Services
             if (hash > 0) destination = destination.Substring(0, hash);
             try { return Path.GetFullPath(Path.Combine(dir, Uri.UnescapeDataString(destination).Replace('/', Path.DirectorySeparatorChar))); }
             catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException) { return null; }
+        }
+
+        /// <summary>True when a resolved path sits under the imported folder. A note can only bring
+        /// in files from the folder the user chose, never from elsewhere on the disk or a share.</summary>
+        private static bool Inside(string local, string root)
+        {
+            if (local.StartsWith(@"\\", StringComparison.Ordinal)) return false;
+            string prefix = root.TrimEnd('\\', '/') + Path.DirectorySeparatorChar;
+            return local.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
         }
 
         // ---- Front matter ----
@@ -414,7 +425,7 @@ namespace KillerNotes.Services
                 token.ThrowIfCancellationRequested();
                 string dir = Path.GetDirectoryName(note.FullPath)!;
                 var media = new Dictionary<string, string>();   // token -> full path
-                string body = note.PlainText ? note.Body : TokenizeMedia(RewriteLinks(note.Body, dir, plan.Folder, TitleFor), dir, media, plan.MaxBytes);
+                string body = note.PlainText ? note.Body : TokenizeMedia(RewriteLinks(note.Body, dir, plan.Folder, TitleFor), dir, plan.Folder, media, plan.MaxBytes);
                 var item = new PreparedImport
                 {
                     Title = note.Title,
@@ -490,7 +501,7 @@ namespace KillerNotes.Services
 
         /// <summary>Swaps each local picture and recording link for a private-use token the
         /// Markdown converter carries through as text, so PlaceMedia can put the real thing there.</summary>
-        private static string TokenizeMedia(string body, string dir, Dictionary<string, string> media, long maxBytes)
+        private static string TokenizeMedia(string body, string dir, string root, Dictionary<string, string> media, long maxBytes)
         {
             var lines = body.Split('\n');
             bool fenced = false;
@@ -502,7 +513,7 @@ namespace KillerNotes.Services
                 lines[i] = LinkRx.Replace(lines[i], m =>
                 {
                     string dest = m.Groups[3].Success ? m.Groups[3].Value : m.Groups[4].Value;
-                    if (LocalPath(dest, dir) is not string local || !File.Exists(local)) return m.Value;
+                    if (LocalPath(dest, dir) is not string local || !Inside(local, root) || !File.Exists(local)) return m.Value;
                     string ext = Path.GetExtension(local);
                     bool picture = m.Groups[1].Value == "!" && PictureExts.Contains(ext);
                     if (!picture && !RecordingExts.Contains(ext)) return m.Value;
