@@ -277,17 +277,24 @@ namespace KillerNotes.Shell
             string titleWas = NoteStore.GetNote(_currentId)?.Title ?? "";   // the store, not _notes: a search can leave the open note out of the list
             NoteStore.SaveEditorState(_currentId, TitleBox.Text, blob, storedPlain,
                 WikiLinks.Parse(bodyText), attachments, _dropLegacyRecordings);
+            // The note is on disk from here on. Mark it saved now, so a failure in the strip
+            // refresh below can never report "Save failed" for a save that landed.
+            _dirty = false;
+            SetSaveState(SaveIndicator.Saved);   // SaveState.cs
             if (!CurrentIsMarkdown) OnRichDocumentSaved();
             RecordRename(_currentId, titleWas, TitleBox.Text);   // WikiRename.cs
             // Wikilinks are re-derived from the text every save, so an edge appears the moment a
             // link is typed and disappears the moment it is deleted. Parsed from bodyText, NOT
             // storedPlain: the sketch labels appended to the stored copy are diagram captions, and
             // a "[[...]]" typed into a drawing is not a link between notes.
-            RefreshBacklinks();   // Backlinks.cs - a rename or a new inbound link changes the strip
+            try { RefreshBacklinks(); }   // Backlinks.cs - a rename or a new inbound link changes the strip
+            catch (Exception ex) when (ex is Microsoft.Data.Sqlite.SqliteException || ex is InvalidOperationException)
+            {
+                // A stale strip is cosmetic; the next save or note switch rebuilds it. Skipping the
+                // row sync below over it would leave the sidebar showing the old title.
+            }
             // No repaint here any more. The document was never unpainted, so there is nothing to
             // restore and the incremental cache is still warm.
-            _dirty = false;
-            SetSaveState(SaveIndicator.Saved);   // SaveState.cs
 
             // ALWAYS sync the in-memory row too: OpenNote reads titles from this list, so
             // a stale row resurrected the old title on the next visit and the following
