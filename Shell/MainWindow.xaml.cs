@@ -49,7 +49,8 @@ namespace KillerNotes.Shell
                 [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote, "",
                     () => NullIfEmpty(Services.QuickNoteHotkey.Effective(App.GetSetting(Services.QuickNoteHotkey.Setting))))],
                 () => KeepTrayIcon,
-                openKeys: () => NullIfEmpty(Services.ShowWindowHotkey.Effective(App.GetSetting(Services.ShowWindowHotkey.Setting))));
+                openKeys: () => NullIfEmpty(Services.ShowWindowHotkey.Effective(App.GetSetting(Services.ShowWindowHotkey.Setting))),
+                brand: () => KillerFamily.Shell.CloseToTray.Brand(new AppIcon { Source = TitleIcon.Source }, "Killer", "Notes"));
             // After the tray's own handler, which leaves the app's later checks free to cancel.
             Application.Current.SessionEnding += KeepSessionForHeldEdits;   // LockNow.cs
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(
