@@ -47,6 +47,7 @@ namespace KillerNotes.Shell
             e.Handled = true;
             if (sender == LangButton) { LangButton_Click(sender, e); return; }
             if (sender == ThemeButton) { OpenThemeMenu(); return; }
+            if (sender == DictationRailBtn) DictationRailBtn.ContextMenu = BuildDictationCard();   // ContextCards.cs
             if (sender is not FrameworkElement { ContextMenu: { } menu }) return;
             FlyoutPlacement.UsePane(ContentPane);
             if (sender == DictationRailBtn)

@@ -29,6 +29,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">ক্রম উল্টে দিন</sys:String>
+    <sys:String x:Key="Str_Sort_Created">তৈরির তারিখ</sys:String>
+    <sys:String x:Key="Str_Sort_Title">শিরোনাম</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">নিজস্ব ক্রম</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">কাট</sys:String>

@@ -30,6 +30,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Кері рет</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Жасалған күні</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Атауы</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Өз реті</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Қиып алу</sys:String>

@@ -27,20 +27,29 @@ namespace KillerNotes.Shell
         /// <summary>A second launch brings the window back, from the notification area too.</summary>
         internal void ShowFromTray() => _tray.ShowWindow();
 
+        /// <summary>The tray card's tiles show no shortcut line for a shortcut that is turned off.</summary>
+        private static string? NullIfEmpty(string value) => value.Length == 0 ? null : value;
+
+        /// <summary>The tray icon's card as it opens now, for tests and renders.</summary>
+        internal System.Windows.Controls.ContextMenu BuildTrayCard() => _tray.BuildMenu();
+
         public MainWindow()
         {
             LoadPageInk();       // PageInk.cs: the saved Trash Polka page ink, before anything paints
+            TextFieldCard.Register();   // Controls/TextFieldCard.cs: every text box's Cut, Copy and Paste card
             InitializeComponent();
             WireDragRelease();   // Sharing.cs: a release disarms the sidebar drags
             Deactivated += (_, _) => SetSidebarReplaceOpen(false);
             Loaded += (_, _) => SystemParameters.StaticPropertyChanged += OnSystemContrastChanged;
             Unloaded += (_, _) => SystemParameters.StaticPropertyChanged -= OnSystemContrastChanged;
-            // The icon's menu leads with Quick note (QuickNote.cs), and "Keep an icon in the system
-            // tray" keeps it there while the window is open too.
+            // The icon's card has Open and Quick note (QuickNote.cs), each with its global shortcut while
+            // one is set, and "Keep an icon in the system tray" keeps it there while the window is open too.
             _tray = KillerFamily.Shell.CloseToTray.Attach(this, Services.AppInfo.DisplayName, Loc,
                 () => AboutController.CloseToTrayEnabled, TrayCanExit,
-                [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote)],
-                () => KeepTrayIcon);
+                [new KillerFamily.Shell.CloseToTray.TrayItem(() => Loc("Str_Quick_Title"), ShowQuickNote, "",
+                    () => NullIfEmpty(Services.QuickNoteHotkey.Effective(App.GetSetting(Services.QuickNoteHotkey.Setting))))],
+                () => KeepTrayIcon,
+                openKeys: () => NullIfEmpty(Services.ShowWindowHotkey.Effective(App.GetSetting(Services.ShowWindowHotkey.Setting))));
             // After the tray's own handler, which leaves the app's later checks free to cancel.
             Application.Current.SessionEnding += KeepSessionForHeldEdits;   // LockNow.cs
             var titleFrames = System.Windows.Media.Imaging.BitmapDecoder.Create(

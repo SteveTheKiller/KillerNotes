@@ -31,8 +31,10 @@ namespace KillerNotes.Tests
                 var ok = Named<Button>(dialog, "OkButton");
                 Assert.Same(Named<Panel>(dialog, "UnlockFooter"), ok.Parent);
                 Assert.Equal(HorizontalAlignment.Stretch, ok.HorizontalAlignment);
-                Assert.Equal("New", Named<MenuItem>(dialog, "OtherDbNew").Header);
-                Assert.Equal("Open...", Named<MenuItem>(dialog, "OtherDbOpen").Header);
+                var other = dialog.FillOtherDbCard();
+                Assert.Equal("New", System.Windows.Automation.AutomationProperties.GetName(KillerNotes.Shell.NoteCards.Tile(other, "newdb")!));
+                // Tile captions drop the trailing ellipsis (NoteCards.Trimmed), so "Open..." reads "Open".
+                Assert.Equal("Open", System.Windows.Automation.AutomationProperties.GetName(KillerNotes.Shell.NoteCards.Tile(other, "opendb")!));
                 Assert.Equal(Visibility.Collapsed, Named<FrameworkElement>(dialog, "ErrorLine").Visibility);
             }
             finally { dialog.Close(); }

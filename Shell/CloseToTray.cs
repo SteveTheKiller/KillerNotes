@@ -44,9 +44,12 @@ using System.Windows.Interop;
 //                running (and cancels the session end), for unsaved work the user declined to lose.
 //      notifyIcon a test seam standing in for Shell_NotifyIcon (NIM_ADD, NIM_DELETE), so tests
 //                run without a real notification area icon.
-//      items     the app's own rows in the icon's menu, above Open.
+//      items     the app's own tiles on the icon's card, after Open.
 //      keepIcon  an app option that keeps the icon while the window is open too. Call
 //                RefreshIcon after that option changes and once after attaching.
+//      openKeys  the app's global show-window shortcut, shown under the Open tile.
+//   7. The icon's right-click card follows the family card rules (CardBuilder.TileGroups): the
+//      app's name over three-across tiles, Open first, the app's tiles, then Exit on its own row.
 // ============================================================
 namespace KillerFamily.Shell
 {
@@ -55,9 +58,10 @@ namespace KillerFamily.Shell
         /// <summary>The app setting that turns the option on, "1" or "0".</summary>
         internal const string SettingName = "CloseToTray";
 
-        /// <summary>An app's own row in the icon's menu, above Open. Header is asked each time the
-        /// menu opens, so a language switch shows at once.</summary>
-        internal sealed record TrayItem(Func<string> Header, Action Run);
+        /// <summary>An app's own tile on the icon's card, after Open. Header is asked each time the
+        /// card opens, so a language switch shows at once; Glyph is its MDL2 icon, and Keys, when
+        /// set, its global shortcut, asked each time too.</summary>
+        internal sealed record TrayItem(Func<string> Header, Action Run, string Glyph = "", Func<string?>? Keys = null);
 
         private const int WM_APP = 0x8000;
         private const int CallbackMessage = WM_APP + 0x51;
@@ -99,8 +103,11 @@ namespace KillerFamily.Shell
         /// looks up Str_Tray_Open and Str_Tray_Exit.</summary>
         internal static CloseToTray Attach(Window window, string appName, Func<string, string> loc, Func<bool> isEnabled,
             Func<bool>? canExit = null, IReadOnlyList<TrayItem>? items = null, Func<bool>? keepIcon = null,
-            Func<uint, bool>? notifyIcon = null)
-            => new(window, appName, loc, isEnabled, canExit, items, keepIcon, notifyIcon);
+            Func<uint, bool>? notifyIcon = null, Func<string?>? openKeys = null)
+            => new(window, appName, loc, isEnabled, canExit, items, keepIcon, notifyIcon) { _openKeys = openKeys };
+
+        // The global shortcut that brings the window forward, shown on the Open tile; null for none.
+        private Func<string?>? _openKeys;
 
         private readonly Func<bool>? _canExit;
         private readonly IReadOnlyList<TrayItem> _items;
@@ -299,36 +306,33 @@ namespace KillerFamily.Shell
 
         private void ShowMenu()
         {
-            // The tray card: the app's name over its rows, each with an icon.
-            var menu = KillerFamily.Controls.CardBuilder.Menu(240);
-            menu.Items.Add(KillerFamily.Controls.CardBuilder.Header(_appName));
+            var menu = BuildMenu();
             AnchorToPointer(menu);
-            foreach (var item in _items)
-            {
-                var row = new MenuItem { Header = item.Header() };
-                row.Click += (_, _) => item.Run();
-                menu.Items.Add(row);
-            }
-            if (_items.Count > 0) menu.Items.Add(new Separator());
-            var open = new MenuItem { Header = string.Format(_loc("Str_Tray_Open"), _appName), FontWeight = FontWeights.SemiBold, Icon = Glyph(0xE8A7) };
-            open.Click += (_, _) => ShowWindow();
-            var exit = new MenuItem { Header = _loc("Str_Tray_Exit"), Icon = Glyph(0xE7E8) };
-            exit.Click += (_, _) => Exit();
-            menu.Items.Add(open);
-            menu.Items.Add(new Separator());
-            menu.Items.Add(exit);
             // The hidden owner must be in front, or the menu does not close when clicking away.
             SetForegroundWindow(_source.Handle);
             menu.IsOpen = true;
         }
 
-        // A row icon in the kit's MenuIcon style, so the file needs no app's glyph helper.
-        private static TextBlock Glyph(int codepoint)
+        /// <summary>The tray card, on the family card rules (CardBuilder.TileGroups): the app's name over three-across
+        /// tiles, Open first with its global shortcut, then the app's own tiles, and Exit alone on the last row.</summary>
+        internal System.Windows.Controls.ContextMenu BuildMenu()
         {
-            var icon = new TextBlock { Text = char.ConvertFromUtf32(codepoint) };
-            icon.SetResourceReference(FrameworkElement.StyleProperty, "MenuIcon");
-            return icon;
+            var menu = KillerFamily.Controls.CardBuilder.Menu(TrayCardWidth);
+            menu.Items.Add(KillerFamily.Controls.CardBuilder.Header(_appName));
+            var main = new List<KillerFamily.Controls.CardTile>
+            {
+                new("", string.Format(_loc("Str_Tray_Open"), _appName), _openKeys?.Invoke(), ShowWindow),
+            };
+            foreach (var item in _items)
+                main.Add(new KillerFamily.Controls.CardTile(item.Glyph, item.Header(), item.Keys?.Invoke(), item.Run));
+            var quit = new List<KillerFamily.Controls.CardTile> { new("", _loc("Str_Tray_Exit"), null, Exit) };
+            var strip = KillerFamily.Controls.CardBuilder.TileGroups(menu, _appName, [main, quit]);
+            menu.Items.Add(KillerFamily.Controls.CardBuilder.Slot(strip, new Thickness(0)));
+            return menu;
         }
+
+        /// <summary>Three tiles across, the family card width (the menu adds its 22px halo on each side).</summary>
+        internal const double TrayCardWidth = 276;
 
         /// <summary>
         /// The icon's menu opens the way Windows' own tray menus do: the card's bottom-left corner at

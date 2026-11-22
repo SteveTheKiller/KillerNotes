@@ -83,8 +83,6 @@ namespace KillerNotes.Shell
             BacklinkCount.Visibility = _backlinkCollapsed ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void HideBacklinkBar_Click(object sender, RoutedEventArgs e) => ToggleBacklinkBar();
-
         private void ToggleBacklinkBar()
         {
             _backlinkBarHidden = !_backlinkBarHidden;

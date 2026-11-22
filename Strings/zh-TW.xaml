@@ -29,6 +29,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">反轉順序</sys:String>
+    <sys:String x:Key="Str_Sort_Created">建立時間</sys:String>
+    <sys:String x:Key="Str_Sort_Title">標題</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">自訂順序</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">剪下</sys:String>

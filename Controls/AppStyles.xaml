@@ -111,13 +111,8 @@
         </Style.Triggers>
     </Style>
 
-    <ContextMenu x:Key="TextInputContextMenu" x:Shared="False">
-        <MenuItem Command="ApplicationCommands.Cut"   Header="{DynamicResource Str_Ctx_Cut}" Icon="&#xE8C6;"/>
-        <MenuItem Command="ApplicationCommands.Copy"  Header="{DynamicResource Str_Ctx_Copy}" Icon="&#xE8C8;"/>
-        <MenuItem Command="ApplicationCommands.Paste" Header="{DynamicResource Str_Ctx_Paste}" Icon="&#xE77F;"/>
-        <Separator/>
-        <MenuItem Command="ApplicationCommands.SelectAll" Header="{DynamicResource Str_Ctx_SelectAll}" Icon="&#xE8B3;"/>
-    </ContextMenu>
+    <!-- Empty on purpose: Controls/TextFieldCard.cs fills it with the Cut, Copy, Paste and Select all tiles as it opens. -->
+    <ContextMenu x:Key="TextInputContextMenu" x:Shared="False" Tag="TextFieldCard"/>
 
     <!-- New note keeps the classic gray face; its inherited bevel reverses on press. -->
     <Style x:Key="NewNoteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">

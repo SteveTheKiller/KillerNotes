@@ -74,13 +74,6 @@ namespace KillerNotes.Shell
 
         private void SearchIcon_Click(object sender, RoutedEventArgs e) => FocusSearch();
 
-        private void SearchIcon_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            SearchBarVisibilityMenuItem.SetResourceReference(HeaderedItemsControl.HeaderProperty,
-                _titleSearchAutoHide ? "Str_Search_ShowBar" : "Str_Search_HideBar");
-            SearchBarVisibilityMenuItem.Icon = _titleSearchAutoHide ? "\uE70D" : "\uE70E";
-        }
-
         private void SearchBarVisibility_Click(object sender, RoutedEventArgs e)
         {
             SetTitleSearchExpanded(_titleSearchAutoHide, persist: true);

@@ -30,6 +30,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Obrátit pořadí</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Datum vytvoření</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Název</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Vlastní pořadí</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Vyjmout</sys:String>

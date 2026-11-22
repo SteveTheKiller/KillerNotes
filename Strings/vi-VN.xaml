@@ -35,6 +35,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Đảo ngược thứ tự</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Ngày tạo</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Tiêu đề</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Thứ tự tùy chỉnh</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Cắt</sys:String>

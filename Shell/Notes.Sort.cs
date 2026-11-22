@@ -46,7 +46,7 @@ namespace KillerNotes.Shell
         /// overhang falls over the content pane, which is fine.</summary>
         private void SortBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (SortBtn.ContextMenu is not ContextMenu menu) return;
+            var menu = SortBtn.ContextMenu = BuildSortCard();   // ContextCards.cs
             FlyoutPlacement.AttachBelowRight(menu, SortBtn);
             var below = menu.CustomPopupPlacementCallback;
             menu.CustomPopupPlacementCallback = (popup, target, offset) =>
@@ -116,36 +116,6 @@ namespace KillerNotes.Shell
             "custom" => "\uE76F",
             _ => "\uE823",
         };
-
-        // The sort menu (MainWindow.xaml SortMenu) names each sort beside its glyph. Refresh the active marker each time it opens: accent the current mode and, for
-        // the two directional sorts, show its arrow on the right (custom has no direction).
-        private void SortMenu_Opened(object sender, RoutedEventArgs e)
-        {
-            if (sender is not ContextMenu menu) return;
-            bool directional = _sortField != "custom";   // custom order has no direction to reverse
-            foreach (var obj in menu.Items)
-            {
-                // The reverse action and its separator only apply to a directional sort.
-                if (obj is Separator sep) { sep.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; continue; }
-                if (obj is not MenuItem item) continue;
-                if (item.Tag as string == "reverse") { item.Visibility = directional ? Visibility.Visible : Visibility.Collapsed; item.InputGestureText = "Alt+7"; continue; }
-                bool active = (item.Tag as string) == _sortField;
-                if (active) item.SetResourceReference(ForegroundProperty, "PrimaryBrush");
-                else item.ClearValue(ForegroundProperty);   // fall back to the style so hover still accents
-                item.InputGestureText = item.Tag as string switch { "created" => "Alt+4", "title" => "Alt+5", "custom" => "Alt+6", _ => "" };
-            }
-        }
-
-        // A sort mode from the menu switches to it, or reverses it when already active; "Reverse order" flips the active sort's direction.
-        private void SortMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is not MenuItem item || item.Tag is not string tag) return;
-            if (tag == "reverse")
-            {
-                if (_sortField != "custom") SetSort(_sortField, defaultAsc: true);   // same field -> SetSort flips direction
-            }
-            else SetSort(tag, defaultAsc: DefaultAscending(tag));
-        }
 
         private void NotesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

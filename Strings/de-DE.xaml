@@ -29,6 +29,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Reihenfolge umkehren</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Erstelldatum</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Titel</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Eigene Reihenfolge</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Ausschneiden</sys:String>

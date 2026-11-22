@@ -30,6 +30,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Fordított sorrend</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Létrehozás dátuma</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Cím</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Egyéni sorrend</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Kivágás</sys:String>

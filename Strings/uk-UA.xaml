@@ -35,6 +35,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Зворотний порядок</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Дата створення</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Назва</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Власний порядок</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Вирізати</sys:String>

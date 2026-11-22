@@ -22,6 +22,9 @@
     <sys:String x:Key="Str_TT_ExportNote">Shrani kopijo kot običajno datoteko .txt, .rtf ali .html (F8)</sys:String>
     <sys:String x:Key="Str_Ctx_DeleteNote">Izbriši zapisek</sys:String>
     <sys:String x:Key="Str_Ctx_ReverseOrder">Obrni vrstni red</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Datum nastanka</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Naslov</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Lasten vrstni red</sys:String>
     <sys:String x:Key="Str_Ctx_Cut">Izreži</sys:String>
     <sys:String x:Key="Str_Ctx_Copy">Kopiraj</sys:String>
     <sys:String x:Key="Str_Ctx_Paste">Prilepi</sys:String>

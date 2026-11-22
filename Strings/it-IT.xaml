@@ -30,6 +30,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Inverti ordine</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Data di creazione</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Titolo</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Ordine personalizzato</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Taglia</sys:String>

@@ -68,11 +68,11 @@ namespace KillerNotes.Shell
             new("Alt+4", Key.D4, ModifierKeys.Alt, "Str_TT_SortTimeOff", "View", w => w.SortTimeBtn_Click(w, new RoutedEventArgs()), "SortBtn"),
             new("Alt+5", Key.D5, ModifierKeys.Alt, "Str_TT_SortAlphaOff", "View", w => w.SortAlphaBtn_Click(w, new RoutedEventArgs()), "SortBtn"),
             new("Alt+6", Key.D6, ModifierKeys.Alt, "Str_TT_SortCustom", "View", w => w.SortCustomBtn_Click(w, new RoutedEventArgs()), "SortBtn"),
-            new("Alt+F3", Key.F3, ModifierKeys.Alt, "Str_Search_ToggleBar", "Search", w => w.SearchBarVisibility_Click(w, new RoutedEventArgs()), "SearchBarVisibilityMenuItem"),
+            new("Alt+F3", Key.F3, ModifierKeys.Alt, "Str_Search_ToggleBar", "Search", w => w.SearchBarVisibility_Click(w, new RoutedEventArgs())),
             new("Alt+8", Key.D8, ModifierKeys.Alt, "Str_TT_SidebarReplace", "Search", w => w.SidebarReplace_Click(w, new RoutedEventArgs()), "SidebarReplaceBtn"),
             new("Alt+Shift+F", Key.F, ModifierKeys.Alt | ModifierKeys.Shift, "Str_TT_SearchFilters", "Search", w => w.SearchFilter_Click(w.SearchFilterBtn, new RoutedEventArgs()), "SearchFilterBtn"),
             new("Alt+9", Key.D9, ModifierKeys.Alt, "Str_TT_SidebarReplaceAll", "Search", w => w.SidebarReplaceAll_Click(w, new RoutedEventArgs())),
-            new("Alt+7", Key.D7, ModifierKeys.Alt, "Str_Ctx_ReverseOrder", "View", w => w.SortMenuItem_Click(new MenuItem { Tag = "reverse" }, new RoutedEventArgs())),
+            new("Alt+7", Key.D7, ModifierKeys.Alt, "Str_Ctx_ReverseOrder", "View", w => w.ReverseSort()),
             // Table commands share Alt+Shift with a letter named for the action: Style, Above,
             // Below, Left, Right, then Delete row, delete Column and X for the whole table.
             // Line, spacing and fit choices live in the Table Style dialog instead.

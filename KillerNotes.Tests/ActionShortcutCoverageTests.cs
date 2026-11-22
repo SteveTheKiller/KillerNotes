@@ -32,13 +32,14 @@ namespace KillerNotes.Tests
         }
 
         [Fact]
-        public void EveryMainWindowMenuActionAdvertisesKeyboardAccess()
+        public void MainWindowHasNoTextRowMenuActionsLeft()
         {
+            // 1.7.1: every MainWindow menu is a tile card built in code, and each tile carries its keys
+            // (ContextCardTests checks them). A Click MenuItem here would be a text row coming back.
             var document = XDocument.Load(Path.Combine(Root(), "Shell", "MainWindow.xaml"));
-            var actions = document.Descendants().Where(e => e.Name.LocalName == "MenuItem" && e.Attribute("Click") != null).ToArray();
-            Assert.NotEmpty(actions);
-            Assert.All(actions, action => Assert.False(string.IsNullOrWhiteSpace((string?)action.Attribute("InputGestureText")),
-                "Missing menu gesture: " + action.Attribute("Click")!.Value));
+            var actions = document.Descendants().Where(e => e.Name.LocalName == "MenuItem" && e.Attribute("Click") != null)
+                .Select(e => e.Attribute("Click")!.Value).ToArray();
+            Assert.Empty(actions);
         }
 
         [Fact]

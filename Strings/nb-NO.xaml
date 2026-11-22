@@ -35,6 +35,9 @@
 
     <!-- Sidebar sort menu -->
     <sys:String x:Key="Str_Ctx_ReverseOrder">Snu rekkefølgen</sys:String>
+    <sys:String x:Key="Str_Sort_Created">Opprettet</sys:String>
+    <sys:String x:Key="Str_Sort_Title">Tittel</sys:String>
+    <sys:String x:Key="Str_Sort_Custom">Egen rekkefølge</sys:String>
 
     <!-- Shared edit menu -->
     <sys:String x:Key="Str_Ctx_Cut">Klipp ut</sys:String>

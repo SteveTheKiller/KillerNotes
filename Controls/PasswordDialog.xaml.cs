@@ -94,19 +94,15 @@ namespace KillerNotes.Controls
             ((FrameworkElement)ExtraButton.Parent).Visibility = Visibility.Collapsed;
             UnlockFooter.Visibility = Visibility.Visible;
 
-            OtherDbNew.Header = ExtraButton.Content;
-            OtherDbOpen.Header = Extra2Button.Content;
-            OtherDbNew.Visibility = ExtraButton.Content == null ? Visibility.Collapsed : Visibility.Visible;
-            OtherDbOpen.Visibility = Extra2Button.Content == null ? Visibility.Collapsed : Visibility.Visible;
-            OtherDbButton.Visibility = ExtraButton.Content == null && Extra2Button.Content == null
-                ? Visibility.Collapsed : Visibility.Visible;
-            // The two buttons that carried Ctrl+N and Ctrl+O are hidden now, so the folded menu
+            bool hasNew = ExtraButton.Content != null, hasOpen = Extra2Button.Content != null;
+            OtherDbButton.Visibility = hasNew || hasOpen ? Visibility.Visible : Visibility.Collapsed;
+            // The two buttons that carried Ctrl+N and Ctrl+O are hidden now, so the folded card
             // takes the keys over.
             KeyDown += (_, e) =>
             {
                 if (e.Handled || Keyboard.Modifiers != ModifierKeys.Control || OtherDbButton.Visibility != Visibility.Visible) return;
-                if (e.Key == Key.N && OtherDbNew.Visibility == Visibility.Visible) { Extra_Click(this, e); e.Handled = true; }
-                else if (e.Key == Key.O && OtherDbOpen.Visibility == Visibility.Visible) { Extra2_Click(this, e); e.Handled = true; }
+                if (e.Key == Key.N && hasNew) { Extra_Click(this, e); e.Handled = true; }
+                else if (e.Key == Key.O && hasOpen) { Extra2_Click(this, e); e.Handled = true; }
             };
         }
 
@@ -125,9 +121,26 @@ namespace KillerNotes.Controls
 
         private void OtherDb_Click(object sender, RoutedEventArgs e)
         {
+            FillOtherDbCard();
             OtherDbMenu.PlacementTarget = OtherDbButton;
             OtherDbMenu.Placement = PlacementMode.Bottom;
             OtherDbMenu.IsOpen = true;
+        }
+
+        private void OtherDb_ContextMenuOpening(object sender, ContextMenuEventArgs e) => FillOtherDbCard();
+
+        /// <summary>The "Use another database" card (family card rules, NoteCards): New and Open as tiles,
+        /// each only while the dialog offers it.</summary>
+        internal ContextMenu FillOtherDbCard()
+        {
+            var tiles = new System.Collections.Generic.List<KillerFamily.Controls.CardTile>();
+            if (ExtraButton.Content is { } create)
+                tiles.Add(new("", create.ToString(), "Ctrl+N", () => Extra_Click(this, new RoutedEventArgs())) { Id = "newdb" });
+            if (Extra2Button.Content is { } open)
+                tiles.Add(new("", open.ToString(), "Ctrl+O", () => Extra2_Click(this, new RoutedEventArgs())) { Id = "opendb" });
+            Shell.NoteCards.Prepare(OtherDbMenu);
+            OtherDbMenu.Items.Add(Shell.NoteCards.Grid(OtherDbMenu, tiles));
+            return OtherDbMenu;
         }
 
         /// <summary>Shows or hides the typed password. The plain box is a copy that trades the
