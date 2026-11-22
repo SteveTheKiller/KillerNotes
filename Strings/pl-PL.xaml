@@ -1068,10 +1068,6 @@ Zostaw oba pola puste, aby udostępnić bez hasła.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Skrzynka</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Zostaw ikonę w zasobniku systemowym</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Menu ikony ma Szybką notatkę, a ikona zostaje, gdy okno jest otwarte.</sys:String>
-    <sys:String x:Key="Str_About_PageInk">Tusz na stronie notatki</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: jak mocno tusz jest widoczny na notatce.</sys:String>
-    <sys:String x:Key="Str_About_PreviewInk">Tusz w podglądzie</sys:String>
-    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: jak mocno tusz jest widoczny w wyrenderowanym widoku.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Skrót szybkiej notatki:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Skrót pokazania KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Pokaż KillerNotes, także z zasobnika</sys:String>

@@ -1048,10 +1048,6 @@ Za deljenje brez gesla pustite obe polji prazni.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Prejeto</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Obdrži ikono v sistemski vrstici</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Meni ikone ima Hitri zapisek, ikona pa ostane, ko je okno odprto.</sys:String>
-    <sys:String x:Key="Str_About_PageInk">Črnilo na strani zapiska</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: kako močno je črnilo vidno na zapisku.</sys:String>
-    <sys:String x:Key="Str_About_PreviewInk">Črnilo v predogledu</sys:String>
-    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: kako močno je črnilo vidno v prikazanem pogledu.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Bližnjica za hitri zapisek:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Bližnjica za prikaz KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Prikaži KillerNotes, tudi iz sistemske vrstice</sys:String>

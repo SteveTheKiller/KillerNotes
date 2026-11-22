@@ -1139,10 +1139,6 @@
     <sys:String x:Key="Str_Grp_Inbox">收件箱</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">在系统托盘中保留图标</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">图标菜单中有快速笔记，窗口打开时图标也会保留。</sys:String>
-    <sys:String x:Key="Str_About_PageInk">笔记页面墨迹</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka：墨迹在笔记上的显示浓度。</sys:String>
-    <sys:String x:Key="Str_About_PreviewInk">预览墨迹</sys:String>
-    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka：墨迹在渲染视图上的显示浓度。</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">快速笔记快捷键：</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">显示 KillerNotes 快捷键：</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">显示 KillerNotes，也可从系统托盘</sys:String>

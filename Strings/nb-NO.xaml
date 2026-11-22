@@ -1186,10 +1186,6 @@ La begge feltene stå tomme for å dele uten passord.</sys:String>
     <sys:String x:Key="Str_Grp_Inbox">Innboks</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Behold et ikon i systemstatusfeltet</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Ikonets meny har Hurtignotat, og ikonet blir værende mens vinduet er åpent.</sys:String>
-    <sys:String x:Key="Str_About_PageInk">Blekk på notatsiden</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: hvor sterkt blekket vises på notatet.</sys:String>
-    <sys:String x:Key="Str_About_PreviewInk">Blekk i forhåndsvisningen</sys:String>
-    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: hvor sterkt blekket vises i den gjengitte visningen.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Snarvei for hurtignotat:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">Snarvei for å vise KillerNotes:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">Vis KillerNotes, også fra systemstatusfeltet</sys:String>

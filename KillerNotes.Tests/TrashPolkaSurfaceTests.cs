@@ -46,17 +46,9 @@ namespace KillerNotes.Tests
 
             Check("NotePane", (FrameworkElement)window.FindName("NotePaneFace"));
 
-            // The About card's page ink slider sets the note's ink and repaints it (PageInk.cs).
-            var noteFace = (Border)window.FindName("NotePaneFace");
-            var inkBefore = noteFace.Background;
-            var pageInk = (Slider)window.FindName("AboutPageInkSlider");
-            double inkWas = pageInk.Value;
-            pageInk.Value = 12;
-            Settle(window);
-            Assert.Equal(0.12, Controls.TrashPolkaInk.PageOpacity, 3);
-            Assert.NotSame(inkBefore, noteFace.Background);
-            pageInk.Value = inkWas;
-            Settle(window);
+            // Steve's values (PageInk.cs): the image at 13% behind the note and 19% behind the rendered view.
+            Assert.Equal(0.13, Controls.TrashPolkaInk.PageOpacity, 3);
+            Assert.Equal(0.19, Controls.TrashPolkaInk.PreviewOpacity, 3);
             Check("FormatBar", (FrameworkElement)window.FindName("FormatBar"));
             if (shots != null) Save((FrameworkElement)window.Content, System.IO.Path.Combine(shots, "ink-Window.png"));
 
@@ -73,19 +65,6 @@ namespace KillerNotes.Tests
             Settle(window);
             Check("PreviewPane", (FrameworkElement)window.FindName("PreviewPane"));
             if (shots != null) Save((FrameworkElement)window.Content, System.IO.Path.Combine(shots, "ink-Split.png"));
-
-            // The rendered view has its own slider, and it leaves the note's value alone.
-            var preview = (Border)window.FindName("PreviewPane");
-            var previewBefore = preview.Background;
-            var previewInk = (Slider)window.FindName("AboutPreviewInkSlider");
-            double previewWas = previewInk.Value;
-            previewInk.Value = 17;
-            Settle(window);
-            Assert.Equal(0.17, Controls.TrashPolkaInk.PreviewOpacity, 3);
-            Assert.Equal(inkWas / 100.0, Controls.TrashPolkaInk.PageOpacity, 3);
-            Assert.NotSame(previewBefore, preview.Background);
-            previewInk.Value = previewWas;
-            Settle(window);
             picker.SelectedValue = "Source";
 
             foreach (string name in new[] { "RulePopup", "TableSizePopup" })

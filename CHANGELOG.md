@@ -59,7 +59,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this
 - The save and folder pickers have a New folder button (Ctrl+Shift+N). Type a name and press Enter to create the folder and open it; a name Windows won't accept is explained under the box.
 - Trash Polka, a new theme under 98SE: black with a tattoo-style ink background in your accent color, from eight accents with Blood red as the default. The ink runs through the note pane, the About and Keyboard shortcuts cards, the calculator readout, dropdown lists, flyouts, the format, find and mention bars, and the preview and outline panes. Under a Windows high contrast theme the ink steps aside for the system colors.
 - The format bar can dock in a row of its own above the note instead of floating over its top edge. Switch it with Docked toolbar or Floating toolbar on the format bar's right-click menu, or with Alt+B, as in KillerPDF. Floating stays the default, and a quick drag of the floating bar lands where it is released, from its grip or from any empty space on the bar.
-- On Trash Polka, the About card has two ink sliders: Note page ink for the note and Preview page ink for its rendered preview.
+- On Trash Polka, the ink shows at 13% behind the note and 19% behind its rendered preview.
 - A global shortcut brings KillerNotes forward, from the tray too. It is Win+Alt+O by default, and the About card can change it to one of four other Win+Alt keys or turn it off.
 
 ## [1.7.0] - 2026-11-14

@@ -35,7 +35,7 @@ namespace KillerNotes.Shell
 
         public MainWindow()
         {
-            LoadPageInk();       // PageInk.cs: the saved Trash Polka page ink, before anything paints
+            LoadPageInk();       // PageInk.cs: the Trash Polka page ink, before anything paints
             TextFieldCard.Register();   // Controls/TextFieldCard.cs: every text box's Cut, Copy and Paste card
             InitializeComponent();
             WireDragRelease();   // Sharing.cs: a release disarms the sidebar drags
@@ -97,7 +97,6 @@ namespace KillerNotes.Shell
             InitShortcuts();                                     // Shortcuts.cs (hotkeys + F1 overlay)
             InitLockNow();                                       // LockNow.cs (Windows lock, sleep, idle)
             InitQuickNote();                                     // QuickNote.cs (jump list, tray icon, shortcut)
-            InitPageInk();                                       // PageInk.cs (Trash Polka page ink slider)
             InitAppScale();                                      // AppScale.cs (restore app-wide size)
             InitPreviewMinimum();
             InitLineNumbers();                                   // LineNumbers.cs (optional gutter)

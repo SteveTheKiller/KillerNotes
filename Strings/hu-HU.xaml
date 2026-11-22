@@ -1167,10 +1167,6 @@ Hagyja üresen mindkét mezőt, ha egyik nélkül szeretné megosztani.</sys:Str
     <sys:String x:Key="Str_Grp_Inbox">Beérkezett</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIcon">Ikon megtartása az értesítési területen</sys:String>
     <sys:String x:Key="Str_About_KeepTrayIconHint">Az ikon menüjében van Gyorsjegyzet, és az ikon nyitott ablaknál is megmarad.</sys:String>
-    <sys:String x:Key="Str_About_PageInk">Jegyzetoldal tintája</sys:String>
-    <sys:String x:Key="Str_About_PageInkHint">Trash Polka: milyen erősen látszik a tinta a jegyzeten.</sys:String>
-    <sys:String x:Key="Str_About_PreviewInk">Előnézet tintája</sys:String>
-    <sys:String x:Key="Str_About_PreviewInkHint">Trash Polka: milyen erősen látszik a tinta a megjelenített nézeten.</sys:String>
     <sys:String x:Key="Str_About_QuickHotkey">Gyorsjegyzet billentyűparancsa:</sys:String>
     <sys:String x:Key="Str_About_ShowHotkey">A KillerNotes megjelenítésének billentyűparancsa:</sys:String>
     <sys:String x:Key="Str_KS_ShowWindow">A KillerNotes megjelenítése, a tálcáról is</sys:String>
