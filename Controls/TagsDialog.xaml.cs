@@ -126,7 +126,7 @@ namespace KillerNotes.Controls
         }
 
         /// <summary>A tag's right-click card on the family card rules (Shell/NoteCards.cs): its name beside its color
-        /// with Delete as the header's icon button, then Rename and Color tiles. Color opens the swatch row, whose swatches
+        /// with Delete as the header's icon button, then Rename and Color tiles. Color slides the swatch row out under the tiles; its swatches
         /// recolor the tag in one click and whose picker does what Change color (Alt+C) does. Built from plain values, so a test can build it
         /// without a database.</summary>
         internal static ContextMenu BuildTagCard(string name, string colorHex, IEnumerable<Color> palette,
@@ -163,13 +163,34 @@ namespace KillerNotes.Controls
                 CardBuilder.Close(swatches);
                 recolor();
             };
-            // Rename and Color side by side; Color opens the swatch row beside the card, as on the note and group cards.
+            // Rename and Color side by side. Color keeps the card open and slides the swatch row out under the tiles:
+            // the card's bottom grows to show it, and a second click slides it back.
+            swatches.HorizontalAlignment = HorizontalAlignment.Center;
+            swatches.Margin = new Thickness(0, 4, 0, 2);
+            var drawer = new Border { Child = swatches, ClipToBounds = true, MaxHeight = 0 };
             card.Items.Add(Shell.NoteCards.Grid(card, new[]
             {
                 new KillerFamily.Controls.CardTile("\uE8AC", Loc("Str_TT_TagRename"), "F2", rename) { Id = "rename" },
-                Shell.NoteCards.Flyout("\uE790", Loc("Str_Card_Color"), null, new object[] { CardBuilder.Slot(swatches, new Thickness(0)) }, id: "color"),
+                new KillerFamily.Controls.CardTile("\uE790", Loc("Str_Card_Color"), null, () => SlideSwatches(drawer))
+                    { Id = "color", Checked = false, KeepsOpen = true },
             }));
+            card.Items.Add(CardBuilder.Slot(drawer, new Thickness(0)));
             return card;
+        }
+
+        /// <summary>Slides the tag card's swatch row out under its tiles, or back in when it is out. The Color tile's
+        /// fill follows the same click, so the row stays out across reopenings exactly while the tile shows on.</summary>
+        internal static void SlideSwatches(Border drawer)
+        {
+            bool opening = drawer.Tag is not true;
+            drawer.Tag = opening;
+            drawer.Child.Measure(new Size(drawer.ActualWidth > 0 ? drawer.ActualWidth : double.PositiveInfinity, double.PositiveInfinity));
+            double full = drawer.Child.DesiredSize.Height;
+            var slide = new System.Windows.Media.Animation.DoubleAnimation(opening ? full : 0, TimeSpan.FromMilliseconds(160))
+            {
+                EasingFunction = new System.Windows.Media.Animation.CubicEase { EasingMode = System.Windows.Media.Animation.EasingMode.EaseOut },
+            };
+            drawer.BeginAnimation(FrameworkElement.MaxHeightProperty, slide);
         }
 
         /// <summary>The DockPanel inside a NoteCards header: the Delete button docked right, then the title.</summary>

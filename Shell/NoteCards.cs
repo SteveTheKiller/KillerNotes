@@ -211,7 +211,7 @@ namespace KillerNotes.Shell
 
         /// <summary>The tile buttons on a card, in order (a tile carries its shown caption as its Tag).</summary>
         internal static IEnumerable<Button> Tiles(ItemsControl card) =>
-            Buttons(card).Where(b => b.Tag is string tag && tag != HeaderDeleteTag);
+            Buttons(card).Where(b => b.Tag is string tag && tag != HeaderDeleteTag && b.Parent is not KillerFamily.Controls.SwatchRow);
 
         /// <summary>The tile with this Id, or null.</summary>
         internal static Button? Tile(ItemsControl card, string id) => Buttons(card).FirstOrDefault(b => b.Uid == id);
@@ -228,7 +228,7 @@ namespace KillerNotes.Shell
 
         /// <summary>The first tile that can be used.</summary>
         internal static Button? FirstTile(ItemsControl card) =>
-            Buttons(card).FirstOrDefault(b => !Equals(b.Tag, HeaderDeleteTag) && b.IsEnabled);
+            Buttons(card).FirstOrDefault(b => !Equals(b.Tag, HeaderDeleteTag) && b.IsEnabled && b.Parent is not KillerFamily.Controls.SwatchRow);
 
         // The card's own controls: a customizable card's hidden measuring copy of its grid, its drawer (a popup)
         // and its edit pencil (a button with no caption) are not tiles.

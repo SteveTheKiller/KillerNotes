@@ -161,7 +161,21 @@ namespace KillerNotes.Tests
             return (card, calls);
         }
 
-        private static SwatchRow Swatches(ContextMenu card) => CardTileHelper.Swatches(card);
+        private static SwatchRow Swatches(ContextMenu card) =>
+            (SwatchRow)Drawer(card).Child;
+
+        // Runs the dispatcher for a while, so an open card lays out and a slide finishes.
+        private static void Settle(int ms)
+        {
+            var frame = new System.Windows.Threading.DispatcherFrame();
+            var timer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(ms) };
+            timer.Tick += (_, _) => { timer.Stop(); frame.Continue = false; };
+            timer.Start();
+            System.Windows.Threading.Dispatcher.PushFrame(frame);
+        }
+
+        private static Border Drawer(ContextMenu card) =>
+            card.Items.OfType<MenuItem>().Select(m => m.Header).OfType<Border>().Single(b => b.Child is SwatchRow);
 
         [Fact]
         public void TheTagCardHasItsNameAndDeleteAColorRowAndARenameTile() => WithTheme(() =>
@@ -180,7 +194,10 @@ namespace KillerNotes.Tests
             Assert.Equal("on", ((Button)swatches.Children[6]).Tag);                // the tag's own color is ringed
 
             Assert.DoesNotContain(card.Items.Cast<object>(), item => item is Separator || item is MenuItem { Header: string });
+            // Rename and Color side by side; the swatch row waits under them, slid in until Color is clicked.
             Assert.Equal(new[] { "Rename", "Color" }, KillerNotes.Shell.NoteCards.Tiles(card).Select(b => (string)b.Tag));
+            Assert.Same(Drawer(card), ((MenuItem)card.Items[2]).Header);
+            Assert.Equal(0, Drawer(card).MaxHeight);
             var rename = CardTileHelper.Tile(card, "rename");
             Assert.Equal("Rename", rename.Tag);
             Assert.Equal("F2", AutomationProperties.GetAcceleratorKey(rename));
@@ -216,9 +233,10 @@ namespace KillerNotes.Tests
         });
 
         [Fact]
-        public void TheTagCardSwatchRowFitsOnOneLine() => WithTheme(() =>
+        public void TheColorTileSlidesTheSwatchRowOutOnOneLineAndBackIn() => WithTheme(() =>
         {
-            // Opened for real: the card over a small shown host, then its Color tile's flyout.
+            // Opened for real over a small shown host. Color keeps the card open and grows its bottom by the swatch
+            // row, every swatch and the picker on one line; a second click slides it back to nothing.
             var (card, _) = TagCard();
             var host = new Window { Content = new Border(), Width = 200, Height = 120, Left = 0, Top = 0,
                 ShowInTaskbar = false, ShowActivated = false, WindowStyle = WindowStyle.None };
@@ -228,15 +246,38 @@ namespace KillerNotes.Tests
                 card.PlacementTarget = (FrameworkElement)host.Content;
                 card.Placement = PlacementMode.Relative;
                 card.IsOpen = true;
-                card.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-                var flyout = CardTileHelper.OpenFlyout(card, "color");
-                flyout.UpdateLayout();
-                var buttons = Swatches(card).Children.OfType<Button>().Where(b => b.Visibility == Visibility.Visible).ToList();
-                Assert.True(buttons[0].ActualHeight > 0, "The color flyout did not lay out");
-                double top = buttons[0].TranslatePoint(new Point(), flyout).Y;
+                Settle(100);
+                var drawer = Drawer(card);
+                double closed = card.ActualHeight;
+                Assert.True(closed > 0, "The tag card did not lay out");
+                Assert.Equal(0, drawer.ActualHeight);
+
+                var color = CardTileHelper.Tile(card, "color");
+                color.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, color));
+                Settle(400);
+                Assert.True(card.IsOpen);
+                var swatches = Swatches(card);
+                Assert.Equal(swatches.ActualHeight + swatches.Margin.Top + swatches.Margin.Bottom, drawer.ActualHeight, 1);
+                Assert.Equal(closed + drawer.ActualHeight, card.ActualHeight, 1);
+                var buttons = swatches.Children.OfType<Button>().Where(b => b.Visibility == Visibility.Visible).ToList();
+                double top = buttons[0].TranslatePoint(new Point(), card).Y;
                 Assert.All(buttons, b => Assert.Equal(top + buttons[0].ActualHeight / 2,
-                    b.TranslatePoint(new Point(), flyout).Y + b.ActualHeight / 2, 1));
-                flyout.IsOpen = false;
+                    b.TranslatePoint(new Point(), card).Y + b.ActualHeight / 2, 1));
+                if (Environment.GetEnvironmentVariable("KN_INK_SHOTS") is string shots)
+                {
+                    var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)Math.Ceiling(card.ActualWidth),
+                        (int)Math.Ceiling(card.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+                    bitmap.Render(card);
+                    var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                    encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                    using var stream = File.Create(System.IO.Path.Combine(shots, "card-Tag-colors-out.png"));
+                    encoder.Save(stream);
+                }
+
+                color.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, color));
+                Settle(400);
+                Assert.Equal(0, drawer.ActualHeight);
+                Assert.Equal(closed, card.ActualHeight, 1);
             }
             finally { card.IsOpen = false; host.Close(); }
         });
