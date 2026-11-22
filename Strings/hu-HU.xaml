@@ -88,6 +88,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Sűrűség: kompakt</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Sűrűség: minimális</sys:String>
     <sys:String x:Key="Str_St_Undo">Visszavonva</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Ez nem vonható vissza: egy általa módosított jegyzetet azóta szerkesztettek. Semmi sem változott.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Oldalsáv rendezésének váltása (idő / A-Z / egyéni)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Új csoport (a kijelölt jegyzeteket ebbe rögzíti)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Téma és akcentus lenyíló panel</sys:String>

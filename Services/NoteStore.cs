@@ -1635,6 +1635,37 @@ CREATE INDEX IF NOT EXISTS note_history_note ON note_history(note_id, saved);";
             tx.Commit();
         }
 
+        /// <summary>Undo for a replace that may sit on the undo stack for a while: puts the captured
+        /// rows back only when every note still holds exactly what the replace wrote. If any was
+        /// edited since, nothing is written and the result is false, so the undo can never wipe
+        /// out later work. Check and write share one transaction.</summary>
+        public static bool RestoreContentsIfUnchanged(IEnumerable<NoteRow> rows, IEnumerable<(long Id, byte[] Content)> written)
+        {
+            if (_db == null || IsReadOnly) return false;
+            using var tx = _db.BeginTransaction();
+            foreach (var (id, content) in written)
+            {
+                using var check = _db.CreateCommand();
+                check.Transaction = tx;
+                check.CommandText = "SELECT content FROM notes WHERE id = $id";
+                check.Parameters.AddWithValue("$id", id);
+                if (check.ExecuteScalar() is not byte[] now || !now.AsSpan().SequenceEqual(content)) return false;
+            }
+            foreach (var n in rows)
+            {
+                using var cmd = _db.CreateCommand();
+                cmd.Transaction = tx;
+                cmd.CommandText = "UPDATE notes SET content = $c, plain = $p, modified = $m WHERE id = $id";
+                cmd.Parameters.AddWithValue("$c", (object?)n.Content ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("$p", n.Plain);
+                cmd.Parameters.AddWithValue("$m", n.Modified);
+                cmd.Parameters.AddWithValue("$id", n.Id);
+                cmd.ExecuteNonQuery();
+            }
+            tx.Commit();
+            return true;
+        }
+
         /// <summary>The undo half of <see cref="UpdateContents"/>: puts captured rows' content,
         /// plain text and modified stamps back, again in one transaction.</summary>
         public static void RestoreContents(IEnumerable<NoteRow> rows)

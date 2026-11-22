@@ -342,6 +342,7 @@ Laissez les deux champs vides pour partager sans mot de passe.</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Densité : compacte</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Densité : minimale</sys:String>
     <sys:String x:Key="Str_St_Undo">Annulé</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Impossible d'annuler : une note modifiée par cette action a été éditée depuis. Rien n'a été changé.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Changer le tri de la barre latérale (date / A-Z / personnalisé)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nouveau groupe (y classe les notes sélectionnées)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Menu des thèmes et accents</sys:String>

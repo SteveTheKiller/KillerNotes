@@ -117,6 +117,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Tetthet: kompakt</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Tetthet: minimal</sys:String>
     <sys:String x:Key="Str_St_Undo">Angret</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Kan ikke angre: et notat som ble endret, er redigert siden. Ingenting ble endret.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Bytt sortering i sidepanelet (tid / A-Å / egendefinert)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Ny gruppe (valgte notater legges i den)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Tema og aksentfarge</sys:String>

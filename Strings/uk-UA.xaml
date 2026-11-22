@@ -117,6 +117,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Щільність: компактна</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Щільність: мінімальна</sys:String>
     <sys:String x:Key="Str_St_Undo">Скасовано</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Не вдається скасувати: нотатку, змінену цією дією, відтоді відредаговано. Нічого не змінено.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Перемкнути сортування (час / А-Я / власне)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Нова група (переносить у неї вибрані нотатки)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Панель теми й акценту</sys:String>

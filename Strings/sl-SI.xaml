@@ -92,6 +92,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Gostota: strnjena</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Gostota: najmanjša</sys:String>
     <sys:String x:Key="Str_St_Undo">Razveljavljeno</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Tega ni mogoče razveljaviti: zapisek, ki ga je spremenilo, je bil medtem urejen. Nič ni bilo spremenjeno.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Preklopi razvrščanje stranske vrstice (čas / A-Z / po meri)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nova skupina (vanjo premakne izbrane zapiske)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Meni teme in poudarka</sys:String>

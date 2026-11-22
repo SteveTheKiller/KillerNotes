@@ -342,6 +342,7 @@ Deje ambos campos vacíos para compartir sin contraseña.</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Densidad: compacta</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Densidad: mínima</sys:String>
     <sys:String x:Key="Str_St_Undo">Deshecho</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">No se puede deshacer: una nota que cambió se ha editado desde entonces. No se ha cambiado nada.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Cambiar el orden de la barra lateral (fecha / A-Z / personalizado)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nuevo grupo (archiva en él las notas seleccionadas)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Panel de temas y acentos</sys:String>

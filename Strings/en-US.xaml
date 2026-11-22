@@ -117,6 +117,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Density: compact</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Density: minimal</sys:String>
     <sys:String x:Key="Str_St_Undo">Undone</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Can't undo that: a note it changed has been edited since. Nothing was changed.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Cycle sidebar sort (time / A-Z / custom)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">New group (files selected notes into it)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Theme and accent flyout</sys:String>

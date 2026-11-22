@@ -344,6 +344,7 @@ Beide Felder leer lassen, um ohne Passwort zu teilen.</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Dichte: kompakt</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Dichte: minimal</sys:String>
     <sys:String x:Key="Str_St_Undo">Rückgängig gemacht</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Das lässt sich nicht rückgängig machen: Eine davon geänderte Notiz wurde seitdem bearbeitet. Es wurde nichts geändert.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Seitenleisten-Sortierung wechseln (Zeit / A-Z / benutzerdefiniert)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Neue Gruppe (ausgewählte Notizen werden einsortiert)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Design- und Akzent-Flyout</sys:String>

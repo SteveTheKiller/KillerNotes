@@ -117,6 +117,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Densidade: compacta</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Densidade: mínima</sys:String>
     <sys:String x:Key="Str_St_Undo">Desfeito</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Não é possível desfazer: uma nota alterada por essa ação foi editada desde então. Nada foi alterado.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Alternar ordenação da barra lateral (data / A-Z / personalizada)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Novo grupo (arquiva as notas selecionadas nele)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Menu de tema e destaque</sys:String>

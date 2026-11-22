@@ -88,6 +88,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Hustota: kompaktní</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Hustota: minimální</sys:String>
     <sys:String x:Key="Str_St_Undo">Vráceno zpět</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Nelze vrátit zpět: poznámka, kterou tato akce změnila, byla mezitím upravena. Nic nebylo změněno.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Procházet řazení panelu (čas / A-Z / vlastní)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nová skupina (zařadí do ní vybrané poznámky)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Nabídka motivu a akcentu</sys:String>

@@ -108,6 +108,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Плотность: компактная</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Плотность: минимальная</sys:String>
     <sys:String x:Key="Str_St_Undo">Отменено</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Не удаётся отменить: заметка, изменённая этим действием, с тех пор была отредактирована. Ничего не изменено.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Переключать сортировку панели (время / А-Я / своя)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Новая группа (выделенные заметки попадают в неё)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Меню темы и акцента</sys:String>

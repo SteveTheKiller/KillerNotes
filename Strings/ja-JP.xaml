@@ -340,6 +340,7 @@
     <sys:String x:Key="Str_St_DensityCompact">密度: コンパクト</sys:String>
     <sys:String x:Key="Str_St_DensityMin">密度: 最小</sys:String>
     <sys:String x:Key="Str_St_Undo">元に戻しました</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">元に戻せません。この操作で変更したノートがその後編集されています。何も変更されていません。</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">サイドバーの並べ替えを切り替え (時間 / A-Z / カスタム)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">新しいグループ (選択中のノートを入れる)</sys:String>
     <sys:String x:Key="Str_KS_Theme">テーマとアクセントのメニュー</sys:String>

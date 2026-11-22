@@ -108,6 +108,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Densità: compatta</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Densità: minima</sys:String>
     <sys:String x:Key="Str_St_Undo">Annullato</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Impossibile annullare: una nota modificata da questa azione è stata cambiata nel frattempo. Non è stato modificato nulla.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Cicla l'ordinamento della barra laterale (tempo / A-Z / personalizzato)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nuovo gruppo (raccoglie le note selezionate)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Riquadro tema e accento</sys:String>

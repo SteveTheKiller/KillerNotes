@@ -17,6 +17,10 @@ namespace KillerNotes.Shell
     {
         private sealed class ActionUndoRefusedException : Exception { }
 
+        /// <summary>Thrown by an entry that can no longer apply because the notes it would
+        /// restore were edited since. The entry is dropped, so it never blocks older undos.</summary>
+        private sealed class ActionUndoStaleException : Exception { }
+
         private readonly List<Action> _actionUndo = [];
         private const int ActionUndoLimit = 100;
 
@@ -42,6 +46,12 @@ namespace KillerNotes.Shell
             var revert = _actionUndo[last];
             try { revert(); }
             catch (ActionUndoRefusedException) { return true; }
+            catch (ActionUndoStaleException)
+            {
+                _actionUndo.RemoveAt(last);
+                FlashStatus(Loc("Str_St_UndoStale"));
+                return true;
+            }
             catch (GroupUndoUnavailableException) { return true; }
             catch (GroupUndoConflictException conflict)
             {

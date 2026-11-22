@@ -214,9 +214,11 @@ namespace KillerNotes.Shell
             int total = edits.Sum(e => e.Hits);
             int noteCount = edits.Count;
 
+            var written = updates.Select(u => (u.Id, u.Content)).ToList();
             PushUndo(() =>
             {
-                NoteStore.RestoreContents(before);
+                // A note edited since the rewrite keeps its new text; the undo is dropped instead.
+                if (!NoteStore.RestoreContentsIfUnchanged(before, written)) throw new ActionUndoStaleException();
                 // Same re-derivation on the way back, or undo would restore the text and leave the
                 // link table describing the text it no longer holds.
                 foreach (var (undoId, body) in undoLinks) NoteStore.SetLinks(undoId, WikiLinks.Parse(body));

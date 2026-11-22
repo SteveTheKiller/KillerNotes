@@ -340,6 +340,7 @@
     <sys:String x:Key="Str_St_DensityCompact">密度：緊湊</sys:String>
     <sys:String x:Key="Str_St_DensityMin">密度：最小</sys:String>
     <sys:String x:Key="Str_St_Undo">已復原</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">無法復原：此操作變更過的筆記之後已被編輯。未做任何變更。</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">切換側欄排序（時間 / A-Z / 自訂）</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">新增群組（將選取的筆記歸入其中）</sys:String>
     <sys:String x:Key="Str_KS_Theme">主題與強調色面板</sys:String>

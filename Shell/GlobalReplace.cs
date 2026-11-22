@@ -165,9 +165,12 @@ namespace KillerNotes.Shell
             if (touchedOpen) OpenNote(openId);
             RefreshBacklinks();
 
+            var written = updates.Select(u => (u.Id, u.Content)).ToList();
             PushUndo(() =>
             {
-                NoteStore.RestoreContents(before);
+                // The entry can sit on the stack long after the replace; a note edited since
+                // keeps its new text and the undo is dropped rather than writing over it.
+                if (!NoteStore.RestoreContentsIfUnchanged(before, written)) throw new ActionUndoStaleException();
                 foreach (var a in affected) NoteStore.SetLinks(a.Id, WikiLinks.Parse(a.BodyBefore));
                 long cur = _currentId;
                 RefreshList();

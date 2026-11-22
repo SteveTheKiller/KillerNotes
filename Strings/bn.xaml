@@ -340,6 +340,7 @@
     <sys:String x:Key="Str_St_DensityCompact">ঘনত্ব: কমপ্যাক্ট</sys:String>
     <sys:String x:Key="Str_St_DensityMin">ঘনত্ব: ন্যূনতম</sys:String>
     <sys:String x:Key="Str_St_Undo">পূর্বাবস্থায় ফেরানো হয়েছে</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">এটি পূর্বাবস্থায় ফেরানো যাচ্ছে না: এর বদলানো একটি নোট পরে সম্পাদনা করা হয়েছে। কিছুই বদলানো হয়নি।</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">সাইডবারের সাজানো বদলান (সময় / A-Z / কাস্টম)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">নতুন গ্রুপ (নির্বাচিত নোটগুলো এতে রাখা হয়)</sys:String>
     <sys:String x:Key="Str_KS_Theme">থিম ও অ্যাকসেন্ট মেনু</sys:String>

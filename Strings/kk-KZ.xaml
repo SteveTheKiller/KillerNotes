@@ -108,6 +108,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Тығыздық: ықшам</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Тығыздық: ең аз</sys:String>
     <sys:String x:Key="Str_St_Undo">Кері қайтарылды</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Болдырмау мүмкін емес: ол өзгерткен жазба кейін өңделді. Ештеңе өзгертілген жоқ.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Бүйір панелінің сұрыптауын ауыстыру (уақыт / А-Я / өз реті)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Жаңа топ (таңдалған жазбалар соған салынады)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Тақырып пен акцент мәзірі</sys:String>

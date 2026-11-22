@@ -76,6 +76,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Gęstość: kompaktowa</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Gęstość: minimalna</sys:String>
     <sys:String x:Key="Str_St_Undo">Cofnięto</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Nie można cofnąć: notatka zmieniona przez tę operację została od tego czasu edytowana. Nic nie zostało zmienione.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Przełączaj sortowanie paska bocznego (czas / A-Z / własne)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nowa grupa (umieszcza w niej zaznaczone notatki)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Panel motywu i koloru wiodącego</sys:String>

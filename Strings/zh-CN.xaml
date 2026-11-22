@@ -340,6 +340,7 @@
     <sys:String x:Key="Str_St_DensityCompact">密度：紧凑</sys:String>
     <sys:String x:Key="Str_St_DensityMin">密度：最小</sys:String>
     <sys:String x:Key="Str_St_Undo">已撤销</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">无法撤销：此操作更改过的笔记之后已被编辑。未做任何更改。</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">切换侧栏排序（时间 / A-Z / 自定义）</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">新建分组（将选中的笔记归入其中）</sys:String>
     <sys:String x:Key="Str_KS_Theme">主题与强调色面板</sys:String>

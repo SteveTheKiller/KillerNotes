@@ -117,6 +117,7 @@
     <sys:String x:Key="Str_St_DensityCompact">Mật độ: gọn</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Mật độ: tối thiểu</sys:String>
     <sys:String x:Key="Str_St_Undo">Đã hoàn tác</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Không thể hoàn tác: một ghi chú mà thao tác này đã đổi đã được sửa sau đó. Không có gì bị thay đổi.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Chuyển kiểu sắp xếp thanh bên (thời gian / A-Z / tùy chỉnh)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Nhóm mới (đưa các ghi chú đã chọn vào nhóm)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Bảng chọn chủ đề và màu nhấn</sys:String>

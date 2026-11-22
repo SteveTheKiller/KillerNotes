@@ -378,13 +378,15 @@ namespace KillerNotes.Shell
             string labels = SketchLabelTextFor(noteId);
             if (labels.Length > 0) stored = stored + "\n" + labels;
 
-            NoteStore.UpdateContents([(noteId, ms.ToArray(), stored)]);
+            byte[] linked = ms.ToArray();
+            NoteStore.UpdateContents([(noteId, linked, stored)]);
             NoteStore.SetLinks(noteId, WikiLinks.Parse(whole.Text));
 
             if (before != null)
                 PushUndo(() =>
                 {
-                    NoteStore.RestoreContents([before]);
+                    // A note edited since keeps its new text; the undo is dropped instead.
+                    if (!NoteStore.RestoreContentsIfUnchanged([before], [(noteId, linked)])) throw new ActionUndoStaleException();
                     NoteStore.SetLinks(before.Id, WikiLinks.Parse(before.Plain));
                     RefreshList();
                     RefreshBacklinks();

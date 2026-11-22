@@ -342,6 +342,7 @@ Parolasız paylaşmak için iki kutuyu da boş bırakın.</sys:String>
     <sys:String x:Key="Str_St_DensityCompact">Yoğunluk: sıkışık</sys:String>
     <sys:String x:Key="Str_St_DensityMin">Yoğunluk: en az</sys:String>
     <sys:String x:Key="Str_St_Undo">Geri alındı</sys:String>
+    <sys:String x:Key="Str_St_UndoStale">Geri alınamıyor: bu işlemin değiştirdiği bir not o zamandan beri düzenlendi. Hiçbir şey değiştirilmedi.</sys:String>
     <sys:String x:Key="Str_KS_SortCycle">Kenar çubuğu sıralamasını değiştir (zaman / A-Z / özel)</sys:String>
     <sys:String x:Key="Str_KS_NewGroup">Yeni grup (seçili notları içine yerleştirir)</sys:String>
     <sys:String x:Key="Str_KS_Theme">Tema ve vurgu menüsü</sys:String>
